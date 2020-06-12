@@ -10,10 +10,7 @@ const config = require('../config');
 
 module.exports = merge(base, {
   mode: 'production',
-  externals: {
-    // react: 'React',
-    // 'react-dom': 'ReactDOM',
-  },
+  externals: {},
   optimization: {
     minimize: true,
     minimizer: [new TerserPlugin({ extractComments: false }), new OptimizeCSSAssetsPlugin()],
