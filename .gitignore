@@ -1,0 +1,13 @@
+node_modules
+.DS_Store
+.idea
+.vscode
+.history
+# yarn
+*.lock
+
+*.log
+.history/
+libs
+dist/
+extensions/
