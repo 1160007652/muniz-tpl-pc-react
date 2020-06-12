@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-12 18:03:09
+ * @ Modified time: 2020-06-12 21:26:17
  * @ Description: 导入钱包后的列表组件
  */
 
@@ -31,7 +31,7 @@ const WalletListView = ({ dataList }) => {
         dataList.map((item) => {
           return (
             <WalletListItem
-              key={item.address}
+              key={`${item.address}${item.name}`}
               data={item.views}
               onClick={handleClickItem(item)}
               style={{ marginBottom: '12px' }}
@@ -42,4 +42,4 @@ const WalletListView = ({ dataList }) => {
   );
 };
 
-export default WalletListView;
+export default observer(WalletListView);
