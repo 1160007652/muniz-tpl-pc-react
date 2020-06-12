@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-12 15:05:35
+ * @ Modified time: 2020-06-12 17:40:23
  * @ Description: 恢复钱包、导入钱包组件
  */
 
@@ -29,6 +29,7 @@ const RestoreWallet = () => {
       Cancel
     </Link>
   );
+
   function handleBeforeUpload() {
     return false;
   }
@@ -53,15 +54,19 @@ const RestoreWallet = () => {
         keyStoreJson: JSON.parse(reader.result),
         password: e.password.toString(),
       };
-      console.log(param);
+
       const result = await services.webKeyStore.setKeypair(param);
 
       if (result === 'passworderror') {
         message.error(intl.get('restorewallet_passworderror'));
       } else {
-        walletStore.setWalletInfo({ address: result.publickey });
-        walletStore.setKeyStoreData(result);
-        history.push(pageUrl.walletInfo);
+        // 如果钱包列表 ===  0 , 默认选中第一个钱包为当前选择项的状态
+        // 如果钱包列表 >= 1, 那么 由用户在页面,进行UI交互选中某一个钱包作为当前选择项的状态
+        if (walletStore.walletImportList.length === 0) {
+          walletStore.setWalletInfo(result.views);
+        }
+        walletStore.importWallet(result);
+        history.push(pageURL.home);
       }
     };
   }

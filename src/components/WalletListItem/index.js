@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-12 16:24:39
+ * @ Modified time: 2020-06-12 17:44:48
  * @ Description: 钱包导航, Header组件
  */
 
@@ -18,7 +18,7 @@ const WalletListItem = ({ data, style, className }) => {
       <div className="wallet-list-text">
         <h3>{data.name}</h3>
         <div className="wallet-address">
-          <span>{data.address}</span>
+          <span>{`${String(data.address).substr(0, 35)}...`}</span>
           <CopyOutlined />
         </div>
       </div>

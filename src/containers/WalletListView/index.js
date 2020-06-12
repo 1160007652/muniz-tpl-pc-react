@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-12 16:17:00
+ * @ Modified time: 2020-06-12 17:43:40
  * @ Description: 导入钱包后的列表组件
  */
 
@@ -16,7 +16,7 @@ const WalletListView = ({ dataList }) => {
     <div className="findora-wallet-list">
       {dataList &&
         dataList.map((item) => {
-          return <WalletListItem data={item} style={{ marginBottom: '12px' }} />;
+          return <WalletListItem key={item.address} data={item.views} style={{ marginBottom: '12px' }} />;
         })}
     </div>
   );

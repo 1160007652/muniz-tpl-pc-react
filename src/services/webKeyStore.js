@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-03 09:59:55
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-12 15:07:19
+ * @ Modified time: 2020-06-12 17:38:21
  * @ Description: 网络钱包 WebKeyStore , 导出单列模式 模块
  */
 
@@ -102,6 +102,10 @@ class WebKeyStore extends KeyStore {
       return {
         keypair,
         publickey: publickey.replace(/"/g, ''),
+        views: {
+          address: publickey.replace(/"/g, ''),
+          name: keys[0].name,
+        },
       };
     } catch (error) {
       console.log(error);
