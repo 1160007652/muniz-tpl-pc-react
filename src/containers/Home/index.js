@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 
 import FindoraHeader from '_components/FindoraHeader';
 import WalletEmpty from '_containers/WalletEmpty';
-import WalletInfo from '_containers/WalletInfo';
 import HeaderMenu from '_containers/HeaderMenu';
 import WalletListView from '_containers/WalletListView';
 

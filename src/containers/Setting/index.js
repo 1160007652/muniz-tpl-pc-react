@@ -2,25 +2,29 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-10 16:15:32
+ * @ Modified time: 2020-06-12 18:23:08
  * @ Description: 钱包详情组件
  */
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+
+import FindoraHeader from '_components/FindoraHeader';
+import HeaderMenu from '_containers/HeaderMenu';
+
+import SwitchLanguage from '_containers/SwitchLanguage';
 import pageURL from '_constants/pageURL';
 
 import './index.less';
 
-const RestoreWallet = () => {
+const Setting = () => {
   return (
-    <div className="findora-wallet-empty">
-      设置页面,暂无UI稿
-      <Link to={pageURL.home} className="menu-cancel">
-        返回首页, Home
-      </Link>
+    <div className="findora-wallet-setting">
+      <FindoraHeader title="Wallet" menu={<HeaderMenu />} />
+      <div className="setting-box">
+        <SwitchLanguage />
+      </div>
     </div>
   );
 };
 
-export default RestoreWallet;
+export default Setting;

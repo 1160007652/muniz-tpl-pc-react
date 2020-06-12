@@ -1,11 +1,17 @@
 import React from 'react';
-import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
+import { MobXProviderContext, observer } from 'mobx-react';
+import { ConfigProvider } from 'antd';
 import { hot } from 'react-hot-loader';
 import Loadable from 'react-loadable';
+
 import Loading from '_components/Loading';
 import pageURL from '_constants/pageURL';
-
 import Home from './containers/Home';
+
+// antd 组件库 多语言
+import enUS from 'antd/lib/locale/en_US';
+import zhCN from 'antd/lib/locale/zh_CN';
 
 const delay = 250;
 const timeout = 10000;
@@ -79,28 +85,34 @@ const routeMap = [
   // },
 ];
 
-const Routes = () => (
-  <HashRouter>
-    <Switch>
-      {routeMap.map((item, index) => (
-        <Route
-          key={index}
-          path={item.path}
-          exact={item.exact}
-          component={
-            item.dynamic
-              ? Loadable({
-                  loader: () => import(`${item.component}`),
-                  loading: Loading,
-                  delay,
-                  timeout,
-                })
-              : item.component
-          }
-        />
-      ))}
-    </Switch>
-  </HashRouter>
-);
+const Routes = () => {
+  const localeStore = React.useContext(MobXProviderContext).localeStore;
+  const currentLocale = localeStore.locale === 'en' ? enUS : zhCN;
+  return (
+    <HashRouter>
+      <ConfigProvider locale={currentLocale}>
+        <Switch>
+          {routeMap.map((item, index) => (
+            <Route
+              key={index}
+              path={item.path}
+              exact={item.exact}
+              component={
+                item.dynamic
+                  ? Loadable({
+                      loader: () => import(`${item.component}`),
+                      loading: Loading,
+                      delay,
+                      timeout,
+                    })
+                  : item.component
+              }
+            />
+          ))}
+        </Switch>
+      </ConfigProvider>
+    </HashRouter>
+  );
+};
 
-export default hot(module)(Routes);
+export default hot(module)(observer(Routes));
