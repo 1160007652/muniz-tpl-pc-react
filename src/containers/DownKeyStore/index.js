@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-11 15:40:59
+ * @ Modified time: 2020-06-12 14:36:30
  * @ Description: 下载钱包KeyStore 文件
  */
 
@@ -37,11 +37,9 @@ const DownKeyStore = () => {
   );
 
   async function handleDownKeyStore(e) {
-    // 下载KeyStore
-    await services.webKeyStore.addNewKeypair(walletStore.createWalletData);
-
     if (e.remember) {
-      // 如果 为 True , 记住密码
+      // 如果 为 True , 才允许下载 KeyStore
+      await services.webKeyStore.addNewKeypair(walletStore.createWalletData);
     }
   }
 

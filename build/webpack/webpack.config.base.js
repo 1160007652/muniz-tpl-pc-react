@@ -119,10 +119,15 @@ module.exports = {
           name: 'fonts/[name].[hash:7].[ext]',
         },
       },
+      {
+        test: /\.wasm$/,
+        include: path.resolve(__dirname, 'src/lib/web_pkg'),
+        loader: 'wasm-loader',
+      },
     ],
   },
   resolve: {
-    extensions: ['.js', '.less', '.jsx', '.ts'],
+    extensions: ['.js', '.less', '.jsx', '.ts', '.wasm'],
     modules: [SRC_ROOT, path.resolve(PROJECT_ROOT, './node_modules')],
     alias: {
       _src: SRC_ROOT,

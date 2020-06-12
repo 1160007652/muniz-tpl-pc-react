@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-10 16:12:02
+ * @ Modified time: 2020-06-12 16:27:03
  * @ Description: 钱包菜单组件
  */
 
@@ -27,7 +27,7 @@ import './index.less';
 
 const routers = [
   {
-    page: pageURL.walletList,
+    page: pageURL.home,
     icon: <WalletInfoIcon />,
     title: 'Wallets',
     isShow: true,
