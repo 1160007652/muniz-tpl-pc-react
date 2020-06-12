@@ -2,8 +2,8 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-12 18:23:08
- * @ Description: 钱包详情组件
+ * @ Modified time: 2020-06-12 18:36:54
+ * @ Description: 设置页面
  */
 
 import React from 'react';
