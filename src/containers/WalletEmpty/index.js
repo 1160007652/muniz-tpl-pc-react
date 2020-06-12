@@ -2,12 +2,11 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-12 14:12:09
+ * @ Modified time: 2020-06-12 14:25:10
  * @ Description: 空钱包组件, 展示创建钱包、恢复钱包 按钮
  */
 
 import React from 'react';
-import { Button } from 'antd';
 import { Link } from 'react-router-dom';
 import FindoraButton from '_components/FindoraButton';
 import pageURL from '_constants/pageURL';
