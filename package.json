@@ -9,6 +9,7 @@
     "lint": "yarn run lint-eslint && yarn run lint-stylelint",
     "lint-eslint": "eslint -c .eslintrc.js --ext .js {src,build}/**/*.{js}",
     "lint-stylelint": "stylelint --config .stylelintrc.json src/**/*.{less,scss} --syntax scss",
+    "docs": "jsdoc -c jsdoc.jsonc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -38,6 +39,7 @@
     "cors": "^2.8.5",
     "cross-env": "^7.0.2",
     "css-loader": "^3.5.3",
+    "docdash": "^1.2.0",
     "eslint": "^7.2.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.11.0",
@@ -54,6 +56,7 @@
     "html-loader": "^1.1.0",
     "html-webpack-plugin": "^4.3.0",
     "husky": "^4.2.5",
+    "jsdoc": "^3.6.4",
     "less": "^3.11.1",
     "less-loader": "^6.1.0",
     "lint-staged": "^10.2.9",
