@@ -2,15 +2,17 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-13 20:43:37
+ * @ Modified time: 2020-06-14 14:06:04
  * @ Description: wallet info api , 钱包信息接口
  *
- * @module my/pants
- * @see module:my/shirt
  */
 
 import webNetWork from './webNetWork';
 
+/**
+ * @category Services
+ * @class
+ */
 const sendServer = {
   /**
    * @author Muniz

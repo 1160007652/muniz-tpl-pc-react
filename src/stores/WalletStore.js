@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-14 12:19:57
+ * @ Modified time: 2020-06-14 14:03:14
  * @ Description: 多语言状态Mobx 模块
  */
 
@@ -11,7 +11,7 @@ import { init } from 'react-intl-universal';
 
 /**
  * 钱包管理Store
- * @class WalletStore
+ * @category MobxStore
  */
 class WalletStore {
   constructor() {

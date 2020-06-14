@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-14 12:09:51
+ * @ Modified time: 2020-06-14 14:03:07
  * @ Description: 多语言状态Mobx 模块
  */
 
@@ -13,7 +13,7 @@ import zh from '_src/assets/locales/zh';
 
 /**
  * 多语言管理Store
- * @class LocaleStore
+ * @category MobxStore
  */
 class LocaleStore {
   /** 当前是那个国家的语言 */

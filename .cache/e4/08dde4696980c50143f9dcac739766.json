@@ -1,0 +1,428 @@
+{
+  "id": "oXLk",
+  "dependencies": [
+    {
+      "name": "/Users/mac/webStormProjects/findora/chrome-extensions-wallet/package.json",
+      "includedInParent": true,
+      "mtime": 1592120365124
+    },
+    {
+      "name": "react",
+      "loc": { "line": 9, "column": 18 },
+      "parent": "/Users/mac/webStormProjects/findora/chrome-extensions-wallet/src/components/FindoraButton/index.js",
+      "resolved": "/Users/mac/webStormProjects/findora/chrome-extensions-wallet/node_modules/react/index.js"
+    },
+    {
+      "name": "prop-types",
+      "loc": { "line": 10, "column": 22 },
+      "parent": "/Users/mac/webStormProjects/findora/chrome-extensions-wallet/src/components/FindoraButton/index.js",
+      "resolved": "/Users/mac/webStormProjects/findora/chrome-extensions-wallet/node_modules/prop-types/index.js"
+    },
+    {
+      "name": "./index.less",
+      "loc": { "line": 11, "column": 7 },
+      "parent": "/Users/mac/webStormProjects/findora/chrome-extensions-wallet/src/components/FindoraButton/index.js",
+      "resolved": "/Users/mac/webStormProjects/findora/chrome-extensions-wallet/src/components/FindoraButton/index.less"
+    }
+  ],
+  "generated": {
+    "js": "\"use strict\";Object.defineProperty(exports,\"__esModule\",{value:!0}),exports.default=void 0;var e=t(require(\"react\")),r=t(require(\"prop-types\"));function t(e){return e&&e.__esModule?e:{default:e}}require(\"./index.less\");var u=function(r){var t=r.children,u=r.onCLick;return e.default.createElement(\"div\",{className:\"findora-button\",onClick:u},t)};u.propTypes={onCLick:r.default.function};var n=u;exports.default=n;"
+  },
+  "sourceMaps": {
+    "js": {
+      "mappings": [
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 0 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 13 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 20 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 35 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 43 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 56 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 57 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 64 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 68 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 76 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 89 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 9, "column": 0 },
+          "generated": { "line": 1, "column": 91 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 9, "column": 0 },
+          "generated": { "line": 1, "column": 95 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 9, "column": 0 },
+          "generated": { "line": 1, "column": 97 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 9, "column": 0 },
+          "generated": { "line": 1, "column": 99 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 9, "column": 0 },
+          "generated": { "line": 1, "column": 107 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 10, "column": 0 },
+          "generated": { "line": 1, "column": 117 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 10, "column": 0 },
+          "generated": { "line": 1, "column": 119 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 10, "column": 0 },
+          "generated": { "line": 1, "column": 121 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 10, "column": 0 },
+          "generated": { "line": 1, "column": 129 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 144 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 153 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 155 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 158 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 165 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 168 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 170 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 181 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 183 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 184 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 192 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 11, "column": 0 },
+          "generated": { "line": 1, "column": 195 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 11, "column": 0 },
+          "generated": { "line": 1, "column": 203 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 23, "column": 0 },
+          "generated": { "line": 1, "column": 219 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 23, "column": 6 },
+          "generated": { "line": 1, "column": 223 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 23, "column": 22 },
+          "generated": { "line": 1, "column": 225 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 23, "column": 49 },
+          "generated": { "line": 1, "column": 234 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "children",
+          "original": { "line": 23, "column": 25 },
+          "generated": { "line": 1, "column": 237 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "children",
+          "original": { "line": 23, "column": 25 },
+          "generated": { "line": 1, "column": 241 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "children",
+          "original": { "line": 23, "column": 25 },
+          "generated": { "line": 1, "column": 243 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "children",
+          "original": { "line": 23, "column": 25 },
+          "generated": { "line": 1, "column": 245 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "onCLick",
+          "original": { "line": 23, "column": 35 },
+          "generated": { "line": 1, "column": 254 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "onCLick",
+          "original": { "line": 23, "column": 35 },
+          "generated": { "line": 1, "column": 256 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "onCLick",
+          "original": { "line": 23, "column": 35 },
+          "generated": { "line": 1, "column": 258 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 25, "column": 4 },
+          "generated": { "line": 1, "column": 266 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 25, "column": 4 },
+          "generated": { "line": 1, "column": 273 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 25, "column": 4 },
+          "generated": { "line": 1, "column": 275 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 25, "column": 4 },
+          "generated": { "line": 1, "column": 283 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 25, "column": 4 },
+          "generated": { "line": 1, "column": 297 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 25, "column": 4 },
+          "generated": { "line": 1, "column": 303 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 25, "column": 9 },
+          "generated": { "line": 1, "column": 304 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 25, "column": 19 },
+          "generated": { "line": 1, "column": 314 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 25, "column": 36 },
+          "generated": { "line": 1, "column": 331 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "onCLick",
+          "original": { "line": 25, "column": 45 },
+          "generated": { "line": 1, "column": 339 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "children",
+          "original": { "line": 26, "column": 7 },
+          "generated": { "line": 1, "column": 342 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 31, "column": 0 },
+          "generated": { "line": 1, "column": 346 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "propTypes",
+          "original": { "line": 31, "column": 14 },
+          "generated": { "line": 1, "column": 348 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "original": { "line": 31, "column": 26 },
+          "generated": { "line": 1, "column": 358 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "onCLick",
+          "original": { "line": 33, "column": 2 },
+          "generated": { "line": 1, "column": 359 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "PropTypes",
+          "original": { "line": 33, "column": 11 },
+          "generated": { "line": 1, "column": 367 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "function",
+          "original": { "line": 33, "column": 21 },
+          "generated": { "line": 1, "column": 369 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "function",
+          "original": { "line": 33, "column": 21 },
+          "generated": { "line": 1, "column": 377 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 387 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 391 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 393 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 395 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 403 }
+        },
+        {
+          "source": "../src/components/FindoraButton/index.js",
+          "name": "FindoraButton",
+          "original": { "line": 36, "column": 15 },
+          "generated": { "line": 1, "column": 411 }
+        }
+      ],
+      "sources": {
+        "../src/components/FindoraButton/index.js": "/**\n * @ Author: Muniz\n * @ Create Time: 2020-06-09 19:27:48\n * @ Modified by: Muniz\n * @ Modified time: 2020-06-14 13:41:16\n * @ Description: 钱包导航, Header组件\n */\n\nimport React from 'react';\nimport PropTypes from 'prop-types';\nimport './index.less';\n\n/**\n * FindoraButton 纯组件\n * @component\n * @example <caption>Using second component inside</caption>\n * const onCLick = ()=>{console.log('点击了按钮')}\n * return (\n *   <FindoraButton onCLick={onCLick} >点击按钮</FindoraButton>\n * )\n *\n */\nconst FindoraButton = ({ children, onCLick }) => {\n  return (\n    <div className=\"findora-button\" onClick={onCLick}>\n      {children}\n    </div>\n  );\n};\n\nFindoraButton.propTypes = {\n  /** 点击事件 */\n  onCLick: PropTypes.function,\n};\n\nexport default FindoraButton;\n"
+      },
+      "lineCount": null
+    }
+  },
+  "error": null,
+  "hash": "e15d1e1ee4539a4d6d42fa3ab34c561b",
+  "cacheData": { "env": {} }
+}

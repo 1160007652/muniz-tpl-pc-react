@@ -2,12 +2,16 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-13 19:11:30
+ * @ Modified time: 2020-06-14 14:05:35
  * @ Description: wallet info api , 钱包信息接口
  */
 
 import webNetWork from './webNetWork';
 
+/**
+ * @category Services
+ * @class
+ */
 const walletServer = {
   /**
    * @description 查看钱包地址余额

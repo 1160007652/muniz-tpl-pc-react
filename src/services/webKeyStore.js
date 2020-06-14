@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-03 09:59:55
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-13 22:09:12
+ * @ Modified time: 2020-06-14 14:06:24
  * @ Description: 网络钱包 WebKeyStore , 导出单列模式 模块
  */
 
@@ -12,6 +12,8 @@ import { saveAs } from 'file-saver';
 
 /**
  * Class representing a dot.
+ * @category Services
+ * @class
  * @extends KeyStore
  */
 class WebKeyStore extends KeyStore {

@@ -1,11 +1,6 @@
 {
   "tutorial1": {
-    "title": "one",
-    "children": {
-      "childA": {
-        "title": "child-A"
-      }
-    }
+    "title": "one"
   },
   "tutorial2": {
     "title": "two"
