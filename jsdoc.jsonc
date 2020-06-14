@@ -15,6 +15,7 @@
   "plugins": ["plugins/markdown", "plugins/summarize"],
   "docdash": {
     "search": true, // 是否显示搜索框
+    "collapse": true, // 折叠导航
     "menu": {
       // 导航菜单
       "Project Github": {
