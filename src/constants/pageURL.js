@@ -2,24 +2,44 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-12 16:39:11
+ * @ Modified time: 2020-06-13 22:30:46
  * @ Description: 路由定义, 配置文件
  */
 
+/**
+ * 路由配置文件
+ * @readonly
+ * @enum {string}
+ */
 const pageURL = {
-  home: '/', // popup.html 首页
-  walletList: '/walletList', // 导入的钱包列表
-  createwallet: '/createWallet', // 首页 - 创建钱包
-  restoreWallet: '/restoreWallet', // 回复钱包
-  setting: '/setting', // 设置
-  downKeyStore: '/downKeyStore', // 下载KeyStore
-  walletInfo: '/walletInfo', // 钱包信息
-  send: '/send', // 交易
-  transactions: '/transactions', // 交易记录
-  createToken: '/createToken', // 生成Token
-  deployContract: '/deployContract', // 部署合约
-  contractTest: '/contractTest', // 测试合约
-  empty: '*', // 404 空页面
+  /** 首页
+   * @tutorial tutorial2
+   */
+  home: '/',
+  /** 导入的钱包列表 */
+  walletList: '/walletList',
+  /** 创建钱包页面 */
+  createwallet: '/createWallet',
+  /** 恢复钱包页面 */
+  restoreWallet: '/restoreWallet',
+  /** 设置页面 */
+  setting: '/setting',
+  /** 下载KeyStore页面 */
+  downKeyStore: '/downKeyStore',
+  /** 钱包信息页面 */
+  walletInfo: '/walletInfo',
+  /** 交易页面 */
+  send: '/send',
+  /** 交易记录页面 */
+  transactions: '/transactions',
+  /** 生成Token页面 */
+  createToken: '/createToken',
+  /** 部署合约页面 */
+  deployContract: '/deployContract',
+  /** 测试合约页面 */
+  contractTest: '/contractTest',
+  /** 404页面 */
+  empty: '*',
 };
 
 export default pageURL;

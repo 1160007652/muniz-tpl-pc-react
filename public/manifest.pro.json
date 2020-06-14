@@ -3,7 +3,7 @@
   "description": "findora web extsions wallet",
   "homepage_url": "https://github.com/findoraorg/web-wallet/",
   "name": "findora ext wallet extension",
-  "short_name": "findora ext wallet",
+  "short_name": "findora",
   "manifest_version": 2,
   "permissions": ["storage", "downloads"],
   "background": {

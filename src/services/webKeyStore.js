@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-03 09:59:55
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-12 17:38:21
+ * @ Modified time: 2020-06-13 22:09:12
  * @ Description: 网络钱包 WebKeyStore , 导出单列模式 模块
  */
 
@@ -10,6 +10,10 @@ import KeyStore from '_src/lib/keystore';
 import Encrypt from '_src/lib/encrypt';
 import { saveAs } from 'file-saver';
 
+/**
+ * Class representing a dot.
+ * @extends KeyStore
+ */
 class WebKeyStore extends KeyStore {
   // eslint-disable-next-line no-useless-constructor
   constructor() {
