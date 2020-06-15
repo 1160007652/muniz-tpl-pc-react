@@ -141,14 +141,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(PROJECT_ROOT, './public/index.html'),
       filename: 'popup.html',
-      title: 'Popup 页面',
+      title: 'Findora Wallet',
       inject: true,
       chunks: ['popup'],
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(PROJECT_ROOT, './public/index.html'),
       filename: 'options.html',
-      title: 'Findora 配置页面',
+      title: 'Findora options',
       inject: true,
       chunks: ['options'],
     }),

@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-14 13:41:16
+ * @ Modified time: 2020-06-15 18:07:56
  * @ Description: 钱包导航, Header组件
  */
 
@@ -13,8 +13,9 @@ import './index.less';
 /**
  * FindoraButton 纯组件
  * @component
- * @example <caption>Using second component inside</caption>
+ * @example <caption>组件案例</caption>
  * const onCLick = ()=>{console.log('点击了按钮')}
+ * <Box><FindoraButton onCLick={onCLick} >点击按钮</FindoraButton></Box>
  * return (
  *   <FindoraButton onCLick={onCLick} >点击按钮</FindoraButton>
  * )
@@ -33,4 +34,7 @@ FindoraButton.propTypes = {
   onCLick: PropTypes.function,
 };
 
+FindoraButton.defaultProps = {
+  onCLick: () => {},
+};
 export default FindoraButton;
