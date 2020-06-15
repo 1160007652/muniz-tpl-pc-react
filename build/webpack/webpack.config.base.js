@@ -119,11 +119,6 @@ module.exports = {
           name: 'fonts/[name].[hash:7].[ext]',
         },
       },
-      {
-        test: /\.wasm$/,
-        include: path.resolve(__dirname, 'src/lib/web_pkg'),
-        loader: 'wasm-loader',
-      },
     ],
   },
   resolve: {
