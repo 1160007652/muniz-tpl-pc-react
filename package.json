@@ -5,11 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development node build/server.js",
-    "build": "cross-env NODE_ENV=production webpack --config build/webpack/webpack.config.pro.js --mode production",
+    "build": "cross-env NODE_ENV=production webpack --config build/pro.js --mode production",
     "lint": "yarn run lint-eslint && yarn run lint-stylelint",
     "lint-eslint": "eslint -c .eslintrc.js --ext .js {src,build}/**/*.{js}",
     "lint-stylelint": "stylelint --config .stylelintrc.json src/**/*.{less,scss} --syntax scss",
-    "docs": "jsdoc -c jsdoc.jsonc",
     "doc": "bash ./build/jsdoc.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
