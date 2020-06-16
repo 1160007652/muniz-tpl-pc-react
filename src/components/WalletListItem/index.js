@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-16 09:59:26
+ * @ Modified time: 2020-06-16 10:17:23
  * @ Description: 钱包导航, Header组件
  */
 
@@ -67,9 +67,9 @@ const WalletListItem = ({ data, style, className, onClick }) => {
 
 WalletListItem.propTypes = {
   /** 数据源 */
-  data: PropTypes.arrayOf(PropTypes.object),
+  data: PropTypes.object,
   /** 点击事件 */
-  onClick: PropTypes.function,
+  onClick: PropTypes.func,
 };
 
 WalletListItem.defaultProps = {

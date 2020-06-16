@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-16 09:55:58
+ * @ Modified time: 2020-06-16 10:17:57
  * @ Description: 钱包导航, Header组件
  */
 
@@ -31,10 +31,11 @@ const FindoraButton = ({ children, onClick }) => {
 
 FindoraButton.propTypes = {
   /** 点击事件 */
-  onClick: PropTypes.function,
+  onClick: PropTypes.func,
 };
 
 FindoraButton.defaultProps = {
   onClick: () => {},
 };
+
 export default FindoraButton;

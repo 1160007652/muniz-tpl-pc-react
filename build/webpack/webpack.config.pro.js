@@ -17,9 +17,9 @@ module.exports = merge(base, {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new BannerPlugin({
-      raw: true,
-      banner: `/* ${config.copyrightDesc} */`,
-    }),
+    // new BannerPlugin({
+    //   raw: true,
+    //   banner: `/* ${config.copyrightDesc} */`,
+    // }),
   ],
 });
