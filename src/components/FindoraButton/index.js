@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-15 18:07:56
+ * @ Modified time: 2020-06-16 09:55:58
  * @ Description: 钱包导航, Header组件
  */
 
@@ -21,9 +21,9 @@ import './index.less';
  * )
  *
  */
-const FindoraButton = ({ children, onCLick }) => {
+const FindoraButton = ({ children, onClick }) => {
   return (
-    <div className="findora-button" onClick={onCLick}>
+    <div className="findora-button" onClick={onClick}>
       {children}
     </div>
   );
@@ -31,10 +31,10 @@ const FindoraButton = ({ children, onCLick }) => {
 
 FindoraButton.propTypes = {
   /** 点击事件 */
-  onCLick: PropTypes.function,
+  onClick: PropTypes.function,
 };
 
 FindoraButton.defaultProps = {
-  onCLick: () => {},
+  onClick: () => {},
 };
 export default FindoraButton;

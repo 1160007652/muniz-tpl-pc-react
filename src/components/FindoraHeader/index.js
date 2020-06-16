@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-15 18:00:44
+ * @ Modified time: 2020-06-16 09:38:22
  * @ Description: 钱包导航, Header组件
  */
 
@@ -35,9 +35,9 @@ const FindoraHeader = ({ title, menu }) => {
 
 FindoraHeader.propTypes = {
   /** 菜单 */
-  menu: Proptyps.oneOfType([Proptyps.string, PropTypes.element]),
+  menu: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   /** 标题 */
-  title: Proptyps.oneOfType([Proptyps.string, PropTypes.element]),
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 };
 
 FindoraHeader.defaultProps = {

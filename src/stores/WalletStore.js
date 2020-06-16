@@ -2,20 +2,20 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-15 10:55:02
+ * @ Modified time: 2020-06-16 09:39:23
  * @ Description: 多语言状态Mobx 模块
  */
 
 import { action, observable, when } from 'mobx';
-import { init } from 'react-intl-universal';
 
 /**
  * 钱包管理Store
  * @category MobxStore
  */
 class WalletStore {
+  /** 构造方法, 初始化数据 */
   constructor() {
-    // this.init();
+    this.init();
   }
 
   /**

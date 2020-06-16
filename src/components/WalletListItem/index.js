@@ -2,11 +2,12 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-15 18:02:51
+ * @ Modified time: 2020-06-16 09:59:26
  * @ Description: 钱包导航, Header组件
  */
 
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { CopyOutlined, CheckOutlined } from '@ant-design/icons';
 import classNames from 'classNames';
 import { NetworkLarge } from 'react-identicon-variety-pack';
@@ -22,7 +23,7 @@ import './index.less';
  * const onClick = ()=> {alert('点击成功')}
  * const
  * return (
- *   <WalletListItem data={data} onCLick={onCLick} />
+ *   <WalletListItem data={data} onClick={onClick} />
  * )
  *
  */
@@ -66,14 +67,14 @@ const WalletListItem = ({ data, style, className, onClick }) => {
 
 WalletListItem.propTypes = {
   /** 数据源 */
-  data: Proptyps.arrayOf(Proptyps.object),
+  data: PropTypes.arrayOf(PropTypes.object),
   /** 点击事件 */
-  onCLick: PropTypes.function,
+  onClick: PropTypes.function,
 };
 
 WalletListItem.defaultProps = {
   data: [{ name: 'Alice', address: '1234567==' }],
-  onCLick: () => {},
+  onClick: () => {},
 };
 
 export default WalletListItem;
