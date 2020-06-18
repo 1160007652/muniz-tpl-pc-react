@@ -2,12 +2,12 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-12 14:36:30
+ * @ Modified time: 2020-06-17 16:36:27
  * @ Description: 下载钱包KeyStore 文件
  */
 
 import React from 'react';
-import { Alert, Form, Input, Button, Checkbox } from 'antd';
+import { Alert, Form, Button, Checkbox } from 'antd';
 import { Link } from 'react-router-dom';
 import { MobXProviderContext, observer } from 'mobx-react';
 import FindoraHeader from '_components/FindoraHeader';

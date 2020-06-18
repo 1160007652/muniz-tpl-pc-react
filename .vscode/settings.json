@@ -20,6 +20,7 @@
   "eslint.codeAction.disableRuleComment": {
     "enable": true
   },
+  "eslint.probe": ["javascript", "javascriptreact"],
   // 指定哪些文件不参与搜索
   "search.exclude": {
     "**/node_modules": true,
