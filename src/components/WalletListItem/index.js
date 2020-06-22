@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-22 18:01:27
+ * @ Modified time: 2020-06-22 22:14:12
  * @ Description: 钱包导航, Header组件
  */
 
@@ -12,7 +12,7 @@ import { CopyOutlined, CheckOutlined, FormOutlined } from '@ant-design/icons';
 import classNames from 'classNames';
 import { NetworkLarge } from 'react-identicon-variety-pack';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import WalletName from '_components/WalletName';
+import WalletName from '../WalletName';
 
 import './index.less';
 

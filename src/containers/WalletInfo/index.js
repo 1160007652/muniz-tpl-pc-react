@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-22 21:20:45
+ * @ Modified time: 2020-06-22 21:30:13
  * @ Description: 钱包详情组件
  */
 
@@ -38,7 +38,6 @@ const WalletInfo = () => {
       let currentWallet = item;
       if (item.publickey === walletInfo.publickey) {
         currentWallet.keyStore.name = name;
-        console.log('gaiming: ', JSON.stringify(currentWallet));
       }
       return currentWallet;
     });

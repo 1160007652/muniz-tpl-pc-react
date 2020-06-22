@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-22 17:55:22
+ * @ Modified time: 2020-06-22 22:13:30
  * @ Description: 钱包导航, Header组件
  */
 
@@ -25,7 +25,7 @@ import './index.less';
  * )
  *
  */
-const WalletName = ({ data, onChangeName, isShowEdit = false }) => {
+const WalletName = ({ data, onChangeName, isShowEdit }) => {
   const [name, setName] = useState(data.name);
   const [isEdit, setEdit] = useState(false);
   /**
@@ -74,12 +74,15 @@ const WalletName = ({ data, onChangeName, isShowEdit = false }) => {
 WalletName.propTypes = {
   /** 数据源 */
   data: PropTypes.object,
+  /** 是否显示编辑框 */
+  isShowEdit: PropTypes.bool,
   /** 点击事件 */
   onChangeName: PropTypes.func,
 };
 
 WalletName.defaultProps = {
   data: { name: '' },
+  isShowEdit: false,
   onChangeName: () => {},
 };
 
