@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-13 22:30:46
+ * @ Modified time: 2020-06-22 18:51:17
  * @ Description: 路由定义, 配置文件
  */
 
@@ -24,6 +24,8 @@ const pageURL = {
   restoreWallet: '/restoreWallet',
   /** 设置页面 */
   setting: '/setting',
+  /** 创建资产 */
+  createAsset: '/createAsset',
   /** 下载KeyStore页面 */
   downKeyStore: '/downKeyStore',
   /** 钱包信息页面 */

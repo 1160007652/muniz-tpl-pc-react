@@ -7,7 +7,7 @@ const enUS = {
   sidebar_walletinfo: 'Wallet Info',
   sidebar_send: 'Send',
   sidebar_transactions: 'Transitions',
-  sidebar_createtoken: 'Create Token',
+  sidebar_createasset: 'Create Asset',
   sidebar_deploycontract: 'Deploy Contract',
   sidebar_contracttest: 'Contract Test',
   sidebar_setting: 'Setting',

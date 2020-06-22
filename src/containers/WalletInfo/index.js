@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-22 17:03:32
+ * @ Modified time: 2020-06-22 18:26:39
  * @ Description: 钱包详情组件
  */
 
@@ -14,6 +14,7 @@ import { saveAs } from 'file-saver';
 import FindoraHeader from '_components/FindoraHeader';
 import HeaderMenu from '_containers/HeaderMenu';
 import FindoraButton from '_components/FindoraButton';
+import WalletListItem from '_components/WalletListItem';
 
 import pageURL from '_constants/pageURL';
 
@@ -27,18 +28,33 @@ const WalletInfo = () => {
     const blob = new Blob([JSON.stringify(keyStore)], { type: 'utf-8' });
     saveAs(blob, `${publickey}.txt`);
   }
-  return (
-    <div className="findora-wallet-empty">
-      <FindoraHeader title="Wallet" menu={<HeaderMenu />} />
-      <div>
-        钱包详情页面
-        <div>钱包名称:</div>
-        <div>{walletStore.walletInfo.keyStore.name}</div>
-        <div>钱包地址:</div>
-        <div>{walletStore.walletInfo.publickey}</div>
-      </div>
+  function handleChangeWalletName(name) {
+    const walletInfo = walletStore.walletInfo;
+    const newWalletList = walletStore.walletImportList.map((item) => {
+      let currentWallet = item;
+      if (item.publickey === walletInfo.publickey) {
+        currentWallet.keyStore.name = name;
+      }
+      return currentWallet;
+    });
 
-      <FindoraButton onClick={handleClickExportWallet}>Export Wallet</FindoraButton>
+    walletStore.importWallet({ walletList: newWalletList });
+  }
+
+  return (
+    <div className="findora-wallet-Info">
+      <FindoraHeader title="Wallet" menu={<HeaderMenu />} />
+      <WalletListItem
+        className="wallet-item"
+        key={walletStore.walletInfo.publickey}
+        data={walletStore.walletInfo}
+        isShowEdit
+        style={{ marginBottom: '12px' }}
+        onChangeName={handleChangeWalletName}
+      />
+      <div className="button-area">
+        <FindoraButton onClick={handleClickExportWallet}>Export Wallet</FindoraButton>
+      </div>
     </div>
   );
 };

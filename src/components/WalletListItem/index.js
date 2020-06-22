@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-22 16:55:12
+ * @ Modified time: 2020-06-22 18:01:27
  * @ Description: 钱包导航, Header组件
  */
 
@@ -28,7 +28,7 @@ import './index.less';
  * )
  *
  */
-const WalletListItem = ({ data, style, className, onClick, onChangeName }) => {
+const WalletListItem = ({ data, isShowEdit, style, className, onClick, onChangeName }) => {
   const [isCopy, setCopy] = useState(false);
   function handleClickCopyAddress() {
     setCopy(true);
@@ -41,7 +41,7 @@ const WalletListItem = ({ data, style, className, onClick, onChangeName }) => {
     <div className={classNames('wallet-list-item', className)} style={style} onClick={onClick}>
       <NetworkLarge className="wallet-list-logo" size={48} seed={data.publickey} circle />
       <div className="wallet-list-text">
-        <WalletName data={{ name: data.keyStore.name }} onChangeName={onChangeName} />
+        <WalletName data={{ name: data.keyStore.name }} isShowEdit={isShowEdit} onChangeName={onChangeName} />
         <div className="wallet-address">
           <span>{`${String(data.publickey).substr(0, 35)}...`}</span>
           <CopyToClipboard text={data.publickey} onCopy={handleClickCopyAddress}>
@@ -68,6 +68,8 @@ const WalletListItem = ({ data, style, className, onClick, onChangeName }) => {
 WalletListItem.propTypes = {
   /** 数据源 */
   data: PropTypes.object,
+  /** 是否显示名称编辑框 */
+  isShowEdit: PropTypes.bool,
   /** 点击事件 */
   onClick: PropTypes.func,
   /** 修改钱包名称事件 */
@@ -76,6 +78,7 @@ WalletListItem.propTypes = {
 
 WalletListItem.defaultProps = {
   data: [{ keyStore: { name: 'Alice' }, publickey: '1234567==' }],
+  isShowEdit: false,
   onClick: () => {},
   onChangeName: () => {},
 };

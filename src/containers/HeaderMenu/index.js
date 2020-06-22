@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-12 16:27:03
+ * @ Modified time: 2020-06-22 18:54:41
  * @ Description: 钱包菜单组件
  */
 
@@ -51,6 +51,12 @@ const routers = [
     isShow: true,
   },
   {
+    page: pageURL.createAsset,
+    icon: <CreateTokenIcon />,
+    title: 'Create Asset',
+    isShow: true,
+  },
+  {
     page: pageURL.send,
     icon: <SendIcon />,
     title: 'sidebar_send',
@@ -60,12 +66,6 @@ const routers = [
     page: pageURL.transactions,
     icon: <TransactionsIcon />,
     title: 'sidebar_transactions',
-    isShow: false,
-  },
-  {
-    page: pageURL.createToken,
-    icon: <CreateTokenIcon />,
-    title: 'sidebar_createtoken',
     isShow: false,
   },
   {

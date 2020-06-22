@@ -7,7 +7,7 @@ const zhCN = {
   sidebar_walletinfo: '钱包信息',
   sidebar_send: '交易',
   sidebar_transactions: '交易记录',
-  sidebar_createtoken: '生成Token',
+  sidebar_createasset: '创建资产',
   sidebar_deploycontract: '部署合约',
   sidebar_contracttest: '合约测试',
   sidebar_setting: '设置',

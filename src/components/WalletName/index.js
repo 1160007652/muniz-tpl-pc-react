@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-22 16:19:20
+ * @ Modified time: 2020-06-22 17:55:22
  * @ Description: 钱包导航, Header组件
  */
 
@@ -25,7 +25,7 @@ import './index.less';
  * )
  *
  */
-const WalletName = ({ data, onChangeName }) => {
+const WalletName = ({ data, onChangeName, isShowEdit = false }) => {
   const [name, setName] = useState(data.name);
   const [isEdit, setEdit] = useState(false);
   /**
@@ -51,7 +51,7 @@ const WalletName = ({ data, onChangeName }) => {
     setEdit(true);
   }
   return (
-    <div className="wallet-name" onClick={(e) => e.stopPropagation()}>
+    <div className="wallet-name" onClick={(e) => isShowEdit && e.stopPropagation()}>
       {isEdit ? (
         <Input
           placeholder="Basic usage"
@@ -64,7 +64,7 @@ const WalletName = ({ data, onChangeName }) => {
       ) : (
         <Fragment>
           <span>{name}</span>
-          <FormOutlined onClick={handleChangeWalletName} />
+          {isShowEdit ? <FormOutlined onClick={handleChangeWalletName} /> : null}
         </Fragment>
       )}
     </div>
