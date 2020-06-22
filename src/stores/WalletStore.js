@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-22 18:49:26
+ * @ Modified time: 2020-06-22 21:18:01
  * @ Description: 多语言状态Mobx 模块
  */
 
@@ -52,7 +52,7 @@ class WalletStore {
     when(
       () => this.walletInfo,
       () => {
-        chrome.storage.sync.set({ walletInfo: this.walletInfo });
+        chrome.storage.sync.set({ walletInfo: JSON.stringify(this.walletInfo) });
       },
     );
   }
@@ -77,10 +77,11 @@ class WalletStore {
     chrome.storage.sync.get(
       ['walletImportList', 'walletInfo'], //
       action(({ walletImportList, walletInfo }) => {
+        console.log(JSON.stringify(walletInfo));
         // rootStore.walletStore.init({ walletImportList, walletInfo });
         if (walletImportList || walletInfo) {
-          this.walletImportList = Object.values(walletImportList) || [];
-          this.walletInfo = walletInfo || {};
+          this.walletImportList = Object.values(JSON.parse(walletImportList)) || [];
+          this.walletInfo = JSON.parse(walletInfo) || {};
         }
       }),
     );
@@ -105,7 +106,7 @@ class WalletStore {
     when(
       () => this.walletImportList,
       () => {
-        chrome.storage.sync.set({ walletImportList: this.walletImportList });
+        chrome.storage.sync.set({ walletImportList: JSON.stringify(this.walletImportList) });
       },
     );
   }
