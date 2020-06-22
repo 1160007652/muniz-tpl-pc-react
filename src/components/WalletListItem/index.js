@@ -2,16 +2,17 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-16 10:17:23
+ * @ Modified time: 2020-06-22 16:55:12
  * @ Description: 钱包导航, Header组件
  */
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { CopyOutlined, CheckOutlined } from '@ant-design/icons';
+import { CopyOutlined, CheckOutlined, FormOutlined } from '@ant-design/icons';
 import classNames from 'classNames';
 import { NetworkLarge } from 'react-identicon-variety-pack';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import WalletName from '_components/WalletName';
 
 import './index.less';
 
@@ -27,7 +28,7 @@ import './index.less';
  * )
  *
  */
-const WalletListItem = ({ data, style, className, onClick }) => {
+const WalletListItem = ({ data, style, className, onClick, onChangeName }) => {
   const [isCopy, setCopy] = useState(false);
   function handleClickCopyAddress() {
     setCopy(true);
@@ -38,13 +39,12 @@ const WalletListItem = ({ data, style, className, onClick }) => {
   }
   return (
     <div className={classNames('wallet-list-item', className)} style={style} onClick={onClick}>
-      <NetworkLarge className="wallet-list-logo" size={48} seed={data.address} circle />
-
+      <NetworkLarge className="wallet-list-logo" size={48} seed={data.publickey} circle />
       <div className="wallet-list-text">
-        <h3>{data.name}</h3>
+        <WalletName data={{ name: data.keyStore.name }} onChangeName={onChangeName} />
         <div className="wallet-address">
-          <span>{`${String(data.address).substr(0, 35)}...`}</span>
-          <CopyToClipboard text={data.address} onCopy={handleClickCopyAddress}>
+          <span>{`${String(data.publickey).substr(0, 35)}...`}</span>
+          <CopyToClipboard text={data.publickey} onCopy={handleClickCopyAddress}>
             {isCopy ? (
               <CheckOutlined
                 onClick={(e) => {
@@ -70,11 +70,14 @@ WalletListItem.propTypes = {
   data: PropTypes.object,
   /** 点击事件 */
   onClick: PropTypes.func,
+  /** 修改钱包名称事件 */
+  onChangeName: PropTypes.func,
 };
 
 WalletListItem.defaultProps = {
-  data: [{ name: 'Alice', address: '1234567==' }],
+  data: [{ keyStore: { name: 'Alice' }, publickey: '1234567==' }],
   onClick: () => {},
+  onChangeName: () => {},
 };
 
 export default WalletListItem;

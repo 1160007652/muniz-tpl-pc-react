@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-03 09:59:55
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-16 14:08:27
+ * @ Modified time: 2020-06-22 17:14:31
  * @ Description: 网络钱包 WebKeyStore , 导出单列模式 模块
  */
 
@@ -46,8 +46,7 @@ class WebKeyStore extends KeyStore {
       return false;
     });
 
-    const blob = new Blob([JSON.stringify(jsonKeys)], { type: 'utf-8' });
-    console.log(blob);
+    const blob = new Blob([JSON.stringify(jsonKeys[0])], { type: 'utf-8' });
     // chrome.downloads.download({
     //   url: URL.createObjectURL(blob),
     //    filename: `${fileName}.txt`,
@@ -61,15 +60,15 @@ class WebKeyStore extends KeyStore {
    */
   addNewKeypair = async ({ password, name }) => {
     const Wasm = await import('wasm');
-    console.log(Wasm);
     const keyPairStr = Wasm.keypair_to_str(Wasm.new_keypair());
+
     // 调用父类 addNewKeypair 方法, 将命名加密密钥对添加到KeyStore
     super.addNewKeypair(password, name, keyPairStr);
     const keyPairObj = await Wasm.keypair_from_str(keyPairStr);
     const address = await Wasm.get_pub_key_str(keyPairObj);
 
     // 下载KeyStore
-    this.writeToFile({ fileName: address, name });
+    this.writeToFile({ fileName: address.replace(/^_|_$/g, ''), name });
   };
 
   /**
@@ -78,20 +77,30 @@ class WebKeyStore extends KeyStore {
   setKeypair = async ({ keyStoreJson, password }) => {
     const Wasm = await import('wasm');
 
-    const keys = keyStoreJson.map((keyData) => {
-      const originalKey = keyData.encryptedKey;
-      return {
-        encryptedKey: {
-          content: originalKey.content,
-          iv: Buffer.from(originalKey.iv.data),
-          tag: Buffer.from(originalKey.tag.data),
-        },
-        salt: keyData.salt,
-        name: keyData.name,
-      };
-    });
+    // const keys = keyStoreJson.map((keyData) => {
+    //   const originalKey = keyData.encryptedKey;
+    //   return {
+    //     encryptedKey: {
+    //       content: originalKey.content,
+    //       iv: Buffer.from(originalKey.iv.data),
+    //       tag: Buffer.from(originalKey.tag.data),
+    //     },
+    //     salt: keyData.salt,
+    //     name: keyData.name,
+    //   };
+    // });
+    const originalKey = keyStoreJson.encryptedKey;
+    const keys = {
+      encryptedKey: {
+        content: originalKey.content,
+        iv: Buffer.from(originalKey.iv.data),
+        tag: Buffer.from(originalKey.tag.data),
+      },
+      salt: keyStoreJson.salt,
+      name: keyStoreJson.name,
+    };
 
-    const keyPairStr = Encrypt.decrypt(keys[0].encryptedKey, password);
+    const keyPairStr = Encrypt.decrypt(keys.encryptedKey, password);
 
     try {
       const keypair = await Wasm.keypair_from_str(keyPairStr);
@@ -99,19 +108,14 @@ class WebKeyStore extends KeyStore {
 
       // If the named key pair does not exist, add the key pair to keys
       // 如果不存在该命名的密钥对时,将密钥对添加到keys中
-      keys.forEach((key) => {
-        if (!this.hasKeypairWithName(key.name)) {
-          this.keys.push(key);
-        }
-      });
+
+      if (!this.hasKeypairWithName(keys.name)) {
+        this.keys.push(keys);
+      }
 
       return {
         keypair,
         publickey: publickey.replace(/"/g, ''),
-        views: {
-          address: publickey.replace(/"/g, ''),
-          name: keys[0].name,
-        },
       };
     } catch (error) {
       console.log(error);

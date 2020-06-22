@@ -2,21 +2,11 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-10 09:55:58
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-15 16:41:38
+ * @ Modified time: 2020-06-22 09:48:17
  * @ Description: background.js Chrome 启动时, 扩展插件 常驻后台文件
  */
 
 // import services from '_src/services';
-
-chrome.storage.sync.set({ foo: 'hello', bar: 'hi' }, function () {
-  console.log('Settings saved');
-});
-
-// Read it using the storage API
-chrome.storage.sync.get(['foo', 'bar'], function (items) {
-  // message('Settings retrieved', items);
-  console.log(items);
-});
 
 /** 通过 chrome.runtime.onMessage.addListener 监听 content.js 使用 chrome.runtime.sendMessage 发送的消息 */
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {

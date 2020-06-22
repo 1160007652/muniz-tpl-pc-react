@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-18 11:01:10
+ * @ Modified time: 2020-06-22 16:55:34
  * @ Description: 多语言状态Mobx 模块
  */
 
@@ -80,7 +80,6 @@ class WalletStore {
       ['walletImportList', 'walletInfo'], //
       action(({ walletImportList, walletInfo }) => {
         // rootStore.walletStore.init({ walletImportList, walletInfo });
-        console.log(walletImportList, walletInfo);
         if (walletImportList || walletInfo) {
           this.walletImportList = Object.values(walletImportList) || [];
           this.walletInfo = walletInfo || {};
@@ -94,8 +93,13 @@ class WalletStore {
    * @param {Object} walletInfo
    * @memberof WalletStore
    */
-  @action importWallet(walletInfo) {
-    this.walletImportList.push(walletInfo);
+  @action importWallet({ walletInfo, walletList }) {
+    if (walletInfo) {
+      this.walletImportList.push(walletInfo);
+    }
+    if (walletList) {
+      this.walletImportList = Object.values(walletList) || [];
+    }
     when(
       () => this.walletImportList,
       () => {

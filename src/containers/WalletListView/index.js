@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-18 11:11:52
+ * @ Modified time: 2020-06-22 17:04:07
  * @ Description: 导入钱包后的列表组件
  */
 
@@ -14,6 +14,7 @@ import { useHistory } from 'react-router-dom';
 import pageURL from '_constants/pageURL';
 
 import './index.less';
+import { data } from 'autoprefixer';
 
 const WalletListView = ({ dataList }) => {
   const hirstory = useHistory();
@@ -21,8 +22,15 @@ const WalletListView = ({ dataList }) => {
 
   function handleClickItem(result) {
     return () => {
-      walletStore.setWalletInfo(result.views);
+      walletStore.setWalletInfo(result);
       hirstory.push(pageURL.walletInfo);
+    };
+  }
+  function handleChangeWalletName(index) {
+    return (name) => {
+      const newDataList = dataList;
+      newDataList[index].keyStore.name = name;
+      walletStore.importWallet({ walletList: newDataList });
     };
   }
   return (
@@ -32,9 +40,10 @@ const WalletListView = ({ dataList }) => {
           return (
             <WalletListItem
               key={`${item.address}${item.name}${index}`}
-              data={item.views}
+              data={item}
               onClick={handleClickItem(item)}
               style={{ marginBottom: '12px' }}
+              onChangeName={handleChangeWalletName(index)}
             />
           );
         })}
