@@ -78,9 +78,9 @@ const routeMap = [
     dynamic: true,
   },
   {
-    path: pageURL.createAsset,
-    component: './containers/CreateAsset',
-    exact: true,
+    path: pageURL.webContainer,
+    component: './containers/WebContainer',
+    exact: false,
     dynamic: true,
   },
   // {

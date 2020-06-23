@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-22 22:14:12
+ * @ Modified time: 2020-06-23 17:22:16
  * @ Description: 钱包导航, Header组件
  */
 
@@ -43,7 +43,7 @@ const WalletListItem = ({ data, isShowEdit, style, className, onClick, onChangeN
       <div className="wallet-list-text">
         <WalletName data={{ name: data.keyStore.name }} isShowEdit={isShowEdit} onChangeName={onChangeName} />
         <div className="wallet-address">
-          <span>{`${String(data.publickey).substr(0, 35)}...`}</span>
+          <span>{`${String(data.publickey).substr(0, 28)}...`}</span>
           <CopyToClipboard text={data.publickey} onCopy={handleClickCopyAddress}>
             {isCopy ? (
               <CheckOutlined

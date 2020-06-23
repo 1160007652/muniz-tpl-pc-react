@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-23 16:08:28
+ * @ Modified time: 2020-06-23 19:49:28
  * @ Description: 路由定义, 配置文件
  */
 
@@ -25,7 +25,7 @@ const pageURL = {
   /** 设置页面 */
   setting: '/setting',
   /** 创建资产 */
-  createAsset: '/createAsset',
+  webContainer: '/webContainer/',
   /** 下载KeyStore页面 */
   downKeyStore: '/downKeyStore',
   /** 钱包信息页面 */
@@ -36,6 +36,11 @@ const pageURL = {
   transactions: '/transactions',
   /** 交易详情页面 */
   transactionsDetail: '/transactionsDetail',
+  /** 生成资产页面 */
+  createAsset: '/webContainer/createAsset',
+  /** 生成资产页面 */
+  issueAsset: '/webContainer/issueAsset',
+
   /** 生成Token页面 */
   createToken: '/createToken',
   /** 部署合约页面 */
