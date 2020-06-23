@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-02 17:20:42
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-23 20:48:11
+ * @ Modified time: 2020-06-23 20:53:07
  * @ Description: 加解密库
  */
 
@@ -17,7 +17,7 @@ const encrypt = function (str, password) {
 
   // 变慢
   const salt = crypto.randomBytes(64);
-  const derivedKey = crypto.pbkdf2Sync(password, salt, 10000, 32, 'sha512');
+  const derivedKey = crypto.pbkdf2Sync(password, salt, 1, 32, 'sha512');
 
   // Create cipher
   const cipher = crypto.createCipheriv(ALGO, derivedKey, iv);
@@ -28,7 +28,7 @@ const encrypt = function (str, password) {
 };
 const decrypt = function (encrypted, password) {
   // Derive password
-  const derivedKey = crypto.pbkdf2Sync(password, encrypted.salt, 10000, 32, 'sha512');
+  const derivedKey = crypto.pbkdf2Sync(password, encrypted.salt, 1, 32, 'sha512');
   // const derivedKey = crypto.scryptSync(password, 'salt', 32);
   // Decrypt
   const decipher = crypto.createDecipheriv(ALGO, derivedKey, encrypted.iv);
