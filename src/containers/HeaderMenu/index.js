@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-22 18:54:41
+ * @ Modified time: 2020-06-23 13:47:54
  * @ Description: 钱包菜单组件
  */
 
@@ -90,10 +90,17 @@ class HeaderMenu extends React.Component {
           (item) =>
             item.isShow && (
               <Menu.Item key={item.page} className="menu-item">
-                <Link to={item.page}>
-                  {item.icon}
-                  <span style={{ marginLeft: '8px' }}>{item.title}</span>
-                </Link>
+                {item.page === pageURL.createAsset ? (
+                  <a href={`${chrome.runtime.getURL('popup.html')}#${item.page}`} target="_blank">
+                    {item.icon}
+                    <span style={{ marginLeft: '8px' }}>{item.title}</span>
+                  </a>
+                ) : (
+                  <Link to={item.page}>
+                    {item.icon}
+                    <span style={{ marginLeft: '8px' }}>{item.title}</span>
+                  </Link>
+                )}
               </Menu.Item>
             ),
         )}

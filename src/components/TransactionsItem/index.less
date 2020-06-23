@@ -1,0 +1,39 @@
+.transactions-item {
+  cursor: pointer;
+  .time {
+    margin-bottom: 10px;
+    color: #777;
+    font-size: 12px;
+  }
+  .utxo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .state {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .fail,
+    .success {
+      width: 60px;
+      color: #fff;
+      font-size: 12px;
+      text-align: center;
+      background-color: #e3317d;
+    }
+    .success {
+      background-color: #6dbb11;
+    }
+    .value {
+      font-weight: 500;
+      font-size: 15px;
+
+      span {
+        color: #777;
+        font-weight: 400;
+        font-size: 12px;
+      }
+    }
+  }
+}

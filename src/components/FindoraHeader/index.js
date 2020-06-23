@@ -2,12 +2,15 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-16 09:38:22
+ * @ Modified time: 2020-06-23 15:56:10
  * @ Description: 钱包导航, Header组件
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import FindoraRouterBack from '../FindoraRouterBack';
+
 import './index.less';
 
 /**
@@ -21,11 +24,12 @@ import './index.less';
  * )
  *
  */
-const FindoraHeader = ({ title, menu }) => {
+const FindoraHeader = ({ title, menu, isShowBack }) => {
   return (
     <div className="findora-header">
       <div className="header-area">
-        <div className="findora-logo">Findora</div>
+        {isShowBack ? <FindoraRouterBack /> : <div className="findora-logo">Findora</div>}
+
         <div className="header-menu">{menu}</div>
       </div>
       <div className="page-title">{title}</div>
@@ -38,11 +42,14 @@ FindoraHeader.propTypes = {
   menu: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   /** 标题 */
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  /** 是否显示返回按钮 */
+  isShowBack: PropTypes.bool,
 };
 
 FindoraHeader.defaultProps = {
-  menu: <div>菜单</div>,
-  title: '标题',
+  menu: null,
+  title: null,
+  isShowBack: false,
 };
 
 export default FindoraHeader;

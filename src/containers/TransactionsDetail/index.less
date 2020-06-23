@@ -1,0 +1,35 @@
+.transactions-detail {
+  .transactions-detail-box {
+    box-sizing: border-box;
+    padding: 20px 30px;
+    .success,
+    .fail {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      color: #000;
+      font-weight: bold;
+      font-size: 18px;
+
+      .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 24px;
+        height: 24px;
+        margin-right: 18px;
+        color: #fff;
+        background-color: #6dbb11;
+
+        border-radius: 90%;
+      }
+    }
+    .fail {
+      .icon {
+        background-color: #e53935;
+      }
+    }
+  }
+}

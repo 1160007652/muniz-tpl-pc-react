@@ -59,24 +59,30 @@ const routeMap = [
     exact: true,
     dynamic: true,
   },
-  // {
-  //   path: pageURL.send,
-  //   component: './containers/Send',
-  //   exact: true,
-  //   dynamic: true,
-  // },
-  // {
-  //   path: pageURL.transactions,
-  //   component: './containers/Transactions',
-  //   exact: true,
-  //   dynamic: true,
-  // },
-  // {
-  //   path: pageURL.createToken,
-  //   component: './containers/CreateToken',
-  //   exact: true,
-  //   dynamic: true,
-  // },
+  {
+    path: pageURL.send,
+    component: './containers/Send',
+    exact: true,
+    dynamic: true,
+  },
+  {
+    path: pageURL.transactions,
+    component: './containers/Transactions',
+    exact: true,
+    dynamic: true,
+  },
+  {
+    path: pageURL.transactionsDetail,
+    component: './containers/TransactionsDetail',
+    exact: true,
+    dynamic: true,
+  },
+  {
+    path: pageURL.createAsset,
+    component: './containers/CreateAsset',
+    exact: true,
+    dynamic: true,
+  },
   // {
   //   path: undefined,
   //   component: './containers/Order',

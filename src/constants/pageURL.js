@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-22 18:51:17
+ * @ Modified time: 2020-06-23 16:08:28
  * @ Description: 路由定义, 配置文件
  */
 
@@ -34,6 +34,8 @@ const pageURL = {
   send: '/send',
   /** 交易记录页面 */
   transactions: '/transactions',
+  /** 交易详情页面 */
+  transactionsDetail: '/transactionsDetail',
   /** 生成Token页面 */
   createToken: '/createToken',
   /** 部署合约页面 */
