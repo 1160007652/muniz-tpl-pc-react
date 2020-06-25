@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-23 17:18:03
+ * @ Modified time: 2020-06-25 09:45:55
  * @ Description: 钱包导航, Header组件
  */
 
@@ -26,8 +26,12 @@ const TransactionsItem = ({ data, onClick, className, style }) => {
     <div className={classNames('transactions-item', className)} onClick={onClick} style={style}>
       <div className="time">{time}</div>
       <div className="utxo">
-        <FindoraBoxView title="From">{`${String(from).substr(0, 16)}...`}</FindoraBoxView>
-        <FindoraBoxView title="To">{`${String(to).substr(0, 16)}...`}</FindoraBoxView>
+        <FindoraBoxView title="From">
+          <span className="address">{`${String(from).substr(0, 20)}...`}</span>
+        </FindoraBoxView>
+        <FindoraBoxView title="To">
+          <span className="address">{`${String(to).substr(0, 20)}...`}</span>
+        </FindoraBoxView>
       </div>
       <div className="state">
         <span className={state ? 'success' : 'fail'}>{state ? 'success' : 'fail'}</span>

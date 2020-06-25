@@ -15,13 +15,30 @@ const Send = () => {
   const history = useHistory();
   const walletStore = React.useContext(MobXProviderContext).walletStore;
 
+  function handleClickItemInfo() {
+    const item = {
+      from: 'JAKzGqStME5FW6e1NmTME5FW6e1NFW6e1NrEB',
+      to: 'JAKzGqStME5FW6e1NmTME5FW6e1NFW6e1NrEB',
+      asset: {
+        unit: 'FIN',
+        numbers: 30,
+      },
+      blind: {
+        isAmount: true,
+      },
+    };
+    history.push({ pathname: pageURL.sendConfrim, state: item });
+  }
+
   return (
     <div className="send">
       <FindoraHeader title="Send" isShowBack menu={<HeaderMenu />} />
       <div className="send-box">
-        <FindoraBoxView title="From">{walletStore.walletInfo.publickey}</FindoraBoxView>
+        <FindoraBoxView title="From">
+          <span className="address">{walletStore.walletInfo.publickey}</span>
+        </FindoraBoxView>
         <FindoraBoxView title="To">
-          <Input placeholder="Please to address" value="" />
+          <Input placeholder="Please to address" value="" className="address" />
         </FindoraBoxView>
         <FindoraBoxView title="Asset Name">
           <Select defaultValue="FIN" style={{ width: '100%' }}>
@@ -45,7 +62,9 @@ const Send = () => {
           </Radio.Group>
         </FindoraBoxView>
         <div className="btn-area">
-          <FindoraButton className="btn">Next</FindoraButton>
+          <FindoraButton className="btn" onClick={handleClickItemInfo}>
+            Next
+          </FindoraButton>
         </div>
       </div>
     </div>

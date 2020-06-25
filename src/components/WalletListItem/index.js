@@ -2,12 +2,13 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-23 17:22:16
+ * @ Modified time: 2020-06-25 10:46:18
  * @ Description: 钱包导航, Header组件
  */
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Tooltip } from 'antd';
 import { CopyOutlined, CheckOutlined, FormOutlined } from '@ant-design/icons';
 import classNames from 'classNames';
 import { NetworkLarge } from 'react-identicon-variety-pack';
@@ -42,8 +43,12 @@ const WalletListItem = ({ data, isShowEdit, style, className, onClick, onChangeN
       <NetworkLarge className="wallet-list-logo" size={48} seed={data.publickey} circle />
       <div className="wallet-list-text">
         <WalletName data={{ name: data.keyStore.name }} isShowEdit={isShowEdit} onChangeName={onChangeName} />
-        <div className="wallet-address">
-          <span>{`${String(data.publickey).substr(0, 28)}...`}</span>
+        <div className="wallet-address equal-font">
+          {isShowEdit ? (
+            <Tooltip title={data.publickey}>{`${String(data.publickey).substr(0, 34)}...`}</Tooltip>
+          ) : (
+            <span>{`${String(data.publickey).substr(0, 34)}...`}</span>
+          )}
           <CopyToClipboard text={data.publickey} onCopy={handleClickCopyAddress}>
             {isCopy ? (
               <CheckOutlined

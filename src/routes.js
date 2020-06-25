@@ -66,6 +66,12 @@ const routeMap = [
     dynamic: true,
   },
   {
+    path: pageURL.sendConfrim,
+    component: './containers/SendConfrim',
+    exact: true,
+    dynamic: true,
+  },
+  {
     path: pageURL.transactions,
     component: './containers/Transactions',
     exact: true,
@@ -79,7 +85,13 @@ const routeMap = [
   },
   {
     path: pageURL.webContainer,
-    component: './containers/WebContainer',
+    component: './containers/WebContainer/',
+    exact: false,
+    dynamic: true,
+  },
+  {
+    path: pageURL.assetConfrim,
+    component: './containers/AssetConfrim',
     exact: false,
     dynamic: true,
   },

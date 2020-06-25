@@ -1,33 +1,19 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-
 import FindoraHeader from '_components/FindoraHeader';
 import HeaderMenu from '_containers/HeaderMenu';
+import FindoraButton from '_components/FindoraButton';
 import FindoraBoxView from '_components/FindoraBoxView';
 
 import './index.less';
 
-const TransactionsDetail = () => {
+const SendConfrim = () => {
   const RouterLocation = useLocation();
-  const { from, to, state, txn, asset } = RouterLocation.state;
+  const { from, to, asset, blind } = RouterLocation.state;
   return (
-    <div className="transactions-detail">
-      <FindoraHeader title="Transactions" isShowBack menu={<HeaderMenu />} />
-      <div className="transactions-detail-box">
-        {state ? (
-          <div className="success">
-            <CheckOutlined className="icon" /> Success
-          </div>
-        ) : (
-          <div className="fail">
-            <CloseOutlined className="icon" /> Fail
-          </div>
-        )}
-
-        <FindoraBoxView title="Txn">
-          <span className="address">{txn}</span>
-        </FindoraBoxView>
+    <div className="send-confrim">
+      <FindoraHeader title="Send" isShowBack menu={<HeaderMenu />} />
+      <div className="send-confrim-box">
         <FindoraBoxView title="From">
           <span className="address">{from}</span>
         </FindoraBoxView>
@@ -40,9 +26,18 @@ const TransactionsDetail = () => {
         <FindoraBoxView title="Value">
           <span className="address">{asset.numbers}</span>
         </FindoraBoxView>
+        <FindoraBoxView title="Blind Amount">
+          <span className="address">{blind.isAmount ? 'Yes' : 'No'}</span>
+        </FindoraBoxView>
+        {/* <FindoraBoxView title="Blind Type" isRow>
+          <span className="address">{blind.isType ? 'Yes' : 'No'}</span>
+        </FindoraBoxView> */}
+        <div className="btn-area">
+          <FindoraButton className="btn">Confrim</FindoraButton>
+        </div>
       </div>
     </div>
   );
 };
 
-export default TransactionsDetail;
+export default SendConfrim;

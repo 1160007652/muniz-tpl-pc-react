@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-10 09:55:58
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-15 16:30:59
+ * @ Modified time: 2020-06-25 13:24:32
  * @ Description: 可注入页面的content-scripts.js 资源
  */
 
@@ -18,7 +18,7 @@ window.addEventListener(
     // 如果标识符一致,开始分发事件
     if (data.from === 'findora-ext-wallet') {
       /** 使用 chrome.runtime.sendMessage , 向后台 background.js 发送消息*/
-      chrome.runtime.sendMessage({ type: 'openWindow' }, (response) => {
+      chrome.runtime.sendMessage({ type: 'content-script', path: 'openSend' }, (response) => {
         console.log(response);
         // chrome.extension.getURL("normal_popup.html")
       });

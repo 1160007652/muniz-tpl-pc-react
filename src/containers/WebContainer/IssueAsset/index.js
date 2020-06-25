@@ -1,18 +1,42 @@
 import React, { useState } from 'react';
 import { MobXProviderContext, observer } from 'mobx-react';
-import { useHistory } from 'react-router-dom';
 import { Input, Select, Radio } from 'antd';
 
 import FindoraButton from '_components/FindoraButton';
 import FindoraBoxView from '_components/FindoraBoxView';
 import FindoraWebContainer from '_components/FindoraWebContainer';
 
+import pageURL from '_constants/pageURL';
+
 import './index.less';
 
-const IssueAsset = () => {
-  const history = useHistory();
-  const walletStore = React.useContext(MobXProviderContext).walletStore;
+const dataDemo = {
+  issuer: 'JAKzGqStME5FW6e1NmTME5FW6e1NFW6e1NrEB',
+  asset: {
+    unit: 'FIN',
+    numbers: 100,
+  },
+  to: 'JAKzGqStME5FW6e1NmTME5FW6e1NFW6e1NrEB',
+  blind: {
+    isAmount: true,
+    isType: true,
+  },
+};
 
+const IssueAsset = () => {
+  const walletStore = React.useContext(MobXProviderContext).walletStore;
+  /**
+   * 创建资产, 唤醒插件, 校验信息
+   */
+  function handleClickCreate() {
+    chrome.storage.sync.set({ tempIssueAssetConfrim: JSON.stringify(dataDemo) });
+    chrome.windows.create({
+      url: `${chrome.runtime.getURL('popup.html')}#${pageURL.assetConfrim.replace(':actionType', 'issueAssetConfrim')}`,
+      type: 'popup',
+      width: 400,
+      height: 630,
+    });
+  }
   return (
     <FindoraWebContainer className="issue-asset" title="Issue Asset">
       <div className="issue-asset-box">
@@ -44,7 +68,9 @@ const IssueAsset = () => {
           </Radio.Group>
         </FindoraBoxView> */}
         <div className="btn-area">
-          <FindoraButton className="btn">Confirm</FindoraButton>
+          <FindoraButton className="btn" onClick={handleClickCreate}>
+            Confirm
+          </FindoraButton>
         </div>
       </div>
     </FindoraWebContainer>
