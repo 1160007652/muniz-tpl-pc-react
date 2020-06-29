@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-03 09:59:55
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-25 08:48:32
+ * @ Modified time: 2020-06-28 17:05:28
  * @ Description: 网络钱包 WebKeyStore , 导出单列模式 模块
  */
 
@@ -101,6 +101,7 @@ class WebKeyStore extends KeyStore {
     };
 
     const keyPairStr = Encrypt.decrypt(keys.encryptedKey, password);
+    // console.log(keyPairStr);
 
     try {
       const keypair = await Wasm.keypair_from_str(keyPairStr);
@@ -114,7 +115,7 @@ class WebKeyStore extends KeyStore {
       }
 
       return {
-        keypair,
+        keyPairStr,
         publickey: publickey.replace(/"/g, ''),
       };
     } catch (error) {

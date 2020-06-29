@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-22 18:45:22
+ * @ Modified time: 2020-06-28 10:48:06
  * @ Description: 导入钱包后的列表组件
  */
 
@@ -36,7 +36,7 @@ const WalletListView = ({ dataList }) => {
               className={classNames('wallet-item', {
                 'select-wallet-item': item.publickey === walletStore.walletInfo.publickey,
               })}
-              key={`${item.publickey}${item.name}${index}`}
+              key={`${item.publickey}${index}`}
               data={item}
               onClick={handleClickItem(item)}
               style={{ marginBottom: '12px' }}

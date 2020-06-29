@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-23 12:09:49
+ * @ Modified time: 2020-06-28 14:58:06
  * @ Description: 钱包导航, Header组件
  */
 
@@ -17,10 +17,10 @@ import './index.less';
  * @example <caption>组件案例</caption>
  *
  */
-const FindoraBoxView = ({ children, title, isRow, className, style }) => {
+const FindoraBoxView = ({ children, title, titleDirection, isRow, className, style }) => {
   return (
     <div className={classNames('findora-box-view', className, { 'box-row': isRow })} style={style}>
-      <div className="title">{title}</div>
+      <div className={classNames('title', titleDirection)}>{title}</div>
       <div className="container">{children}</div>
     </div>
   );
@@ -31,11 +31,14 @@ FindoraBoxView.propTypes = {
   title: PropTypes.string,
   /** 是否横行展示 */
   isRow: PropTypes.bool,
+  /** 标题显示位置 */
+  titleDirection: PropTypes.oneOf(['top', 'center', 'bottom']),
 };
 
 FindoraBoxView.defaultProps = {
   title: '',
   isRow: false,
+  titleDirection: 'center',
 };
 
 export default FindoraBoxView;

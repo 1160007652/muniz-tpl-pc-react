@@ -1,0 +1,51 @@
+.result-asset {
+  position: relative;
+  box-sizing: border-box;
+  height: calc(100% - 88px);
+  padding-top: 88px;
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    .icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      color: #fff;
+      font-size: 36px;
+      border-radius: 56px;
+      &.success {
+        background: #6dbb11;
+      }
+      &.fail {
+        background: #e53935;
+      }
+    }
+    .tips {
+      margin-top: 20px;
+      font-weight: 600;
+      font-size: 18px;
+    }
+    .message {
+      margin-top: 18px;
+      color: #7e7e7e;
+      font-size: 18px;
+    }
+  }
+  .btn-area {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+
+    .btn {
+      width: 166px;
+      min-width: auto;
+      margin: 0 auto;
+    }
+  }
+}

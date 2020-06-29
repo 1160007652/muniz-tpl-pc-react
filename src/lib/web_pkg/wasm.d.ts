@@ -14,7 +14,7 @@ export function random_asset_type(): string;
 * @param {string} authenticated_txn - String representing the transaction.
 * @see {@link get_transaction} for instructions on fetching a transaction from the ledger.
 * @see {@link get_state_commitment} for instructions on fetching a ledger state commitment.
-* @throws Will throw an error if the state commitment or the transaction fail to deserialize.
+* @throws Will throw an error if the state commitment or the transaction fails to deserialize.
 * @param {string} state_commitment 
 * @param {string} authenticated_txn 
 * @returns {boolean} 
@@ -162,7 +162,7 @@ export function sign(key_pair: XfrKeyPair, message: string): any;
 * Contained in the response of `submit_transaction` is a `TransactionHandle` that can be used to
 * query the status of the transaction.
 * @param {string} path - Submission server path (e.g. `https://localhost:8669`)
-* @param {transaction_str} - JSON-encoded transaction string.
+* @param {string} transaction_str - JSON-encoded transaction string.
 *
 * @see {@link get_txn_status} for information about transaction statuses.
 * @param {string} path 
@@ -172,6 +172,7 @@ export function sign(key_pair: XfrKeyPair, message: string): any;
 export function submit_transaction(path: string, transaction_str: string): Promise<any>;
 /**
 * Given a transaction ID, returns a promise for the transaction status.
+* @param {string} path - Address of submission server. E.g. `https://localhost:8669`.
 * @param {string} path 
 * @param {string} handle 
 * @returns {Promise<any>} 
@@ -183,29 +184,36 @@ export function get_txn_status(path: string, handle: string): Promise<any>;
 * Otherwise, returns \'not found\'. The request fails if the txo uid
 * has been spent or the transaction index does not correspond to a
 * transaction.
-* @param {string} path - Address of ledger server.
-* @param {BigInt} index - UTXO index.
+* @param {string} path - Address of ledger server. E.g. `https://localhost:8668`.
+* @param {BigInt} sid - UTXO SID.
 * @param {string} path 
-* @param {BigInt} index 
+* @param {BigInt} sid 
 * @returns {Promise<any>} 
 */
-export function get_txo(path: string, index: BigInt): Promise<any>;
+export function get_txo(path: string, sid: BigInt): Promise<any>;
 /**
 * If successful, returns a promise that will eventually provide a
 * JsValue describing a transaction.
-* Otherwise, returns \'not found\'. The request fails if the transaction index does not correspond
+* Otherwise, returns `not found`. The request fails if the transaction index does not correspond
 * to a transaction.
 *
-* @param {String} path - Ledger server path.
-* @param {BigInt} index - Transaction index.
+* @example <caption> Error handling </caption>
+* try {
+*     await wasm.get_transaction(\"http::localhost:8668\", 1);
+* } catch (err) {
+*     console.log(err)
+* }
+* @param {String} path - Address of ledger server. E.g. `https://localhost:8668`.
+* @param {BigInt} sid - Transaction SID.
 * @param {string} path 
-* @param {BigInt} index 
+* @param {BigInt} sid 
 * @returns {Promise<any>} 
 */
-export function get_transaction(path: string, index: BigInt): Promise<any>;
+export function get_transaction(path: string, sid: BigInt): Promise<any>;
 /**
 * Returns a JSON-encoded version of the state commitment of a running ledger. This is used to
 * check the authenticity of transactions and blocks.
+* @param {string} path - Address of ledger server. E.g. `https://localhost:8668`.
 * @param {string} path 
 * @returns {Promise<any>} 
 */
@@ -215,8 +223,14 @@ export function get_state_commitment(path: string): Promise<any>;
 * JsValue describing an asset token. Otherwise, returns \'not found\'.
 * The request fails if the given asset name does not correspond to
 * an asset.
-* @param {string} path: Address of ledger server.
-* @param {string} name: Base64-encoded asset token string.
+* @example <caption> Error handling </caption>
+* try {
+*     await wasm.get_asset_token(\"http::localhost:8668\", asset_name);
+* } catch (err) {
+*     console.log(err)
+* }
+* @param {string} path - Address of ledger server. E.g. `https://localhost:8668`.
+* @param {string} name - Base64-encoded asset token string.
 * @param {string} path 
 * @param {string} name 
 * @returns {Promise<any>} 
@@ -224,14 +238,31 @@ export function get_state_commitment(path: string): Promise<any>;
 export function get_asset_token(path: string, name: string): Promise<any>;
 /**
 * Generates a new credential issuer key.
-* @param {JsValue} attributes: Array of attribute types of the form `[{name: \"credit_score\",
-* size: 3}]\'. The size refers to byte-size of the credential. In this case, the \"credit_score\
+* @param {JsValue} attributes - Array of attribute types of the form `[{name: \"credit_score\",
+* size: 3}]`. The size refers to byte-size of the credential. In this case, the \"credit_score\
 * attribute is represented as a 3 byte string \"760\". `attributes` is the list of attribute types
 * that the issuer can sign off on.
 * @param {any} attributes 
 * @returns {CredentialIssuerKeyPair} 
 */
 export function wasm_credential_issuer_key_gen(attributes: any): CredentialIssuerKeyPair;
+/**
+* Verifies a credential commitment. Used to confirm that a credential is tied to a ledger
+* address.
+* @param {CredIssuerPublicKey} issuer_pub_key - The credential issuer that has attested to the
+* credentials that have been committed to.
+* @param {CredentialCommitment} Credential commitment
+* @param {CredPoK} Proof of knowledge of the underlying commitment
+* @param {XfrPublicKey} Ledger address linked to this credential commitment.
+* @throws Will throw an error during verification failure (i.e. the supplied ledger address is
+* incorrect, the commitment is tied to a different credential issuer, or the proof of knowledge is
+* invalid, etc.)
+* @param {CredIssuerPublicKey} issuer_pub_key 
+* @param {CredentialCommitment} commitment 
+* @param {CredentialPoK} pok 
+* @param {XfrPublicKey} xfr_pk 
+*/
+export function wasm_credential_verify_commitment(issuer_pub_key: CredIssuerPublicKey, commitment: CredentialCommitment, pok: CredentialPoK, xfr_pk: XfrPublicKey): void;
 /**
 * Generates a new credential user key.
 * @param {CredIssuerPublicKey} issuer_pub_key - The credential issuer that can sign off on this
@@ -245,7 +276,7 @@ export function wasm_credential_user_key_gen(issuer_pub_key: CredIssuerPublicKey
 * @param {CredIssuerSecretKey} issuer_secret_key - Secret key of credential issuer.
 * @param {CredUserPublicKey} user_public_key - Public key of credential user.
 * @param {JsValue} attributes - Array of attribute assignments of the form `[{name: \"credit_score\",
-* val: \"760\"}]\'.
+* val: \"760\"}]`.
 * @throws Will throw an error if the signature cannot be generated.
 * @param {CredIssuerSecretKey} issuer_secret_key 
 * @param {CredUserPublicKey} user_public_key 
@@ -274,9 +305,9 @@ export function create_credential(issuer_public_key: CredIssuerPublicKey, signat
 * @param {CredUserSecretKey} user_secret_key 
 * @param {XfrPublicKey} user_public_key 
 * @param {Credential} credential 
-* @returns {CredentialCommitment} 
+* @returns {CredentialCommitmentAndPoK} 
 */
-export function wasm_credential_commit(user_secret_key: CredUserSecretKey, user_public_key: XfrPublicKey, credential: Credential): CredentialCommitment;
+export function wasm_credential_commit(user_secret_key: CredUserSecretKey, user_public_key: XfrPublicKey, credential: Credential): CredentialCommitmentAndPoK;
 /**
 * Selectively reveals attributes committed to in a credential commitment
 * @param {CredUserSecretKey} user_sk - Secret key of credential user.
@@ -292,10 +323,8 @@ export function wasm_credential_reveal(user_sk: CredUserSecretKey, credential: C
 /**
 * Verifies revealed attributes from a commitment.
 * @param {CredIssuerPublicKey} issuer_pub_key - Public key of credential issuer.
-* @param {JsValue} reveal_fields - Array of string names representing credentials to reveal (i.e.
 * @param {JsValue} attributes - Array of attribute assignments to check of the form `[{name: \"credit_score\",
-* val: \"760\"}]\'.
-* `[\"credit_score\"]`).
+* val: \"760\"}]`.
 * @param {CredentialRevealSig} reveal_sig - Credential reveal signature.
 * @param {CredIssuerPublicKey} issuer_pub_key 
 * @param {any} attributes 
@@ -304,8 +333,8 @@ export function wasm_credential_reveal(user_sk: CredUserSecretKey, credential: C
 export function wasm_credential_verify(issuer_pub_key: CredIssuerPublicKey, attributes: any, reveal_sig: CredentialRevealSig): void;
 /**
 * Returns information about traceable assets for a given transfer.
-* @param {JsValue} xfr_note - JSON of a transfer note from a transfer operation.
-* @param {AssetTracerKeyPair} - Asset tracer keypair.
+* @param {JsValue} xfr_body - JSON of a transfer note from a transfer operation.
+* @param {AssetTracerKeyPair} tracer_keypair - Asset tracer keypair.
 * @param {JsValue} candidate_assets - List of asset types traced by the tracer keypair.
 * @param {any} xfr_body 
 * @param {AssetTracerKeyPair} tracer_keypair 
@@ -316,30 +345,43 @@ export function trace_assets(xfr_body: any, tracer_keypair: AssetTracerKeyPair, 
 export class AssetRules {
   free(): void;
 /**
+* Create a default set of asset rules.
 * @returns {AssetRules} 
 */
   static new(): AssetRules;
 /**
+* Toggles asset traceability.
+* @param {bool} traceable - Boolean indicating whether asset can be traced by an issuer tracing key.
 * @param {boolean} traceable 
 * @returns {AssetRules} 
 */
   set_traceable(traceable: boolean): AssetRules;
 /**
+* Set a cap on the number of units of this asset that can be issued.
+* @param {BigInt} max_units - Maximum number of units that can be issued.
 * @param {BigInt} max_units 
 * @returns {AssetRules} 
 */
   set_max_units(max_units: BigInt): AssetRules;
 /**
+* Transferability toggle. Assets that are not transferable can only be transferred by the asset
+* issuer.
+* @param {bool} transferable - Boolean indicating whether asset can be transferred.
 * @param {boolean} transferable 
 * @returns {AssetRules} 
 */
   set_transferable(transferable: boolean): AssetRules;
 /**
+* The updatable flag determines whether the asset memo can be updated after issuance.
+* @param {bool} updatable - Boolean indicating whether asset memo can be updated.
 * @param {boolean} updatable 
 * @returns {AssetRules} 
 */
   set_updatable(updatable: boolean): AssetRules;
 /**
+* Co-signature rules. Assets with co-signatue rules require additional weighted signatures to
+* be transferred.
+* @param {SignatureRules} multisig_rules - Co-signature restrictions.
 * @param {SignatureRules} multisig_rules 
 * @returns {AssetRules} 
 */
@@ -351,6 +393,27 @@ export class AssetTracerKeyPair {
 * @returns {AssetTracerKeyPair} 
 */
   static new(): AssetTracerKeyPair;
+}
+export class AuthenticatedAIRResult {
+  free(): void;
+/**
+* Construct an AIRResult from the JSON-encoded value returned by the ledger.
+* @param {any} json 
+* @returns {AuthenticatedAIRResult} 
+*/
+  static from_json(json: any): AuthenticatedAIRResult;
+/**
+* Returns true if the authenticated AIR result proofs verify succesfully.
+* @param {string} state_commitment - String representing the ledger state commitment.
+* @param {string} state_commitment 
+* @returns {boolean} 
+*/
+  is_valid(state_commitment: string): boolean;
+/**
+* Returns the underlying credential commitment of the AIR result.
+* @returns {CredentialCommitment | undefined} 
+*/
+  get_commitment(): CredentialCommitment | undefined;
 }
 export class ClientAssetRecord {
   free(): void;
@@ -380,25 +443,43 @@ export class Credential {
 export class CredentialCommitment {
   free(): void;
 }
+export class CredentialCommitmentAndPoK {
+  free(): void;
+/**
+* @returns {CredentialCommitment} 
+*/
+  get_commitment(): CredentialCommitment;
+/**
+* @returns {CredentialPoK} 
+*/
+  get_pok(): CredentialPoK;
+}
 export class CredentialIssuerKeyPair {
   free(): void;
 /**
+* Returns the credential issuer\'s public key.
 * @returns {CredIssuerPublicKey} 
 */
   get_pk(): CredIssuerPublicKey;
 /**
+* Returns the credential issuer\'s secret key.
 * @returns {CredIssuerSecretKey} 
 */
   get_sk(): CredIssuerSecretKey;
 /**
+* Convert the key pair to a serialized value that can be used in the browser.
 * @returns {any} 
 */
   to_jsvalue(): any;
 /**
+* Generate a key pair from a JSON-serialized JavaScript value.
 * @param {any} val 
 * @returns {CredentialIssuerKeyPair} 
 */
   static from_jsvalue(val: any): CredentialIssuerKeyPair;
+}
+export class CredentialPoK {
+  free(): void;
 }
 export class CredentialRevealSig {
   free(): void;
@@ -409,26 +490,59 @@ export class CredentialSignature {
 export class CredentialUserKeyPair {
   free(): void;
 /**
+* Returns the credential issuer\'s public key.
 * @returns {CredUserPublicKey} 
 */
   get_pk(): CredUserPublicKey;
 /**
+* Returns the credential issuer\'s secret key.
 * @returns {CredUserSecretKey} 
 */
   get_sk(): CredUserSecretKey;
 /**
-* @returns {string} 
-*/
-  serialize(): string;
-/**
+* Convert the key pair to a serialized value that can be used in the browser.
 * @returns {any} 
 */
   to_jsvalue(): any;
 /**
+* Generate a key pair from a JSON-serialized JavaScript value.
 * @param {any} val 
 * @returns {CredentialUserKeyPair} 
 */
   static from_jsvalue(val: any): CredentialUserKeyPair;
+}
+export class KVBlind {
+  free(): void;
+/**
+* Generate a random blinding factor.
+* @returns {KVBlind} 
+*/
+  static gen_random(): KVBlind;
+}
+export class KVHash {
+  free(): void;
+/**
+* Generate a new custom data hash without a blinding factor.
+* @param {string} data 
+* @returns {KVHash} 
+*/
+  static new_no_blind(data: string): KVHash;
+/**
+* Generate a new custom data hash with a blinding factor.
+* @param {string} data 
+* @param {KVBlind} kv_blind 
+* @returns {KVHash} 
+*/
+  static new_with_blind(data: string, kv_blind: KVBlind): KVHash;
+}
+export class Key {
+  free(): void;
+/**
+* Generate a random key.
+* Figure out how to store prng ref in browser: https://bugtracker.findora.org/issues/63
+* @returns {Key} 
+*/
+  static gen_random(): Key;
 }
 export class OwnerMemo {
   free(): void;
@@ -446,11 +560,18 @@ export class TransactionBuilder {
   free(): void;
 /**
 * Create a new transaction builder.
+* @param {BigInt} seq_id 
 * @returns {TransactionBuilder} 
 */
-  static new(): TransactionBuilder;
+  static new(seq_id: BigInt): TransactionBuilder;
 /**
 * Wraps around TransactionBuilder to add an asset definition operation to a transaction builder instance.
+* @example <caption> Error handling </caption>
+* try {
+*     await wasm.add_operation_create_asset(wasm.new_keypair(), \"test_memo\", wasm.random_asset_type(), wasm.AssetRules.default());
+* } catch (err) {
+*     console.log(err)
+* }
 *
 * @param {XfrKeyPair} key_pair -  Issuer XfrKeyPair.
 * @param {string} memo - Text field for asset definition.
@@ -486,11 +607,12 @@ export class TransactionBuilder {
 * Use this function for simple one-shot issuances.
 *
 * @param {XfrKeyPair} key_pair  - Issuer XfrKeyPair.
-* @param {AssetTracerKeyPair} tracer keypair - Optional tracking public key. Pass in tracing key or null. Used to decrypt amounts
+* @param {AssetTracerKeyPair} tracer keypair - Tracking public key. Used to decrypt amounts
 * and types of traced assets.
 * @param {string} code - Base64 string representing the token code of the asset to be issued.
 * @param {BigInt} seq_num - Issuance sequence number. Every subsequent issuance of a given asset type must have a higher sequence number than before.
 * @param {BigInt} amount - Amount to be issued.
+* @param {bool} conf_amount - `true` means the asset amount is confidential, and `false` means it\'s nonconfidential.
 * @param {XfrKeyPair} key_pair 
 * @param {AssetTracerKeyPair} tracing_key 
 * @param {string} code 
@@ -499,16 +621,53 @@ export class TransactionBuilder {
 * @param {boolean} conf_amount 
 * @returns {TransactionBuilder} 
 */
-  add_basic_issue_asset(key_pair: XfrKeyPair, tracing_key: AssetTracerKeyPair, code: string, seq_num: BigInt, amount: BigInt, conf_amount: boolean): TransactionBuilder;
+  add_basic_issue_asset_with_tracking(key_pair: XfrKeyPair, tracing_key: AssetTracerKeyPair, code: string, seq_num: BigInt, amount: BigInt, conf_amount: boolean): TransactionBuilder;
+/**
+* Wraps around TransactionBuilder to add an asset issuance to a transaction builder instance.
+*
+* Use this function for simple one-shot issuances.
+*
+* @param {XfrKeyPair} key_pair  - Issuer XfrKeyPair.
+* and types of traced assets.
+* @param {string} code - Base64 string representing the token code of the asset to be issued.
+* @param {BigInt} seq_num - Issuance sequence number. Every subsequent issuance of a given asset type must have a higher sequence number than before.
+* @param {BigInt} amount - Amount to be issued.
+* @param {bool} conf_amount - `true` means the asset amount is confidential, and `false` means it\'s nonconfidential.
+* @param {XfrKeyPair} key_pair 
+* @param {string} code 
+* @param {BigInt} seq_num 
+* @param {BigInt} amount 
+* @param {boolean} conf_amount 
+* @returns {TransactionBuilder} 
+*/
+  add_basic_issue_asset_without_tracking(key_pair: XfrKeyPair, code: string, seq_num: BigInt, amount: BigInt, conf_amount: boolean): TransactionBuilder;
 /**
 * Adds an add air assign operation to a WasmTransactionBuilder instance.
 * @param {XfrKeyPair} key_pair 
 * @param {CredUserPublicKey} user_public_key 
 * @param {CredIssuerPublicKey} issuer_public_key 
 * @param {CredentialCommitment} commitment 
+* @param {CredentialPoK} pok 
 * @returns {TransactionBuilder} 
 */
-  add_operation_air_assign(key_pair: XfrKeyPair, user_public_key: CredUserPublicKey, issuer_public_key: CredIssuerPublicKey, commitment: CredentialCommitment): TransactionBuilder;
+  add_operation_air_assign(key_pair: XfrKeyPair, user_public_key: CredUserPublicKey, issuer_public_key: CredIssuerPublicKey, commitment: CredentialCommitment, pok: CredentialPoK): TransactionBuilder;
+/**
+* Adds an add kv update operation to a WasmTransactionBuilder instance without kv hash.
+* @param {XfrKeyPair} auth_key_pair 
+* @param {Key} key 
+* @param {BigInt} seq_num 
+* @returns {TransactionBuilder} 
+*/
+  add_operation_kv_update_no_hash(auth_key_pair: XfrKeyPair, key: Key, seq_num: BigInt): TransactionBuilder;
+/**
+* Adds an add kv update operation to a WasmTransactionBuilder instance with kv hash.
+* @param {XfrKeyPair} auth_key_pair 
+* @param {Key} key 
+* @param {BigInt} seq_num 
+* @param {KVHash} kv_hash 
+* @returns {TransactionBuilder} 
+*/
+  add_operation_kv_update_with_hash(auth_key_pair: XfrKeyPair, key: Key, seq_num: BigInt, kv_hash: KVHash): TransactionBuilder;
 /**
 * Adds a serialized operation to a WasmTransactionBuilder instance
 * @param {string} op -  a JSON-serialized operation (i.e. a transfer operation).
@@ -557,11 +716,13 @@ export class TransferOperationBuilder {
 /**
 * Wraps around TransferOperationBuilder to add an input to a transfer operation builder.
 * @param {TxoRef} txo_ref - Absolute or relative utxo reference
-* @param {string} oar - Serialized opened asset record to serve as transfer input. This record must exist on the
-* ledger for the transfer to be valid
-* @param {BigInt} amount - Amount of input record to transfer
+* @param {string} asset_record - Serialized client asset record to serve as transfer input. This record must exist on the
+* ledger for the transfer to be valid.
+* @param {OwnerMemo} owner_memo - Opening parameters.
 * @param tracing_key {AssetTracerKeyPair} - Tracing key, must be added to traceable
 * assets.
+* @param {XfrKeyPair} key - Key pair associated with the input.
+* @param {BigInt} amount - Amount of input record to transfer.
 * @see {@link create_absolute_txo_ref} or {@link create_relative_txo_ref} for details on txo
 * references.
 * @see {@link get_txo} for details on fetching blind asset records.
@@ -578,8 +739,10 @@ export class TransferOperationBuilder {
 /**
 * Wraps around TransferOperationBuilder to add an input to a transfer operation builder.
 * @param {TxoRef} txo_ref - Absolute or relative utxo reference
-* @param {string} oar - Serialized opened asset record to serve as transfer input. This record must exist on the
+* @param {string} asset_record - Serialized client asset record to serve as transfer input. This record must exist on the
 * ledger for the transfer to be valid
+* @param {OwnerMemo} owner_memo - Opening parameters.
+* @param {XfrKeyPair} key - Key pair associated with the input.
 * @param {BigInt} amount - Amount of input record to transfer
 * @see {@link create_absolute_txo_ref} or {@link create_relative_txo_ref} for details on txo
 * references.
@@ -596,13 +759,13 @@ export class TransferOperationBuilder {
 /**
 * Wraps around TransferOperationBuilder to add an output to a transfer operation builder.
 *
-* @param {BigInt} amount - amount to transfer to the recipient
-* @param {XfrPublicKey} recipient - public key of the recipient
-* @param code {string} - String representaiton of the asset token code
-* @param conf_amount {bool} - Indicates whether output\'s amount is confidential
-* @param conf_type {bool} - Indicates whether output\'s asset type is confidential
+* @param {BigInt} amount - amount to transfer to the recipient.
+* @param {XfrPublicKey} recipient - public key of the recipient.
 * @param tracing_key {AssetTracerKeyPair} - Optional tracing key, must be added to traced
 * assets.
+* @param code {string} - String representation of the asset token code.
+* @param conf_amount {bool} - `true` means the output\'s asset amount is confidential, and `false` means it\'s nonconfidential.
+* @param conf_type {bool} - `true` means the output\'s asset type is confidential, and `false` means it\'s nonconfidential.
 * @throws Will throw an error if `code` fails to deserialize.
 * @param {BigInt} amount 
 * @param {XfrPublicKey} recipient 
@@ -619,8 +782,8 @@ export class TransferOperationBuilder {
 * @param {BigInt} amount - amount to transfer to the recipient
 * @param {XfrPublicKey} recipient - public key of the recipient
 * @param code {string} - String representaiton of the asset token code
-* @param conf_amount {bool} - Indicates whether output\'s amount is confidential
-* @param conf_type {bool} - Indicates whether output\'s asset type is confidential
+* @param conf_amount {bool} - `true` means the output\'s asset amount is confidential, and `false` means it\'s nonconfidential.
+* @param conf_type {bool} - `true` means the output\'s asset type is confidential, and `false` means it\'s nonconfidential.
 * @throws Will throw an error if `code` fails to deserialize.
 * @param {BigInt} amount 
 * @param {XfrPublicKey} recipient 
@@ -658,6 +821,15 @@ export class TransferOperationBuilder {
 * @returns {TransferOperationBuilder} 
 */
   sign(kp: XfrKeyPair): TransferOperationBuilder;
+/**
+* Co-sign an input index
+* @param {XfrKeyPair} kp - Co-signature key.
+* @params {Number} input_idx - Input index to apply co-signature to.
+* @param {XfrKeyPair} kp 
+* @param {number} input_idx 
+* @returns {TransferOperationBuilder} 
+*/
+  add_cosignature(kp: XfrKeyPair, input_idx: number): TransferOperationBuilder;
 /**
 * @returns {string} 
 */

@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-12 14:02:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-15 17:46:03
+ * @ Modified time: 2020-06-29 11:52:10
  * @ Description: 描述文案
  * @category Services
  * @module webNetWork
@@ -10,25 +10,45 @@
 
 import NetWork from '_src/lib/network';
 
-/**
- * 请求地址
- */
-const HOST = 'testnet.findora.org';
-/**
- * 提交端口
- */
-const SUBMISSION_PORT = '8669';
-/**
- * 分类账本端口
- */
-const LEDGER_PORT = '8668';
-/**
- * 查询端口
- */
-const QUERY_PORT = '8667';
-/**
- * 网络协议端口
- */
-const PROTOCOL = 'https';
+class WebNetWork extends NetWork {
+  constructor() {
+    super();
+    this.switchNetWork();
+  }
 
-export default new NetWork(PROTOCOL, HOST, QUERY_PORT, SUBMISSION_PORT, LEDGER_PORT);
+  async switchNetWork() {
+    const config = {
+      testnet: {
+        protocol: 'https',
+        host: 'testnet.findora.org',
+        queryPort: '8667',
+        submitPort: '8669',
+        ledgerPort: '8668',
+      },
+      online: {
+        protocol: 'https',
+        host: 'online.findora.org',
+        queryPort: '8667',
+        submitPort: '8669',
+        ledgerPort: '8668',
+      },
+    };
+    chrome.storage.sync.get(['networkConfig'], ({ networkConfig }) => {
+      if (networkConfig) {
+        this.config = config[networkConfig];
+      } else {
+        this.config = config.online;
+      }
+      console.log(this.config, networkConfig);
+    });
+    chrome.storage.onChanged.addListener((changes) => {
+      if ('networkConfig' in changes) {
+        const networkConfig = changes?.networkConfig;
+        this.config = config[networkConfig.newValue];
+        console.log(this.config, networkConfig);
+      }
+    });
+  }
+}
+
+export default new WebNetWork();
