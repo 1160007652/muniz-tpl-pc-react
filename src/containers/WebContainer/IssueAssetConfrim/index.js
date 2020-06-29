@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import FindoraButton from '_components/FindoraButton';
 import FindoraBoxView from '_components/FindoraBoxView';
 import ResultAsset from '_containers/WebContainer/ResultAsset';
+
+import services from '_src/services';
+import pageURL from '_constants/pageURL';
 
 import './index.less';
 
 const IssueAssetConfrim = ({ data }) => {
   const [resultData, setResultData] = useState({ type: false });
   const [isShowResult, setShowResult] = useState(false);
+  const hirstory = useHistory();
   const { issuer, asset, to, blind } = data;
 
   /** 取消窗口 */
@@ -21,13 +26,14 @@ const IssueAssetConfrim = ({ data }) => {
   }
   /** 显示结果后, 按钮事件 */
   function handleClickView() {
-    console.log('信息展示');
+    hirstory.push({ pathname: pageURL.transactions });
   }
   /** 提交数据 */
   async function handleClickSubmit() {
-    // const result = await services.assetServer.createAsset(data);
+    const result = await services.assetServer.issueAsset(data);
+
+    setResultData({ type: result.code === 0, result });
     setShowResult(true);
-    setResultData({ type: true });
   }
 
   function confrimComponent() {
@@ -70,7 +76,7 @@ const IssueAssetConfrim = ({ data }) => {
   }
 
   return isShowResult ? (
-    <ResultAsset title="Created" data={resultData} onClose={handleClickCancel} onView={handleClickView} />
+    <ResultAsset title="Issued" data={resultData} onClose={handleClickCancel} onView={handleClickView} />
   ) : (
     confrimComponent()
   );

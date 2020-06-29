@@ -29,8 +29,8 @@ const CreateAsset = () => {
     memo: 'test memo asset',
     policy: 'fungible',
     traceable: false,
-    transferable: true,
-    updatable: true,
+    transferable: false,
+    updatable: false,
   });
 
   /**
@@ -76,7 +76,7 @@ const CreateAsset = () => {
       state.memo = e.target.value;
     });
   }
-  /** 更新选择 */
+  /** 更新 Radio 选择 */
   function handleChangeRadio(key) {
     return (e) => {
       setData((state) => {

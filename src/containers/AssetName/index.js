@@ -2,11 +2,12 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-28 18:11:02
+ * @ Modified time: 2020-06-29 19:24:52
  * @ Description: 多语言切换组件
  */
 
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Input, Radio, Alert, Select } from 'antd';
 import { useImmer } from 'use-immer';
 
@@ -15,26 +16,32 @@ import services from '_src/services';
 
 import './index.less';
 
-const AssetName = ({ isCreate, onResult, address }) => {
-  // const walletStore = React.useContext(MobXProviderContext).walletStore;
-  // const dataList = walletStore.walletImportList;
+const AssetName = ({ isCreate, onResult, onShowResult, address }) => {
   const [isSelect, setSelect] = useState('default');
 
-  const dataList = [
-    { short: 'FIN', long: '3322123123' },
-    { short: 'GIN', long: '2322312313' },
-  ];
+  const [assetList, setAssetList] = useImmer([
+    { short: 'Muniz', long: '4bmu7QZ5CGYWsTJKKFVwNw==' },
+    { short: 'LLO', long: 'tfXxLbGGMCv-X58eQymv-w==' },
+  ]);
 
-  const [assetNameLong, setAssetNameLong] = useState(dataList[0].long);
+  const [assetNameLong, setAssetNameLong] = useState(assetList[0].long);
 
+  // 系统生成 longName
   const [assetNameData, setAssetNameData] = useImmer({
     short: '',
     long: '',
   });
 
+  // 自定义短名字 , 生成 longName
   const [assetNameDataCust, setAssetNameDataCust] = useImmer({
     short: '',
     long: '',
+  });
+
+  useEffect(() => {
+    /** 触发onResult事件 */
+    const result = assetList.filter((item) => item.long === assetNameLong);
+    onShowResult(result.length > 0 ? result[0] : {});
   });
 
   useEffect(() => {
@@ -44,10 +51,15 @@ const AssetName = ({ isCreate, onResult, address }) => {
         state.long = value;
       });
     });
+
     /** 从服务端获取 已创建的资产 */
     services.assetServer.getAssetNameServer({ address }).then((value) => {
       console.log(value);
     });
+
+    // /** 触发onResult事件 */
+    // const result = assetList.filter((item) => item.long === assetNameLong);
+    // onShowResult(result.length > 0 ? result[0] : {});
   }, []);
 
   /** 监听默认属性变化, 自动触发保存onResult事件 */
@@ -55,9 +67,15 @@ const AssetName = ({ isCreate, onResult, address }) => {
     onResult(assetNameData);
   }, [assetNameData]);
 
+  // /** 监听 资产列表 选中项 变化, 自动触发保存onShowResult事件 */
+  // useEffect(() => {
+  //   const result = assetList.filter((item) => item.long === assetNameLong);
+  //   onShowResult(result);
+  // }, [assetNameLong]);
+
   /** 监听自定义属性变化, 自动触发保存onResult事件 */
   useEffect(() => {
-    onResult(assetNameDataCust);
+    onShowResult(assetNameData);
   }, [assetNameDataCust]);
 
   /** 监听面板属性变化, 自动触发保存onResult事件 */
@@ -164,6 +182,10 @@ const AssetName = ({ isCreate, onResult, address }) => {
   /** 显示资产页面,切换资产事件 */
   function handleSelectAssetName(value) {
     setAssetNameLong(value);
+
+    /** 触发onResult事件 */
+    const result = assetList.filter((item) => item.long === value);
+    onShowResult(result.length > 0 ? result[0] : {});
   }
   function showAssetName() {
     return (
@@ -174,7 +196,7 @@ const AssetName = ({ isCreate, onResult, address }) => {
           style={{ width: '100%' }}
           onChange={handleSelectAssetName}
         >
-          {dataList.map((item) => {
+          {assetList.map((item) => {
             return (
               <Select.Option value={item.long} key={item.long}>
                 {item.short}
@@ -187,6 +209,18 @@ const AssetName = ({ isCreate, onResult, address }) => {
     );
   }
   return isCreate ? createAssetName() : showAssetName();
+};
+
+AssetName.propTypes = {
+  /** 创建资产回调结果事件 */
+  onResult: PropTypes.func,
+  /** 显示资产回调结果事件 */
+  onShowResult: PropTypes.func,
+};
+
+AssetName.defaultProps = {
+  onResult: () => {},
+  onShowResult: () => {},
 };
 
 export default AssetName;

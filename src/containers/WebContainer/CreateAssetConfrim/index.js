@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { MobXProviderContext } from 'mobx-react';
 
 import FindoraButton from '_components/FindoraButton';
 import FindoraBoxView from '_components/FindoraBoxView';
 import ResultAsset from '_containers/WebContainer/ResultAsset';
 
 import services from '_src/services';
+import pageURL from '_constants/pageURL';
 
 import './index.less';
 
 const CreateAssetConfrim = ({ data }) => {
+  const walletStore = React.useContext(MobXProviderContext).walletStore;
   const [resultData, setResultData] = useState({ type: false });
   const [isShowResult, setShowResult] = useState(false);
-
+  const hirstory = useHistory();
   const { founder, asset, memo, policy, traceable, transferable, updatable } = data;
 
   /** 取消窗口 */
@@ -23,13 +27,19 @@ const CreateAssetConfrim = ({ data }) => {
   }
   /** 显示结果后, 按钮事件 */
   function handleClickView() {
-    console.log('信息展示');
+    hirstory.push({ pathname: pageURL.walletInfo });
   }
   /** 提交数据 */
   async function handleClickSubmit() {
     const result = await services.assetServer.createAsset(data);
+
+    // 如果 创建成功, 切换选中钱包成当前的创建成功钱包
+    if (result.code === 0) {
+      walletStore.setWalletInfo(data.walletInfo);
+    }
+
+    setResultData({ type: result.code === 0, result });
     setShowResult(true);
-    setResultData({ type: true });
   }
 
   function confrimComponent() {

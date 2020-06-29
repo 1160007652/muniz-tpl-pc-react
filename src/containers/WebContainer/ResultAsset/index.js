@@ -7,6 +7,7 @@ import './index.less';
 
 const ResultAsset = ({ data, title, onClose, onView }) => {
   const isSuccess = data.type;
+  console.log(data);
   return (
     <div className="result-asset">
       {isSuccess ? (
@@ -22,7 +23,7 @@ const ResultAsset = ({ data, title, onClose, onView }) => {
             <CloseOutlined className="icon fail" />
           </div>
           <div className="tips">Failed</div>
-          <div className="message">reason of failure</div>
+          <div className="message">{data.result.message}</div>
         </div>
       )}
       <div className="btn-area">
