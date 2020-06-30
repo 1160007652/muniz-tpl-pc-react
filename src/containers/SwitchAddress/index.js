@@ -2,38 +2,57 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-28 11:31:51
+ * @ Modified time: 2020-06-30 12:09:56
  * @ Description: 多语言切换组件
  */
 
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Select, Tag } from 'antd';
 
 import './index.less';
 
 const SwitchAddress = ({ dataList, curAddress, onChange }) => {
-  // const walletStore = React.useContext(MobXProviderContext).walletStore;
-  // const dataList = walletStore.walletImportList;
+  const [address, setAddress] = useState(dataList[0].publickey);
+
+  /** 选择地址事件 */
+  function handleSelectAddress(value) {
+    setAddress(value);
+    onChange(value);
+  }
 
   function createSelectAddress() {
     return (
-      <Select
-        className="findora-switch-address"
-        defaultValue={curAddress}
-        style={{ width: '100%' }}
-        onChange={onChange}
-      >
-        {dataList.map((item) => {
-          return (
-            <Select.Option value={item.publickey} key={item.publickey}>
-              <Tag color="#f50">{item.keyStore.name}</Tag> <Tag>{item.publickey}</Tag>
-            </Select.Option>
-          );
-        })}
-      </Select>
+      <div className="findora-switch-address">
+        <Select value={curAddress} style={{ width: '100%' }} onChange={handleSelectAddress}>
+          {dataList.map((item) => {
+            return (
+              <Select.Option value={item.publickey} key={item.publickey}>
+                {item.keyStore.name}
+              </Select.Option>
+            );
+          })}
+        </Select>
+        <div className="tips"> {address} </div>
+      </div>
     );
   }
   return dataList ? createSelectAddress() : <div>请先创建钱包地址</div>;
+};
+
+SwitchAddress.propTypes = {
+  /** 是否显示短地址 如: djhaskj73749ndsjas... */
+  dataList: PropTypes.array,
+  /** 当前钱包使用的地址 */
+  curAddress: PropTypes.string,
+  /** 钱包选中事件 */
+  onChange: PropTypes.func,
+};
+
+SwitchAddress.defaultProps = {
+  dataList: [],
+  curAddress: '',
+  onChange: () => {},
 };
 
 export default SwitchAddress;

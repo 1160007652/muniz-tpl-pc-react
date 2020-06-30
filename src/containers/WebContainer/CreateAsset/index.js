@@ -8,7 +8,7 @@ import FindoraButton from '_components/FindoraButton';
 import FindoraBoxView from '_components/FindoraBoxView';
 import FindoraWebContainer from '_components/FindoraWebContainer';
 import SwitchAddress from '_containers/SwitchAddress';
-import AssetName from '_containers/AssetName';
+import CreateAssetName from '_containers/CreateAssetName';
 
 import pageURL from '_constants/pageURL';
 
@@ -87,7 +87,7 @@ const CreateAsset = () => {
   return (
     <FindoraWebContainer className="create-asset" title="Create Asset">
       <div className="create-asset-box">
-        <FindoraBoxView title="Founder" isRow>
+        <FindoraBoxView title="Founder" isRow titleDirection="top">
           <SwitchAddress
             dataList={walletStore.walletImportList}
             curAddress={data.founder}
@@ -96,7 +96,7 @@ const CreateAsset = () => {
         </FindoraBoxView>
 
         <FindoraBoxView title="Asset Name" isRow titleDirection="top">
-          <AssetName isCreate onResult={handleChangeAssetName} />
+          <CreateAssetName onResult={handleChangeAssetName} />
         </FindoraBoxView>
 
         <FindoraBoxView title="Memo" isRow>

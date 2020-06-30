@@ -8,7 +8,7 @@ import FindoraButton from '_components/FindoraButton';
 import FindoraBoxView from '_components/FindoraBoxView';
 import FindoraWebContainer from '_components/FindoraWebContainer';
 import SwitchAddress from '_containers/SwitchAddress';
-import AssetName from '_containers/AssetName';
+import SwitchAssetName from '_containers/SwitchAssetName';
 
 import pageURL from '_constants/pageURL';
 
@@ -83,16 +83,15 @@ const IssueAsset = () => {
   return (
     <FindoraWebContainer className="issue-asset" title="Issue Asset">
       <div className="issue-asset-box">
-        <FindoraBoxView title="Issuer" isRow>
-          {/* {walletStore.walletInfo.publickey} */}
+        <FindoraBoxView title="Issuer" isRow titleDirection="top">
           <SwitchAddress
             dataList={walletStore.walletImportList}
             curAddress={data.issuer}
             onChange={handleChangeSwitchAddress}
           />
         </FindoraBoxView>
-        <FindoraBoxView title="Asset Name" isRow>
-          <AssetName onShowResult={handleChangeAssetName} address={walletStore.walletInfo.publickey} />
+        <FindoraBoxView title="Asset Name" isRow titleDirection="top">
+          <SwitchAssetName onResult={handleChangeAssetName} address={walletStore.walletInfo.publickey} />
         </FindoraBoxView>
         <FindoraBoxView title="To" isRow>
           <Input placeholder="Please to address" value={data.to} onChange={handleChangeTo} />

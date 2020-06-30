@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-23 15:56:29
+ * @ Modified time: 2020-06-30 11:24:43
  * @ Description: 钱包详情组件
  */
 
@@ -18,6 +18,7 @@ import HeaderMenu from '_containers/HeaderMenu';
 import FindoraButton from '_components/FindoraButton';
 import WalletListItem from '_components/WalletListItem';
 import FindoraBoxView from '_components/FindoraBoxView';
+import SwitchAssetName from '_containers/SwitchAssetName';
 
 import services from '_src/services';
 import pageURL from '_constants/pageURL';
@@ -28,8 +29,12 @@ const WalletInfo = () => {
   const history = useHistory();
   const walletStore = React.useContext(MobXProviderContext).walletStore;
   const [walletPassword, setWalletPassword] = useState();
-
+  const [assetName, setAssetName] = useState({
+    short: '',
+    long: '',
+  });
   const [visible, setVisible] = useState(false);
+
   /** 下载钱包 */
   function handleClickExportWallet() {
     setVisible(true);
@@ -70,13 +75,17 @@ const WalletInfo = () => {
     setWalletPassword('');
     setVisible(false);
   }
+
   /** 用于保存钱包密码,在下载钱包时需要重新输入 */
   function handleChangePassword(e) {
     e.stopPropagation();
     setWalletPassword(e.target.value);
   }
-  /** 资产名称选中事件 */
-  function handleChangeSelectAssetName() {}
+
+  /** 资产名称选中事件, 回调结果 */
+  function handleChangeSelectAssetName(value) {
+    setAssetName(value);
+  }
 
   /** 路由跳转页面 */
   function handleChangeRouter(path) {
@@ -96,10 +105,7 @@ const WalletInfo = () => {
       />
       <div className="asset-name">
         <FindoraBoxView title="Asset Name">
-          <Select defaultValue="FIN" style={{ width: '100%' }} onChange={handleChangeSelectAssetName}>
-            <Select.Option value="FIN">FIN</Select.Option>
-            <Select.Option value="GIN">GIN</Select.Option>
-          </Select>
+          <SwitchAssetName onResult={handleChangeSelectAssetName} address={walletStore.walletInfo.publickey} />
         </FindoraBoxView>
         <FindoraBoxView title="Balance" isRow style={{ justifyContent: 'space-between' }}>
           <span className="value">300</span>

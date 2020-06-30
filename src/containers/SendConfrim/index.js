@@ -21,7 +21,8 @@ const SendConfrim = () => {
           <span className="address">{to}</span>
         </FindoraBoxView>
         <FindoraBoxView title="Asset Name">
-          <span className="address">{asset.unit}</span>
+          <div className="address">{asset.unit.short}</div>
+          <div className="address">{asset.unit.long}</div>
         </FindoraBoxView>
         <FindoraBoxView title="Value">
           <span className="address">{asset.numbers}</span>

@@ -2,13 +2,13 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-29 19:24:52
- * @ Description: 多语言切换组件
+ * @ Modified time: 2020-06-30 12:15:21
+ * @ Description: 创建资产组件, 1、自定义创建短名称 - 映射到 长名称; 2、系统创建长名称
  */
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Input, Radio, Alert, Select } from 'antd';
+import { Input, Radio, Alert } from 'antd';
 import { useImmer } from 'use-immer';
 
 import FindoraBoxView from '_components/FindoraBoxView';
@@ -16,15 +16,8 @@ import services from '_src/services';
 
 import './index.less';
 
-const AssetName = ({ isCreate, onResult, onShowResult, address }) => {
+const CreateAssetName = ({ onResult }) => {
   const [isSelect, setSelect] = useState('default');
-
-  const [assetList, setAssetList] = useImmer([
-    { short: 'Muniz', long: '4bmu7QZ5CGYWsTJKKFVwNw==' },
-    { short: 'LLO', long: 'tfXxLbGGMCv-X58eQymv-w==' },
-  ]);
-
-  const [assetNameLong, setAssetNameLong] = useState(assetList[0].long);
 
   // 系统生成 longName
   const [assetNameData, setAssetNameData] = useImmer({
@@ -39,27 +32,12 @@ const AssetName = ({ isCreate, onResult, onShowResult, address }) => {
   });
 
   useEffect(() => {
-    /** 触发onResult事件 */
-    const result = assetList.filter((item) => item.long === assetNameLong);
-    onShowResult(result.length > 0 ? result[0] : {});
-  });
-
-  useEffect(() => {
     /** 初始化资产名称 */
     services.assetServer.getAssetNameLong().then((value) => {
       setAssetNameData((state) => {
         state.long = value;
       });
     });
-
-    /** 从服务端获取 已创建的资产 */
-    services.assetServer.getAssetNameServer({ address }).then((value) => {
-      console.log(value);
-    });
-
-    // /** 触发onResult事件 */
-    // const result = assetList.filter((item) => item.long === assetNameLong);
-    // onShowResult(result.length > 0 ? result[0] : {});
   }, []);
 
   /** 监听默认属性变化, 自动触发保存onResult事件 */
@@ -67,15 +45,9 @@ const AssetName = ({ isCreate, onResult, onShowResult, address }) => {
     onResult(assetNameData);
   }, [assetNameData]);
 
-  // /** 监听 资产列表 选中项 变化, 自动触发保存onShowResult事件 */
-  // useEffect(() => {
-  //   const result = assetList.filter((item) => item.long === assetNameLong);
-  //   onShowResult(result);
-  // }, [assetNameLong]);
-
   /** 监听自定义属性变化, 自动触发保存onResult事件 */
   useEffect(() => {
-    onShowResult(assetNameData);
+    onResult(assetNameData);
   }, [assetNameDataCust]);
 
   /** 监听面板属性变化, 自动触发保存onResult事件 */
@@ -127,7 +99,7 @@ const AssetName = ({ isCreate, onResult, onShowResult, address }) => {
           style={{ marginBottom: '25px', background: '#EEE2FF' }}
         />
 
-        <FindoraBoxView title="LongName" isRow>
+        <FindoraBoxView title="LongName" isRow className="long-name">
           {assetNameData.long}
         </FindoraBoxView>
         <FindoraBoxView title="ShortName" isRow>
@@ -159,7 +131,7 @@ const AssetName = ({ isCreate, onResult, onShowResult, address }) => {
             </div>
           </div>
         </FindoraBoxView>
-        <FindoraBoxView title="LongName" isRow>
+        <FindoraBoxView title="LongName" isRow className="long-name">
           {assetNameDataCust.long}
         </FindoraBoxView>
       </div>
@@ -168,7 +140,7 @@ const AssetName = ({ isCreate, onResult, onShowResult, address }) => {
 
   function createAssetName() {
     return (
-      <div className="findora-asset-name">
+      <div className="findora-create-asset-name">
         <Radio.Group value={isSelect} buttonStyle="solid" onChange={handleSelectAssetTab}>
           <Radio value="default">Default</Radio>
           <Radio value="customize" disabled>
@@ -187,40 +159,16 @@ const AssetName = ({ isCreate, onResult, onShowResult, address }) => {
     const result = assetList.filter((item) => item.long === value);
     onShowResult(result.length > 0 ? result[0] : {});
   }
-  function showAssetName() {
-    return (
-      <div className="findora-asset-name">
-        <Select
-          className="findora-switch-address"
-          defaultValue={assetNameLong}
-          style={{ width: '100%' }}
-          onChange={handleSelectAssetName}
-        >
-          {assetList.map((item) => {
-            return (
-              <Select.Option value={item.long} key={item.long}>
-                {item.short}
-              </Select.Option>
-            );
-          })}
-        </Select>
-        <div>{assetNameLong}</div>
-      </div>
-    );
-  }
-  return isCreate ? createAssetName() : showAssetName();
+  return createAssetName();
 };
 
-AssetName.propTypes = {
+CreateAssetName.propTypes = {
   /** 创建资产回调结果事件 */
   onResult: PropTypes.func,
-  /** 显示资产回调结果事件 */
-  onShowResult: PropTypes.func,
 };
 
-AssetName.defaultProps = {
+CreateAssetName.defaultProps = {
   onResult: () => {},
-  onShowResult: () => {},
 };
 
-export default AssetName;
+export default CreateAssetName;
