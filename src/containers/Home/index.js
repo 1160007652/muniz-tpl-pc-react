@@ -12,18 +12,20 @@ import './index.less';
 
 const Home = () => {
   const walletStore = React.useContext(MobXProviderContext).walletStore;
-
+  let walletTitle = 'page_wallet_title';
   let wallet = <WalletEmpty />;
   if (walletStore.walletImportList.length === 1) {
     wallet = <WalletInfoDetail />;
+    walletTitle = 'page_wallet_detail';
   }
   if (walletStore.walletImportList.length > 1) {
     wallet = <WalletListView dataList={walletStore.walletImportList} />;
+    walletTitle = 'page_wallet_list';
   }
 
   return (
     <div className="home">
-      <FindoraHeader title={intl.get('page_walet_title')} menu={<HeaderMenu />} />
+      <FindoraHeader title={intl.get(walletTitle)} menu={<HeaderMenu />} />
       {wallet}
     </div>
   );

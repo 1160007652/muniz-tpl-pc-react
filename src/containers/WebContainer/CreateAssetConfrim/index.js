@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { MobXProviderContext } from 'mobx-react';
+import intl from 'react-intl-universal';
 
 import FindoraButton from '_components/FindoraButton';
 import FindoraBoxView from '_components/FindoraBoxView';
@@ -46,41 +47,42 @@ const CreateAssetConfrim = ({ data }) => {
     return (
       <div className="create-asset-confrim">
         <div className="create-asset-confrim-box">
-          <FindoraBoxView title="Founder">
+          <FindoraBoxView title={intl.get('token_create_founder')}>
             <span className="address">{founder}</span>
           </FindoraBoxView>
-          <FindoraBoxView title="Long Name">
-            <span className="address">{asset.unit.long}</span>
+          <FindoraBoxView title={intl.get('asset_name')}>
+            <div className="address" style={{ color: 'rgba(131, 151, 177, 0.6)' }}>
+              {asset.unit.short}
+            </div>
+            <div className="address">{asset.unit.long}</div>
           </FindoraBoxView>
-          <FindoraBoxView title="Short Name">
-            <span className="address">{asset.unit.short}</span>
-          </FindoraBoxView>
-          <FindoraBoxView title="Memo">
+          <FindoraBoxView title={intl.get('memo')}>
             <span className="address">{memo}</span>
           </FindoraBoxView>
-          <FindoraBoxView title="Policy">
+          <FindoraBoxView title={intl.get('policy')}>
             <span className="address">{policy}</span>
           </FindoraBoxView>
-          <FindoraBoxView title="Traceable">
+          <FindoraBoxView title={intl.get('traceable')}>
             <span className="address">{traceable ? 'Yes' : 'No'}</span>
           </FindoraBoxView>
-          <FindoraBoxView title="Transferable">
+          <FindoraBoxView title={intl.get('transferable')}>
             <span className="address">{transferable ? 'Yes' : 'No'}</span>
           </FindoraBoxView>
-          <FindoraBoxView title="Updatable">
+          <FindoraBoxView title={intl.get('updatable')}>
             <span className="address">{updatable ? 'Yes' : 'No'}</span>
           </FindoraBoxView>
-          <FindoraBoxView title="Max Units">
+          <FindoraBoxView title={intl.get('token_create_max_amount')}>
             <span className="address">{asset.maxNumbers}</span>
+            <span style={{ marginLeft: '4px' }}>{asset.unit.short}</span>
           </FindoraBoxView>
         </div>
 
         <div className="btn-area">
           <FindoraButton className="btn" onClick={handleClickCancel}>
-            Cancel
+            {intl.get('cancel')}
           </FindoraButton>
           <FindoraButton className="btn" onClick={handleClickSubmit}>
-            Confrim
+            {intl.get('confrim')}
           </FindoraButton>
         </div>
       </div>

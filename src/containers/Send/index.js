@@ -85,7 +85,7 @@ const Send = () => {
     <div className="send">
       <FindoraHeader title={intl.get('page_send_title')} isShowBack menu={<HeaderMenu />} />
       <div className="send-box">
-        <FindoraBoxView title={intl.get('send_from')}>
+        <FindoraBoxView title={intl.get('from')}>
           <SwitchAddress
             isShortAddress
             dataList={walletStore.walletImportList}
@@ -93,10 +93,10 @@ const Send = () => {
             onChange={handleChangeSwitchAddress}
           />
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('send_to')}>
+        <FindoraBoxView title={intl.get('to')}>
           <Input placeholder="Please to address" value={data.to} className="address" onChange={handleChangeTo} />
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('send_asset_name')}>
+        <FindoraBoxView title={intl.get('asset_name')}>
           <SwitchAssetName onResult={handleChangeSelectAssetName} address={walletStore.walletInfo.publickey} />
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('send_amount')}>
@@ -117,13 +117,13 @@ const Send = () => {
             onChange={handleChangeAmount}
           />
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('send_blind_amount')} isRow>
+        <FindoraBoxView title={intl.get('blind_amount')} isRow>
           <Radio.Group value={data.blind.isAmount} onChange={handleChangeRadio('isAmount')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('send_blind_type')} isRow>
+        <FindoraBoxView title={intl.get('blind_type')} isRow>
           <Radio.Group value={data.blind.isType} disabled onChange={handleChangeRadio('isType')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>

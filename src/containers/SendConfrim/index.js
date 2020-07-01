@@ -23,25 +23,25 @@ const SendConfrim = () => {
     <div className="send-confrim">
       <FindoraHeader title="Send" isShowBack menu={<HeaderMenu />} />
       <div className="send-confrim-box">
-        <FindoraBoxView title={intl.get('send_from')}>
+        <FindoraBoxView title={intl.get('from')}>
           <span className="address">{from}</span>
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('send_to')}>
+        <FindoraBoxView title={intl.get('to')}>
           <span className="address">{to}</span>
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('send_asset_name')}>
+        <FindoraBoxView title={intl.get('asset_name')}>
           <div className="address">{asset.unit.short}</div>
           <div className="address">{asset.unit.long}</div>
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('send_amount')}>
           <span className="address">{asset.numbers}</span>
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('send_blind_amount')}>
+        <FindoraBoxView title={intl.get('blind_amount')}>
           <span className="address">{blind.isAmount ? 'Yes' : 'No'}</span>
         </FindoraBoxView>
-        {/* <FindoraBoxView title={intl.get('send_blind_type')} isRow>
+        <FindoraBoxView title={intl.get('blind_type')} isRow>
           <span className="address">{blind.isType ? 'Yes' : 'No'}</span>
-        </FindoraBoxView> */}
+        </FindoraBoxView>
         <div className="btn-area">
           <FindoraButton className="btn" onClick={handleClickSubmit}>
             {intl.get('send_submit')}

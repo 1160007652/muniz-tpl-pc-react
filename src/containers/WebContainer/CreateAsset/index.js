@@ -3,6 +3,7 @@ import { toJS } from 'mobx';
 import { MobXProviderContext, observer } from 'mobx-react';
 import { Input, Radio } from 'antd';
 import { useImmer } from 'use-immer';
+import intl from 'react-intl-universal';
 
 import FindoraButton from '_components/FindoraButton';
 import FindoraBoxView from '_components/FindoraBoxView';
@@ -85,9 +86,9 @@ const CreateAsset = () => {
     };
   }
   return (
-    <FindoraWebContainer className="create-asset" title="Create Asset">
+    <FindoraWebContainer className="create-asset" title={intl.get('menu_asset_create')}>
       <div className="create-asset-box">
-        <FindoraBoxView title="Founder" isRow titleDirection="top">
+        <FindoraBoxView title={intl.get('token_create_founder')} isRow titleDirection="top">
           <SwitchAddress
             dataList={walletStore.walletImportList}
             curAddress={data.founder}
@@ -95,15 +96,15 @@ const CreateAsset = () => {
           />
         </FindoraBoxView>
 
-        <FindoraBoxView title="Asset Name" isRow titleDirection="top">
+        <FindoraBoxView title={intl.get('asset_name')} isRow titleDirection="top">
           <CreateAssetName onResult={handleChangeAssetName} />
         </FindoraBoxView>
 
-        <FindoraBoxView title="Memo" isRow>
+        <FindoraBoxView title={intl.get('memo')} isRow>
           <Input placeholder="Please to memo" value={data.memo} onChange={handleChangeMemo} />
         </FindoraBoxView>
 
-        <FindoraBoxView title="Max units" isRow>
+        <FindoraBoxView title={intl.get('token_create_max_amount')} isRow>
           <Input
             placeholder="Please to Value"
             type="number"
@@ -111,12 +112,12 @@ const CreateAsset = () => {
             onChange={handleChangeAssetMaxNumbers}
           />
         </FindoraBoxView>
-        <FindoraBoxView title="Policy" isRow>
+        <FindoraBoxView title={intl.get('policy')} isRow>
           <Radio.Group value={data.policy} onChange={handleChangeRadio('policy')}>
             <Radio value="fungible">Fungible</Radio>
           </Radio.Group>
         </FindoraBoxView>
-        <FindoraBoxView title="Traceable" isRow>
+        <FindoraBoxView title={intl.get('traceable')} isRow>
           <Radio.Group value={data.traceable} onChange={handleChangeRadio('traceable')}>
             <Radio value={true} disabled>
               Yes
@@ -124,13 +125,13 @@ const CreateAsset = () => {
             <Radio value={false}>No</Radio>
           </Radio.Group>
         </FindoraBoxView>
-        <FindoraBoxView title="Transferable" isRow>
+        <FindoraBoxView title={intl.get('transferable')} isRow>
           <Radio.Group value={data.transferable} onChange={handleChangeRadio('transferable')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
         </FindoraBoxView>
-        <FindoraBoxView title="Updatable" isRow>
+        <FindoraBoxView title={intl.get('updatable')} isRow>
           <Radio.Group value={data.updatable} onChange={handleChangeRadio('updatable')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
@@ -138,7 +139,7 @@ const CreateAsset = () => {
         </FindoraBoxView>
         <div className="btn-area">
           <FindoraButton className="btn" onClick={handleClickCreate}>
-            Create
+            {intl.get('token_create_create')}
           </FindoraButton>
         </div>
       </div>

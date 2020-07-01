@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-01 16:00:10
+ * @ Modified time: 2020-07-01 16:53:00
  * @ Description: 创建钱包组件
  */
 
@@ -61,6 +61,7 @@ const CreateWallet = () => {
     <div className="findora-wallet-create">
       <FindoraHeader title={intl.get('page_wallet_create_title')} menu={renderCancelComponent} />
       <div className="create-wallet-box">
+        <p>{intl.get('wallet_create_keystore_info')}</p>
         <Form name="createkeystorewallet" {...formItemLayout} onFinish={handleCreateKeystoreWallet}>
           <Form.Item
             name="username"

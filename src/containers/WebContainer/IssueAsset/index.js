@@ -3,6 +3,7 @@ import { toJS } from 'mobx';
 import { MobXProviderContext, observer } from 'mobx-react';
 import { Input, Select, Radio } from 'antd';
 import { useImmer } from 'use-immer';
+import intl from 'react-intl-universal';
 
 import FindoraButton from '_components/FindoraButton';
 import FindoraBoxView from '_components/FindoraBoxView';
@@ -81,36 +82,36 @@ const IssueAsset = () => {
     };
   }
   return (
-    <FindoraWebContainer className="issue-asset" title="Issue Asset">
+    <FindoraWebContainer className="issue-asset" title={intl.get('menu_asset_issue')}>
       <div className="issue-asset-box">
-        <FindoraBoxView title="Issuer" isRow titleDirection="top">
+        <FindoraBoxView title={intl.get('token_issue_issuer')} isRow titleDirection="top">
           <SwitchAddress
             dataList={walletStore.walletImportList}
             curAddress={data.issuer}
             onChange={handleChangeSwitchAddress}
           />
         </FindoraBoxView>
-        <FindoraBoxView title="Asset Name" isRow titleDirection="top">
+        <FindoraBoxView title={intl.get('asset_name')} isRow titleDirection="top">
           <SwitchAssetName onResult={handleChangeAssetName} address={walletStore.walletInfo.publickey} />
         </FindoraBoxView>
-        <FindoraBoxView title="To" isRow>
+        <FindoraBoxView title={intl.get('to')} isRow>
           <Input placeholder="Please to address" value={data.to} onChange={handleChangeTo} />
         </FindoraBoxView>
-        <FindoraBoxView title="Amount" isRow>
+        <FindoraBoxView title={intl.get('balance')} isRow>
           <Input
-            placeholder="Please to amount"
+            placeholder={intl.get('token_issue_amount_placeholder')}
             type="number"
             value={data.asset.numbers}
             onChange={handleChangeAmount}
           />
         </FindoraBoxView>
-        <FindoraBoxView title="Blind Amount" isRow>
+        <FindoraBoxView title={intl.get('blind_amount')} isRow>
           <Radio.Group value={data.blind.isAmount} onChange={handleChangeRadio('isAmount')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
         </FindoraBoxView>
-        <FindoraBoxView title="Blind Type" isRow>
+        <FindoraBoxView title={intl.get('blind_type')} isRow>
           <Radio.Group value={data.blind.isType} disabled onChange={handleChangeRadio('isType')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
@@ -118,7 +119,7 @@ const IssueAsset = () => {
         </FindoraBoxView>
         <div className="btn-area">
           <FindoraButton className="btn" onClick={handleClickCreate}>
-            Confirm
+            {intl.get('confrim')}
           </FindoraButton>
         </div>
       </div>

@@ -8,7 +8,6 @@ import LeftMenu from '_containers/WebContainer/LeftMenu';
 import Dom from '_src/utils/dom';
 
 import './index.less';
-// import pageURL from '_constants/pageURL';
 
 Dom.changeRootSize();
 
