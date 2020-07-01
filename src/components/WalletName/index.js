@@ -2,13 +2,14 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-22 22:13:30
+ * @ Modified time: 2020-07-01 15:01:51
  * @ Description: 钱包导航, Header组件
  */
 
 import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'antd';
+import intl from 'react-intl-universal';
 import { FormOutlined, CheckOutlined } from '@ant-design/icons';
 
 import './index.less';
@@ -54,7 +55,7 @@ const WalletName = ({ data, onChangeName, isShowEdit }) => {
     <div className="wallet-name" onClick={(e) => isShowEdit && e.stopPropagation()}>
       {isEdit ? (
         <Input
-          placeholder="Basic usage"
+          placeholder={intl.get('wallet_name_edit_placeholder')}
           style={{ width: '168px' }}
           value={name}
           onChange={handleClickName}

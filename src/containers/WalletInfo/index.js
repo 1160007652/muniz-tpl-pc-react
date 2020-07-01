@@ -2,11 +2,12 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-01 14:44:44
+ * @ Modified time: 2020-07-01 16:39:20
  * @ Description: 钱包详情组件
  */
 
 import React from 'react';
+import intl from 'react-intl-universal';
 
 import FindoraHeader from '_components/FindoraHeader';
 import HeaderMenu from '_containers/HeaderMenu';
@@ -16,7 +17,7 @@ import './index.less';
 const WalletInfo = () => {
   return (
     <div className="findora-wallet-Info">
-      <FindoraHeader title="Wallet" isShowBack menu={<HeaderMenu />} />
+      <FindoraHeader title={intl.get('page_walet_title')} isShowBack menu={<HeaderMenu />} />
       <WalletInfoDetail />
     </div>
   );

@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-01 14:42:36
+ * @ Modified time: 2020-07-01 16:22:42
  * @ Description: 钱包详情组件
  */
 
@@ -76,13 +76,13 @@ const WalletInfo = () => {
       const blob = new Blob([JSON.stringify(keyStore)], { type: 'utf-8' });
       saveAs(blob, `${publickey}.txt`);
 
-      setVisible(false);
+      setVisibleExport(false);
     }
   }
   /** Model 弹出框 取消 */
   function handleModalExportCancel(e) {
     setWalletPassword('');
-    setVisible(false);
+    setVisibleExport(false);
   }
 
   /** 用于保存钱包密码,在下载钱包时需要重新输入 */
@@ -141,10 +141,10 @@ const WalletInfo = () => {
         onChangeName={handleChangeWalletName}
       />
       <div className="asset-name">
-        <FindoraBoxView title="Asset Name">
+        <FindoraBoxView title={intl.get('asset_name')}>
           <SwitchAssetName onResult={handleChangeSelectAssetName} address={walletStore.walletInfo.publickey} />
         </FindoraBoxView>
-        <FindoraBoxView title="Balance" isRow style={{ justifyContent: 'space-between' }}>
+        <FindoraBoxView title={intl.get('balance')} isRow style={{ justifyContent: 'space-between' }}>
           <Balance
             assetName={assetName}
             style={{ textAlign: 'right' }}
@@ -167,7 +167,7 @@ const WalletInfo = () => {
         <FindoraButton onClick={handleClickRemoveWallet}>Remove Wallet</FindoraButton>
       </div>
       <Modal
-        title="Export Wallet"
+        title={intl.get('wallet_export_title')}
         visible={visibleExport}
         onOk={handleModalExportOk}
         onCancel={handleModalExportCancel}
@@ -175,19 +175,19 @@ const WalletInfo = () => {
         <Input
           type="password"
           value={walletPassword}
-          placeholder={intl.get('restorewallet_inputpassword')}
+          placeholder={intl.get('wallet_restore_inputpassword')}
           onChange={handleChangePassword}
         />
       </Modal>
       <Modal
-        title="Remove Wallet"
+        title={intl.get('wallet_remove_title')}
         visible={visibleRemove}
         onOk={handleModalRemoveOk}
         onCancel={handleModalRemoveCancel}
       >
         <Alert
-          message="NOTICE"
-          description="You are about to remove the wallet. Please make sure you have saved the keystore file to restore the wallet."
+          message={intl.get('notice')}
+          description={intl.get('wallet_remove_notice')}
           type="info"
           showIcon
           style={{ marginBottom: '25px', background: '#EEE2FF' }}

@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-22 16:59:00
+ * @ Modified time: 2020-07-01 15:57:01
  * @ Description: 恢复钱包、导入钱包组件
  */
 
@@ -26,7 +26,7 @@ const RestoreWallet = () => {
 
   const renderCancelComponent = (
     <Link to={pageURL.home} className="menu-cancel">
-      Cancel
+      {intl.get('cancel')}
     </Link>
   );
 
@@ -58,7 +58,7 @@ const RestoreWallet = () => {
       const result = await services.webKeyStore.setKeypair(param);
 
       if (result === 'passworderror') {
-        message.error(intl.get('restorewallet_passworderror'));
+        message.error(intl.get('wallet_restore_password_error'));
       } else {
         // 导入钱包解密数据 与 keyStore原始数据,
         const walletInfoResult = { ...result, keyStore: param.keyStoreJson };
@@ -76,7 +76,7 @@ const RestoreWallet = () => {
   }
   return (
     <div className="findora-wallet-empty">
-      <FindoraHeader title="Create Wallet" menu={renderCancelComponent} />
+      <FindoraHeader title={intl.get('page_wallet_import_title')} menu={renderCancelComponent} />
       <div>
         <Form name="restorekeystore" onFinish={handleUnlockKeystore}>
           <Row align="middle" justify="center" style={{ margin: '30px auto 10px', textAlign: 'center' }}>
@@ -91,9 +91,9 @@ const RestoreWallet = () => {
                         if (fileList !== undefined) {
                           return Promise.resolve();
                         }
-                        return Promise.reject(intl.get('restorewallet_nouploadfile'));
+                        return Promise.reject(intl.get('wallet_restore_no_upload_file'));
                       } catch (error) {
-                        return Promise.reject(intl.get('restorewallet_nouploadfile'));
+                        return Promise.reject(intl.get('wallet_restore_no_upload_file'));
                       }
                     },
                   }),
@@ -107,7 +107,7 @@ const RestoreWallet = () => {
                 >
                   <Button type="primary">
                     <UploadOutlined />
-                    {intl.get('restorewallet_uploadfile')}
+                    {intl.get('wallet_restore_upload_file')}
                   </Button>
                   <div>{filename}</div>
                 </Upload>
@@ -122,12 +122,12 @@ const RestoreWallet = () => {
                 rules={[
                   {
                     required: true,
-                    message: intl.get('restorewallet_inputpassword'),
+                    message: intl.get('wallet_restore_inputpassword'),
                   },
                 ]}
                 initialValue="123456789"
               >
-                <Input type="password" placeholder={intl.get('restorewallet_inputpassword')} />
+                <Input type="password" placeholder={intl.get('wallet_restore_inputpassword')} />
               </Form.Item>
             </Col>
           </Row>
@@ -135,7 +135,7 @@ const RestoreWallet = () => {
           <Row align="middle" justify="center" style={{ textAlign: 'center', marginTop: '20px' }}>
             <Col xs={24} sm={12}>
               <Button type="primary" htmlType="submit" style={{ width: '30%' }}>
-                {intl.get('restorewallet_submit')}
+                {intl.get('wallet_restore_submit')}
               </Button>
             </Col>
           </Row>

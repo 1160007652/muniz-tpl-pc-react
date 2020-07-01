@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-11 15:34:14
+ * @ Modified time: 2020-07-01 16:00:10
  * @ Description: 创建钱包组件
  */
 
@@ -33,7 +33,7 @@ const CreateWallet = () => {
   };
   const renderCancelComponent = (
     <Link to={pageURL.home} className="menu-cancel">
-      Cancel
+      {intl.get('cancel')}
     </Link>
   );
   /**
@@ -49,8 +49,8 @@ const CreateWallet = () => {
       history.push(pageURL.downKeyStore);
     } else {
       const args = {
-        message: '警告提示',
-        description: 'KeyStore 中 已存在该命名 密钥对',
+        message: intl.get('warning'),
+        description: intl.get('wallet_create_exists'),
         duration: 2,
       };
       notification.open(args);
@@ -59,18 +59,17 @@ const CreateWallet = () => {
 
   return (
     <div className="findora-wallet-create">
-      <FindoraHeader title="Create Wallet" menu={renderCancelComponent} />
+      <FindoraHeader title={intl.get('page_wallet_create_title')} menu={renderCancelComponent} />
       <div className="create-wallet-box">
-        {/* <div className="tip">{intl.get('createwallet_keystoreinfo')}</div> */}
         <Form name="createkeystorewallet" {...formItemLayout} onFinish={handleCreateKeystoreWallet}>
           <Form.Item
             name="username"
-            label={intl.get('createwallet_inputname')}
+            label={intl.get('wallet_create_inputname')}
             labelAlign="right"
             rules={[
               {
                 required: true,
-                message: intl.get('createwallet_passwordnotempty'),
+                message: intl.get('wallet_create_username_no_empty'),
               },
             ]}
             initialValue="Alice"
@@ -79,14 +78,14 @@ const CreateWallet = () => {
           </Form.Item>
           <Form.Item
             name="password"
-            label={intl.get('createwallet_inputpassword')}
+            label={intl.get('wallet_create_inputpassword')}
             labelAlign="right"
             rules={[
               {
                 required: true,
-                message: intl.get('createwallet_passwordnotempty'),
+                message: intl.get('wallet_create_password_no_empty'),
               },
-              { min: 9, message: intl.get('createwallet_passwordless9') },
+              { min: 9, message: intl.get('wallet_create_password_less9') },
             ]}
             initialValue="123456789"
           >
@@ -94,13 +93,13 @@ const CreateWallet = () => {
           </Form.Item>
           <Form.Item
             name="passwordagain"
-            label={intl.get('createwallet_inputpasswordagain')}
+            label={intl.get('wallet_create_inputpassword_again')}
             labelAlign="right"
             dependencies={['password']}
             rules={[
               {
                 required: true,
-                message: intl.get('createwallet_passwordnotempty'),
+                message: intl.get('wallet_create_password_no_empty'),
               },
 
               ({ getFieldValue }) => ({
@@ -108,7 +107,7 @@ const CreateWallet = () => {
                   if (value === getFieldValue('password')) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(intl.get('createwallet_twopasswordnotmatch'));
+                  return Promise.reject(intl.get('wallet_create_password_no_match'));
                 },
               }),
             ]}
@@ -123,7 +122,7 @@ const CreateWallet = () => {
             }}
           >
             <Button type="primary" htmlType="submit">
-              {intl.get('createwallet_next')}
+              {intl.get('wallet_create_next')}
             </Button>
           </Form.Item>
         </Form>

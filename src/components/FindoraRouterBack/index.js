@@ -2,13 +2,14 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-25 10:53:52
+ * @ Modified time: 2020-07-01 14:58:41
  * @ Description: 钱包导航, Header组件
  */
 
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { LeftOutlined } from '@ant-design/icons';
+import intl from 'react-intl-universal';
 import './index.less';
 
 /**
@@ -29,7 +30,7 @@ const FindoraRouterBack = ({ title, menu }) => {
   }
   return (
     <div className="findora-router-back" onClick={handleClickBack}>
-      <LeftOutlined /> Back
+      <LeftOutlined /> {intl.get('navigation_back')}
     </div>
   );
 };

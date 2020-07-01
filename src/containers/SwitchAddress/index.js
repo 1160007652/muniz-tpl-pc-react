@@ -2,13 +2,14 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-30 12:09:56
+ * @ Modified time: 2020-07-01 16:27:52
  * @ Description: 多语言切换组件
  */
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Select, Tag } from 'antd';
+import intl from 'react-intl-universal';
 
 import './index.less';
 
@@ -37,7 +38,7 @@ const SwitchAddress = ({ dataList, curAddress, onChange }) => {
       </div>
     );
   }
-  return dataList ? createSelectAddress() : <div>请先创建钱包地址</div>;
+  return dataList ? createSelectAddress() : <div>{intl.get('tips_wallet_create')}</div>;
 };
 
 SwitchAddress.propTypes = {

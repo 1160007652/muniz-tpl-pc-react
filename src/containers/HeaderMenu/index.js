@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-23 19:52:02
+ * @ Modified time: 2020-07-01 15:43:56
  * @ Description: 钱包菜单组件
  */
 
@@ -10,6 +10,8 @@ import React from 'react';
 import { Menu, Dropdown, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { MenuOutlined } from '@ant-design/icons';
+import intl from 'react-intl-universal';
+
 import {
   CreateWalletIcon,
   RestoreWalletIcon,
@@ -29,56 +31,32 @@ const routers = [
   {
     page: pageURL.home,
     icon: <WalletInfoIcon />,
-    title: 'Wallets',
+    title: 'menu_home',
     isShow: true,
   },
   {
     page: pageURL.createwallet,
     icon: <CreateWalletIcon />,
-    title: 'Create Wallet',
+    title: 'menu_wallet_create',
     isShow: true,
   },
   {
     page: pageURL.restoreWallet,
     icon: <RestoreWalletIcon />,
-    title: 'Import Wallet',
+    title: 'menu_wallet_import',
     isShow: true,
   },
   {
     page: pageURL.setting,
     icon: <SettingIcon />,
-    title: 'Setting',
+    title: 'menu_setting',
     isShow: true,
   },
   {
     page: pageURL.createAsset,
     icon: <CreateTokenIcon />,
-    title: 'Create Asset',
+    title: 'menu_asset_create',
     isShow: true,
-  },
-  {
-    page: pageURL.send,
-    icon: <SendIcon />,
-    title: 'sidebar_send',
-    isShow: false,
-  },
-  {
-    page: pageURL.transactions,
-    icon: <TransactionsIcon />,
-    title: 'sidebar_transactions',
-    isShow: false,
-  },
-  {
-    page: pageURL.deployContract,
-    icon: <DeployContractIcon />,
-    title: 'sidebar_deploycontract',
-    isShow: false,
-  },
-  {
-    page: pageURL.contractTest,
-    icon: <ContractTestIcon />,
-    title: 'sidebar_contracttest',
-    isShow: false,
   },
 ];
 
@@ -93,12 +71,12 @@ class HeaderMenu extends React.Component {
                 {item.page === pageURL.createAsset ? (
                   <a href={`${chrome.runtime.getURL('popup.html')}#${item.page}`} target="_blank">
                     {item.icon}
-                    <span style={{ marginLeft: '8px' }}>{item.title}</span>
+                    <span style={{ marginLeft: '8px' }}>{intl.get(item.title)}</span>
                   </a>
                 ) : (
                   <Link to={item.page}>
                     {item.icon}
-                    <span style={{ marginLeft: '8px' }}>{item.title}</span>
+                    <span style={{ marginLeft: '8px' }}>{intl.get(item.title)}</span>
                   </Link>
                 )}
               </Menu.Item>

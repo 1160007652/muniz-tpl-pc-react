@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-29 11:56:39
+ * @ Modified time: 2020-07-01 16:30:07
  * @ Description: 多语言切换组件
  */
 
@@ -32,8 +32,8 @@ const SwitchNetwork = () => {
   }
   return (
     <Select value={networkType} style={{ width: '100%' }} onChange={handleChangeLanguage}>
-      <Select.Option value="online">Online</Select.Option>
-      <Select.Option value="testnet">Testnet</Select.Option>
+      <Select.Option value="online">{intl.get('network_online')}</Select.Option>
+      <Select.Option value="testnet">{intl.get('network_testnet')}</Select.Option>
     </Select>
   );
 };

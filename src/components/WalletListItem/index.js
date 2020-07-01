@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-25 10:46:18
+ * @ Modified time: 2020-07-01 14:59:39
  * @ Description: 钱包导航, Header组件
  */
 
@@ -82,7 +82,7 @@ WalletListItem.propTypes = {
 };
 
 WalletListItem.defaultProps = {
-  data: [{ keyStore: { name: 'Alice' }, publickey: '1234567==' }],
+  data: [{ keyStore: { name: 'Alice' }, publickey: '' }],
   isShowEdit: false,
   onClick: () => {},
   onChangeName: () => {},

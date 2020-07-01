@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MobXProviderContext, observer } from 'mobx-react';
-import { useHistory } from 'react-router-dom';
+import intl from 'react-intl-universal';
 
 import FindoraHeader from '_components/FindoraHeader';
 import WalletEmpty from '_containers/WalletEmpty';
@@ -11,7 +11,6 @@ import WalletInfoDetail from '_containers/WalletInfoDetail';
 import './index.less';
 
 const Home = () => {
-  const history = useHistory();
   const walletStore = React.useContext(MobXProviderContext).walletStore;
 
   let wallet = <WalletEmpty />;
@@ -24,7 +23,7 @@ const Home = () => {
 
   return (
     <div className="home">
-      <FindoraHeader title="Wallet" menu={<HeaderMenu />} />
+      <FindoraHeader title={intl.get('page_walet_title')} menu={<HeaderMenu />} />
       {wallet}
     </div>
   );

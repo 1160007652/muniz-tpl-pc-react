@@ -3,6 +3,7 @@ import { toJS } from 'mobx';
 import { MobXProviderContext, observer } from 'mobx-react';
 import { useHistory } from 'react-router-dom';
 import { Input, Select, Radio } from 'antd';
+import intl from 'react-intl-universal';
 import { useImmer } from 'use-immer';
 
 import FindoraHeader from '_components/FindoraHeader';
@@ -82,9 +83,9 @@ const Send = () => {
   }
   return (
     <div className="send">
-      <FindoraHeader title="Send" isShowBack menu={<HeaderMenu />} />
+      <FindoraHeader title={intl.get('page_send_title')} isShowBack menu={<HeaderMenu />} />
       <div className="send-box">
-        <FindoraBoxView title="From">
+        <FindoraBoxView title={intl.get('send_from')}>
           <SwitchAddress
             isShortAddress
             dataList={walletStore.walletImportList}
@@ -92,15 +93,15 @@ const Send = () => {
             onChange={handleChangeSwitchAddress}
           />
         </FindoraBoxView>
-        <FindoraBoxView title="To">
+        <FindoraBoxView title={intl.get('send_to')}>
           <Input placeholder="Please to address" value={data.to} className="address" onChange={handleChangeTo} />
         </FindoraBoxView>
-        <FindoraBoxView title="Asset Name">
+        <FindoraBoxView title={intl.get('send_asset_name')}>
           <SwitchAssetName onResult={handleChangeSelectAssetName} address={walletStore.walletInfo.publickey} />
         </FindoraBoxView>
-        <FindoraBoxView title="Value">
+        <FindoraBoxView title={intl.get('send_amount')}>
           <div className="send-balance">
-            <span>max amount:</span>
+            <span>{intl.get('send_amount_max')}</span>
             <Balance
               assetName={data.asset}
               onResult={handleChangeBalance}
@@ -110,19 +111,19 @@ const Send = () => {
             />
           </div>
           <Input
-            placeholder="Please to amount"
+            placeholder={intl.get('send_mount_placeholder')}
             type="number"
             value={data.asset.numbers}
             onChange={handleChangeAmount}
           />
         </FindoraBoxView>
-        <FindoraBoxView title="Blind Amount" isRow>
+        <FindoraBoxView title={intl.get('send_blind_amount')} isRow>
           <Radio.Group value={data.blind.isAmount} onChange={handleChangeRadio('isAmount')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
         </FindoraBoxView>
-        <FindoraBoxView title="Blind Type" isRow>
+        <FindoraBoxView title={intl.get('send_blind_type')} isRow>
           <Radio.Group value={data.blind.isType} disabled onChange={handleChangeRadio('isType')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>

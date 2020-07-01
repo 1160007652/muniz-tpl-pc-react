@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-30 12:13:51
+ * @ Modified time: 2020-07-01 16:28:19
  * @ Description: 资产列表组件, 用于选着资产, 并返回结果
  */
 

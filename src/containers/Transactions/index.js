@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MobXProviderContext, observer } from 'mobx-react';
 import { useHistory } from 'react-router-dom';
+import intl from 'react-intl-universal';
 
 import FindoraHeader from '_components/FindoraHeader';
 import HeaderMenu from '_containers/HeaderMenu';
@@ -45,7 +46,7 @@ const Transactions = () => {
   }
   return (
     <div className="transactions">
-      <FindoraHeader title="Transactions" isShowBack menu={<HeaderMenu />} />
+      <FindoraHeader title={intl.get('page_transactions_title')} isShowBack menu={<HeaderMenu />} />
       <ul className="transactions-box">
         {dataList &&
           dataList.map((item) => {
