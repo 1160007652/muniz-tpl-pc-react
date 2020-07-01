@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-29 18:31:03
+ * @ Modified time: 2020-06-30 15:51:36
  * @ Description: wallet info api , 钱包信息接口
  */
 
@@ -73,21 +73,6 @@ const assetServer = {
         message: status,
       };
     }
-
-    // const sid = await webNetWork.getOwnedSids(param.founder);
-
-    // console.log('sid: ', sid);
-
-    // const stateCommitment = await webNetWork.getStateCommitment();
-
-    // console.log('stateCommitment: ', stateCommitment);
-
-    // const txn = await webNetWork.getTxn(0);
-    // console.log('txn: ', txn);
-
-    // const isValid = findoraWasm.verify_authenticated_txn(JSON.stringify(stateCommitment[0]), JSON.stringify(txn));
-
-    // console.log(isValid);
   },
   /**
    * @description 发行|增发 资产, 向服务器发送
