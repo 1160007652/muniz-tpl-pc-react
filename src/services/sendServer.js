@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-30 18:19:16
+ * @ Modified time: 2020-07-01 17:54:11
  * @ Description: wallet info api , 钱包信息接口
  *
  */
@@ -26,7 +26,7 @@ const sendServer = {
 
     const findoraWasm = await import('wasm');
 
-    const { walletInfo, asset, blind, from, to } = param;
+    const { walletInfo, asset, blind, to } = param;
     // blind: { isAmount, isType} 是否隐藏
     // asset: { numbers: 100, unit: { short: "FIN", long: "xxxxxxxxxx=="}}
 
