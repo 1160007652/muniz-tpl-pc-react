@@ -106,6 +106,7 @@ const routeMap = [
 const Routes = () => {
   const localeStore = React.useContext(MobXProviderContext).localeStore;
   const currentLocale = localeStore.locale === 'en' ? enUS : zhCN;
+  console.log(localeStore.locale);
   return (
     <HashRouter>
       <ConfigProvider locale={currentLocale}>

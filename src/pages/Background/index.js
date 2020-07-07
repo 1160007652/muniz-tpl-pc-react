@@ -2,11 +2,17 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-10 09:55:58
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-29 11:49:42
+ * @ Modified time: 2020-07-07 11:00:51
  * @ Description: background.js Chrome 启动时, 扩展插件 常驻后台文件
  */
 
 import pageURL from '_constants/pageURL';
+// import '_src/utils/LocalForage';
+// import { balanceDB } from '_src/IndexedDB';
+
+// balanceDB.catch(function (e) {
+//   console.error('Open failed: ' + e);
+// });
 
 // import services from '_src/services';
 

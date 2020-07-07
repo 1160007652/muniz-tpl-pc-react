@@ -18,6 +18,7 @@ export function transactionbuilder_add_basic_issue_asset_without_tracking(a: num
 export function transactionbuilder_add_operation_air_assign(a: number, b: number, c: number, d: number, e: number, f: number): number;
 export function transactionbuilder_add_operation_kv_update_no_hash(a: number, b: number, c: number, d: number, e: number): number;
 export function transactionbuilder_add_operation_kv_update_with_hash(a: number, b: number, c: number, d: number, e: number, f: number): number;
+export function transactionbuilder_add_operation_update_memo(a: number, b: number, c: number, d: number, e: number, f: number): number;
 export function transactionbuilder_add_operation(a: number, b: number, c: number): number;
 export function transactionbuilder_sign(a: number, b: number): number;
 export function transactionbuilder_transaction(a: number, b: number): void;
@@ -120,7 +121,7 @@ export function xfrkeypair_get_pk(a: number): number;
 export function __wbindgen_malloc(a: number): number;
 export function __wbindgen_realloc(a: number, b: number, c: number): number;
 export const __wbindgen_export_2: WebAssembly.Table;
-export function _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hb0fd09c27f3d2262(a: number, b: number, c: number): void;
+export function _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hf4116c9a57653e97(a: number, b: number, c: number): void;
 export function __wbindgen_free(a: number, b: number): void;
 export function __wbindgen_exn_store(a: number): void;
-export function wasm_bindgen__convert__closures__invoke2_mut__h98d4efcc16832b09(a: number, b: number, c: number, d: number): void;
+export function wasm_bindgen__convert__closures__invoke2_mut__h4830b8d004ea450b(a: number, b: number, c: number, d: number): void;

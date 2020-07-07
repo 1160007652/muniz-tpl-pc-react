@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-02 17:20:42
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-01 11:52:05
+ * @ Modified time: 2020-07-07 14:25:51
  * @ Description: NetWork 网络请求 切换环境 库
  */
 
@@ -97,6 +97,17 @@ class Network {
   }
 
   /**
+   * 如果成功，则返回与给定地址相关的UTXO SID列表。
+   *
+   * @param {string}地址-Base64编码的地址字符串。
+   * @throws 如果无法从服务器获取utxo列表，将抛出错误。
+   */
+  async getRelatedSids(address) {
+    const sids = await axios.get(`${this.getQueryRoute()}/get_related_txns/${address}`);
+    return sids.data;
+  }
+
+  /**
    * 如果成功,则返回给定地址拥有的utxos列表。
    *
    * @param {string} address - Base64编码的地址字符串。
@@ -105,6 +116,17 @@ class Network {
 
   async getOwnedSids(address) {
     const sids = await axios.get(`${this.getQueryRoute()}/get_owned_utxos/${address}`);
+    return sids.data;
+  }
+
+  /**
+   * 如果成功，则返回由给定地址创建的资产代码列表。
+   *
+   * @param {string}地址-Base64编码的地址字符串。
+   * @throws如果无法从服务器获取创建的资产，将抛出错误。
+   */
+  async getCreatedAssets(address) {
+    const sids = await axios.get(`${this.getQueryRoute()}/get_created_assets/${address}`);
     return sids.data;
   }
 

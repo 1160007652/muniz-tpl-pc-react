@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MobXProviderContext, observer } from 'mobx-react';
 import { useHistory } from 'react-router-dom';
 import intl from 'react-intl-universal';
+import { toJS } from 'mobx';
 
 import FindoraHeader from '_components/FindoraHeader';
 import HeaderMenu from '_containers/HeaderMenu';
 import TransactionsItem from '_components/TransactionsItem';
+import pageURL from '_constants/pageURL';
+import services from '_src/services';
 
 import './index.less';
-import pageURL from '_constants/pageURL';
 
 const dataList = [
   {
@@ -39,11 +41,19 @@ const Transactions = () => {
   const history = useHistory();
   const walletStore = React.useContext(MobXProviderContext).walletStore;
 
+  useEffect(() => {
+    const param = { walletInfo: toJS(walletStore.walletInfo) };
+    services.txnServer.getTxnList(param).then((value) => {
+      console.log(value);
+    });
+  }, []);
+
   function handleClickItemInfo(item) {
     return () => {
       history.push({ pathname: pageURL.transactionsDetail, state: item });
     };
   }
+
   return (
     <div className="transactions">
       <FindoraHeader title={intl.get('page_transactions_title')} isShowBack menu={<HeaderMenu />} />

@@ -669,6 +669,14 @@ export class TransactionBuilder {
 */
   add_operation_kv_update_with_hash(auth_key_pair: XfrKeyPair, key: Key, seq_num: BigInt, kv_hash: KVHash): TransactionBuilder;
 /**
+* Adds an `UpdateMemo` operation to a WasmTransactionBuilder with the given memo
+* @param {XfrKeyPair} auth_key_pair 
+* @param {string} code 
+* @param {string} new_memo 
+* @returns {TransactionBuilder} 
+*/
+  add_operation_update_memo(auth_key_pair: XfrKeyPair, code: string, new_memo: string): TransactionBuilder;
+/**
 * Adds a serialized operation to a WasmTransactionBuilder instance
 * @param {string} op -  a JSON-serialized operation (i.e. a transfer operation).
 * @see {@link WasmTransferOperationBuilder} for details on constructing a transfer operation.

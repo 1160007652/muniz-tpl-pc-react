@@ -20,9 +20,7 @@ function takeObject(idx) {
     return ret;
 }
 
-const lTextDecoder = typeof TextDecoder === 'undefined' ? require('util').TextDecoder : TextDecoder;
-
-let cachedTextDecoder = new lTextDecoder('utf-8', { ignoreBOM: true, fatal: true });
+let cachedTextDecoder = new TextDecoder('utf-8', { ignoreBOM: true, fatal: true });
 
 cachedTextDecoder.decode();
 
@@ -49,9 +47,7 @@ function addHeapObject(obj) {
 
 let WASM_VECTOR_LEN = 0;
 
-const lTextEncoder = typeof TextEncoder === 'undefined' ? require('util').TextEncoder : TextEncoder;
-
-let cachedTextEncoder = new lTextEncoder('utf-8');
+let cachedTextEncoder = new TextEncoder('utf-8');
 
 const encodeString = (typeof cachedTextEncoder.encodeInto === 'function'
     ? function (arg, view) {
@@ -132,7 +128,7 @@ function makeMutClosure(arg0, arg1, dtor, f) {
     return real;
 }
 function __wbg_adapter_20(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hb0fd09c27f3d2262(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hf4116c9a57653e97(arg0, arg1, addHeapObject(arg2));
 }
 
 /**
@@ -786,8 +782,8 @@ export function get_txo(path, sid) {
                 function handleError(e) {
                     wasm.__wbindgen_exn_store(addHeapObject(e));
                 }
-                function __wbg_adapter_127(arg0, arg1, arg2, arg3) {
-                    wasm.wasm_bindgen__convert__closures__invoke2_mut__h98d4efcc16832b09(arg0, arg1, addHeapObject(arg2), addHeapObject(arg3));
+                function __wbg_adapter_128(arg0, arg1, arg2, arg3) {
+                    wasm.wasm_bindgen__convert__closures__invoke2_mut__h4830b8d004ea450b(arg0, arg1, addHeapObject(arg2), addHeapObject(arg3));
                 }
 
                 function getArrayU8FromWasm0(ptr, len) {
@@ -1712,6 +1708,24 @@ export function get_txo(path, sid) {
                                 return TransactionBuilder.__wrap(ret);
                             }
                             /**
+                            * Adds an `UpdateMemo` operation to a WasmTransactionBuilder with the given memo
+                            * @param {XfrKeyPair} auth_key_pair
+                            * @param {string} code
+                            * @param {string} new_memo
+                            * @returns {TransactionBuilder}
+                            */
+                            add_operation_update_memo(auth_key_pair, code, new_memo) {
+                                var ptr = this.ptr;
+                                this.ptr = 0;
+                                _assertClass(auth_key_pair, XfrKeyPair);
+                                var ptr0 = passStringToWasm0(code, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+                                var len0 = WASM_VECTOR_LEN;
+                                var ptr1 = passStringToWasm0(new_memo, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+                                var len1 = WASM_VECTOR_LEN;
+                                var ret = wasm.transactionbuilder_add_operation_update_memo(ptr, auth_key_pair.ptr, ptr0, len0, ptr1, len1);
+                                return TransactionBuilder.__wrap(ret);
+                            }
+                            /**
                             * Adds a serialized operation to a WasmTransactionBuilder instance
                             * @param {string} op -  a JSON-serialized operation (i.e. a transfer operation).
                             * @see {@link WasmTransferOperationBuilder} for details on constructing a transfer operation.
@@ -2291,7 +2305,7 @@ export function get_txo(path, sid) {
                                     const a = state0.a;
                                     state0.a = 0;
                                     try {
-                                        return __wbg_adapter_127(a, state0.b, arg0, arg1);
+                                        return __wbg_adapter_128(a, state0.b, arg0, arg1);
                                     } finally {
                                         state0.a = a;
                                     }
@@ -2408,8 +2422,8 @@ export function get_txo(path, sid) {
                             throw takeObject(arg0);
                         };
 
-                        export const __wbindgen_closure_wrapper1200 = function(arg0, arg1, arg2) {
-                            var ret = makeMutClosure(arg0, arg1, 176, __wbg_adapter_20);
+                        export const __wbindgen_closure_wrapper1213 = function(arg0, arg1, arg2) {
+                            var ret = makeMutClosure(arg0, arg1, 175, __wbg_adapter_20);
                             return addHeapObject(ret);
                         };
 

@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-01 16:38:49
+ * @ Modified time: 2020-07-07 11:11:32
  * @ Description: 空钱包组件, 展示创建钱包、恢复钱包 按钮
  */
 
@@ -18,7 +18,7 @@ import './index.less';
 const WalletEmpty = () => {
   return (
     <div className="findora-wallet-empty">
-      <div className="tips">{intl.get('tips_wallet_emptys')}</div>
+      <div className="tips">{intl.get('tips_wallet_empty')}</div>
       <div className="button-area">
         <Link to={pageURL.createwallet} className="button-create-wallet">
           <FindoraButton>{intl.get('page_wallet_create_title')}</FindoraButton>

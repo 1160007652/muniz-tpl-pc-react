@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-01 16:28:19
+ * @ Modified time: 2020-07-07 11:57:07
  * @ Description: 资产列表组件, 用于选着资产, 并返回结果
  */
 
@@ -19,6 +19,7 @@ const SwitchAssetName = ({ onResult, address }) => {
   const [isSelect, setSelect] = useState('default');
 
   const [assetList, setAssetList] = useImmer([
+    { short: 'LKO', long: '7VS55QYSXVyrKY9xzdtaAg==' },
     { short: 'Muniz', long: '4bmu7QZ5CGYWsTJKKFVwNw==' },
     { short: 'LLO', long: 'tfXxLbGGMCv-X58eQymv-w==' },
   ]);

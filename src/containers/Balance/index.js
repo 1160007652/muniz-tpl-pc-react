@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-01 12:31:06
+ * @ Modified time: 2020-07-07 11:57:50
  * @ Description: 资产列表组件, 用于选着资产, 并返回结果
  */
 
@@ -25,9 +25,9 @@ const Balance = ({ onResult, assetName, style, walletInfo }) => {
       walletInfo,
     };
 
-    services.walletServer.getBlance(param).then((value) => {
-      console.log(value);
-    });
+    // services.walletServer.getBlance(param).then((value) => {
+    //   console.log(value);
+    // });
 
     onResult(asset);
 

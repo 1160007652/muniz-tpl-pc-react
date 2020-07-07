@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-10 09:55:59
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-29 11:52:58
+ * @ Modified time: 2020-07-07 11:16:34
  * @ Description: popup.html chrome 扩展插件, 弹出框的页面展示入口
  */
 
@@ -17,6 +17,8 @@ import '_src/services/webNetWork'; // 初始化网络请求库, 涉及到监听�
 import '_src/less/index.less';
 
 import './index.less';
+
+// rootStore.localeStore.changeLocale('en');
 
 ReactDOM.render(
   <Provider {...rootStore}>

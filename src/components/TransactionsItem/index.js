@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-25 09:45:55
+ * @ Modified time: 2020-07-07 14:42:01
  * @ Description: 钱包导航, Header组件
  */
 
@@ -47,7 +47,7 @@ TransactionsItem.propTypes = {
   /** 点击事件 */
   data: PropTypes.object,
   /** 是否横行展示 */
-  onClick: PropTypes.fun,
+  onClick: PropTypes.func,
 };
 
 TransactionsItem.defaultProps = {

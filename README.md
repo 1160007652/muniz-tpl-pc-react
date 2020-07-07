@@ -29,3 +29,7 @@ react、react-router、mobx、webpack、less
 2、production environment
 
 > yarn build
+
+## 改版
+
+1、重新改版 创建钱包、管理钱包的方式
