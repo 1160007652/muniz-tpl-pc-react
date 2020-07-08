@@ -20,7 +20,9 @@ function takeObject(idx) {
     return ret;
 }
 
-let cachedTextDecoder = new TextDecoder('utf-8', { ignoreBOM: true, fatal: true });
+const lTextDecoder = typeof TextDecoder === 'undefined' ? require('util').TextDecoder : TextDecoder;
+
+let cachedTextDecoder = new lTextDecoder('utf-8', { ignoreBOM: true, fatal: true });
 
 cachedTextDecoder.decode();
 
@@ -47,7 +49,9 @@ function addHeapObject(obj) {
 
 let WASM_VECTOR_LEN = 0;
 
-let cachedTextEncoder = new TextEncoder('utf-8');
+const lTextEncoder = typeof TextEncoder === 'undefined' ? require('util').TextEncoder : TextEncoder;
+
+let cachedTextEncoder = new lTextEncoder('utf-8');
 
 const encodeString = (typeof cachedTextEncoder.encodeInto === 'function'
     ? function (arg, view) {
@@ -128,7 +132,7 @@ function makeMutClosure(arg0, arg1, dtor, f) {
     return real;
 }
 function __wbg_adapter_20(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hf4116c9a57653e97(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hb0fd09c27f3d2262(arg0, arg1, addHeapObject(arg2));
 }
 
 /**
@@ -317,16 +321,22 @@ function isLikeNone(x) {
     return x === undefined || x === null;
 }
 /**
-* Returns a JsValue containing decrypted owner record information.
-* @param {ClientAssetRecord} record - Ownership record.
-* @param {OwnerMemo} owner_memo - Opening parameters.
-* @param {XfrKeyPair} key - Key of asset owner that is used to open the record.
+* Returns a JsValue containing decrypted owner record information,
+* where `amount` is the decrypted asset amount, and `asset_type` is the decrypted asset type code.
+*
+* @param {ClientAssetRecord} record - Owner record.
+* @see {@link ClientAssetRecord#from_json_record} for information about fetching the asset record.
+*
+* @param {OwnerMemo} owner_memo - Owner memo of the associated record.
+* TODO (Redmine issue #126): Unable to get owner memo.
+*
+* @param {XfrKeyPair} keypair - Keypair of asset owner.
 * @param {ClientAssetRecord} record
 * @param {OwnerMemo | undefined} owner_memo
-* @param {XfrKeyPair} key
+* @param {XfrKeyPair} keypair
 * @returns {any}
 */
-export function open_client_asset_record(record, owner_memo, key) {
+export function open_client_asset_record(record, owner_memo, keypair) {
     _assertClass(record, ClientAssetRecord);
     let ptr0 = 0;
     if (!isLikeNone(owner_memo)) {
@@ -334,8 +344,8 @@ export function open_client_asset_record(record, owner_memo, key) {
         ptr0 = owner_memo.ptr;
         owner_memo.ptr = 0;
     }
-    _assertClass(key, XfrKeyPair);
-    var ret = wasm.open_client_asset_record(record.ptr, ptr0, key.ptr);
+    _assertClass(keypair, XfrKeyPair);
+    var ret = wasm.open_client_asset_record(record.ptr, ptr0, keypair.ptr);
     return takeObject(ret);
 }
 
@@ -379,6 +389,21 @@ export function get_priv_key_str(key_pair) {
 */
 export function new_keypair() {
     var ret = wasm.new_keypair();
+    return XfrKeyPair.__wrap(ret);
+}
+
+/**
+* Generates a new keypair deterministically from a seed string and an optional name.
+* @param {string} seed_str
+* @param {string | undefined} name
+* @returns {XfrKeyPair}
+*/
+export function new_keypair_from_seed(seed_str, name) {
+    var ptr0 = passStringToWasm0(seed_str, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    var len0 = WASM_VECTOR_LEN;
+    var ptr1 = isLikeNone(name) ? 0 : passStringToWasm0(name, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    var len1 = WASM_VECTOR_LEN;
+    var ret = wasm.new_keypair_from_seed(ptr0, len0, ptr1, len1);
     return XfrKeyPair.__wrap(ret);
 }
 
@@ -782,8 +807,8 @@ export function get_txo(path, sid) {
                 function handleError(e) {
                     wasm.__wbindgen_exn_store(addHeapObject(e));
                 }
-                function __wbg_adapter_128(arg0, arg1, arg2, arg3) {
-                    wasm.wasm_bindgen__convert__closures__invoke2_mut__h4830b8d004ea450b(arg0, arg1, addHeapObject(arg2), addHeapObject(arg3));
+                function __wbg_adapter_129(arg0, arg1, arg2, arg3) {
+                    wasm.wasm_bindgen__convert__closures__invoke2_mut__h98d4efcc16832b09(arg0, arg1, addHeapObject(arg2), addHeapObject(arg3));
                 }
 
                 function getArrayU8FromWasm0(ptr, len) {
@@ -990,7 +1015,8 @@ export function get_txo(path, sid) {
                     }
                     /**
                     * Builds a client record from an asset record fetched from the ledger server.
-                    * @param {record} - JSON asset record fetched from server.
+                    * @param {record} - JSON asset record fetched from ledger server with the `utxo_sid/{sid}` route,
+                    * where `sid` can be fetched from the query server with the `get_owned_utxos/{address}` route.
                     * @param {any} record
                     * @returns {ClientAssetRecord}
                     */
@@ -2305,7 +2331,7 @@ export function get_txo(path, sid) {
                                     const a = state0.a;
                                     state0.a = 0;
                                     try {
-                                        return __wbg_adapter_128(a, state0.b, arg0, arg1);
+                                        return __wbg_adapter_129(a, state0.b, arg0, arg1);
                                     } finally {
                                         state0.a = a;
                                     }
@@ -2422,7 +2448,7 @@ export function get_txo(path, sid) {
                             throw takeObject(arg0);
                         };
 
-                        export const __wbindgen_closure_wrapper1213 = function(arg0, arg1, arg2) {
+                        export const __wbindgen_closure_wrapper1220 = function(arg0, arg1, arg2) {
                             var ret = makeMutClosure(arg0, arg1, 175, __wbg_adapter_20);
                             return addHeapObject(ret);
                         };

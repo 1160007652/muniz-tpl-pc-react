@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-01 17:54:11
+ * @ Modified time: 2020-07-08 16:50:55
  * @ Description: wallet info api , 钱包信息接口
  *
  */
@@ -26,7 +26,7 @@ const sendServer = {
 
     const findoraWasm = await import('wasm');
 
-    const { walletInfo, asset, blind, to } = param;
+    const { walletInfo, asset, blind, to, from } = param;
     // blind: { isAmount, isType} 是否隐藏
     // asset: { numbers: 100, unit: { short: "FIN", long: "xxxxxxxxxx=="}}
 
@@ -45,7 +45,27 @@ const sendServer = {
     */
 
     const assetRecord = []; // issueTxn.get_owner_record(0);
-    const ownerMemo = []; // issueTxn.get_owner_memo(0);
+
+    const ownerMemo = 'test memo asset'; // issueTxn.get_owner_memo(0);
+
+    let relatedSids = await webNetWork.getRelatedSids(from);
+    relatedSids = relatedSids.sort((a, b) => a - b);
+
+    let utxoData = await webNetWork.getUtxo(relatedSids[relatedSids.length - 1]);
+    console.log('utxoData', utxoData);
+
+    // 提取 record , 获取资产的数量
+    const clientRecord = findoraWasm.ClientAssetRecord.from_json_record(utxoData);
+    // const jiemiData = findoraWasm.open_client_asset_record(clientRecord, ownerMemo, keypair);
+
+    console.log('clientRecord: ', clientRecord);
+    // console.log('jiemiData: ', jiemiData);
+
+    /*
+      还缺少,获取 ownerMeo 的功能
+    */
+
+    return;
 
     // 转账数量
     const amount = asset.numbers;

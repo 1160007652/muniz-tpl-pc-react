@@ -2,12 +2,13 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-07 14:50:16
+ * @ Modified time: 2020-07-08 10:44:55
  * @ Description: wallet info api , 交易记录接口
  *
  */
 
 import webNetWork from './webNetWork';
+import { balanceDB, assetDB } from '_src/IndexedDB';
 
 /**
  * @category Services

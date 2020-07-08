@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toJS } from 'mobx';
 import { MobXProviderContext, observer } from 'mobx-react';
 import { Input, Select, Radio } from 'antd';
@@ -14,9 +14,11 @@ import SwitchAssetName from '_containers/SwitchAssetName';
 import pageURL from '_constants/pageURL';
 
 import './index.less';
+import services from '_src/services';
 
 const IssueAsset = () => {
   const walletStore = React.useContext(MobXProviderContext).walletStore;
+  const [tokenRules, setTokenRules] = useState();
   const [data, setData] = useImmer({
     issuer: walletStore.walletInfo.publickey,
     walletInfo: toJS(walletStore.walletInfo),
@@ -27,12 +29,25 @@ const IssueAsset = () => {
       },
       numbers: 100,
     },
-    to: 'SZp3EnyxjX-YJ1tWvILkZZ_00zqgS-uIr0ZoxwnmqTc=',
+    to: 'jh7bks2Yee-UUsO0IBCmI74ewBctl14kCnucFUqT8R4=',
     blind: {
       isAmount: false,
       isType: false,
     },
   });
+
+  useEffect(() => {
+    async function assetTokenRules() {
+      const tokenRulesData = await services.assetServer.getAssetRules(data.asset.unit.long);
+      // 如果 数量大于 0, 说明生成的资产有 max_units 限制, 那么在这里不可以隐藏数量
+      setTokenRules(tokenRulesData);
+      console.log('资产规则: ', tokenRulesData.properties.code);
+    }
+    if (data.asset.unit.long !== '') {
+      assetTokenRules();
+    }
+  }, [data.asset.unit.long]);
+
   /**
    * 创建资产, 唤醒插件, 校验信息
    */
@@ -92,7 +107,7 @@ const IssueAsset = () => {
           />
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('asset_name')} isRow titleDirection="top">
-          <SwitchAssetName onResult={handleChangeAssetName} address={walletStore.walletInfo.publickey} />
+          <SwitchAssetName onResult={handleChangeAssetName} isIssued address={walletStore.walletInfo.publickey} />
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('to')} isRow>
           <Input placeholder="Please to address" value={data.to} onChange={handleChangeTo} />
@@ -106,7 +121,11 @@ const IssueAsset = () => {
           />
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('blind_amount')} isRow>
-          <Radio.Group value={data.blind.isAmount} onChange={handleChangeRadio('isAmount')}>
+          <Radio.Group
+            value={data.blind.isAmount}
+            disabled={tokenRules?.units > 0}
+            onChange={handleChangeRadio('isAmount')}
+          >
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>

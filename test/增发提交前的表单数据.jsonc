@@ -1,0 +1,27 @@
+{
+  "body": {
+    "operations": [
+      {
+        "IssueAsset": {
+          "body": {
+            "code": "qgS8BVRRDIi6hrasE0pg7Q==",
+            "seq_num": 85,
+            "num_outputs": 1,
+            "records": [
+              {
+                "amount": { "NonConfidential": 1000 },
+                "asset_type": {
+                  "NonConfidential": [170, 4, 188, 5, 84, 81, 12, 136, 186, 134, 182, 172, 19, 74, 96, 237]
+                },
+                "public_key": "a1YtM_SttzL50DjGEsFIAjCflYVuWjQAWhwOwlrfH1o="
+              }
+            ]
+          },
+          "pubkey": { "key": "a1YtM_SttzL50DjGEsFIAjCflYVuWjQAWhwOwlrfH1o=" },
+          "signature": "ZjWn-w6b--yO6G4C5W_sxNIiuuU5NopCV6mNUWIkfxACr0GoEBgI6jOceWatC7jwg8EoQAnZ7IGmoVXNtDBuBg=="
+        }
+      }
+    ]
+  },
+  "seq_id": 84
+}

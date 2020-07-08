@@ -81,16 +81,22 @@ export function create_debt_policy_info(ir_numerator: BigInt, ir_denominator: Bi
 */
 export function create_debt_memo(ir_numerator: BigInt, ir_denominator: BigInt, fiat_code: string, loan_amount: BigInt): string;
 /**
-* Returns a JsValue containing decrypted owner record information.
-* @param {ClientAssetRecord} record - Ownership record.
-* @param {OwnerMemo} owner_memo - Opening parameters.
-* @param {XfrKeyPair} key - Key of asset owner that is used to open the record.
+* Returns a JsValue containing decrypted owner record information,
+* where `amount` is the decrypted asset amount, and `asset_type` is the decrypted asset type code.
+*
+* @param {ClientAssetRecord} record - Owner record.
+* @see {@link ClientAssetRecord#from_json_record} for information about fetching the asset record.
+*
+* @param {OwnerMemo} owner_memo - Owner memo of the associated record.
+* TODO (Redmine issue #126): Unable to get owner memo.
+*
+* @param {XfrKeyPair} keypair - Keypair of asset owner.
 * @param {ClientAssetRecord} record 
 * @param {OwnerMemo | undefined} owner_memo 
-* @param {XfrKeyPair} key 
+* @param {XfrKeyPair} keypair 
 * @returns {any} 
 */
-export function open_client_asset_record(record: ClientAssetRecord, owner_memo: OwnerMemo | undefined, key: XfrKeyPair): any;
+export function open_client_asset_record(record: ClientAssetRecord, owner_memo: OwnerMemo | undefined, keypair: XfrKeyPair): any;
 /**
 * Extracts the public key as a string from a transfer key pair.
 * @param {XfrKeyPair} key_pair 
@@ -108,6 +114,13 @@ export function get_priv_key_str(key_pair: XfrKeyPair): string;
 * @returns {XfrKeyPair} 
 */
 export function new_keypair(): XfrKeyPair;
+/**
+* Generates a new keypair deterministically from a seed string and an optional name.
+* @param {string} seed_str 
+* @param {string | undefined} name 
+* @returns {XfrKeyPair} 
+*/
+export function new_keypair_from_seed(seed_str: string, name?: string): XfrKeyPair;
 /**
 * Returns base64 encoded representation of an XfrPublicKey.
 * @param {XfrPublicKey} key 
@@ -419,7 +432,8 @@ export class ClientAssetRecord {
   free(): void;
 /**
 * Builds a client record from an asset record fetched from the ledger server.
-* @param {record} - JSON asset record fetched from server.
+* @param {record} - JSON asset record fetched from ledger server with the `utxo_sid/{sid}` route,
+* where `sid` can be fetched from the query server with the `get_owned_utxos/{address}` route.
 * @param {any} record 
 * @returns {ClientAssetRecord} 
 */

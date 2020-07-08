@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-02 17:20:42
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-07 14:25:51
+ * @ Modified time: 2020-07-08 15:12:45
  * @ Description: NetWork 网络请求 切换环境 库
  */
 
@@ -98,6 +98,7 @@ class Network {
 
   /**
    * 如果成功，则返回与给定地址相关的UTXO SID列表。
+   * 我是资产的增发者、资产的输入输出者、资产-附加信息的 如 memo 更新, 多签
    *
    * @param {string}地址-Base64编码的地址字符串。
    * @throws 如果无法从服务器获取utxo列表，将抛出错误。
@@ -140,6 +141,17 @@ class Network {
     const records = await axios.get(`${this.getQueryRoute()}/get_issued_records/${address}`);
     return records.data;
   }
+  /**
+   * 如果成功，则返回由给定资产地址的规则
+   *
+   * @param {string} address - Base64编码的地址字符串。
+   * @throws  如果无法从服务器获取已发布的记录列表，将抛出错误。
+   */
+  async getAssetToken(tokenCode) {
+    const utxo = await axios.get(`${this.getLedgerRoute()}/asset_token/${tokenCode}`);
+    return utxo.data;
+  }
+
 }
 
 export default Network;

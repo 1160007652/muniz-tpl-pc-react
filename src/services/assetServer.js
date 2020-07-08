@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-07 14:27:31
+ * @ Modified time: 2020-07-08 16:56:08
  * @ Description: wallet info api , 钱包信息接口
  */
 
@@ -20,6 +20,15 @@ const assetServer = {
   async getAssetNameLong() {
     const findoraWasm = await import('wasm');
     const result = findoraWasm.random_asset_type();
+    return result;
+  },
+  /**
+   * @description 系统生成资产地址-长名称
+   * @returns {string}
+   */
+  async getAssetRules(tokenCode) {
+    // const findoraWasm = await import('wasm');
+    const result = await webNetWork.getAssetToken(tokenCode);
     return result;
   },
   /**
@@ -117,7 +126,7 @@ const assetServer = {
         blind.isAmount,
       )
       .transaction();
-
+    console.log('提交前的表单数据: ', issueTxn);
     const handle = await webNetWork.submitTransaction(issueTxn);
     console.log('发行资产返回: ', handle);
 
@@ -139,9 +148,9 @@ const assetServer = {
   /** 获取服务端 定义的资产 */
   async getAssetNameServer(param) {
     const { address } = param;
-    console.log(param);
+    console.log('服务端资产,表单数据: ', param);
     const sid = await webNetWork.getCreatedAssets(address);
-    console.log(sid);
+    console.log('返回的sids 数据: ', sid);
     return sid;
   },
 };

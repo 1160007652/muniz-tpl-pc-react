@@ -2,11 +2,13 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-07 11:57:07
+ * @ Modified time: 2020-07-08 18:58:42
  * @ Description: 资产列表组件, 用于选着资产, 并返回结果
  */
 
 import React, { useState, useEffect } from 'react';
+import { toJS } from 'mobx';
+import { MobXProviderContext, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { Select } from 'antd';
 import { useImmer } from 'use-immer';
@@ -15,27 +17,25 @@ import services from '_src/services';
 
 import './index.less';
 
-const SwitchAssetName = ({ onResult, address }) => {
-  const [isSelect, setSelect] = useState('default');
+const SwitchAssetName = ({ onResult, address, isIssued }) => {
+  const assetStore = React.useContext(MobXProviderContext).assetStore;
 
-  const [assetList, setAssetList] = useImmer([
-    { short: 'LKO', long: '7VS55QYSXVyrKY9xzdtaAg==' },
-    { short: 'Muniz', long: '4bmu7QZ5CGYWsTJKKFVwNw==' },
-    { short: 'LLO', long: 'tfXxLbGGMCv-X58eQymv-w==' },
-  ]);
+  const assetList = isIssued ? toJS(assetStore.issueAssetList) : toJS(assetStore.createdAssetList);
 
   const [assetNameLong, setAssetNameLong] = useState(assetList[0].long);
 
   useEffect(() => {
     /** 从服务端获取 已创建的资产 */
-    services.assetServer.getAssetNameServer({ address }).then((value) => {
-      console.log(value);
-    });
+    // services.assetServer.getAssetNameServer({ address }).then((value) => {});
 
     /** 触发onResult事件 */
     const result = assetList.filter((item) => item.long === assetNameLong);
     onResult(result.length > 0 ? result[0] : {});
   }, []);
+
+  useEffect(() => {
+    assetStore.getCreatedAssetList(address);
+  }, [address]);
 
   /** 显示资产页面,切换资产事件 */
   function handleSelectAssetName(value) {
@@ -70,11 +70,14 @@ SwitchAssetName.propTypes = {
   onResult: PropTypes.func,
   /** 当前钱包地址 */
   address: PropTypes.string,
+  /** 是否待增发 */
+  isIssued: PropTypes.bool,
 };
 
 SwitchAssetName.defaultProps = {
   onResult: () => {},
   address: '',
+  isIssued: false,
 };
 
-export default SwitchAssetName;
+export default observer(SwitchAssetName);

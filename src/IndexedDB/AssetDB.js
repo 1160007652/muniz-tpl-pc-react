@@ -1,8 +1,8 @@
 import Dexie from 'dexie';
 
-class BlanceDB {
+class AssetDB {
   constructor() {
-    this.db = new Dexie('BlanceDB');
+    this.db = new Dexie('AssetDB');
     this.init();
   }
   init() {
@@ -53,4 +53,4 @@ class BlanceDB {
   }
 }
 
-export default new BlanceDB();
+export default new AssetDB();

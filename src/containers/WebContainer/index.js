@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import Routes from './routes';
@@ -9,10 +9,13 @@ import Dom from '_src/utils/dom';
 
 import './index.less';
 
-Dom.changeRootSize();
-
 const WebContainer = () => {
   const history = useHistory();
+
+  // 当dom 更新完后, 再执行的 hook
+  useLayoutEffect(() => {
+    Dom.changeRootSize();
+  });
 
   return (
     <div className="web-container">
