@@ -2,8 +2,12 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-09 17:50:19
+ * @ Modified time: 2020-07-09 18:29:40
  * @ Description: 多语言状态Mobx 模块
+ *
+ * asset -> balance
+ * transactions
+ *
  */
 
 import { action, observable, when } from 'mobx';
@@ -43,7 +47,10 @@ class AssetStore {
   /** 修改 issueAssets 数据 */
   @action setCreatedAssetList() {}
 
-  @action getCreatedAssetList = async (address) => {
+  /**
+   * 获取创建的资产
+   */
+  @action getAssetList = async (address) => {
     const tokenCodes = await webNetWork.getCreatedAssets(address);
 
     await calculateTxn({ address });
@@ -55,6 +62,13 @@ class AssetStore {
     // tokenCodeInfoList = await Promise.all(tokenCodeInfoList);
 
     console.log(`${address} 拥有的:`, tokenCodes);
+  };
+
+  /**
+   * 获取资产对应的 余额
+   */
+  @action getAssetBalance = async ({ address, tokenCode }) => {
+    // await calculateTxn({ address });
   };
 
   /**
