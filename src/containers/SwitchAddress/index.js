@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-01 16:27:52
+ * @ Modified time: 2020-07-09 16:24:49
  * @ Description: 多语言切换组件
  */
 
@@ -14,7 +14,7 @@ import intl from 'react-intl-universal';
 import './index.less';
 
 const SwitchAddress = ({ dataList, curAddress, onChange }) => {
-  const [address, setAddress] = useState(dataList[0].publickey);
+  const [address, setAddress] = useState(curAddress);
 
   /** 选择地址事件 */
   function handleSelectAddress(value) {

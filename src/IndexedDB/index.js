@@ -1,7 +1,1 @@
-import balanceDB from './BalanceDB';
-import assetDB from './AssetDB';
-
-export default {
-  balanceDB,
-  assetDB,
-};
+export { default as findoraDB } from './FindoraDB';
