@@ -12,9 +12,9 @@ import SwitchAddress from '_containers/SwitchAddress';
 import SwitchAssetName from '_containers/SwitchAssetName';
 
 import pageURL from '_constants/pageURL';
+import webNetWork from '_src/services/webNetWork';
 
 import './index.less';
-import services from '_src/services';
 
 const IssueAsset = () => {
   const walletStore = React.useContext(MobXProviderContext).walletStore;
@@ -38,10 +38,10 @@ const IssueAsset = () => {
 
   useEffect(() => {
     async function assetTokenRules() {
-      const tokenRulesData = await services.assetServer.getAssetRules(data.asset.unit.long);
+      const tokenRulesData = await webNetWork.getAssetProperties(data.asset.unit.long);
       // 如果 数量大于 0, 说明生成的资产有 max_units 限制, 那么在这里不可以隐藏数量
       setTokenRules(tokenRulesData);
-      console.log('资产规则: ', tokenRulesData.properties.code);
+      console.log('资产规则: ', tokenRulesData);
     }
     if (data.asset.unit.long !== '') {
       assetTokenRules();
@@ -123,7 +123,7 @@ const IssueAsset = () => {
         <FindoraBoxView title={intl.get('blind_amount')} isRow>
           <Radio.Group
             value={data.blind.isAmount}
-            disabled={tokenRules?.units > 0}
+            disabled={tokenRules?.asset_rules?.max_units > 0}
             onChange={handleChangeRadio('isAmount')}
           >
             <Radio value={true}>Yes</Radio>

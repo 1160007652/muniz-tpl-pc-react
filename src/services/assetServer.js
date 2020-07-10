@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-10 13:54:57
+ * @ Modified time: 2020-07-10 16:45:18
  * @ Description: wallet info api , 钱包信息接口
  */
 
@@ -20,15 +20,6 @@ const assetServer = {
   async getAssetNameLong() {
     const findoraWasm = await import('wasm');
     const result = findoraWasm.random_asset_type();
-    return result;
-  },
-  /**
-   * @description 系统生成资产地址-长名称
-   * @returns {string}
-   */
-  async getAssetRules(tokenCode) {
-    // const findoraWasm = await import('wasm');
-    const result = await webNetWork.getAssetProperties(tokenCode);
     return result;
   },
   /**
@@ -53,16 +44,24 @@ const assetServer = {
 
     const blockCount = BigInt((await webNetWork.getStateCommitment())[1]);
 
-    const assetRules = findoraWasm.AssetRules.new()
-      .set_max_units(BigInt(asset.maxNumbers))
-      .set_transferable(transferable)
-      .set_updatable(updatable);
+    const assetRules = findoraWasm.AssetRules.new().set_transferable(transferable).set_updatable(updatable);
+
+    let definitionTransaction = {};
+
+    if (asset.maxNumbers && asset.maxNumbers > 0) {
+      console.log('设置max金额');
+      assetRules.set_max_units(BigInt(asset.maxNumbers));
+    }
+    console.log('不设置max金额', asset.maxNumbers);
 
     if (traceable) {
       assetRules.add_tracing_policy(tracingPolicy);
+      // definitionTransaction = findoraWasm.TransactionBuilder.new(blockCount)
+      //   .add_operation_create_asset_with_policy(keypair, memo, tokenCode, tracingPolicy, assetRules)
+      //   .transaction();
     }
 
-    const definitionTransaction = findoraWasm.TransactionBuilder.new(blockCount)
+    definitionTransaction = findoraWasm.TransactionBuilder.new(blockCount)
       .add_operation_create_asset(keypair, memo, tokenCode, assetRules)
       .transaction();
 

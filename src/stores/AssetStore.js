@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-10 13:37:54
+ * @ Modified time: 2020-07-10 16:30:29
  * @ Description: 多语言状态Mobx 模块
  *
  * asset -> balance
@@ -29,16 +29,16 @@ class AssetStore {
     { short: 'Bala', long: '0AXORP57YPuDmi6dzBSWEg==' },
     { short: 'Baxi', long: 'yzS1qT2q30LZHxP70I0mbQ==' },
     {
-      short: 'two',
-      long: '8XbNsa7uMpimYlcXExxuIA==',
+      short: 'ASD',
+      long: 'kP8jps5JQ8bIfO_LbzKQAA==',
     },
   ];
   /** issueAssets 待增发的数据 */
   @observable issueAssetList = [
     { short: 'Have', long: 'u_NY95tL-tEqAb0ffK7tvw==' },
     {
-      short: 'two2',
-      long: '8XbNsa7uMpimYlcXExxuIA==',
+      short: 'ASD',
+      long: 'kP8jps5JQ8bIfO_LbzKQAA==',
     },
   ];
 

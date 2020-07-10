@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-10 15:21:22
+ * @ Modified time: 2020-07-10 15:37:57
  * @ Description: wallet info api , 钱包信息接口
  *
  */
@@ -37,6 +37,8 @@ const sendServer = {
 
     // 资产是否可以跟踪
     const isTraceable = assetData.properties.asset_rules.tracing_policies.length > 0;
+
+    console.log('跟踪数据: ', isTraceable, assetData.properties.asset_rules.tracing_policies);
 
     console.log('assetData: ', assetData);
 
@@ -97,6 +99,7 @@ const sendServer = {
         .transaction();
     } else {
       console.log('转账 - 不可以跟踪');
+      console.log('转账 - 金额: ', BigInt(amount), amount);
       transferOp = findoraWasm.TransferOperationBuilder.new()
         .add_input_no_tracking(txoRef, assetRecord, ownerMemo, keypair, BigInt(amount))
         .add_output_no_tracking(BigInt(amount), toPublickey, tokenCode, isBlindAmount, isBlindType)
