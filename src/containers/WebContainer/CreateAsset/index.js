@@ -119,9 +119,7 @@ const CreateAsset = () => {
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('traceable')} isRow>
           <Radio.Group value={data.traceable} onChange={handleChangeRadio('traceable')}>
-            <Radio value={true} disabled>
-              Yes
-            </Radio>
+            <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
         </FindoraBoxView>

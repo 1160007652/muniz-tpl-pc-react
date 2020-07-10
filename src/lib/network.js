@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-02 17:20:42
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-08 15:12:45
+ * @ Modified time: 2020-07-10 15:00:52
  * @ Description: NetWork 网络请求 切换环境 库
  */
 
@@ -59,9 +59,31 @@ class Network {
    * @param {int} id - 交易索引。
    * @throws 如果无法从服务器获取事务，将抛出错误。
    */
-  async getTxn(id) {
-    const txn = await axios.get(`${this.getLedgerRoute()}/txn_sid/${id}`);
+  async getTxn(txnSid) {
+    const txn = await axios.get(`${this.getLedgerRoute()}/txn_sid/${txnSid}`);
     return txn.data;
+  }
+
+  /**
+   * 返回资产全量信息
+   *
+   * @param {int} code - 资产 token code.
+   * @throws 如果无法从服务器获取资产信息，将引发错误.
+   */
+  async getAsset(code) {
+    const asset = await axios.get(`${this.getLedgerRoute()}/asset_token/${code}`);
+    return asset.data;
+  }
+
+  /**
+   * 返回资产的 属性信息 包括： 代码，发行人，memo 和asset_rules。
+   *
+   * @param {int} code - 资产 token code.
+   * @throws 如果无法从服务器获取资产信息，将引发错误.
+   */
+  async getAssetProperties(code) {
+    const asset = await axios.get(`${this.getLedgerRoute()}/asset_token/${code}`);
+    return asset.data.properties;
   }
 
   /**
@@ -77,12 +99,11 @@ class Network {
   /**
    * 如果成功，则返回承诺，最终将提供JSON编码的utxo对象。
    *
-   * @param {String} path - 分类帐服务器路径
-   * @param {int} index - 交易索引。
+   * @param {int} utxoSid - 交易索引。
    * @thrrows 如果给定索引的utxo将抛出错误,无法从分类帐服务器中获取。
    */
-  async getUtxo(id) {
-    const utxo = await axios.get(`${this.getLedgerRoute()}/utxo_sid/${id}`);
+  async getUtxo(utxoSid) {
+    const utxo = await axios.get(`${this.getLedgerRoute()}/utxo_sid/${utxoSid}`);
     return utxo.data;
   }
 
@@ -97,8 +118,10 @@ class Network {
   }
 
   /**
-   * 如果成功，则返回与给定地址相关的UTXO SID列表。
+   * 如果成功，则返回与给定地址相关的Txn SID列表。
    * 我是资产的增发者、资产的输入输出者、资产-附加信息的 如 memo 更新, 多签
+   *
+   * 注意：这不同于getOwnedSids，后者返回UTXO SID的列表。
    *
    * @param {string}地址-Base64编码的地址字符串。
    * @throws 如果无法从服务器获取utxo列表，将抛出错误。
@@ -110,6 +133,8 @@ class Network {
 
   /**
    * 如果成功,则返回给定地址拥有的utxos列表。
+   *
+   * 注意：这与getRelatedSids不同，后者返回事务SID的列表。
    *
    * @param {string} address - Base64编码的地址字符串。
    * @throws 如果无法从服务器获取utxo列表，将抛出错误。
@@ -141,15 +166,16 @@ class Network {
     const records = await axios.get(`${this.getQueryRoute()}/get_issued_records/${address}`);
     return records.data;
   }
+
   /**
-   * 如果成功，则返回由给定资产地址的规则
+   * 如果成功，则返回给定地址拥有的UTXO SID的列表。
    *
-   * @param {string} address - Base64编码的地址字符串。
-   * @throws  如果无法从服务器获取已发布的记录列表，将抛出错误。
+   * @param {int} utxoSid - UTXO SID，可以通过getOwnedSids获取。
+   * @throws 如果无法从服务器获取所有者备忘录，将引发错误。
    */
-  async getAssetToken(tokenCode) {
-    const utxo = await axios.get(`${this.getLedgerRoute()}/asset_token/${tokenCode}`);
-    return utxo.data;
+  async getOwnerMemo(utxoSid) {
+    const memo = await axios.get(`${this.getQueryRoute()}/get_owner_memo/${utxoSid}`);
+    return memo.data;
   }
 
 }

@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-08 16:56:08
+ * @ Modified time: 2020-07-10 13:54:57
  * @ Description: wallet info api , 钱包信息接口
  */
 
@@ -28,7 +28,7 @@ const assetServer = {
    */
   async getAssetRules(tokenCode) {
     // const findoraWasm = await import('wasm');
-    const result = await webNetWork.getAssetToken(tokenCode);
+    const result = await webNetWork.getAssetProperties(tokenCode);
     return result;
   },
   /**
@@ -44,18 +44,23 @@ const assetServer = {
     const { walletInfo, memo, asset, traceable, transferable, updatable } = param;
 
     const keypair = findoraWasm.keypair_from_str(walletInfo.keyPairStr);
-
     console.log(keypair);
+
+    const trackingKey = findoraWasm.AssetTracerKeyPair.new();
+    const tracingPolicy = findoraWasm.TracingPolicy.new_with_tracking(trackingKey);
 
     const tokenCode = asset.unit.long;
 
-    const blockCount = BigInt((await webNetWork.getStateCommitment())[1] - 1);
+    const blockCount = BigInt((await webNetWork.getStateCommitment())[1]);
 
     const assetRules = findoraWasm.AssetRules.new()
       .set_max_units(BigInt(asset.maxNumbers))
-      .set_traceable(traceable)
       .set_transferable(transferable)
       .set_updatable(updatable);
+
+    if (traceable) {
+      assetRules.add_tracing_policy(tracingPolicy);
+    }
 
     const definitionTransaction = findoraWasm.TransactionBuilder.new(blockCount)
       .add_operation_create_asset(keypair, memo, tokenCode, assetRules)
@@ -99,7 +104,7 @@ const assetServer = {
 
     const tokenCode = asset.unit.long;
 
-    const blockCount = BigInt((await webNetWork.getStateCommitment())[1] - 1);
+    const blockCount = BigInt((await webNetWork.getStateCommitment())[1]);
 
     const keypair = findoraWasm.keypair_from_str(walletInfo.keyPairStr);
 
@@ -115,16 +120,12 @@ const assetServer = {
 
     /*
      add_basic_issue_asset_with_tracking  跟踪资产
+     add_basic_issue_asset_without_tracking
+     add_basic_issue_asset
     */
 
     const issueTxn = findoraWasm.TransactionBuilder.new(blockCount)
-      .add_basic_issue_asset_without_tracking(
-        keypair,
-        tokenCode,
-        BigInt(stateCommitment[1]),
-        BigInt(asset.numbers),
-        blind.isAmount,
-      )
+      .add_basic_issue_asset(keypair, tokenCode, BigInt(stateCommitment[1]), BigInt(asset.numbers), blind.isAmount)
       .transaction();
     console.log('提交前的表单数据: ', issueTxn);
     const handle = await webNetWork.submitTransaction(issueTxn);

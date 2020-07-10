@@ -20,9 +20,7 @@ function takeObject(idx) {
     return ret;
 }
 
-const lTextDecoder = typeof TextDecoder === 'undefined' ? require('util').TextDecoder : TextDecoder;
-
-let cachedTextDecoder = new lTextDecoder('utf-8', { ignoreBOM: true, fatal: true });
+let cachedTextDecoder = new TextDecoder('utf-8', { ignoreBOM: true, fatal: true });
 
 cachedTextDecoder.decode();
 
@@ -49,9 +47,7 @@ function addHeapObject(obj) {
 
 let WASM_VECTOR_LEN = 0;
 
-const lTextEncoder = typeof TextEncoder === 'undefined' ? require('util').TextEncoder : TextEncoder;
-
-let cachedTextEncoder = new lTextEncoder('utf-8');
+let cachedTextEncoder = new TextEncoder('utf-8');
 
 const encodeString = (typeof cachedTextEncoder.encodeInto === 'function'
     ? function (arg, view) {
@@ -132,7 +128,7 @@ function makeMutClosure(arg0, arg1, dtor, f) {
     return real;
 }
 function __wbg_adapter_20(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hb0fd09c27f3d2262(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hf4116c9a57653e97(arg0, arg1, addHeapObject(arg2));
 }
 
 /**
@@ -613,24 +609,24 @@ export function get_txo(path, sid) {
         /**
         * If successful, returns a promise that will eventually provide a
         * JsValue describing an asset token. Otherwise, returns \'not found\'.
-        * The request fails if the given asset name does not correspond to
+        * The request fails if the given token code does not correspond to
         * an asset.
         * @example <caption> Error handling </caption>
         * try {
-            *     await wasm.get_asset_token(\"http::localhost:8668\", asset_name);
+            *     await wasm.get_asset_token(\"http::localhost:8668\", code);
             * } catch (err) {
                 *     console.log(err)
                 * }
                 * @param {string} path - Address of ledger server. E.g. `https://localhost:8668`.
-                * @param {string} name - Base64-encoded asset token string.
+                * @param {string} code - Base64-encoded asset token string.
                 * @param {string} path
-                * @param {string} name
+                * @param {string} code
                 * @returns {Promise<any>}
                 */
-                export function get_asset_token(path, name) {
+                export function get_asset_token(path, code) {
                     var ptr0 = passStringToWasm0(path, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
                     var len0 = WASM_VECTOR_LEN;
-                    var ptr1 = passStringToWasm0(name, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+                    var ptr1 = passStringToWasm0(code, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
                     var len1 = WASM_VECTOR_LEN;
                     var ret = wasm.get_asset_token(ptr0, len0, ptr1, len1);
                     return takeObject(ret);
@@ -807,8 +803,8 @@ export function get_txo(path, sid) {
                 function handleError(e) {
                     wasm.__wbindgen_exn_store(addHeapObject(e));
                 }
-                function __wbg_adapter_129(arg0, arg1, arg2, arg3) {
-                    wasm.wasm_bindgen__convert__closures__invoke2_mut__h98d4efcc16832b09(arg0, arg1, addHeapObject(arg2), addHeapObject(arg3));
+                function __wbg_adapter_133(arg0, arg1, arg2, arg3) {
+                    wasm.wasm_bindgen__convert__closures__invoke2_mut__h4830b8d004ea450b(arg0, arg1, addHeapObject(arg2), addHeapObject(arg3));
                 }
 
                 function getArrayU8FromWasm0(ptr, len) {
@@ -816,7 +812,7 @@ export function get_txo(path, sid) {
                 }
                 /**
                 * Simple asset rules:
-                * 1) Traceable: Records of traceable assets can be decrypted by a provided tracking key
+                * 1) Traceable: Records and identities of traceable assets can be decrypted by a provided tracking key
                 * 2) Transferable: Non-transferable assets can only be transferred once from the issuer to
                 *    another user.
                 * 3) Updatable: Whether the asset memo can be updated.
@@ -847,15 +843,16 @@ export function get_txo(path, sid) {
                         return AssetRules.__wrap(ret);
                     }
                     /**
-                    * Toggles asset traceability.
-                    * @param {bool} traceable - Boolean indicating whether asset can be traced by an issuer tracing key.
-                    * @param {boolean} traceable
+                    * Adds an asset tracing policy.
+                    * @param {TracingPolicy} policy - Tracing policy for the new asset.
+                    * @param {TracingPolicy} policy
                     * @returns {AssetRules}
                     */
-                    set_traceable(traceable) {
+                    add_tracing_policy(policy) {
                         var ptr = this.ptr;
                         this.ptr = 0;
-                        var ret = wasm.assetrules_set_traceable(ptr, traceable);
+                        _assertClass(policy, TracingPolicy);
+                        var ret = wasm.assetrules_add_tracing_policy(ptr, policy.ptr);
                         return AssetRules.__wrap(ret);
                     }
                     /**
@@ -943,6 +940,47 @@ export function get_txo(path, sid) {
                     }
                 }
                 /**
+                * Object representing an asset definition. Used to fetch tracing policies and any other
+                * information that may be required to construct a valid transfer or issuance.
+                */
+                export class AssetType {
+
+                    static __wrap(ptr) {
+                        const obj = Object.create(AssetType.prototype);
+                        obj.ptr = ptr;
+
+                        return obj;
+                    }
+
+                    free() {
+                        const ptr = this.ptr;
+                        this.ptr = 0;
+
+                        wasm.__wbg_assettype_free(ptr);
+                    }
+                    /**
+                    * Construct an AssetType from the JSON-encoded value returned by the ledger.
+                    * @param {any} json
+                    * @returns {AssetType}
+                    */
+                    static from_json(json) {
+                        try {
+                            var ret = wasm.assettype_from_json(addBorrowedObject(json));
+                            return AssetType.__wrap(ret);
+                        } finally {
+                            heap[stack_pointer++] = undefined;
+                        }
+                    }
+                    /**
+                    * Fetch the tracing policies from the asset definition.
+                    * @returns {TracingPolicies}
+                    */
+                    get_tracing_policies() {
+                        var ret = wasm.assettype_get_tracing_policies(this.ptr);
+                        return TracingPolicies.__wrap(ret);
+                    }
+                }
+                /**
                 * Authenticated address identity registry value. Contains a proof that the AIR result is stored
                 * in the ledger.
                 */
@@ -1015,14 +1053,14 @@ export function get_txo(path, sid) {
                     }
                     /**
                     * Builds a client record from an asset record fetched from the ledger server.
-                    * @param {record} - JSON asset record fetched from ledger server with the `utxo_sid/{sid}` route,
+                    * @param {JsValue} val - JSON asset record fetched from ledger server with the `utxo_sid/{sid}` route,
                     * where `sid` can be fetched from the query server with the `get_owned_utxos/{address}` route.
-                    * @param {any} record
+                    * @param {any} val
                     * @returns {ClientAssetRecord}
                     */
-                    static from_json_record(record) {
+                    static from_jsvalue(val) {
                         try {
-                            var ret = wasm.clientassetrecord_from_json_record(addBorrowedObject(record));
+                            var ret = wasm.clientassetrecord_from_jsvalue(addBorrowedObject(val));
                             return ClientAssetRecord.__wrap(ret);
                         } finally {
                             heap[stack_pointer++] = undefined;
@@ -1468,6 +1506,23 @@ export function get_txo(path, sid) {
 
                         wasm.__wbg_ownermemo_free(ptr);
                     }
+                    /**
+                    * Generate an owner memo from a JSON-serialized JavaScript value.
+                    *
+                    * Builds a client record from an asset record fetched from the ledger server.
+                    * @param {JsValue} val - JSON asset record fetched from ledger server with the `utxo_sid/{sid}` route,
+                    * where `sid` can be fetched from the query server with the `get_owned_utxos/{address}` route.
+                    * @param {any} val
+                    * @returns {OwnerMemo}
+                    */
+                    static from_jsvalue(val) {
+                        try {
+                            var ret = wasm.ownermemo_from_jsvalue(addBorrowedObject(val));
+                            return OwnerMemo.__wrap(ret);
+                        } finally {
+                            heap[stack_pointer++] = undefined;
+                        }
+                    }
                 }
                 /**
                 * Stores threshold and weights for a multisignature requirement.
@@ -1498,6 +1553,68 @@ export function get_txo(path, sid) {
                         const high0 = u32CvtShim[1];
                         var ret = wasm.signaturerules_new(low0, high0, addHeapObject(weights));
                         return SignatureRules.__wrap(ret);
+                    }
+                }
+                /**
+                * A collection of tracing policies. Use this object when constructing asset transfers to generate
+                * the correct tracing proofs for traceable assets.
+                */
+                export class TracingPolicies {
+
+                    static __wrap(ptr) {
+                        const obj = Object.create(TracingPolicies.prototype);
+                        obj.ptr = ptr;
+
+                        return obj;
+                    }
+
+                    free() {
+                        const ptr = this.ptr;
+                        this.ptr = 0;
+
+                        wasm.__wbg_tracingpolicies_free(ptr);
+                    }
+                }
+                /**
+                * Tracing policy for asset transfers. Can be configured to track credentials, the asset type and
+                * amount, or both.
+                */
+                export class TracingPolicy {
+
+                    static __wrap(ptr) {
+                        const obj = Object.create(TracingPolicy.prototype);
+                        obj.ptr = ptr;
+
+                        return obj;
+                    }
+
+                    free() {
+                        const ptr = this.ptr;
+                        this.ptr = 0;
+
+                        wasm.__wbg_tracingpolicy_free(ptr);
+                    }
+                    /**
+                    * @param {AssetTracerKeyPair} tracing_key
+                    * @returns {TracingPolicy}
+                    */
+                    static new_with_tracking(tracing_key) {
+                        _assertClass(tracing_key, AssetTracerKeyPair);
+                        var ret = wasm.tracingpolicy_new_with_tracking(tracing_key.ptr);
+                        return TracingPolicy.__wrap(ret);
+                    }
+                    /**
+                    * @param {AssetTracerKeyPair} tracing_key
+                    * @param {CredIssuerPublicKey} cred_issuer_key
+                    * @param {any} reveal_map
+                    * @param {boolean} tracking
+                    * @returns {TracingPolicy}
+                    */
+                    static new_with_identity_tracking(tracing_key, cred_issuer_key, reveal_map, tracking) {
+                        _assertClass(tracing_key, AssetTracerKeyPair);
+                        _assertClass(cred_issuer_key, CredIssuerPublicKey);
+                        var ret = wasm.tracingpolicy_new_with_identity_tracking(tracing_key.ptr, cred_issuer_key.ptr, addHeapObject(reveal_map), tracking);
+                        return TracingPolicy.__wrap(ret);
                     }
                 }
                 /**
@@ -1610,42 +1727,6 @@ export function get_txo(path, sid) {
                             * Use this function for simple one-shot issuances.
                             *
                             * @param {XfrKeyPair} key_pair  - Issuer XfrKeyPair.
-                            * @param {AssetTracerKeyPair} tracer keypair - Tracking public key. Used to decrypt amounts
-                            * and types of traced assets.
-                            * @param {string} code - Base64 string representing the token code of the asset to be issued.
-                            * @param {BigInt} seq_num - Issuance sequence number. Every subsequent issuance of a given asset type must have a higher sequence number than before.
-                            * @param {BigInt} amount - Amount to be issued.
-                            * @param {bool} conf_amount - `true` means the asset amount is confidential, and `false` means it\'s nonconfidential.
-                            * @param {XfrKeyPair} key_pair
-                            * @param {AssetTracerKeyPair} tracing_key
-                            * @param {string} code
-                            * @param {BigInt} seq_num
-                            * @param {BigInt} amount
-                            * @param {boolean} conf_amount
-                            * @returns {TransactionBuilder}
-                            */
-                            add_basic_issue_asset_with_tracking(key_pair, tracing_key, code, seq_num, amount, conf_amount) {
-                                var ptr = this.ptr;
-                                this.ptr = 0;
-                                _assertClass(key_pair, XfrKeyPair);
-                                _assertClass(tracing_key, AssetTracerKeyPair);
-                                var ptr0 = passStringToWasm0(code, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-                                var len0 = WASM_VECTOR_LEN;
-                                uint64CvtShim[0] = seq_num;
-                                const low1 = u32CvtShim[0];
-                                const high1 = u32CvtShim[1];
-                                uint64CvtShim[0] = amount;
-                                const low2 = u32CvtShim[0];
-                                const high2 = u32CvtShim[1];
-                                var ret = wasm.transactionbuilder_add_basic_issue_asset_with_tracking(ptr, key_pair.ptr, tracing_key.ptr, ptr0, len0, low1, high1, low2, high2, conf_amount);
-                                return TransactionBuilder.__wrap(ret);
-                            }
-                            /**
-                            * Wraps around TransactionBuilder to add an asset issuance to a transaction builder instance.
-                            *
-                            * Use this function for simple one-shot issuances.
-                            *
-                            * @param {XfrKeyPair} key_pair  - Issuer XfrKeyPair.
                             * and types of traced assets.
                             * @param {string} code - Base64 string representing the token code of the asset to be issued.
                             * @param {BigInt} seq_num - Issuance sequence number. Every subsequent issuance of a given asset type must have a higher sequence number than before.
@@ -1658,7 +1739,7 @@ export function get_txo(path, sid) {
                             * @param {boolean} conf_amount
                             * @returns {TransactionBuilder}
                             */
-                            add_basic_issue_asset_without_tracking(key_pair, code, seq_num, amount, conf_amount) {
+                            add_basic_issue_asset(key_pair, code, seq_num, amount, conf_amount) {
                                 var ptr = this.ptr;
                                 this.ptr = 0;
                                 _assertClass(key_pair, XfrKeyPair);
@@ -1670,7 +1751,7 @@ export function get_txo(path, sid) {
                                 uint64CvtShim[0] = amount;
                                 const low2 = u32CvtShim[0];
                                 const high2 = u32CvtShim[1];
-                                var ret = wasm.transactionbuilder_add_basic_issue_asset_without_tracking(ptr, key_pair.ptr, ptr0, len0, low1, high1, low2, high2, conf_amount);
+                                var ret = wasm.transactionbuilder_add_basic_issue_asset(ptr, key_pair.ptr, ptr0, len0, low1, high1, low2, high2, conf_amount);
                                 return TransactionBuilder.__wrap(ret);
                             }
                             /**
@@ -1869,12 +1950,12 @@ export function get_txo(path, sid) {
                             * @param {TxoRef} txo_ref
                             * @param {ClientAssetRecord} asset_record
                             * @param {OwnerMemo | undefined} owner_memo
-                            * @param {AssetTracerKeyPair} tracing_key
+                            * @param {TracingPolicies} tracing_policies
                             * @param {XfrKeyPair} key
                             * @param {BigInt} amount
                             * @returns {TransferOperationBuilder}
                             */
-                            add_input_with_tracking(txo_ref, asset_record, owner_memo, tracing_key, key, amount) {
+                            add_input_with_tracking(txo_ref, asset_record, owner_memo, tracing_policies, key, amount) {
                                 var ptr = this.ptr;
                                 this.ptr = 0;
                                 _assertClass(txo_ref, TxoRef);
@@ -1889,12 +1970,12 @@ export function get_txo(path, sid) {
                                     ptr2 = owner_memo.ptr;
                                     owner_memo.ptr = 0;
                                 }
-                                _assertClass(tracing_key, AssetTracerKeyPair);
+                                _assertClass(tracing_policies, TracingPolicies);
                                 _assertClass(key, XfrKeyPair);
                                 uint64CvtShim[0] = amount;
                                 const low3 = u32CvtShim[0];
                                 const high3 = u32CvtShim[1];
-                                var ret = wasm.transferoperationbuilder_add_input_with_tracking(ptr, ptr0, ptr1, ptr2, tracing_key.ptr, key.ptr, low3, high3);
+                                var ret = wasm.transferoperationbuilder_add_input_with_tracking(ptr, ptr0, ptr1, ptr2, tracing_policies.ptr, key.ptr, low3, high3);
                                 return TransferOperationBuilder.__wrap(ret);
                             }
                             /**
@@ -1951,23 +2032,23 @@ export function get_txo(path, sid) {
                             * @throws Will throw an error if `code` fails to deserialize.
                             * @param {BigInt} amount
                             * @param {XfrPublicKey} recipient
-                            * @param {AssetTracerKeyPair} tracing_key
+                            * @param {TracingPolicies} tracing_policies
                             * @param {string} code
                             * @param {boolean} conf_amount
                             * @param {boolean} conf_type
                             * @returns {TransferOperationBuilder}
                             */
-                            add_output_with_tracking(amount, recipient, tracing_key, code, conf_amount, conf_type) {
+                            add_output_with_tracking(amount, recipient, tracing_policies, code, conf_amount, conf_type) {
                                 var ptr = this.ptr;
                                 this.ptr = 0;
                                 uint64CvtShim[0] = amount;
                                 const low0 = u32CvtShim[0];
                                 const high0 = u32CvtShim[1];
                                 _assertClass(recipient, XfrPublicKey);
-                                _assertClass(tracing_key, AssetTracerKeyPair);
+                                _assertClass(tracing_policies, TracingPolicies);
                                 var ptr1 = passStringToWasm0(code, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
                                 var len1 = WASM_VECTOR_LEN;
-                                var ret = wasm.transferoperationbuilder_add_output_with_tracking(ptr, low0, high0, recipient.ptr, tracing_key.ptr, ptr1, len1, conf_amount, conf_type);
+                                var ret = wasm.transferoperationbuilder_add_output_with_tracking(ptr, low0, high0, recipient.ptr, tracing_policies.ptr, ptr1, len1, conf_amount, conf_type);
                                 return TransferOperationBuilder.__wrap(ret);
                             }
                             /**
@@ -2331,7 +2412,7 @@ export function get_txo(path, sid) {
                                     const a = state0.a;
                                     state0.a = 0;
                                     try {
-                                        return __wbg_adapter_129(a, state0.b, arg0, arg1);
+                                        return __wbg_adapter_133(a, state0.b, arg0, arg1);
                                     } finally {
                                         state0.a = a;
                                     }
@@ -2448,8 +2529,8 @@ export function get_txo(path, sid) {
                             throw takeObject(arg0);
                         };
 
-                        export const __wbindgen_closure_wrapper1220 = function(arg0, arg1, arg2) {
-                            var ret = makeMutClosure(arg0, arg1, 175, __wbg_adapter_20);
+                        export const __wbindgen_closure_wrapper1255 = function(arg0, arg1, arg2) {
+                            var ret = makeMutClosure(arg0, arg1, 176, __wbg_adapter_20);
                             return addHeapObject(ret);
                         };
 

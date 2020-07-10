@@ -29,7 +29,7 @@ const IssueAsset = () => {
       },
       numbers: 100,
     },
-    to: 'jh7bks2Yee-UUsO0IBCmI74ewBctl14kCnucFUqT8R4=',
+    // to: walletStore.walletInfo.publickey,
     blind: {
       isAmount: false,
       isType: false,
@@ -109,9 +109,9 @@ const IssueAsset = () => {
         <FindoraBoxView title={intl.get('asset_name')} isRow titleDirection="top">
           <SwitchAssetName onResult={handleChangeAssetName} isIssued address={walletStore.walletInfo.publickey} />
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('to')} isRow>
+        {/* <FindoraBoxView title={intl.get('to')} isRow>
           <Input placeholder="Please to address" value={data.to} onChange={handleChangeTo} />
-        </FindoraBoxView>
+        </FindoraBoxView> */}
         <FindoraBoxView title={intl.get('balance')} isRow>
           <Input
             placeholder={intl.get('token_issue_amount_placeholder')}

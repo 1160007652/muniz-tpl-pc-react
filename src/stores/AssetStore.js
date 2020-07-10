@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-09 18:29:40
+ * @ Modified time: 2020-07-10 13:37:54
  * @ Description: 多语言状态Mobx 模块
  *
  * asset -> balance
@@ -26,7 +26,8 @@ class AssetStore {
 
   /** createdAssets 资产列表 */
   @observable createdAssetList = [
-    { short: 'one', long: 'qgS8BVRRDIi6hrasE0pg7Q==' },
+    { short: 'Bala', long: '0AXORP57YPuDmi6dzBSWEg==' },
+    { short: 'Baxi', long: 'yzS1qT2q30LZHxP70I0mbQ==' },
     {
       short: 'two',
       long: '8XbNsa7uMpimYlcXExxuIA==',
@@ -34,7 +35,7 @@ class AssetStore {
   ];
   /** issueAssets 待增发的数据 */
   @observable issueAssetList = [
-    { short: 'one1', long: 'qgS8BVRRDIi6hrasE0pg7Q==' },
+    { short: 'Have', long: 'u_NY95tL-tEqAb0ffK7tvw==' },
     {
       short: 'two2',
       long: '8XbNsa7uMpimYlcXExxuIA==',
@@ -56,7 +57,7 @@ class AssetStore {
     await calculateTxn({ address });
 
     // let tokenCodeInfoList = tokenCodes.map(async (item) => {
-    //   return await webNetWork.getAssetToken(item);
+    //   return await webNetWork.getAssetProperties(item);
     // });
 
     // tokenCodeInfoList = await Promise.all(tokenCodeInfoList);

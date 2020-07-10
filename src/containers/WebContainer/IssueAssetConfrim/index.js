@@ -50,9 +50,9 @@ const IssueAssetConfrim = ({ data }) => {
             </div>
             <div className="address">{asset.unit.long}</div>
           </FindoraBoxView>
-          <FindoraBoxView title={intl.get('to')}>
+          {/* <FindoraBoxView title={intl.get('to')}>
             <span className="address">{to}</span>
-          </FindoraBoxView>
+          </FindoraBoxView> */}
           <FindoraBoxView title={intl.get('balance')}>
             <span className="address">{asset.numbers}</span>
             <span style={{ marginLeft: '4px' }}>{asset.unit.short}</span>

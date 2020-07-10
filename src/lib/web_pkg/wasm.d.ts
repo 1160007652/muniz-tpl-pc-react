@@ -234,21 +234,21 @@ export function get_state_commitment(path: string): Promise<any>;
 /**
 * If successful, returns a promise that will eventually provide a
 * JsValue describing an asset token. Otherwise, returns \'not found\'.
-* The request fails if the given asset name does not correspond to
+* The request fails if the given token code does not correspond to
 * an asset.
 * @example <caption> Error handling </caption>
 * try {
-*     await wasm.get_asset_token(\"http::localhost:8668\", asset_name);
+*     await wasm.get_asset_token(\"http::localhost:8668\", code);
 * } catch (err) {
 *     console.log(err)
 * }
 * @param {string} path - Address of ledger server. E.g. `https://localhost:8668`.
-* @param {string} name - Base64-encoded asset token string.
+* @param {string} code - Base64-encoded asset token string.
 * @param {string} path 
-* @param {string} name 
+* @param {string} code 
 * @returns {Promise<any>} 
 */
-export function get_asset_token(path: string, name: string): Promise<any>;
+export function get_asset_token(path: string, code: string): Promise<any>;
 /**
 * Generates a new credential issuer key.
 * @param {JsValue} attributes - Array of attribute types of the form `[{name: \"credit_score\",
@@ -363,12 +363,12 @@ export class AssetRules {
 */
   static new(): AssetRules;
 /**
-* Toggles asset traceability.
-* @param {bool} traceable - Boolean indicating whether asset can be traced by an issuer tracing key.
-* @param {boolean} traceable 
+* Adds an asset tracing policy.
+* @param {TracingPolicy} policy - Tracing policy for the new asset.
+* @param {TracingPolicy} policy 
 * @returns {AssetRules} 
 */
-  set_traceable(traceable: boolean): AssetRules;
+  add_tracing_policy(policy: TracingPolicy): AssetRules;
 /**
 * Set a cap on the number of units of this asset that can be issued.
 * @param {BigInt} max_units - Maximum number of units that can be issued.
@@ -407,6 +407,20 @@ export class AssetTracerKeyPair {
 */
   static new(): AssetTracerKeyPair;
 }
+export class AssetType {
+  free(): void;
+/**
+* Construct an AssetType from the JSON-encoded value returned by the ledger.
+* @param {any} json 
+* @returns {AssetType} 
+*/
+  static from_json(json: any): AssetType;
+/**
+* Fetch the tracing policies from the asset definition.
+* @returns {TracingPolicies} 
+*/
+  get_tracing_policies(): TracingPolicies;
+}
 export class AuthenticatedAIRResult {
   free(): void;
 /**
@@ -432,12 +446,12 @@ export class ClientAssetRecord {
   free(): void;
 /**
 * Builds a client record from an asset record fetched from the ledger server.
-* @param {record} - JSON asset record fetched from ledger server with the `utxo_sid/{sid}` route,
+* @param {JsValue} val - JSON asset record fetched from ledger server with the `utxo_sid/{sid}` route,
 * where `sid` can be fetched from the query server with the `get_owned_utxos/{address}` route.
-* @param {any} record 
+* @param {any} val 
 * @returns {ClientAssetRecord} 
 */
-  static from_json_record(record: any): ClientAssetRecord;
+  static from_jsvalue(val: any): ClientAssetRecord;
 }
 export class CredIssuerPublicKey {
   free(): void;
@@ -560,6 +574,16 @@ export class Key {
 }
 export class OwnerMemo {
   free(): void;
+/**
+* Generate an owner memo from a JSON-serialized JavaScript value.
+*
+* Builds a client record from an asset record fetched from the ledger server.
+* @param {JsValue} val - JSON asset record fetched from ledger server with the `utxo_sid/{sid}` route,
+* where `sid` can be fetched from the query server with the `get_owned_utxos/{address}` route.
+* @param {any} val 
+* @returns {OwnerMemo} 
+*/
+  static from_jsvalue(val: any): OwnerMemo;
 }
 export class SignatureRules {
   free(): void;
@@ -569,6 +593,25 @@ export class SignatureRules {
 * @returns {SignatureRules} 
 */
   static new(threshold: BigInt, weights: any): SignatureRules;
+}
+export class TracingPolicies {
+  free(): void;
+}
+export class TracingPolicy {
+  free(): void;
+/**
+* @param {AssetTracerKeyPair} tracing_key 
+* @returns {TracingPolicy} 
+*/
+  static new_with_tracking(tracing_key: AssetTracerKeyPair): TracingPolicy;
+/**
+* @param {AssetTracerKeyPair} tracing_key 
+* @param {CredIssuerPublicKey} cred_issuer_key 
+* @param {any} reveal_map 
+* @param {boolean} tracking 
+* @returns {TracingPolicy} 
+*/
+  static new_with_identity_tracking(tracing_key: AssetTracerKeyPair, cred_issuer_key: CredIssuerPublicKey, reveal_map: any, tracking: boolean): TracingPolicy;
 }
 export class TransactionBuilder {
   free(): void;
@@ -621,27 +664,6 @@ export class TransactionBuilder {
 * Use this function for simple one-shot issuances.
 *
 * @param {XfrKeyPair} key_pair  - Issuer XfrKeyPair.
-* @param {AssetTracerKeyPair} tracer keypair - Tracking public key. Used to decrypt amounts
-* and types of traced assets.
-* @param {string} code - Base64 string representing the token code of the asset to be issued.
-* @param {BigInt} seq_num - Issuance sequence number. Every subsequent issuance of a given asset type must have a higher sequence number than before.
-* @param {BigInt} amount - Amount to be issued.
-* @param {bool} conf_amount - `true` means the asset amount is confidential, and `false` means it\'s nonconfidential.
-* @param {XfrKeyPair} key_pair 
-* @param {AssetTracerKeyPair} tracing_key 
-* @param {string} code 
-* @param {BigInt} seq_num 
-* @param {BigInt} amount 
-* @param {boolean} conf_amount 
-* @returns {TransactionBuilder} 
-*/
-  add_basic_issue_asset_with_tracking(key_pair: XfrKeyPair, tracing_key: AssetTracerKeyPair, code: string, seq_num: BigInt, amount: BigInt, conf_amount: boolean): TransactionBuilder;
-/**
-* Wraps around TransactionBuilder to add an asset issuance to a transaction builder instance.
-*
-* Use this function for simple one-shot issuances.
-*
-* @param {XfrKeyPair} key_pair  - Issuer XfrKeyPair.
 * and types of traced assets.
 * @param {string} code - Base64 string representing the token code of the asset to be issued.
 * @param {BigInt} seq_num - Issuance sequence number. Every subsequent issuance of a given asset type must have a higher sequence number than before.
@@ -654,7 +676,7 @@ export class TransactionBuilder {
 * @param {boolean} conf_amount 
 * @returns {TransactionBuilder} 
 */
-  add_basic_issue_asset_without_tracking(key_pair: XfrKeyPair, code: string, seq_num: BigInt, amount: BigInt, conf_amount: boolean): TransactionBuilder;
+  add_basic_issue_asset(key_pair: XfrKeyPair, code: string, seq_num: BigInt, amount: BigInt, conf_amount: boolean): TransactionBuilder;
 /**
 * Adds an add air assign operation to a WasmTransactionBuilder instance.
 * @param {XfrKeyPair} key_pair 
@@ -752,12 +774,12 @@ export class TransferOperationBuilder {
 * @param {TxoRef} txo_ref 
 * @param {ClientAssetRecord} asset_record 
 * @param {OwnerMemo | undefined} owner_memo 
-* @param {AssetTracerKeyPair} tracing_key 
+* @param {TracingPolicies} tracing_policies 
 * @param {XfrKeyPair} key 
 * @param {BigInt} amount 
 * @returns {TransferOperationBuilder} 
 */
-  add_input_with_tracking(txo_ref: TxoRef, asset_record: ClientAssetRecord, owner_memo: OwnerMemo | undefined, tracing_key: AssetTracerKeyPair, key: XfrKeyPair, amount: BigInt): TransferOperationBuilder;
+  add_input_with_tracking(txo_ref: TxoRef, asset_record: ClientAssetRecord, owner_memo: OwnerMemo | undefined, tracing_policies: TracingPolicies, key: XfrKeyPair, amount: BigInt): TransferOperationBuilder;
 /**
 * Wraps around TransferOperationBuilder to add an input to a transfer operation builder.
 * @param {TxoRef} txo_ref - Absolute or relative utxo reference
@@ -791,13 +813,13 @@ export class TransferOperationBuilder {
 * @throws Will throw an error if `code` fails to deserialize.
 * @param {BigInt} amount 
 * @param {XfrPublicKey} recipient 
-* @param {AssetTracerKeyPair} tracing_key 
+* @param {TracingPolicies} tracing_policies 
 * @param {string} code 
 * @param {boolean} conf_amount 
 * @param {boolean} conf_type 
 * @returns {TransferOperationBuilder} 
 */
-  add_output_with_tracking(amount: BigInt, recipient: XfrPublicKey, tracing_key: AssetTracerKeyPair, code: string, conf_amount: boolean, conf_type: boolean): TransferOperationBuilder;
+  add_output_with_tracking(amount: BigInt, recipient: XfrPublicKey, tracing_policies: TracingPolicies, code: string, conf_amount: boolean, conf_type: boolean): TransferOperationBuilder;
 /**
 * Wraps around TransferOperationBuilder to add an output to a transfer operation builder.
 *

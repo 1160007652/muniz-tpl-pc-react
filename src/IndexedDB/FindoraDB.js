@@ -8,7 +8,7 @@ class FindoraDB {
   async init() {
     // 定义数据库
     await this.db.version(1).stores({
-      sids: '&address',
+      sids: 'address',
       txns: '++id, address, &sid',
     });
   }
