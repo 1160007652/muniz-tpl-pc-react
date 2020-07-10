@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-10 16:30:29
+ * @ Modified time: 2020-07-10 17:33:47
  * @ Description: 多语言状态Mobx 模块
  *
  * asset -> balance
@@ -24,22 +24,30 @@ class AssetStore {
     // this.init();
   }
 
-  /** createdAssets 资产列表 */
+  /**
+   *
+   * createdAssets 资产列表
+   *
+   * zhipan 钱包地址下的资产
+   * a1YtM_SttzL50DjGEsFIAjCflYVuWjQAWhwOwlrfH1o=
+   *
+   * */
   @observable createdAssetList = [
-    { short: 'Bala', long: '0AXORP57YPuDmi6dzBSWEg==' },
-    { short: 'Baxi', long: 'yzS1qT2q30LZHxP70I0mbQ==' },
-    {
-      short: 'ASD',
-      long: 'kP8jps5JQ8bIfO_LbzKQAA==',
-    },
+    { short: 'TRA', long: '0fLmGxx7Vvrza8CJmNC2vg==' }, // 可跟踪资产, max_utils: 6000
+    { short: 'UIY', long: 'g-Tc5aUAr-YSzFQUrmv8TQ==' }, // 可跟踪资产, max_utils: 不限制
+    { short: 'BOO', long: 'n_AeopfLcTwzDMtMpXFnuA==' }, // 不可跟踪资产, max_utils: 6000
+    { short: 'NRU', long: 'i-IuAwFzofyGZXQs-e3X1g==' }, // 不可跟踪资产, max_utils: 不限制
   ];
-  /** issueAssets 待增发的数据 */
+  /**
+   *
+   * issueAssets 待增发的数据
+   *
+   * zhipan 钱包地址下的资产
+   * a1YtM_SttzL50DjGEsFIAjCflYVuWjQAWhwOwlrfH1o=
+   *
+   * */
   @observable issueAssetList = [
-    { short: 'Have', long: 'u_NY95tL-tEqAb0ffK7tvw==' },
-    {
-      short: 'ASD',
-      long: 'kP8jps5JQ8bIfO_LbzKQAA==',
-    },
+    { short: 'RVC', long: 'dhCPlrE8dipBC_KB11meWA==' }, // 不可跟踪资产, max_utils: 不限制
   ];
 
   /** 修改 createdAssets 数据 */

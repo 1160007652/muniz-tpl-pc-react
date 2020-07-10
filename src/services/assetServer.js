@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-10 16:50:31
+ * @ Modified time: 2020-07-10 17:12:37
  * @ Description: wallet info api , 钱包信息接口
  */
 
@@ -44,19 +44,40 @@ const assetServer = {
 
     const blockCount = BigInt((await webNetWork.getStateCommitment())[1]);
 
-    const assetRules = findoraWasm.AssetRules.new().set_transferable(transferable).set_updatable(updatable);
-
     let definitionTransaction = {};
 
+    // const assetRules = findoraWasm.AssetRules.new();
+    // assetRules.set_transferable(transferable).set_updatable(updatable);
+    // if (asset.maxNumbers && asset.maxNumbers > 0) {
+    //   assetRules.set_max_units(BigInt(asset.maxNumbers));
+    // }
+    // if (traceable) {
+    //   assetRules.add_tracing_policy(tracingPolicy);
+    // }
+
+    let assetRules = findoraWasm.AssetRules.new().set_transferable(transferable).set_updatable(updatable);
     if (asset.maxNumbers && asset.maxNumbers > 0) {
       console.log('设置max金额');
-      assetRules.set_max_units(BigInt(asset.maxNumbers));
+      assetRules = findoraWasm.AssetRules.new()
+        .set_max_units(BigInt(asset.maxNumbers))
+        .set_transferable(transferable)
+        .set_updatable(updatable);
+
+      if (traceable) {
+        assetRules = findoraWasm.AssetRules.new()
+          .set_max_units(BigInt(asset.maxNumbers))
+          .add_tracing_policy(tracingPolicy)
+          .set_transferable(transferable)
+          .set_updatable(updatable);
+      }
     } else {
       console.log('不设置max金额', asset.maxNumbers);
-    }
-
-    if (traceable) {
-      assetRules.add_tracing_policy(tracingPolicy);
+      if (traceable) {
+        assetRules = findoraWasm.AssetRules.new()
+          .add_tracing_policy(tracingPolicy)
+          .set_transferable(transferable)
+          .set_updatable(updatable);
+      }
     }
 
     definitionTransaction = findoraWasm.TransactionBuilder.new(blockCount)

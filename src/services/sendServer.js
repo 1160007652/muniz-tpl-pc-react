@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-10 15:37:57
+ * @ Modified time: 2020-07-10 17:39:09
  * @ Description: wallet info api , 钱包信息接口
  *
  */
@@ -107,6 +107,8 @@ const sendServer = {
         .sign(keypair)
         .transaction();
     }
+
+    console.log('开始获取 blockCount');
 
     const blockCount = BigInt((await webNetWork.getStateCommitment())[1]);
     const transferTxn = findoraWasm.TransactionBuilder.new(blockCount).add_operation(transferOp).transaction();

@@ -113,7 +113,7 @@ const CreateAsset = () => {
           />
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('policy')} isRow>
-          <Radio.Group value={data.policy} onChange={handleChangeRadio('policy')}>
+          <Radio.Group value={data.policy} onChange={handleChangeRadio('policy')} disabled>
             <Radio value="fungible">Fungible</Radio>
           </Radio.Group>
         </FindoraBoxView>
