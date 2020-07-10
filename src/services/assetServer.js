@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-10 16:45:18
+ * @ Modified time: 2020-07-10 16:50:31
  * @ Description: wallet info api , 钱包信息接口
  */
 
@@ -51,14 +51,12 @@ const assetServer = {
     if (asset.maxNumbers && asset.maxNumbers > 0) {
       console.log('设置max金额');
       assetRules.set_max_units(BigInt(asset.maxNumbers));
+    } else {
+      console.log('不设置max金额', asset.maxNumbers);
     }
-    console.log('不设置max金额', asset.maxNumbers);
 
     if (traceable) {
       assetRules.add_tracing_policy(tracingPolicy);
-      // definitionTransaction = findoraWasm.TransactionBuilder.new(blockCount)
-      //   .add_operation_create_asset_with_policy(keypair, memo, tokenCode, tracingPolicy, assetRules)
-      //   .transaction();
     }
 
     definitionTransaction = findoraWasm.TransactionBuilder.new(blockCount)
