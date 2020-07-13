@@ -2,13 +2,13 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-01 16:39:45
+ * @ Modified time: 2020-07-13 10:11:00
  * @ Description: 导入钱包后的列表组件
  */
 
 import React from 'react';
 import { MobXProviderContext, observer } from 'mobx-react';
-import classNames from 'classNames';
+import classNames from 'classnames';
 
 import WalletListItem from '_components/WalletListItem';
 import { useHistory } from 'react-router-dom';

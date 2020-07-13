@@ -8,14 +8,14 @@ module.exports = {
   },
   extends: [
     'plugin:react/recommended',
-    // 'plugin:prettier/recommended',
+    'plugin:prettier/recommended',
     'airbnb',
     'airbnb/hooks',
     'prettier',
     // 专门支持了 eslint-plugin-react
     'prettier/react',
     // 专门支持了 @typescript-eslint/eslint-plugin
-    'prettier/@typescript-eslint',
+    // 'prettier/@typescript-eslint',
   ],
   parser: 'babel-eslint', // "parser": "@typescript-eslint/parser",
   parserOptions: {

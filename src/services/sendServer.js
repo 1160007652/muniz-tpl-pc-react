@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-10 17:39:09
+ * @ Modified time: 2020-07-12 20:54:13
  * @ Description: wallet info api , 钱包信息接口
  *
  */
@@ -66,7 +66,7 @@ const sendServer = {
     */
 
     // 参考utxo的相对依赖
-    const txoRef = findoraWasm.TxoRef.relative(BigInt(utxoSid));
+    const txoRef = findoraWasm.TxoRef.absolute(BigInt(utxoSid));
 
     // 转账数量
     const amount = asset.numbers;

@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-10 17:33:47
+ * @ Modified time: 2020-07-12 21:00:58
  * @ Description: 多语言状态Mobx 模块
  *
  * asset -> balance
@@ -33,7 +33,7 @@ class AssetStore {
    *
    * */
   @observable createdAssetList = [
-    { short: 'TRA', long: '0fLmGxx7Vvrza8CJmNC2vg==' }, // 可跟踪资产, max_utils: 6000
+    { short: 'YUI', long: 'BWAlqRJY4Outbf-UaJ0gBQ==' }, // 可跟踪资产, max_utils: 6000
     { short: 'UIY', long: 'g-Tc5aUAr-YSzFQUrmv8TQ==' }, // 可跟踪资产, max_utils: 不限制
     { short: 'BOO', long: 'n_AeopfLcTwzDMtMpXFnuA==' }, // 不可跟踪资产, max_utils: 6000
     { short: 'NRU', long: 'i-IuAwFzofyGZXQs-e3X1g==' }, // 不可跟踪资产, max_utils: 不限制
@@ -47,7 +47,7 @@ class AssetStore {
    *
    * */
   @observable issueAssetList = [
-    { short: 'RVC', long: 'dhCPlrE8dipBC_KB11meWA==' }, // 不可跟踪资产, max_utils: 不限制
+    { short: 'YUI', long: 'BWAlqRJY4Outbf-UaJ0gBQ==' }, // 不可跟踪资产, max_utils: 不限制
   ];
 
   /** 修改 createdAssets 数据 */

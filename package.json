@@ -119,7 +119,7 @@
     "react-loadable": "^5.5.0",
     "react-router-dom": "^5.2.0",
     "use-immer": "^0.4.0",
-    "wasm": "file:src/lib/web_pkg"
+    "wasm": "link:src/lib/web_pkg"
   },
   "browserslist": {
     "production": [
