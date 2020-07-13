@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-12 20:54:13
+ * @ Modified time: 2020-07-13 14:32:28
  * @ Description: wallet info api , 钱包信息接口
  *
  */
@@ -36,9 +36,9 @@ const sendServer = {
     const assetData = await webNetWork.getAsset(asset.unit.long);
 
     // 资产是否可以跟踪
-    const isTraceable = assetData.properties.asset_rules.tracing_policies.length > 0;
+    const isTraceable = assetData.properties.asset_rules?.tracing_policies?.length > 0;
 
-    console.log('跟踪数据: ', isTraceable, assetData.properties.asset_rules.tracing_policies);
+    console.log('跟踪数据: ', isTraceable, assetData.properties.asset_rules?.tracing_policies);
 
     console.log('assetData: ', assetData);
 

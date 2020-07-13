@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-12 21:00:58
+ * @ Modified time: 2020-07-13 15:14:17
  * @ Description: 多语言状态Mobx 模块
  *
  * asset -> balance
@@ -33,10 +33,13 @@ class AssetStore {
    *
    * */
   @observable createdAssetList = [
-    { short: 'YUI', long: 'BWAlqRJY4Outbf-UaJ0gBQ==' }, // 可跟踪资产, max_utils: 6000
-    { short: 'UIY', long: 'g-Tc5aUAr-YSzFQUrmv8TQ==' }, // 可跟踪资产, max_utils: 不限制
-    { short: 'BOO', long: 'n_AeopfLcTwzDMtMpXFnuA==' }, // 不可跟踪资产, max_utils: 6000
-    { short: 'NRU', long: 'i-IuAwFzofyGZXQs-e3X1g==' }, // 不可跟踪资产, max_utils: 不限制
+    // zhipan
+    { short: 'Hu', long: 'mtedMtrUb30Y0QNAIQqezw==' }, // 不可跟踪资产, max_utils: 不限制
+    { short: 'Bu', long: '3jHjfIWoltr8dCvKs3ghIg==' }, // 不可跟踪资产, max_utils: 6000
+    { short: 'Nu', long: 'uYYYWA0QPH5PwPhkx7JKGA==' }, // 可跟踪资产, max_utils: 不限制
+    // 以上3个 资产 都是报这个错 : Invalid total amount per asset in non confidential asset transfer
+    { short: 'Mu', long: 'NgSmdxFA3rvF8P-VIB2KtA==' }, // 可跟踪资产, max_utils: 6000
+    // 这个是提交后, 服务端报错: Zei error (ledger/src/store/effects.rs:333:67): Asset Tracking error. Asset commitment and asset ciphertext do not match.
   ];
   /**
    *
@@ -47,7 +50,11 @@ class AssetStore {
    *
    * */
   @observable issueAssetList = [
-    { short: 'YUI', long: 'BWAlqRJY4Outbf-UaJ0gBQ==' }, // 不可跟踪资产, max_utils: 不限制
+    // keyao
+    { short: 'XO', long: 'S3VjhfpO36BwUzV976qbtQ==' }, // 不可跟踪资产, max_utils: 不限制
+    { short: 'AO', long: 'eMJUf4W_s5ERUhOEvLRrSQ==' }, // 不可跟踪资产, max_utils: 6000
+    { short: 'Nu', long: 'uYYYWA0QPH5PwPhkx7JKGA==' }, // 可跟踪资产, max_utils: 不限制
+    { short: 'Mu', long: 'NgSmdxFA3rvF8P-VIB2KtA==' }, // 可跟踪资产, max_utils: 6000
   ];
 
   /** 修改 createdAssets 数据 */

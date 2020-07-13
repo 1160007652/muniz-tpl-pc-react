@@ -24,7 +24,7 @@ const Send = () => {
   const [data, setData] = useImmer({
     walletInfo: toJS(walletStore.walletInfo),
     from: walletStore.walletInfo.publickey,
-    to: 'IEnlJYNcwulScwEvVZHgRTagHabaHPrIiImEEW_F1Uw=',
+    to: 'EUUsM3akbejyEb0QGSrm3hi6PQd_gdFYwWIVKLcLKkU=',
     asset: {
       unit: {},
       numbers: '10',
