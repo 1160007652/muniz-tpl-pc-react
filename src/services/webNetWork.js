@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-12 14:02:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-29 11:52:10
+ * @ Modified time: 2020-07-13 11:50:58
  * @ Description: 描述文案
  * @category Services
  * @module webNetWork
@@ -16,7 +16,7 @@ class WebNetWork extends NetWork {
     this.switchNetWork();
   }
 
-  async switchNetWork() {
+  switchNetWork(type = 'testnet') {
     const config = {
       testnet: {
         protocol: 'https',
@@ -33,21 +33,10 @@ class WebNetWork extends NetWork {
         ledgerPort: '8668',
       },
     };
-    chrome.storage.sync.get(['networkConfig'], ({ networkConfig }) => {
-      if (networkConfig) {
-        this.config = config[networkConfig];
-      } else {
-        this.config = config.online;
-      }
-      console.log(this.config, networkConfig);
-    });
-    chrome.storage.onChanged.addListener((changes) => {
-      if ('networkConfig' in changes) {
-        const networkConfig = changes?.networkConfig;
-        this.config = config[networkConfig.newValue];
-        console.log(this.config, networkConfig);
-      }
-    });
+    localStorage.setItem('networkConfig', type);
+    const networkConfig = localStorage.getItem('networkConfig');
+    this.config = config[networkConfig];
+    console.log(networkConfig);
   }
 }
 

@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-07 11:30:02
+ * @ Modified time: 2020-07-13 11:37:48
  * @ Description: 多语言状态Mobx 模块
  */
 
@@ -17,9 +17,9 @@ import zh from '_src/assets/locales/zh';
  */
 class LocaleStore {
   constructor() {
-    chrome.storage.sync.set({ locale: 'en' });
     this.init();
   }
+
   /** 当前是那个国家的语言 */
   @observable locale = 'en';
 
@@ -33,19 +33,16 @@ class LocaleStore {
       },
     });
     this.locale = value;
-    //  @observable locale , 只有发生变化, 就保存到storage中
     when(
       () => this.locale,
       () => {
-        chrome.storage.sync.set({ locale: this.locale });
+        localStorage.setItem('locale', this.locale);
       },
     );
   }
 
   init() {
-    chrome.storage.sync.get(['locale'], ({ locale }) => {
-      this.changeLocale(locale || 'en');
-    });
+    this.changeLocale(localStorage.getItem('locale') || 'en');
   }
 }
 

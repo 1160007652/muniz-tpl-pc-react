@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-10 09:55:59
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-07 11:16:34
+ * @ Modified time: 2020-07-13 11:47:44
  * @ Description: popup.html chrome 扩展插件, 弹出框的页面展示入口
  */
 
@@ -12,7 +12,7 @@ import { Provider } from 'mobx-react';
 import Routes from '_src/routes';
 import rootStore from '_src/stores';
 
-import '_src/services/webNetWork'; // 初始化网络请求库, 涉及到监听网络切换, 需要提前引用
+// import '_src/services/webNetWork'; // 初始化网络请求库, 涉及到监听网络切换, 需要提前引用
 
 import '_src/less/index.less';
 
