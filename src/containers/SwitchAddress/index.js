@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-09 16:24:49
+ * @ Modified time: 2020-07-13 17:55:25
  * @ Description: 多语言切换组件
  */
 
@@ -10,6 +10,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Select, Tag } from 'antd';
 import intl from 'react-intl-universal';
+import calculateTxn from '_src/utils/calculateTxn';
+import calculateUtxo from '_src/utils/calculateUtxo';
 
 import './index.less';
 
@@ -17,7 +19,10 @@ const SwitchAddress = ({ dataList, curAddress, onChange }) => {
   const [address, setAddress] = useState(curAddress);
 
   /** 选择地址事件 */
-  function handleSelectAddress(value) {
+  async function handleSelectAddress(value) {
+    // 计算utxoID 对应数据
+    await calculateUtxo({ address: value });
+    await calculateTxn({ address: value });
     setAddress(value);
     onChange(value);
   }

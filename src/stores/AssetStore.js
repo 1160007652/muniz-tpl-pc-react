@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-13 15:14:17
+ * @ Modified time: 2020-07-13 18:03:15
  * @ Description: 多语言状态Mobx 模块
  *
  * asset -> balance
@@ -34,11 +34,11 @@ class AssetStore {
    * */
   @observable createdAssetList = [
     // zhipan
-    { short: 'Hu', long: 'mtedMtrUb30Y0QNAIQqezw==' }, // 不可跟踪资产, max_utils: 不限制
+    { short: 'Hu', long: 'mtedMtrUb30Y0QNAIQqezw==' }, // 142 不可跟踪资产, max_utils: 不限制
     { short: 'Bu', long: '3jHjfIWoltr8dCvKs3ghIg==' }, // 不可跟踪资产, max_utils: 6000
     { short: 'Nu', long: 'uYYYWA0QPH5PwPhkx7JKGA==' }, // 可跟踪资产, max_utils: 不限制
     // 以上3个 资产 都是报这个错 : Invalid total amount per asset in non confidential asset transfer
-    { short: 'Mu', long: 'NgSmdxFA3rvF8P-VIB2KtA==' }, // 可跟踪资产, max_utils: 6000
+    { short: 'Mu', long: 'NgSmdxFA3rvF8P-VIB2KtA==' }, // 145 可跟踪资产, max_utils: 6000
     // 这个是提交后, 服务端报错: Zei error (ledger/src/store/effects.rs:333:67): Asset Tracking error. Asset commitment and asset ciphertext do not match.
   ];
   /**
@@ -51,12 +51,9 @@ class AssetStore {
    * */
   @observable issueAssetList = [
     // keyao
-    { short: 'XO', long: 'S3VjhfpO36BwUzV976qbtQ==' }, // 不可跟踪资产, max_utils: 不限制
-    { short: 'AO', long: 'eMJUf4W_s5ERUhOEvLRrSQ==' }, // 不可跟踪资产, max_utils: 6000
-    { short: 'Nu', long: 'uYYYWA0QPH5PwPhkx7JKGA==' }, // 可跟踪资产, max_utils: 不限制
-    { short: 'Mu', long: 'NgSmdxFA3rvF8P-VIB2KtA==' }, // 可跟踪资产, max_utils: 6000
+    { short: 'LLP', long: 'yTbnkyfUT6bpaWPJzy_GBw==' }, // 不可跟踪资产, max_utils: 不限制
+    { short: 'LLO', long: 'Kq6cZSWI78leO_X7nyyPqg==' }, // 不可跟踪资产, max_utils: 6000
   ];
-
   /** 修改 createdAssets 数据 */
   @action setCreatedAssetList() {}
 
@@ -68,9 +65,7 @@ class AssetStore {
    */
   @action getAssetList = async (address) => {
     const tokenCodes = await webNetWork.getCreatedAssets(address);
-
     await calculateTxn({ address });
-
     // let tokenCodeInfoList = tokenCodes.map(async (item) => {
     //   return await webNetWork.getAssetProperties(item);
     // });

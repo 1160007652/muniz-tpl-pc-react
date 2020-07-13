@@ -2,11 +2,12 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-13 15:11:18
+ * @ Modified time: 2020-07-13 18:30:29
  * @ Description: wallet info api , 钱包信息接口
  */
 
 import webNetWork from './webNetWork';
+import rootStore from '_src/stores';
 
 /**
  * @category Services
@@ -15,7 +16,6 @@ import webNetWork from './webNetWork';
 class AssetServer {
   constructor() {
     this.zeiParams = '';
-    this.getPublicParams();
   }
   /**
    * 获取PublicParams, 增发资产使用. 由于耗时严重,提取变量
@@ -45,7 +45,9 @@ class AssetServer {
     console.log(param);
     const findoraWasm = await import('wasm');
 
-    const { walletInfo, memo, asset, traceable, transferable, updatable } = param;
+    const { founder, memo, asset, traceable, transferable, updatable } = param;
+
+    const walletInfo = rootStore.walletStore.walletImportList.filter((item) => item.publickey === founder)[0];
 
     const keypair = findoraWasm.keypair_from_str(walletInfo.keyPairStr);
     console.log(keypair);
@@ -127,11 +129,17 @@ class AssetServer {
   issueAsset = async (param) => {
     console.log('表单数据: ', param);
 
+    if (!this.zeiParams) {
+      this.getPublicParams();
+    }
+
     const findoraWasm = await import('wasm');
 
     console.log('zeiParams: ', this.zeiParams);
 
-    const { walletInfo, asset, blind, issuer, to } = param;
+    const { asset, blind, issuer, to } = param;
+    const walletInfo = rootStore.walletStore.walletImportList.filter((item) => item.publickey === issuer)[0];
+
     // blind: { isAmount, isType} 是否隐藏
     // asset: { numbers: 100, unit: { short: "FIN", long: "xxxxxxxxxx=="}}
 

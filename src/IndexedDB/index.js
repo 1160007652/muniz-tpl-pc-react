@@ -1,1 +1,2 @@
-export { default as findoraDB } from './FindoraDB';
+export { default as relatedDB } from './RelatedDB';
+export { default as ownedDB } from './OwnedDB';

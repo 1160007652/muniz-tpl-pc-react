@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-03 09:59:55
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-01 14:06:05
+ * @ Modified time: 2020-07-13 18:11:46
  * @ Description: 网络钱包 WebKeyStore , 导出单列模式 模块
  */
 
@@ -59,13 +59,13 @@ class WebKeyStore extends KeyStore {
    * 添加命名加密密钥对添加到KeyStore
    */
   addNewKeypair = async ({ password, name }) => {
-    const Wasm = await import('wasm');
-    const keyPairStr = Wasm.keypair_to_str(Wasm.new_keypair());
+    const findoraWasm = await import('wasm');
+    const keyPairStr = findoraWasm.keypair_to_str(findoraWasm.new_keypair());
 
     // 调用父类 addNewKeypair 方法, 将命名加密密钥对添加到KeyStore
     super.addNewKeypair(password, name, keyPairStr);
-    const keyPairObj = await Wasm.keypair_from_str(keyPairStr);
-    const address = await Wasm.get_pub_key_str(keyPairObj);
+    const keyPairObj = await findoraWasm.keypair_from_str(keyPairStr);
+    const address = await findoraWasm.get_pub_key_str(keyPairObj);
     // 下载KeyStore
     this.writeToFile({ fileName: address.replace(/^_|_$/g, ''), name });
   };
@@ -74,7 +74,7 @@ class WebKeyStore extends KeyStore {
    * @description 恢复keyStore密钥对
    */
   setKeypair = async ({ keyStoreJson, password }) => {
-    const Wasm = await import('wasm');
+    const findoraWasm = await import('wasm');
 
     // const keys = keyStoreJson.map((keyData) => {
     //   const originalKey = keyData.encryptedKey;
@@ -104,8 +104,8 @@ class WebKeyStore extends KeyStore {
     // console.log(keyPairStr);
 
     try {
-      const keypair = await Wasm.keypair_from_str(keyPairStr);
-      const publickey = await Wasm.get_pub_key_str(keypair);
+      const keypair = await findoraWasm.keypair_from_str(keyPairStr);
+      const publickey = await findoraWasm.get_pub_key_str(keypair);
 
       // If the named key pair does not exist, add the key pair to keys
       // 如果不存在该命名的密钥对时,将密钥对添加到keys中

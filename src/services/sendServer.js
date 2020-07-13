@@ -2,12 +2,14 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-13 14:32:28
+ * @ Modified time: 2020-07-13 18:30:28
  * @ Description: wallet info api , 钱包信息接口
  *
  */
 
 import webNetWork from './webNetWork';
+import calculateUtxo from '_src/utils/calculateUtxo';
+import rootStore from '_src/stores';
 
 /**
  * @category Services
@@ -26,9 +28,11 @@ const sendServer = {
 
     const findoraWasm = await import('wasm');
 
-    const { walletInfo, asset, blind, to, from } = param;
+    const { asset, blind, to, from } = param;
     // blind: { isAmount, isType} 是否隐藏
     // asset: { numbers: 100, unit: { short: "FIN", long: "xxxxxxxxxx=="}}
+
+    const walletInfo = rootStore.walletStore.walletImportList.filter((item) => item.publickey === from)[0];
 
     // 当前钱包keypair
     const keypair = findoraWasm.keypair_from_str(walletInfo.keyPairStr);
@@ -42,9 +46,15 @@ const sendServer = {
 
     console.log('assetData: ', assetData);
 
+    // 获取 计算的 utxo 数据
+    await calculateUtxo({ address: from });
+
     let utxoSid = await webNetWork.getOwnedSids(from);
     utxoSid = utxoSid.sort((a, b) => a - b);
+    console.log(utxoSid);
     utxoSid = utxoSid.length > 0 ? utxoSid[utxoSid.length - 1] : 0;
+
+    utxoSid = 142;
 
     const utxoData = await webNetWork.getUtxo(utxoSid);
     console.log('utxoData', utxoData);

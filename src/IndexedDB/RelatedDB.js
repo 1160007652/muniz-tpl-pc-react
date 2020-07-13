@@ -1,15 +1,15 @@
 import Dexie from 'dexie';
 
-class FindoraDB {
+class RelatedDB {
   constructor() {
-    this.db = new Dexie('FindoraDB');
+    this.db = new Dexie('RelatedDB');
     this.init();
   }
   async init() {
     // 定义数据库
     await this.db.version(1).stores({
-      sids: 'address',
-      txns: '++id, address, &sid',
+      sids: '&address',
+      txns: '++id, address, sid',
     });
   }
   /**
@@ -45,11 +45,7 @@ class FindoraDB {
    */
   async putSids(data) {
     await this.openDB();
-    // 根据地址 关键字 索引 删除数据
-
-    const isDelete = await this.db.sids.where('address').equals(data.address).delete();
-    console.log('删除数据:', isDelete);
-    const result = await this.db.sids.add(data);
+    const result = await this.db.sids.put(data);
     await this.closeDB();
     console.log('添加sids数据: ', result);
   }
@@ -89,4 +85,4 @@ class FindoraDB {
   }
 }
 
-export default new FindoraDB();
+export default new RelatedDB();

@@ -2,12 +2,12 @@
  * @ Author: Muniz
  * @ Create Time: 2020-07-09 12:14:47
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-09 17:57:22
+ * @ Modified time: 2020-07-13 16:34:02
  * @ Description: 从服务端获取txn数据, 并且同步到浏览器数据库中, 主要做数据清洗塞选
  */
 
 import webNetWork from '_src/services/webNetWork';
-import { findoraDB } from '_src/IndexedDB';
+import { relatedDB } from '_src/IndexedDB';
 import arrayDiff from '_src/utils/arrayDiff';
 
 /**
@@ -17,7 +17,7 @@ import arrayDiff from '_src/utils/arrayDiff';
  */
 async function getSidsDiff({ address }) {
   // 获取前端数据库中的sids
-  const oldSids = await findoraDB.getSids({ address });
+  const oldSids = await relatedDB.getSids({ address });
   console.log('数据库中的sids: ', oldSids);
 
   // 获取 服务端 的 sids
@@ -44,11 +44,11 @@ async function calculateTxn({ address }) {
    * 如果 sidsDiff.length > 0 , 先数据库中添加新的sids, 拉取新的 txn
    */
   if (sidsDiff.length > 0) {
-    await findoraDB.putSids({ address, sids: sidsDiff });
+    await relatedDB.putSids({ address, sids: sidsDiff });
     await getTxnDiff({ address, sidsDiff });
   }
 
-  await findoraDB.getAssetList({ address });
+  await relatedDB.getAssetList({ address });
 }
 
 /**
@@ -71,7 +71,7 @@ async function getTxnDiff({ address, sidsDiff }) {
     txnDataList.push(item);
   }
 
-  await findoraDB.putTxns(txnDataList);
+  await relatedDB.putTxns(txnDataList);
 
   console.log('txn 数据:', txnDataList);
 }
