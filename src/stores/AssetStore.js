@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-13 18:03:15
+ * @ Modified time: 2020-07-13 18:32:47
  * @ Description: 多语言状态Mobx 模块
  *
  * asset -> balance
@@ -51,7 +51,7 @@ class AssetStore {
    * */
   @observable issueAssetList = [
     // keyao
-    { short: 'LLP', long: 'yTbnkyfUT6bpaWPJzy_GBw==' }, // 不可跟踪资产, max_utils: 不限制
+    { short: 'aaaa', long: 'YcKkj1kAytmjJpExEPVa2w==' }, // 不可跟踪资产, max_utils: 不限制
     { short: 'LLO', long: 'Kq6cZSWI78leO_X7nyyPqg==' }, // 不可跟踪资产, max_utils: 6000
   ];
   /** 修改 createdAssets 数据 */
