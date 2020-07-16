@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-07-09 12:14:47
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-16 09:15:38
+ * @ Modified time: 2020-07-16 09:32:26
  * @ Description: 从服务端获取txn数据, 并且同步到浏览器数据库中, 主要做数据清洗塞选
  */
 
@@ -48,15 +48,18 @@ async function getTxnDiff({ address, sidsDiff }) {
     bodyData.operations = bodyData.operations.map((item) => {
       // 创建资产
       if ('DefineAsset' in item) {
-        return item;
+        item.DefineAsset.type = 'DefineAsset';
+        return item.DefineAsset;
       }
       // 增发资产
       if ('IssueAsset' in item) {
-        return item;
+        item.IssueAsset.type = 'IssueAsset';
+        return item.IssueAsset;
       }
       // 转账
       if ('TransferAsset' in item) {
-        return item;
+        item.TransferAsset.type = 'TransferAsset';
+        return item.TransferAsset;
       }
     });
 

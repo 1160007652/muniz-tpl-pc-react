@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-15 13:53:27
+ * @ Modified time: 2020-07-16 14:17:37
  * @ Description: 多语言状态Mobx 模块
  *
  * asset -> balance
@@ -12,44 +12,24 @@
 
 import { action, observable, when } from 'mobx';
 import webNetWork from '_src/services/webNetWork';
+import { relatedDB } from '_src/IndexedDB';
 import calculateTxn from '_src/utils/calculateTxn';
+import calculateUtxo from '_src/utils/calculateUtxo';
 
 /**
  * 资产管理Store
  * @category MobxStore
  */
 class AssetStore {
-  constructor(self) {
-    this.rootStore = self;
-    // this.init();
-  }
+  constructor() {}
 
-  /**
-   *
-   * createdAssets 资产列表
-   *
-   * zhipan 钱包地址下的资产
-   * a1YtM_SttzL50DjGEsFIAjCflYVuWjQAWhwOwlrfH1o=
-   *
-   * */
+  /** createdAssets 资产列表 */
   @observable createdAssetList = [
     // zhipan
-    { short: 'ONE', long: 'Za5hlwa27VL2MpJ7kAv6WA==' }, // 不可跟踪资产, max_utils: 6000
-    { short: 'TWO', long: 'Zz2BfXev5V1yLxeyBWii3g==' }, // 不可跟踪资产, max_utils: 不限制
+    { short: 'three', long: 'MDg-MY0rGVxiFZ56r_GcSQ==' }, // 不可跟踪资产, max_utils: 不限制
   ];
-  /**
-   *
-   * issueAssets 待增发的数据
-   *
-   * zhipan 钱包地址下的资产
-   * a1YtM_SttzL50DjGEsFIAjCflYVuWjQAWhwOwlrfH1o=
-   *
-   * */
-  @observable issueAssetList = [
-    // keyao
-    { short: 'LLP', long: '7aaLEazPeVehsUb0QZzRMQ==' }, // 不可跟踪资产, max_utils: 6000
-    { short: 'TWO', long: 'Zz2BfXev5V1yLxeyBWii3g==' }, // 不可跟踪资产, max_utils: 不限制
-  ];
+  /** issueAssets 待增发的数据 */
+  @observable issueAssetList = [];
   /** 修改 createdAssets 数据 */
   @action setCreatedAssetList() {}
 
@@ -57,36 +37,65 @@ class AssetStore {
   @action setCreatedAssetList() {}
 
   /**
-   * 获取创建的资产
+   * 获取创建的资产, 用于在issuedPage (增发页面展示)
    */
-  @action getAssetList = async (address) => {
-    const tokenCodes = await webNetWork.getCreatedAssets(address);
-    await calculateTxn({ address });
-    // let tokenCodeInfoList = tokenCodes.map(async (item) => {
-    //   return await webNetWork.getAssetProperties(item);
-    // });
+  @action getCreatedAssetList = async (address) => {
+    console.groupCollapsed('=======>  开始获取可以增发的资产');
+    let tokenCodes = await webNetWork.getCreatedAssets(address);
+    let result = [];
 
-    // tokenCodeInfoList = await Promise.all(tokenCodeInfoList);
+    for (let i = 0; i < tokenCodes.length; i++) {
+      const item = await webNetWork.getAssetProperties(tokenCodes[i]);
+      item.short = item.memo;
+      item.long = item.code;
+      result.push(item);
+    }
 
-    console.log(`${address} 拥有的:`, tokenCodes);
+    this.issueAssetList = result;
+
+    console.log('钱包地址: ', address);
+    console.log('可增发资产: ', result);
+    console.groupEnd();
   };
 
+  /**
+   * 获取创建的资产, 用于在issuedPage (增发页面展示)
+   */
+  @action getIssuedAssetList = async (address) => {
+    console.groupCollapsed('=======>  开始获取可以转账的资产');
+
+    // 获取交易数据, 在转账的时候需要使用
+    await calculateUtxo({ address });
+    // 获取资产数据
+    await calculateTxn({ address });
+
+    const assetList = await relatedDB.getIssuedAssetList({ address });
+
+    let result = [];
+
+    for (let i = 0; i < assetList.length; i++) {
+      const operations = assetList[i].body.operations;
+      for (let j = 0; j < operations.length; j++) {
+        const item = await webNetWork.getAssetProperties(operations[j].body.code);
+        item.short = item.memo;
+        item.long = item.code;
+        result.push(item);
+      }
+    }
+
+    this.createdAssetList = result;
+
+    console.log('钱包地址: ', address);
+    console.log('拥有资产: ', result);
+
+    console.groupEnd();
+  };
   /**
    * 获取资产对应的 余额
    */
   @action getAssetBalance = async ({ address, tokenCode }) => {
     // await calculateTxn({ address });
   };
-
-  /**
-   * 初始化数据
-   *
-   * @memberof AssetStore
-   */
-  async init() {
-    const { walletStore } = this.rootStore;
-    const { walletInfo } = walletStore;
-  }
 }
 
 export default AssetStore;

@@ -12,40 +12,18 @@ import services from '_src/services';
 
 import './index.less';
 
-const dataList = [
-  {
-    txn: 'JAKzGqStME5FW6e1NmTME5FW6e1NFW6e1NrEB1',
-    time: '9/19/2019 18:31',
-    from: 'JAKzGqStME5FW6e1NmTME5FW6e1NFW6e1NrEB',
-    to: 'n1NStVG4c9HqXGebAdNkfhypHebhGqdeNs5',
-    state: true,
-    asset: {
-      numbers: '+10',
-      unit: 'FIN',
-    },
-  },
-  {
-    txn: 'JAKzGqStME5FW6e1NmTME5FW6e1NFW6e1NrEB2',
-    time: '9/19/2019 18:31',
-    from: 'JAKzGqStME5FW6e1NmTME5FW6e1NFW6e1NrEB',
-    to: 'n1NStVG4c9HqXGebAdNkfhypHebhGqdeNs5',
-    state: false,
-    asset: {
-      numbers: '-10',
-      unit: 'GIN',
-    },
-  },
-];
-
 const Transactions = () => {
   const history = useHistory();
   const walletStore = React.useContext(MobXProviderContext).walletStore;
+  const param = { walletInfo: toJS(walletStore.walletInfo) };
+  const [dataList, setDataList] = useState([]);
 
   useEffect(() => {
-    const param = { walletInfo: toJS(walletStore.walletInfo) };
-    services.txnServer.getTxnList(param).then((value) => {
-      console.log(value);
-    });
+    async function getTxnList() {
+      const result = await services.txnServer.getTxnList(param);
+      setDataList(result);
+    }
+    getTxnList();
   }, []);
 
   function handleClickItemInfo(item) {
@@ -54,19 +32,29 @@ const Transactions = () => {
     };
   }
 
+  async function handleClickReload() {
+    setDataList([]);
+    const result = await services.txnServer.getTxnList(param);
+    setDataList(result);
+  }
+
   return (
     <div className="transactions">
       <FindoraHeader title={intl.get('page_transactions_title')} isShowBack menu={<HeaderMenu />} />
       <ul className="transactions-box">
-        {dataList &&
+        {dataList ? (
           dataList.map((item) => {
             return (
               <li onClick={handleClickItemInfo(item)} key={item.txn}>
                 <TransactionsItem data={item} />
               </li>
             );
-          })}
+          })
+        ) : (
+          <li>暂无历史数据</li>
+        )}
       </ul>
+      <div onClick={handleClickReload}> 刷新数据 </div>
     </div>
   );
 };

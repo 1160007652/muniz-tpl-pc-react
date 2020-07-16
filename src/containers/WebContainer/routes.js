@@ -26,7 +26,7 @@ const routeMap = [
 
 const Routes = () => {
   return (
-    <Switch>
+    <div>
       {routeMap.map((item, index) => (
         <Route
           key={index}
@@ -44,8 +44,8 @@ const Routes = () => {
           }
         />
       ))}
-      <Redirect from="/" to={pageURL.createAsset} />
-    </Switch>
+      {/* <Redirect exact to={pageURL.createAsset} /> */}
+    </div>
   );
 };
 

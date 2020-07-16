@@ -97,7 +97,7 @@ const Send = () => {
           <Input placeholder="Please to address" value={data.to} className="address" onChange={handleChangeTo} />
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('asset_name')}>
-          <SwitchAssetName onResult={handleChangeSelectAssetName} address={walletStore.walletInfo.publickey} />
+          <SwitchAssetName onResult={handleChangeSelectAssetName} address={data.from} />
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('send_amount')}>
           <div className="send-balance">

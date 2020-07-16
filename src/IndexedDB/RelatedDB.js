@@ -40,11 +40,11 @@ class RelatedDB {
   }
 
   /**
-   * 获取 定义的 资产
+   * 获取可以转发的资产
    *
-   * @param {object} addres - 地址
+   * @param {object} address - 地址
    */
-  async getAssetList({ address }) {
+  async getIssuedAssetList({ address }) {
     await this.openDB();
     const assetList = await this.db.txns
       .where('address')
@@ -52,13 +52,34 @@ class RelatedDB {
       .and((row) => {
         const { operations } = row.body;
         const result = operations.filter((item) => {
-          return 'DefineAsset' in item;
+          return item.type === 'IssueAsset';
         });
         return result.length > 0;
       })
       .toArray();
     await this.closeDB();
-    console.log(assetList);
+    return assetList;
+  }
+  /**
+   * 获取交易记录
+   *
+   * @param {object} address - 地址
+   */
+  async getTransactionList({ address }) {
+    await this.openDB();
+    const assetList = await this.db.txns
+      .where('address')
+      .equals(address)
+      .and((row) => {
+        const { operations } = row.body;
+        const result = operations.filter((item) => {
+          return ['IssueAsset', 'TransferAsset'].includes(item.type);
+        });
+        return result.length > 0;
+      })
+      .toArray();
+    await this.closeDB();
+    return assetList;
   }
 }
 

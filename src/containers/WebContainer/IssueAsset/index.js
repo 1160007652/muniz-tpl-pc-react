@@ -36,6 +36,7 @@ const IssueAsset = () => {
     },
   });
 
+  /*
   useEffect(() => {
     async function assetTokenRules() {
       const tokenRulesData = await webNetWork.getAssetProperties(data.asset.unit.long);
@@ -47,6 +48,7 @@ const IssueAsset = () => {
       assetTokenRules();
     }
   }, [data.asset.unit.long]);
+  */
 
   /**
    * 创建资产, 唤醒插件, 校验信息
@@ -107,7 +109,7 @@ const IssueAsset = () => {
           />
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('asset_name')} isRow titleDirection="top">
-          <SwitchAssetName onResult={handleChangeAssetName} isIssued address={walletStore.walletInfo.publickey} />
+          <SwitchAssetName onResult={handleChangeAssetName} isIssued address={data.issuer} />
         </FindoraBoxView>
         {/* <FindoraBoxView title={intl.get('to')} isRow>
           <Input placeholder="Please to address" value={data.to} onChange={handleChangeTo} />

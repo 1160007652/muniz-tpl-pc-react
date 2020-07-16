@@ -2,18 +2,14 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-15 16:14:36
+ * @ Modified time: 2020-07-16 16:27:39
  * @ Description: 多语言切换组件
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Select, Tag } from 'antd';
 import intl from 'react-intl-universal';
-import calculateTxn from '_src/utils/calculateTxn';
-import calculateUtxo from '_src/utils/calculateUtxo';
-
-// s
 
 import './index.less';
 
@@ -22,9 +18,6 @@ const SwitchAddress = ({ dataList, curAddress, onChange }) => {
 
   /** 选择地址事件 */
   async function handleSelectAddress(value) {
-    // 计算utxoID 对应数据
-    await calculateUtxo({ address: value });
-    await calculateTxn({ address: value });
     setAddress(value);
     onChange(value);
   }
