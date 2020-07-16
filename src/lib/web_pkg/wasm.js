@@ -128,7 +128,7 @@ function makeMutClosure(arg0, arg1, dtor, f) {
     return real;
 }
 function __wbg_adapter_20(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hf4116c9a57653e97(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hb00493c539dbb680(arg0, arg1, addHeapObject(arg2));
 }
 
 /**
@@ -144,6 +144,30 @@ export function random_asset_type() {
         var r1 = getInt32Memory0()[8 / 4 + 1];
         return getStringFromWasm0(r0, r1);
     } finally {
+        wasm.__wbindgen_free(r0, r1);
+    }
+}
+
+let stack_pointer = 32;
+
+function addBorrowedObject(obj) {
+    if (stack_pointer == 1) throw new Error('out of js stack');
+    heap[--stack_pointer] = obj;
+    return stack_pointer;
+}
+/**
+* Generates a base64 encoded asset type string from a JSON-serialized JavaScript value.
+* @param {any} val
+* @returns {string}
+*/
+export function asset_type_from_jsvalue(val) {
+    try {
+        wasm.asset_type_from_jsvalue(8, addBorrowedObject(val));
+        var r0 = getInt32Memory0()[8 / 4 + 0];
+        var r1 = getInt32Memory0()[8 / 4 + 1];
+        return getStringFromWasm0(r0, r1);
+    } finally {
+        heap[stack_pointer++] = undefined;
         wasm.__wbindgen_free(r0, r1);
     }
 }
@@ -702,13 +726,6 @@ export function get_txo(path, sid) {
                     return CredentialSignature.__wrap(ret);
                 }
 
-                let stack_pointer = 32;
-
-                function addBorrowedObject(obj) {
-                    if (stack_pointer == 1) throw new Error('out of js stack');
-                    heap[--stack_pointer] = obj;
-                    return stack_pointer;
-                }
                 /**
                 * Generates a signature on user attributes that can be used to create a credential.
                 * @param {CredIssuerPublicKey} issuer_public_key - Public key of credential issuer.
@@ -803,8 +820,8 @@ export function get_txo(path, sid) {
                 function handleError(e) {
                     wasm.__wbindgen_exn_store(addHeapObject(e));
                 }
-                function __wbg_adapter_134(arg0, arg1, arg2, arg3) {
-                    wasm.wasm_bindgen__convert__closures__invoke2_mut__h4830b8d004ea450b(arg0, arg1, addHeapObject(arg2), addHeapObject(arg3));
+                function __wbg_adapter_137(arg0, arg1, arg2, arg3) {
+                    wasm.wasm_bindgen__convert__closures__invoke2_mut__h8c662e9d042f1885(arg0, arg1, addHeapObject(arg2), addHeapObject(arg3));
                 }
 
                 function getArrayU8FromWasm0(ptr, len) {
@@ -1065,6 +1082,45 @@ export function get_txo(path, sid) {
                         } finally {
                             heap[stack_pointer++] = undefined;
                         }
+                    }
+                    /**
+                    * Returns the asset amount associated with an asset record.
+                    * * If the amount is nonconfidential, returns the amount.
+                    * * Otherwise, returns null.
+                    * @see {@open_client_asset_record} for information about decrypting the confidential record.
+                    * @param {ClientAssetRecord} record
+                    * @returns {BigInt | undefined}
+                    */
+                    static get_asset_amount(record) {
+                        _assertClass(record, ClientAssetRecord);
+                        wasm.clientassetrecord_get_asset_amount(8, record.ptr);
+                        var r0 = getInt32Memory0()[8 / 4 + 0];
+                        var r1 = getInt32Memory0()[8 / 4 + 1];
+                        var r2 = getInt32Memory0()[8 / 4 + 2];
+                        u32CvtShim[0] = r1;
+                        u32CvtShim[1] = r2;
+                        const n0 = r0 === 0 ? undefined : uint64CvtShim[0];
+                        return n0;
+                    }
+                    /**
+                    * Returns the asset type associated with an asset record.
+                    * * If the type is nonconfidential, returns a base64 string representing the type.
+                    * * Otherwise, returns null.
+                    * @see {@open_client_asset_record} for information about decrypting the confidential record.
+                    * @param {ClientAssetRecord} record
+                    * @returns {string | undefined}
+                    */
+                    static get_asset_type(record) {
+                        _assertClass(record, ClientAssetRecord);
+                        wasm.clientassetrecord_get_asset_type(8, record.ptr);
+                        var r0 = getInt32Memory0()[8 / 4 + 0];
+                        var r1 = getInt32Memory0()[8 / 4 + 1];
+                        let v0;
+                        if (r0 !== 0) {
+                            v0 = getStringFromWasm0(r0, r1).slice();
+                            wasm.__wbindgen_free(r0, r1 * 1);
+                        }
+                        return v0;
                     }
                 }
                 /**
@@ -1509,8 +1565,8 @@ export function get_txo(path, sid) {
                     /**
                     * Generate an owner memo from a JSON-serialized JavaScript value.
                     *
-                    * Builds a client record from an asset record fetched from the ledger server.
-                    * @param {JsValue} val - JSON asset record fetched from ledger server with the `utxo_sid/{sid}` route,
+                    * Builds a client record from an owner memo fetched from the ledger server.
+                    * @param {JsValue} val - JSON owner memo fetched from ledger server with the `owner_memo/{sid}` route,
                     * where `sid` can be fetched from the query server with the `get_owned_utxos/{address}` route.
                     * @param {any} val
                     * @returns {OwnerMemo}
@@ -2444,7 +2500,7 @@ export function get_txo(path, sid) {
                                     const a = state0.a;
                                     state0.a = 0;
                                     try {
-                                        return __wbg_adapter_134(a, state0.b, arg0, arg1);
+                                        return __wbg_adapter_137(a, state0.b, arg0, arg1);
                                     } finally {
                                         state0.a = a;
                                     }
@@ -2561,7 +2617,7 @@ export function get_txo(path, sid) {
                             throw takeObject(arg0);
                         };
 
-                        export const __wbindgen_closure_wrapper1259 = function(arg0, arg1, arg2) {
+                        export const __wbindgen_closure_wrapper1266 = function(arg0, arg1, arg2) {
                             var ret = makeMutClosure(arg0, arg1, 176, __wbg_adapter_20);
                             return addHeapObject(ret);
                         };

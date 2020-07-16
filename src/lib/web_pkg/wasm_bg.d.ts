@@ -2,6 +2,7 @@
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
 export function random_asset_type(a: number): void;
+export function asset_type_from_jsvalue(a: number, b: number): void;
 export function verify_authenticated_txn(a: number, b: number, c: number, d: number): number;
 export function calculate_fee(a: number, b: number, c: number, d: number, e: number, f: number, g: number): void;
 export function get_null_pk(): number;
@@ -72,6 +73,8 @@ export function transfertype_standard_transfer_type(): number;
 export function transfertype_debt_transfer_type(): number;
 export function __wbg_clientassetrecord_free(a: number): void;
 export function clientassetrecord_from_jsvalue(a: number): number;
+export function clientassetrecord_get_asset_amount(a: number, b: number): void;
+export function clientassetrecord_get_asset_type(a: number, b: number): void;
 export function __wbg_assettracerkeypair_free(a: number): void;
 export function assettracerkeypair_new(): number;
 export function __wbg_ownermemo_free(a: number): void;
@@ -131,7 +134,7 @@ export function xfrkeypair_get_pk(a: number): number;
 export function __wbindgen_malloc(a: number): number;
 export function __wbindgen_realloc(a: number, b: number, c: number): number;
 export const __wbindgen_export_2: WebAssembly.Table;
-export function _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hf4116c9a57653e97(a: number, b: number, c: number): void;
+export function _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hb00493c539dbb680(a: number, b: number, c: number): void;
 export function __wbindgen_free(a: number, b: number): void;
 export function __wbindgen_exn_store(a: number): void;
-export function wasm_bindgen__convert__closures__invoke2_mut__h4830b8d004ea450b(a: number, b: number, c: number, d: number): void;
+export function wasm_bindgen__convert__closures__invoke2_mut__h8c662e9d042f1885(a: number, b: number, c: number, d: number): void;

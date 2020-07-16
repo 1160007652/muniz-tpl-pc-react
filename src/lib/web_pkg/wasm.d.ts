@@ -8,6 +8,12 @@
 */
 export function random_asset_type(): string;
 /**
+* Generates a base64 encoded asset type string from a JSON-serialized JavaScript value.
+* @param {any} val 
+* @returns {string} 
+*/
+export function asset_type_from_jsvalue(val: any): string;
+/**
 * Given a serialized state commitment and transaction, returns true if the transaction correctly
 * hashes up to the state commitment and false otherwise.
 * @param {string} state_commitment - String representing the state commitment.
@@ -452,6 +458,24 @@ export class ClientAssetRecord {
 * @returns {ClientAssetRecord} 
 */
   static from_jsvalue(val: any): ClientAssetRecord;
+/**
+* Returns the asset amount associated with an asset record.
+* * If the amount is nonconfidential, returns the amount.
+* * Otherwise, returns null.
+* @see {@open_client_asset_record} for information about decrypting the confidential record.
+* @param {ClientAssetRecord} record 
+* @returns {BigInt | undefined} 
+*/
+  static get_asset_amount(record: ClientAssetRecord): BigInt | undefined;
+/**
+* Returns the asset type associated with an asset record.
+* * If the type is nonconfidential, returns a base64 string representing the type.
+* * Otherwise, returns null.
+* @see {@open_client_asset_record} for information about decrypting the confidential record.
+* @param {ClientAssetRecord} record 
+* @returns {string | undefined} 
+*/
+  static get_asset_type(record: ClientAssetRecord): string | undefined;
 }
 export class CredIssuerPublicKey {
   free(): void;
@@ -577,8 +601,8 @@ export class OwnerMemo {
 /**
 * Generate an owner memo from a JSON-serialized JavaScript value.
 *
-* Builds a client record from an asset record fetched from the ledger server.
-* @param {JsValue} val - JSON asset record fetched from ledger server with the `utxo_sid/{sid}` route,
+* Builds a client record from an owner memo fetched from the ledger server.
+* @param {JsValue} val - JSON owner memo fetched from ledger server with the `owner_memo/{sid}` route,
 * where `sid` can be fetched from the query server with the `get_owned_utxos/{address}` route.
 * @param {any} val 
 * @returns {OwnerMemo} 

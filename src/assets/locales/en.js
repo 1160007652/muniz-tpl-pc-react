@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-12 14:02:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-01 17:40:23
+ * @ Modified time: 2020-07-15 13:21:46
  * @ Description: 英文文案
  */
 
@@ -93,11 +93,13 @@ const enUS = {
   send_mount_placeholder: 'Please to amount',
   send_asset_name: 'Asset Name',
   send_submit: 'Submit',
+  send_submit_not_last_transaction: 'Transfer failed, no last transaction',
 
   tips_wallet_create: 'Please create wallet address first',
   tips_wallet_empty: "You don't have any wallet.",
   tips_asset_create_result_success: 'Success Created Asset',
   tips_asset_issue_result_success: 'Success Issued Asset',
+  tips_asset_send_result_success: 'Success Send Asset',
   network_online: 'Online',
   network_testnet: 'Testnet',
 

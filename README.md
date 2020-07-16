@@ -24,7 +24,7 @@ react、react-router、mobx、webpack、less
 
 1、development env
 
-> yarn dev ,
+> yarn dev
 
 2、production environment
 

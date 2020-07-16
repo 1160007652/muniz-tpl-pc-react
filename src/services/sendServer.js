@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-13 18:30:28
+ * @ Modified time: 2020-07-15 13:19:08
  * @ Description: wallet info api , 钱包信息接口
  *
  */
@@ -10,6 +10,7 @@
 import webNetWork from './webNetWork';
 import calculateUtxo from '_src/utils/calculateUtxo';
 import rootStore from '_src/stores';
+import { ownedDB } from '_src/IndexedDB';
 
 /**
  * @category Services
@@ -24,6 +25,8 @@ const sendServer = {
    * @return {object}
    */
   async setSendAsset(param) {
+    console.groupCollapsed('=======>  开始转账');
+
     console.log('表单数据: ', param);
 
     const findoraWasm = await import('wasm');
@@ -49,12 +52,19 @@ const sendServer = {
     // 获取 计算的 utxo 数据
     await calculateUtxo({ address: from });
 
-    let utxoSid = await webNetWork.getOwnedSids(from);
-    utxoSid = utxoSid.sort((a, b) => a - b);
-    console.log(utxoSid);
-    utxoSid = utxoSid.length > 0 ? utxoSid[utxoSid.length - 1] : 0;
+    // 获取utxoSid
+    const assetLast = await ownedDB.getAssetLast({ address: from, tokenCode: asset.unit.long });
+    console.log('资产的最后一笔交易: ', assetLast);
 
-    utxoSid = 142;
+    if (!assetLast) {
+      return {
+        code: -2,
+        message: 'No last transaction',
+      };
+    }
+
+    let utxoSid = assetLast.sid;
+    console.log('当前资产的最后一笔交易SID: ', utxoSid);
 
     const utxoData = await webNetWork.getUtxo(utxoSid);
     console.log('utxoData', utxoData);
@@ -66,10 +76,10 @@ const sendServer = {
     const assetRecord = findoraWasm.ClientAssetRecord.from_jsvalue(utxoData);
     const ownerMemo = memoData ? findoraWasm.OwnerMemo.from_jsvalue(memoData) : null;
 
-    const jiemiData = findoraWasm.open_client_asset_record(assetRecord, ownerMemo, keypair);
+    const decryptUtxoData = findoraWasm.open_client_asset_record(assetRecord, ownerMemo, keypair);
     console.log('assetRecord: ', assetRecord);
     console.log('ownerMemo:', ownerMemo);
-    console.log('jiemiData: ', jiemiData);
+    console.log('decryptUtxoData: ', decryptUtxoData);
 
     /*
       还缺少,获取 ownerMeo 的功能
@@ -129,6 +139,8 @@ const sendServer = {
 
     const status = await webNetWork.getTxnStatus(handle);
     console.log('状态: ', status);
+
+    console.groupEnd();
 
     if ('Committed' in status) {
       return {

@@ -5,6 +5,11 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ChromeExtensionLauncher = require('webpack-chrome-extension-launcher');
 
 const base = require('./webpack.config.base');
+const config = require('../config');
+
+// base.output.publicPath = `http://${config.dev.ip}:${config.dev.port}/`;
+// 由于是 chrome extensions 插件模版,只能使用HashRouter 开发, 所以这里不可以制定全量地址.
+base.output.publicPath = '/';
 
 module.exports = merge(base, {
   mode: 'development',

@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-13 18:30:29
+ * @ Modified time: 2020-07-15 17:23:14
  * @ Description: wallet info api , 钱包信息接口
  */
 
@@ -15,7 +15,7 @@ import rootStore from '_src/stores';
  */
 class AssetServer {
   constructor() {
-    this.zeiParams = '';
+    // this.zeiParams = '';
   }
   /**
    * 获取PublicParams, 增发资产使用. 由于耗时严重,提取变量
@@ -24,7 +24,8 @@ class AssetServer {
    */
   getPublicParams = async () => {
     const findoraWasm = await import('wasm');
-    this.zeiParams = findoraWasm.PublicParams.new();
+    const zeiParams = findoraWasm.PublicParams.new();
+    return zeiParams;
   };
   /**
    * @description 系统生成资产地址-长名称
@@ -42,6 +43,7 @@ class AssetServer {
    * @param {*} param, 定义资产所需要的 data 数据
    */
   createAsset = async (param) => {
+    console.groupCollapsed('=======>  开始创建资产');
     console.log(param);
     const findoraWasm = await import('wasm');
 
@@ -61,38 +63,13 @@ class AssetServer {
 
     let definitionTransaction = {};
 
-    // const assetRules = findoraWasm.AssetRules.new();
-    // assetRules.set_transferable(transferable).set_updatable(updatable);
-    // if (asset.maxNumbers && asset.maxNumbers > 0) {
-    //   assetRules.set_max_units(BigInt(asset.maxNumbers));
-    // }
-    // if (traceable) {
-    //   assetRules.add_tracing_policy(tracingPolicy);
-    // }
-
-    let assetRules = findoraWasm.AssetRules.new().set_transferable(transferable).set_updatable(updatable);
+    let assetRules = findoraWasm.AssetRules.new();
+    assetRules = assetRules.set_transferable(transferable).set_updatable(updatable);
     if (asset.maxNumbers && asset.maxNumbers > 0) {
-      console.log('设置max金额');
-      assetRules = findoraWasm.AssetRules.new()
-        .set_max_units(BigInt(asset.maxNumbers))
-        .set_transferable(transferable)
-        .set_updatable(updatable);
-
-      if (traceable) {
-        assetRules = findoraWasm.AssetRules.new()
-          .set_max_units(BigInt(asset.maxNumbers))
-          .add_tracing_policy(tracingPolicy)
-          .set_transferable(transferable)
-          .set_updatable(updatable);
-      }
-    } else {
-      console.log('不设置max金额', asset.maxNumbers);
-      if (traceable) {
-        assetRules = findoraWasm.AssetRules.new()
-          .add_tracing_policy(tracingPolicy)
-          .set_transferable(transferable)
-          .set_updatable(updatable);
-      }
+      assetRules = assetRules.set_max_units(BigInt(asset.maxNumbers));
+    }
+    if (traceable) {
+      assetRules = assetRules.add_tracing_policy(tracingPolicy);
     }
 
     definitionTransaction = findoraWasm.TransactionBuilder.new(blockCount)
@@ -108,6 +85,8 @@ class AssetServer {
 
     const status = await webNetWork.getTxnStatus(handle);
     console.log('状态: ', status);
+
+    console.groupEnd();
 
     if ('Committed' in status) {
       return {
@@ -127,15 +106,19 @@ class AssetServer {
    * @param {*} param, 发行|增发 资产所需要的 data 数据
    */
   issueAsset = async (param) => {
+    console.groupCollapsed('=======>  开始增发资产');
     console.log('表单数据: ', param);
 
-    if (!this.zeiParams) {
-      this.getPublicParams();
-    }
+    // const backGroundPage = chrome.extension.getBackgroundPage();
+    // const { findoraConfig } = backGroundPage;
+    // this.zeiParams = findoraConfig.zeiParams;
+
+    // 如果没有从backgroundPage 中取到 数据, 就执行兜底方案,重新获取一个数据
 
     const findoraWasm = await import('wasm');
 
-    console.log('zeiParams: ', this.zeiParams);
+    const zeiParams = findoraWasm.PublicParams.new();
+    console.log('zeiParams: ', zeiParams);
 
     const { asset, blind, issuer, to } = param;
     const walletInfo = rootStore.walletStore.walletImportList.filter((item) => item.publickey === issuer)[0];
@@ -172,7 +155,7 @@ class AssetServer {
         BigInt(stateCommitment[1]),
         BigInt(asset.numbers),
         blind.isAmount,
-        this.zeiParams,
+        zeiParams,
       )
       .transaction();
     console.log('提交前的表单数据: ', issueTxn);
@@ -181,7 +164,7 @@ class AssetServer {
 
     const status = await webNetWork.getTxnStatus(handle);
     console.log('状态: ', status);
-
+    console.groupEnd();
     if ('Committed' in status) {
       return {
         code: 0,

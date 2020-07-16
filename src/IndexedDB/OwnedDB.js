@@ -38,50 +38,24 @@ class OwnedDB {
 
     return raw?.sids || [];
   }
-  /**
-   * 添加数据到sids表中
-   *
-   * @param {object} data - sids,数据 {address, sids}
-   */
-  async putSids(data) {
-    await this.openDB();
-    const result = await this.db.sids.put(data);
-    await this.closeDB();
-    console.log('添加sids数据: ', result);
-  }
-  /**
-   * 添加数据到txns表中
-   *
-   * @param {object} data - sids,数据 {address, sids}
-   */
-  async putTxns(data) {
-    await this.openDB();
-    console.log('存储数据:', data);
-    const result = await this.db.txns.bulkAdd(data);
-    await this.closeDB();
-    console.log('添加txns数据: ', result);
-  }
 
   /**
    * 获取 定义的 资产
    *
    * @param {object} addres - 地址
    */
-  async getAssetList({ address }) {
+  async getAssetLast({ address, tokenCode }) {
     await this.openDB();
     const assetList = await this.db.txns
       .where('address')
       .equals(address)
       .and((row) => {
-        const { operations } = row.body;
-        const result = operations.filter((item) => {
-          return 'DefineAsset' in item;
-        });
-        return result.length > 0;
+        const { asset_type } = row.body;
+        return asset_type === tokenCode;
       })
-      .toArray();
+      .last();
     await this.closeDB();
-    console.log(assetList);
+    return assetList;
   }
 }
 

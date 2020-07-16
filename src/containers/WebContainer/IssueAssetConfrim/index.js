@@ -4,7 +4,7 @@ import intl from 'react-intl-universal';
 
 import FindoraButton from '_components/FindoraButton';
 import FindoraBoxView from '_components/FindoraBoxView';
-import ResultAsset from '_containers/WebContainer/ResultAsset';
+import ResultAsset from '_components/ResultAsset';
 
 import services from '_src/services';
 import pageURL from '_constants/pageURL';

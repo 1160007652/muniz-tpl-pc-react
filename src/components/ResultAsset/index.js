@@ -9,6 +9,15 @@ import './index.less';
 
 const ResultAsset = ({ data, title, onClose, onView }) => {
   const isSuccess = data.type;
+
+  function tipsSuccess(type) {
+    const tips = {
+      Created: intl.get('tips_asset_create_result_success'),
+      Issued: intl.get('tips_asset_issue_result_success'),
+      Send: intl.get('tips_asset_send_result_success'),
+    };
+    return tips[type];
+  }
   return (
     <div className="result-asset">
       {isSuccess ? (
@@ -16,11 +25,7 @@ const ResultAsset = ({ data, title, onClose, onView }) => {
           <div>
             <CheckOutlined className="icon success" />
           </div>
-          <div className="tips">
-            {title === 'Created'
-              ? intl.get('tips_asset_create_result_success')
-              : intl.get('tips_asset_issue_result_success')}
-          </div>
+          <div className="tips">{tipsSuccess(title)}</div>
         </div>
       ) : (
         <div className="info">

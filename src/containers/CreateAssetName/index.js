@@ -2,13 +2,14 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-01 15:16:28
+ * @ Modified time: 2020-07-14 09:36:49
  * @ Description: 创建资产组件, 1、自定义创建短名称 - 映射到 长名称; 2、系统创建长名称
  */
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Radio, Alert } from 'antd';
+import { ReloadOutlined } from '@ant-design/icons';
 import intl from 'react-intl-universal';
 import { useImmer } from 'use-immer';
 
@@ -34,11 +35,12 @@ const CreateAssetName = ({ onResult }) => {
 
   useEffect(() => {
     /** 初始化资产名称 */
-    services.assetServer.getAssetNameLong().then((value) => {
-      setAssetNameData((state) => {
-        state.long = value;
-      });
-    });
+    // services.assetServer.getAssetNameLong().then((value) => {
+    //   setAssetNameData((state) => {
+    //     state.long = value;
+    //   });
+    // });
+    handleClickReloadLongName();
   }, []);
 
   /** 监听默认属性变化, 自动触发保存onResult事件 */
@@ -89,6 +91,16 @@ const CreateAssetName = ({ onResult }) => {
     });
   }
 
+  /** 系统默认生成长名称, 刷新新的名称事件 */
+  function handleClickReloadLongName() {
+    /** 初始化资产名称 */
+    services.assetServer.getAssetNameLong().then((value) => {
+      setAssetNameData((state) => {
+        state.long = value;
+      });
+    });
+  }
+
   function defaultAssetName() {
     return (
       <div className="asset-name-box">
@@ -101,7 +113,7 @@ const CreateAssetName = ({ onResult }) => {
         />
 
         <FindoraBoxView title={intl.get('asset_name_long')} isRow className="long-name">
-          {assetNameData.long}
+          {assetNameData.long} <ReloadOutlined className="icon-reload" onClick={handleClickReloadLongName} />
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('asset_name_short')} isRow>
           <Input

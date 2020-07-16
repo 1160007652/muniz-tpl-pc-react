@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-12 14:02:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-01 17:39:55
+ * @ Modified time: 2020-07-15 13:21:58
  * @ Description: 中文文案
  */
 
@@ -88,11 +88,13 @@ const zhCN = {
   send_amount_max: '最大数量:',
   send_mount_placeholder: '请输入转账金额',
   send_submit: '确认',
+  send_submit_not_last_transaction: '转账失败,无最后一笔交易',
 
   tips_wallet_create: '请先创建钱包地址',
   tips_wallet_empty: '你还未创建钱包。',
   tips_asset_create_result_success: '创建资产成功',
   tips_asset_issue_result_success: '发行资产成功',
+  tips_asset_send_result_success: '转账成功',
   network_online: '主网',
   network_testnet: '测试网',
 

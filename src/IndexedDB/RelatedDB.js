@@ -38,29 +38,6 @@ class RelatedDB {
 
     return raw?.sids || [];
   }
-  /**
-   * 添加数据到sids表中
-   *
-   * @param {object} data - sids,数据 {address, sids}
-   */
-  async putSids(data) {
-    await this.openDB();
-    const result = await this.db.sids.put(data);
-    await this.closeDB();
-    console.log('添加sids数据: ', result);
-  }
-  /**
-   * 添加数据到txns表中
-   *
-   * @param {object} data - sids,数据 {address, sids}
-   */
-  async putTxns(data) {
-    await this.openDB();
-    console.log('存储数据:', data);
-    const result = await this.db.txns.bulkAdd(data);
-    await this.closeDB();
-    console.log('添加txns数据: ', result);
-  }
 
   /**
    * 获取 定义的 资产
