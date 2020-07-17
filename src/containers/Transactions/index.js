@@ -3,6 +3,7 @@ import { MobXProviderContext, observer } from 'mobx-react';
 import { useHistory } from 'react-router-dom';
 import intl from 'react-intl-universal';
 import { toJS } from 'mobx';
+import { List, Button } from 'antd';
 
 import FindoraHeader from '_components/FindoraHeader';
 import HeaderMenu from '_containers/HeaderMenu';
@@ -17,11 +18,14 @@ const Transactions = () => {
   const walletStore = React.useContext(MobXProviderContext).walletStore;
   const param = { walletInfo: toJS(walletStore.walletInfo) };
   const [dataList, setDataList] = useState([]);
+  const [initLoading, setInitLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function getTxnList() {
       const result = await services.txnServer.getTxnList(param);
       setDataList(result);
+      setInitLoading(false);
     }
     getTxnList();
   }, []);
@@ -33,28 +37,41 @@ const Transactions = () => {
   }
 
   async function handleClickReload() {
-    setDataList([]);
+    setLoading(true);
     const result = await services.txnServer.getTxnList(param);
-    setDataList(result);
+    setDataList((state) => state.concat(result));
+    setLoading(false);
   }
+
+  const loadMore =
+    !initLoading && !loading ? (
+      <div
+        style={{
+          textAlign: 'center',
+          marginTop: 12,
+          height: 32,
+          lineHeight: '32px',
+        }}
+      >
+        <Button onClick={handleClickReload}>{intl.get('transaction_loade_more')}</Button>
+      </div>
+    ) : null;
 
   return (
     <div className="transactions">
       <FindoraHeader title={intl.get('page_transactions_title')} isShowBack menu={<HeaderMenu />} />
-      <ul className="transactions-box">
-        {dataList ? (
-          dataList.map((item) => {
-            return (
-              <li onClick={handleClickItemInfo(item)} key={item.txn}>
-                <TransactionsItem data={item} />
-              </li>
-            );
-          })
-        ) : (
-          <li>暂无历史数据</li>
+      <List
+        className="transactions-box"
+        loading={initLoading}
+        itemLayout="horizontal"
+        loadMore={loadMore}
+        dataSource={dataList}
+        renderItem={(item) => (
+          <li onClick={handleClickItemInfo(item)} key={item.txn}>
+            <TransactionsItem data={item} />
+          </li>
         )}
-      </ul>
-      <div onClick={handleClickReload}> 刷新数据 </div>
+      ></List>
     </div>
   );
 };

@@ -10,6 +10,7 @@ import FindoraBoxView from '_components/FindoraBoxView';
 import FindoraWebContainer from '_components/FindoraWebContainer';
 import SwitchAddress from '_containers/SwitchAddress';
 import CreateAssetName from '_containers/CreateAssetName';
+import FindoraTips from '_components/FindoraTips';
 
 import pageURL from '_constants/pageURL';
 
@@ -112,24 +113,28 @@ const CreateAsset = () => {
             onChange={handleChangeAssetMaxNumbers}
           />
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('policy')} isRow>
+        {/* 第一版, 暂且不实现 该功能 */}
+        {/* <FindoraBoxView title={<FindoraTips desc={intl.get('policy')}>{intl.get('policy')}</FindoraTips>} isRow>
           <Radio.Group value={data.policy} onChange={handleChangeRadio('policy')} disabled>
             <Radio value="fungible">Fungible</Radio>
           </Radio.Group>
-        </FindoraBoxView>
-        <FindoraBoxView title={intl.get('traceable')} isRow>
+        </FindoraBoxView> */}
+        <FindoraBoxView title={<FindoraTips desc={intl.get('traceable')}>{intl.get('traceable')}</FindoraTips>} isRow>
           <Radio.Group value={data.traceable} onChange={handleChangeRadio('traceable')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('transferable')} isRow>
+        <FindoraBoxView
+          title={<FindoraTips desc={intl.get('transferable')}>{intl.get('transferable')}</FindoraTips>}
+          isRow
+        >
           <Radio.Group value={data.transferable} onChange={handleChangeRadio('transferable')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('updatable')} isRow>
+        <FindoraBoxView title={<FindoraTips desc={intl.get('updatable')}>{intl.get('updatable')}</FindoraTips>} isRow>
           <Radio.Group value={data.updatable} onChange={handleChangeRadio('updatable')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>

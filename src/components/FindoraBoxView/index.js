@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-13 10:11:03
+ * @ Modified time: 2020-07-17 14:27:27
  * @ Description: 钱包导航, Header组件
  */
 
@@ -28,7 +28,7 @@ const FindoraBoxView = ({ children, title, titleDirection, isRow, className, sty
 
 FindoraBoxView.propTypes = {
   /** 点击事件 */
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   /** 是否横行展示 */
   isRow: PropTypes.bool,
   /** 标题显示位置 */

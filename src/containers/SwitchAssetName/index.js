@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-16 15:03:14
+ * @ Modified time: 2020-07-17 14:27:28
  * @ Description: 资产列表组件, 用于选着资产, 并返回结果
  */
 
@@ -12,6 +12,7 @@ import { MobXProviderContext, observer } from 'mobx-react';
 import { useRouteMatch, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Select, Skeleton } from 'antd';
+import intl from 'react-intl-universal';
 
 import services from '_src/services';
 import pageURL from '_constants/pageURL';
@@ -24,31 +25,44 @@ const SwitchAssetName = ({ onResult, address, isIssued }) => {
   const [isShowComponent, setShowComponent] = useState(false);
   const routeMatch = useRouteMatch();
 
-  const getAssetListCallback = useCallback(() => {
+  const getAssetListCallback = (abortSignal) => {
     setShowComponent(false);
     async function getCreatedAssetList() {
+      // abortSignal.addEventListener('abort', () => {
+      //   Promise.reject(intl.get('system_cancel_async'));
+      // });
+
       await assetStore.getCreatedAssetList(address);
       const assetList = toJS(assetStore.issueAssetList);
 
-      // 通知父组件结果
-      onResult(assetList.length > 0 ? assetList[0] : {});
-
-      // 自身UI 交互 s
-      setAssetCurrent(assetList[0]);
-
-      setShowComponent(true);
+      if (abortSignal.aborted) {
+        return Promise.reject(intl.get('system_cancel_async'));
+      } else {
+        // 通知父组件结果
+        onResult(assetList.length > 0 ? assetList[0] : {});
+        setAssetCurrent(assetList[0]);
+        setShowComponent(true);
+      }
     }
 
     async function getIssuedAssetList() {
+      // abortSignal.addEventListener('abort', () => {
+      //   Promise.reject(intl.get('system_cancel_async'));
+      // });
+
       await assetStore.getIssuedAssetList(address);
+
       const assetList = toJS(assetStore.createdAssetList);
-      // 通知父组件结果
-      onResult(assetList.length > 0 ? assetList[0] : {});
 
-      // 自身UI 交互 s
-      setAssetCurrent(assetList[0]);
-
-      setShowComponent(true);
+      if (abortSignal.aborted) {
+        return Promise.reject(intl.get('system_cancel_async'));
+      } else {
+        // 通知父组件结果
+        onResult(assetList.length > 0 ? assetList[0] : {});
+        // 自身UI 交互
+        setAssetCurrent(assetList[0]);
+        setShowComponent(true);
+      }
     }
 
     if (isIssued) {
@@ -56,11 +70,16 @@ const SwitchAssetName = ({ onResult, address, isIssued }) => {
     } else {
       getIssuedAssetList();
     }
-  }, [address]);
+  };
 
   useEffect(() => {
-    getAssetListCallback();
-  }, [getAssetListCallback]);
+    const abortController = new AbortController();
+    const abortSignal = abortController.signal;
+    getAssetListCallback(abortSignal);
+    return () => {
+      abortController.abort();
+    };
+  }, [address]);
 
   /** 显示资产页面,切换资产事件 */
   function handleSelectAssetName(value) {
@@ -92,12 +111,12 @@ const SwitchAssetName = ({ onResult, address, isIssued }) => {
         </Fragment>
       ) : (
         <div>
-          请先创建资产,
+          {intl.get('token_empty_tips')},
           {String(routeMatch.path).includes(pageURL.webContainer) ? (
-            <Link to={pageURL.createAsset}>点击创建</Link>
+            <Link to={pageURL.createAsset}>{intl.get('token_create_btn_tips')}</Link>
           ) : (
             <a href={`${chrome.runtime.getURL('popup.html')}#${pageURL.createAsset}`} target="_blank">
-              点击创建
+              {intl.get('token_create_btn_tips')}
             </a>
           )}
         </div>
@@ -120,12 +139,12 @@ const SwitchAssetName = ({ onResult, address, isIssued }) => {
         </Fragment>
       ) : (
         <div>
-          请先增发资产,
+          {intl.get('token_issue_empty_tips')},
           {String(routeMatch.path).includes(pageURL.webContainer) ? (
-            <Link to={pageURL.issueAsset}>点击增发</Link>
+            <Link to={pageURL.issueAsset}>{intl.get('token_issue_create_btn_tips')}</Link>
           ) : (
             <a href={`${chrome.runtime.getURL('popup.html')}#${pageURL.issueAsset}`} target="_blank">
-              点击增发
+              {intl.get('token_issue_create_btn_tips')}
             </a>
           )}
         </div>

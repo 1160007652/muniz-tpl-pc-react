@@ -26,7 +26,7 @@ const routeMap = [
 
 const Routes = () => {
   return (
-    <div>
+    <Fragment>
       {routeMap.map((item, index) => (
         <Route
           key={index}
@@ -45,7 +45,7 @@ const Routes = () => {
         />
       ))}
       {/* <Redirect exact to={pageURL.createAsset} /> */}
-    </div>
+    </Fragment>
   );
 };
 

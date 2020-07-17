@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-12 14:02:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-15 13:21:46
+ * @ Modified time: 2020-07-17 13:56:43
  * @ Description: 英文文案
  */
 
@@ -106,8 +106,16 @@ const enUS = {
   token_create_founder: 'Founder',
   token_create_max_amount: 'Max units',
   token_create_create: 'Create',
+  token_empty_tips: 'Please created assets',
+  token_create_btn_tips: 'Click create',
 
   token_issue_issuer: 'Issuer',
   token_issue_amount_placeholder: 'Please to amount',
+  token_issue_empty_tips: 'Please issued assets',
+  token_issue_create_btn_tips: 'Click issue',
+
+  transaction_loade_more: 'loadinf more',
+
+  system_cancel_async: 'Cancel asynchronous tasks to prevent memory leaks',
 };
 export default enUS;

@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-12 14:02:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-15 13:21:58
+ * @ Modified time: 2020-07-17 13:56:21
  * @ Description: 中文文案
  */
 
@@ -101,8 +101,16 @@ const zhCN = {
   token_create_founder: '创建者',
   token_create_max_amount: '最大资产金额',
   token_create_create: '创建',
+  token_empty_tips: '请先创建资产',
+  token_create_btn_tips: '点击创建',
 
   token_issue_issuer: '发行者',
   token_issue_amount_placeholder: '请输入发行金额',
+  token_issue_empty_tips: '请先增发资产',
+  token_issue_create_btn_tips: '点击增发',
+
+  transaction_loade_more: '加载更多',
+
+  system_cancel_async: '取消异步任务, 防止内存泄露',
 };
 export default zhCN;
