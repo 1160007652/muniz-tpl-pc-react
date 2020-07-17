@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-17 18:33:06
+ * @ Modified time: 2020-07-17 23:52:38
  * @ Description: 多语言状态Mobx 模块
  *
  * asset -> balance
@@ -53,15 +53,12 @@ class AssetStore {
   @action getCreatedAssetList = async (address) => {
     console.groupCollapsed('=======>  开始获取拥有的资产');
 
-    const result = await this.getOwnerAsset(address);
+    let result = await this.getOwnerAsset(address);
+
+    result = await this.getTransactionAsset(address, result);
 
     this.createdAssetList = result;
 
-    const walletInfo = this.rootStore.walletStore.walletImportList.filter((item) => item.publickey === address)[0];
-    // const { publickey, keyPairStr } = walletInfo;
-
-    const transactionResult = await transactionsMerge({ walletInfo, isGetTransaction: true });
-    console.log('transactionResult: ', transactionResult);
     console.log('钱包地址: ', address);
     console.log('可增发资产: ', result);
     console.groupEnd();
@@ -92,6 +89,8 @@ class AssetStore {
       }
     }
 
+    result = await this.getTransactionAsset(address, result);
+
     this.sendAssetList = result;
 
     console.log('钱包地址: ', address);
@@ -113,6 +112,34 @@ class AssetStore {
     }
 
     return result;
+  };
+
+  // 获取转账中的资产
+  getTransactionAsset = async (address, haveAsset) => {
+    const walletInfo = this.rootStore.walletStore.walletImportList.filter((item) => item.publickey === address)[0];
+
+    const transactionResult = await transactionsMerge({ walletInfo, isGetTransaction: true });
+
+    console.log('transactionResult: ', transactionResult);
+
+    console.log('haveAsset: ', haveAsset);
+
+    const result = [];
+
+    for (const transactionItem of transactionResult) {
+      if (transactionItem.from !== address) {
+        const haveAssetList = haveAsset.filter((obj) => {
+          return obj.code === transactionItem.asset.tokenCode;
+        });
+        if (haveAssetList.length === 0) {
+          const item = await webNetWork.getAssetProperties(transactionItem.asset.tokenCode);
+          item.short = item.memo;
+          item.long = item.code;
+          result.push(item);
+        }
+      }
+    }
+    return haveAsset.concat(result);
   };
 }
 
