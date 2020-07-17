@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-07-17 16:20:47
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-17 16:51:33
+ * @ Modified time: 2020-07-17 17:17:57
  * @ Description: 合并交易数据
  */
 // import webNetWork from '_src/services/webNetWork';
@@ -103,11 +103,16 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
   return result;
 }
 
-export default async function transactionsMerge({ walletInfo }) {
+export default async function transactionsMerge({ walletInfo, isGetTransaction = false }) {
   const findoraWasm = await import('wasm');
   const keypair = findoraWasm.keypair_from_str(walletInfo.keyPairStr);
 
-  const txnList = await relatedDB.getTransactionList({ address: walletInfo.publickey });
+  let txnList = [];
+  if (isGetTransaction) {
+    txnList = await relatedDB.getTransactionList({ address: walletInfo.publickey });
+  } else {
+    txnList = await relatedDB.getIssueAndTransactionList({ address: walletInfo.publickey });
+  }
   console.log('txnListData: ', txnList);
 
   const result = [];

@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-17 14:27:28
+ * @ Modified time: 2020-07-17 18:26:49
  * @ Description: 资产列表组件, 用于选着资产, 并返回结果
  */
 
@@ -19,7 +19,7 @@ import pageURL from '_constants/pageURL';
 
 import './index.less';
 
-const SwitchAssetName = ({ onResult, address, isIssued }) => {
+const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
   const assetStore = React.useContext(MobXProviderContext).assetStore;
   const [assetCurrent, setAssetCurrent] = useState();
   const [isShowComponent, setShowComponent] = useState(false);
@@ -27,12 +27,8 @@ const SwitchAssetName = ({ onResult, address, isIssued }) => {
 
   const getAssetListCallback = (abortSignal) => {
     setShowComponent(false);
-    async function getCreatedAssetList() {
-      // abortSignal.addEventListener('abort', () => {
-      //   Promise.reject(intl.get('system_cancel_async'));
-      // });
-
-      await assetStore.getCreatedAssetList(address);
+    async function getIssuedAssetList() {
+      await assetStore.getIssuedAssetList(address);
       const assetList = toJS(assetStore.issueAssetList);
 
       if (abortSignal.aborted) {
@@ -45,12 +41,8 @@ const SwitchAssetName = ({ onResult, address, isIssued }) => {
       }
     }
 
-    async function getIssuedAssetList() {
-      // abortSignal.addEventListener('abort', () => {
-      //   Promise.reject(intl.get('system_cancel_async'));
-      // });
-
-      await assetStore.getIssuedAssetList(address);
+    async function getCreatedAssetList() {
+      await assetStore.getCreatedAssetList(address);
 
       const assetList = toJS(assetStore.createdAssetList);
 
@@ -65,11 +57,29 @@ const SwitchAssetName = ({ onResult, address, isIssued }) => {
       }
     }
 
-    if (isIssued) {
-      getCreatedAssetList();
-    } else {
-      getIssuedAssetList();
+    async function getSendAssetList() {
+      await assetStore.getSendAssetList(address);
+
+      const assetList = toJS(assetStore.sendAssetList);
+
+      if (abortSignal.aborted) {
+        return Promise.reject(intl.get('system_cancel_async'));
+      } else {
+        // 通知父组件结果
+        onResult(assetList.length > 0 ? assetList[0] : {});
+        // 自身UI 交互
+        setAssetCurrent(assetList[0]);
+        setShowComponent(true);
+      }
     }
+
+    const getData = {
+      create: getCreatedAssetList,
+      issue: getIssuedAssetList,
+      send: getSendAssetList,
+    };
+
+    getData[actionTYpe]();
   };
 
   useEffect(() => {
@@ -83,18 +93,20 @@ const SwitchAssetName = ({ onResult, address, isIssued }) => {
 
   /** 显示资产页面,切换资产事件 */
   function handleSelectAssetName(value) {
-    const assetList = isIssued
-      ? toJS(assetStore.issueAssetList).filter((item) => item.long === value)
-      : toJS(assetStore.createdAssetList).filter((item) => item.long === value);
+    const assetList = {
+      create: toJS(assetStore.createdAssetList).filter((item) => item.long === value),
+      issue: toJS(assetStore.issueAssetList).filter((item) => item.long === value),
+      send: toJS(assetStore.sendAssetList).filter((item) => item.long === value),
+    };
     // 通知父组件结果
-    onResult(assetList.length > 0 ? assetList[0] : {});
+    onResult(assetList[actionTYpe].length > 0 ? assetList[actionTYpe][0] : {});
 
     // 自身UI 交互
-    setAssetCurrent(assetList[0]);
+    setAssetCurrent(assetList[actionTYpe][0]);
   }
 
   function getAssetListSelect() {
-    // 待增发列表
+    // 增发列表
     const issueAssetListComponent =
       assetStore.issueAssetList.length > 0 ? (
         <Fragment>
@@ -111,18 +123,11 @@ const SwitchAssetName = ({ onResult, address, isIssued }) => {
         </Fragment>
       ) : (
         <div>
-          {intl.get('token_empty_tips')},
-          {String(routeMatch.path).includes(pageURL.webContainer) ? (
-            <Link to={pageURL.createAsset}>{intl.get('token_create_btn_tips')}</Link>
-          ) : (
-            <a href={`${chrome.runtime.getURL('popup.html')}#${pageURL.createAsset}`} target="_blank">
-              {intl.get('token_create_btn_tips')}
-            </a>
-          )}
+          {intl.get('token_empty_tips')},<Link to={pageURL.createAsset}>{intl.get('token_create_btn_tips')}</Link>
         </div>
       );
 
-    // 已增发列表
+    // 拥有资产的列表
     const createdAssetListComponent =
       assetStore.createdAssetList.length > 0 ? (
         <Fragment>
@@ -140,18 +145,44 @@ const SwitchAssetName = ({ onResult, address, isIssued }) => {
       ) : (
         <div>
           {intl.get('token_issue_empty_tips')},
-          {String(routeMatch.path).includes(pageURL.webContainer) ? (
-            <Link to={pageURL.issueAsset}>{intl.get('token_issue_create_btn_tips')}</Link>
-          ) : (
-            <a href={`${chrome.runtime.getURL('popup.html')}#${pageURL.issueAsset}`} target="_blank">
-              {intl.get('token_issue_create_btn_tips')}
-            </a>
-          )}
+          <a href={`${chrome.runtime.getURL('popup.html')}#${pageURL.issueAsset}`} target="_blank">
+            {intl.get('token_issue_create_btn_tips')}
+          </a>
+        </div>
+      );
+
+    // 转账列表
+    const sendAssetListComponent =
+      assetStore.sendAssetList.length > 0 ? (
+        <Fragment>
+          <Select value={assetCurrent?.long} style={{ width: '100%' }} onChange={handleSelectAssetName}>
+            {assetStore.sendAssetList.map((item) => {
+              return (
+                <Select.Option value={item.long} key={item.long}>
+                  {item.short}
+                </Select.Option>
+              );
+            })}
+          </Select>
+          <div className="tips">{assetCurrent?.long}</div>
+        </Fragment>
+      ) : (
+        <div>
+          {intl.get('token_issue_empty_tips')},
+          <a href={`${chrome.runtime.getURL('popup.html')}#${pageURL.issueAsset}`} target="_blank">
+            {intl.get('token_issue_create_btn_tips')}
+          </a>
         </div>
       );
 
     if (isShowComponent) {
-      return isIssued ? issueAssetListComponent : createdAssetListComponent;
+      const getData = {
+        create: createdAssetListComponent,
+        issue: issueAssetListComponent,
+        send: sendAssetListComponent,
+      };
+
+      return getData[actionTYpe];
     } else {
       return <Skeleton.Input active />;
     }
@@ -160,19 +191,25 @@ const SwitchAssetName = ({ onResult, address, isIssued }) => {
   return <div className="findora-switch-asset-name">{getAssetListSelect()}</div>;
 };
 
+SwitchAssetName.ACTION_TYPE = {
+  CREATE: 'create',
+  ISSUE: 'issue',
+  SEND: 'send',
+};
+
 SwitchAssetName.propTypes = {
   /** 创建资产回调结果事件 */
   onResult: PropTypes.func,
   /** 当前钱包地址 */
   address: PropTypes.string,
   /** 是否待增发 */
-  isIssued: PropTypes.bool,
+  actionTYpe: PropTypes.string,
 };
 
 SwitchAssetName.defaultProps = {
   onResult: () => {},
   address: '',
-  isIssued: false,
+  actionTYpe: '',
 };
 
 export default observer(SwitchAssetName);

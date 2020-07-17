@@ -61,6 +61,27 @@ class RelatedDB {
     return assetList;
   }
   /**
+   * 获取增发 及 交易记录
+   *
+   * @param {object} address - 地址
+   */
+  async getIssueAndTransactionList({ address }) {
+    await this.openDB();
+    const assetList = await this.db.txns
+      .where('address')
+      .equals(address)
+      .and((row) => {
+        const { operations } = row.body;
+        const result = operations.filter((item) => {
+          return ['IssueAsset', 'TransferAsset'].includes(item.type);
+        });
+        return result.length > 0;
+      })
+      .toArray();
+    await this.closeDB();
+    return assetList;
+  }
+  /**
    * 获取交易记录
    *
    * @param {object} address - 地址
@@ -73,7 +94,7 @@ class RelatedDB {
       .and((row) => {
         const { operations } = row.body;
         const result = operations.filter((item) => {
-          return ['IssueAsset', 'TransferAsset'].includes(item.type);
+          return ['TransferAsset'].includes(item.type);
         });
         return result.length > 0;
       })

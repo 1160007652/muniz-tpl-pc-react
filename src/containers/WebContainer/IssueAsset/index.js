@@ -109,7 +109,11 @@ const IssueAsset = () => {
           />
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('asset_name')} isRow titleDirection="top">
-          <SwitchAssetName onResult={handleChangeAssetName} isIssued address={data.issuer} />
+          <SwitchAssetName
+            onResult={handleChangeAssetName}
+            actionTYpe={SwitchAssetName.ACTION_TYPE.ISSUE}
+            address={data.issuer}
+          />
         </FindoraBoxView>
         {/* <FindoraBoxView title={intl.get('to')} isRow>
           <Input placeholder="Please to address" value={data.to} onChange={handleChangeTo} />

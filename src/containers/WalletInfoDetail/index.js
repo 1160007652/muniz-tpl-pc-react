@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-16 14:25:31
+ * @ Modified time: 2020-07-17 17:35:46
  * @ Description: 钱包详情组件
  */
 
@@ -142,7 +142,11 @@ const WalletInfo = () => {
       />
       <div className="asset-name">
         <FindoraBoxView title={intl.get('asset_name')}>
-          <SwitchAssetName onResult={handleChangeSelectAssetName} isIssued address={walletStore.walletInfo.publickey} />
+          <SwitchAssetName
+            onResult={handleChangeSelectAssetName}
+            actionTYpe={SwitchAssetName.ACTION_TYPE.CREATE}
+            address={walletStore.walletInfo.publickey}
+          />
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('balance')} isRow style={{ justifyContent: 'space-between' }}>
           <Balance
