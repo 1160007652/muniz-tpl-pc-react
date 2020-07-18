@@ -14,6 +14,12 @@ react、react-router、mobx、webpack、less
 
 > yarn build
 
+## 分支作用
+
+1、master - 正式环境
+2、dev - 开发环境
+3、bug - 复现环境
+
 ---
 
 ## Framework configuration
@@ -30,6 +36,10 @@ react、react-router、mobx、webpack、less
 
 > yarn build
 
-## 改版
+## Branching
 
-1、重新改版 创建钱包、管理钱包的方式
+1. master - formal environment
+
+2. dev - development environment
+
+3. bug - bug recurrence environment
