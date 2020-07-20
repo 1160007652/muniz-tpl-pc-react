@@ -1,5 +1,15 @@
 findora wallet browser extension project
 
+## Framework configuration
+
+react、react-router、mobx、webpack、less
+
+## Branching
+
+1. master - formal environment
+2. dev/\* - development environment
+3. bug/\* - bug recurrence environment
+
 ## Project begining:
 
 ### Preconditions:
@@ -37,12 +47,10 @@ $ yarn build
 
 > The constructed resources are located in **" root directory/extensions "**
 
-## Framework configuration
+### Graphic introduction
 
-react、react-router、mobx、webpack、less
-
-## Branching
-
-1. master - formal environment
-2. dev/\* - development environment
-3. bug/\* - bug recurrence environment
+![打开浏览器扩展面板](./docs-src/images/help-1.png)
+![打开开发者模式](./docs-src/images/help-2.png)
+![拖拽插件到扩展面板中](./docs-src/images/help-3.png)
+![Open findora wallet ext](./docs-src/images/help-4.png)
+![使用插件](./docs-src/images/help-5.png)
