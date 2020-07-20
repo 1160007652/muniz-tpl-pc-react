@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-18 00:16:11
+ * @ Modified time: 2020-07-20 10:52:14
  * @ Description: 多语言状态Mobx 模块
  *
  * asset -> balance
@@ -16,7 +16,7 @@
  *
  */
 
-import { action, observable, when } from 'mobx';
+import { action, observable } from 'mobx';
 import webNetWork from '_src/services/webNetWork';
 import { relatedDB } from '_src/IndexedDB';
 import calculateTxn from '_src/utils/calculateTxn';
@@ -54,7 +54,8 @@ class AssetStore {
   };
 
   /**
-   * 获取可以转账的资产, 用于在Send (转账页面展示)
+   * 获取拥有的资产, 用于(钱包详情页面展示)
+   * 该方法,暂且无调用
    */
   @action getCreatedAssetList = async (address) => {
     console.groupCollapsed('=======>  开始获取拥有的资产');

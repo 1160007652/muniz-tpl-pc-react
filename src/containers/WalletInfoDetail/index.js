@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-17 17:35:46
+ * @ Modified time: 2020-07-20 10:51:30
  * @ Description: 钱包详情组件
  */
 
@@ -144,7 +144,7 @@ const WalletInfo = () => {
         <FindoraBoxView title={intl.get('asset_name')}>
           <SwitchAssetName
             onResult={handleChangeSelectAssetName}
-            actionTYpe={SwitchAssetName.ACTION_TYPE.CREATE}
+            actionTYpe={SwitchAssetName.ACTION_TYPE.SEND}
             address={walletStore.walletInfo.publickey}
           />
         </FindoraBoxView>

@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-12 14:02:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-17 13:56:43
+ * @ Modified time: 2020-07-20 11:08:27
  * @ Description: 英文文案
  */
 
@@ -16,7 +16,7 @@ const enUS = {
   notice: 'NOTICE',
   warning: 'WARNING',
   cancel: 'Cancel',
-  asset_name: 'AssetName',
+  asset_name: 'Asset',
   balance: 'Balance',
   success: 'Success',
   fail: 'Fail',

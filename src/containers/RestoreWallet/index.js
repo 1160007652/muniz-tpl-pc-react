@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-01 15:57:01
+ * @ Modified time: 2020-07-20 10:07:11
  * @ Description: 恢复钱包、导入钱包组件
  */
 
@@ -77,7 +77,7 @@ const RestoreWallet = () => {
   return (
     <div className="findora-wallet-empty">
       <FindoraHeader title={intl.get('page_wallet_import_title')} menu={renderCancelComponent} />
-      <div>
+      <div className="wallet-box">
         <Form name="restorekeystore" onFinish={handleUnlockKeystore}>
           <Row align="middle" justify="center" style={{ margin: '30px auto 10px', textAlign: 'center' }}>
             <Col xs={20} sm={8}>
@@ -109,7 +109,7 @@ const RestoreWallet = () => {
                     <UploadOutlined />
                     {intl.get('wallet_restore_upload_file')}
                   </Button>
-                  <div>{filename}</div>
+                  <div className="file-name">{filename}</div>
                 </Upload>
               </Form.Item>
             </Col>
