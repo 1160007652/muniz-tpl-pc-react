@@ -1,45 +1,48 @@
-# findora-extsions-wallet
+findora wallet browser extension project
 
-## 框架配置
+## Project begining:
 
-react、react-router、mobx、webpack、less
+### Preconditions:
 
-## 运行方式
+1. Install [Node.js](https://nodejs.org/en/download/) globally (version >= v10.16.3 );
+2. Install **yarn** package management tool globally;
 
-1、开发环境
+```bash
+$ npm install -g yarn
+```
 
-> yarn dev
+3. In the project directory, execute the following command:
 
-2、生产环境
+```bash
+$ yarn install
+```
 
-> yarn build
+### Build development environment:
 
-## 分支作用
+Execute the following commands in the project update directory to automatically open the browser and present the development environment.
 
-1、master - 正式环境
-2、dev - 开发环境
-3、bug - 复现环境
+```bash
+$ yarn dev
+```
 
----
+> Open Google Chrome first, execute the command, the effect will be better!
+
+### Build a production environment:
+
+Execute the following commands in the project update directory to build resources for execution in the production environment.
+
+```bash
+$ yarn build
+```
+
+> The constructed resources are located in **" root directory/extensions "**
 
 ## Framework configuration
 
 react、react-router、mobx、webpack、less
 
-## Operation mode
-
-1、development env
-
-> yarn dev
-
-2、production environment
-
-> yarn build
-
 ## Branching
 
 1. master - formal environment
-
-2. dev - development environment
-
-3. bug - bug recurrence environment
+2. dev/\* - development environment
+3. bug/\* - bug recurrence environment
