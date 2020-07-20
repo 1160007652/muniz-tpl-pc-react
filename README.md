@@ -49,8 +49,20 @@ $ yarn build
 
 ### Graphic introduction
 
-![打开浏览器扩展面板](./docs-src/images/help-1.png)
-![打开开发者模式](./docs-src/images/help-2.png)
-![拖拽插件到扩展面板中](./docs-src/images/help-3.png)
-![Open findora wallet ext](./docs-src/images/help-4.png)
-![使用插件](./docs-src/images/help-5.png)
+> Open the browser extension panel
+> ![Open the browser extension panel](./docs-src/images/help-1.png)
+
+> Open developer mode
+> ![Open developer mode](./docs-src/images/help-2.png)
+
+> Drag the plug-in to the extension panel
+> ![Drag the plug-in to the extension panel](./docs-src/images/help-3.png)
+
+> Open the wallet plugin
+> ![Open the wallet plugin](./docs-src/images/help-4.png)
+
+> Use wallet plugin
+> ![Use wallet plugin](./docs-src/images/help-5.png)
+
+> Wallet plugin homepage
+> ![Wallet plugin homepage](./docs-src/images/help-6.jpeg)
