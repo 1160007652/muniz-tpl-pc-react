@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-12 14:02:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-20 11:08:27
+ * @ Modified time: 2020-07-21 14:42:28
  * @ Description: 英文文案
  */
 
@@ -60,6 +60,8 @@ const enUS = {
     'The keystore file is an encrypted file used to store the private key. It must be used with the password to unlock the wallet. Please keep the keystore file properly and remember the password. If one of them is lost,the asset will not be recovered.',
   wallet_down_agree: 'I will save the keystore file and remember the password',
   wallet_down_btn: 'Download Keystore File',
+  wallet_down_success: 'DownLoad Success',
+  wallet_down_fail: 'DownLoad Failed',
   wallet_remove_title: 'Remove Wallet',
   wallet_remove_notice:
     'You are about to remove the wallet. Please make sure you have saved the keystore file to restore the wallet.',
@@ -94,6 +96,7 @@ const enUS = {
   send_asset_name: 'Asset Name',
   send_submit: 'Submit',
   send_submit_not_last_transaction: 'Transfer failed, no last transaction',
+  send_error1: 'Transfer Failed',
 
   tips_wallet_create: 'Please create wallet address first',
   tips_wallet_empty: "You don't have any wallet.",
@@ -108,14 +111,18 @@ const enUS = {
   token_create_create: 'Create',
   token_empty_tips: 'Please created assets',
   token_create_btn_tips: 'Click create',
+  token_create_error1: 'Failed to create asset',
 
   token_issue_issuer: 'Issuer',
   token_issue_amount_placeholder: 'Please to amount',
   token_issue_empty_tips: 'Please issued assets',
   token_issue_create_btn_tips: 'Click issue',
+  token_issue_error1: 'Failed to issueed assets',
 
   transaction_loade_more: 'loadinf more',
 
   system_cancel_async: 'Cancel asynchronous tasks to prevent memory leaks',
+
+  download_tips_checkbox: 'Please check the box to continue',
 };
 export default enUS;

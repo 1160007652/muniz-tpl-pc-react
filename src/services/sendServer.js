@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-15 13:19:08
+ * @ Modified time: 2020-07-21 13:11:07
  * @ Description: wallet info api , 钱包信息接口
  *
  */
@@ -73,8 +73,8 @@ const sendServer = {
     console.log('memoData', memoData);
 
     // 提取 record , 获取资产的数量
-    const assetRecord = findoraWasm.ClientAssetRecord.from_jsvalue(utxoData);
-    const ownerMemo = memoData ? findoraWasm.OwnerMemo.from_jsvalue(memoData) : null;
+    const assetRecord = findoraWasm.ClientAssetRecord.from_json(utxoData);
+    const ownerMemo = memoData ? findoraWasm.OwnerMemo.from_json(memoData) : null;
 
     const decryptUtxoData = findoraWasm.open_client_asset_record(assetRecord, ownerMemo, keypair);
     console.log('assetRecord: ', assetRecord);
@@ -113,20 +113,20 @@ const sendServer = {
       // 生成转账数据
       transferOp = findoraWasm.TransferOperationBuilder.new()
         .add_input_with_tracking(txoRef, assetRecord, ownerMemo, tracingPolicies, keypair, BigInt(amount))
-        .add_output_with_tracking(BigInt(amount), toPublickey, tracingPolicies, tokenCode, isBlindAmount, isBlindType)
-        .create(findoraWasm.TransferType.standard_transfer_type())
-        .sign(keypair)
-        .transaction();
+        .add_output_with_tracking(BigInt(amount), toPublickey, tracingPolicies, tokenCode, isBlindAmount, isBlindType);
     } else {
       console.log('转账 - 不可以跟踪');
       console.log('转账 - 金额: ', BigInt(amount), amount);
       transferOp = findoraWasm.TransferOperationBuilder.new()
         .add_input_no_tracking(txoRef, assetRecord, ownerMemo, keypair, BigInt(amount))
-        .add_output_no_tracking(BigInt(amount), toPublickey, tokenCode, isBlindAmount, isBlindType)
-        .create(findoraWasm.TransferType.standard_transfer_type())
-        .sign(keypair)
-        .transaction();
+        .add_output_no_tracking(BigInt(amount), toPublickey, tokenCode, isBlindAmount, isBlindType);
     }
+
+    transferOp = transferOp
+      .balance()
+      .create(findoraWasm.TransferType.standard_transfer_type())
+      .sign(keypair)
+      .transaction();
 
     console.log('开始获取 blockCount');
 

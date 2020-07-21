@@ -2,18 +2,19 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-01 16:53:00
+ * @ Modified time: 2020-07-21 10:30:59
  * @ Description: 创建钱包组件
  */
 
 import React from 'react';
-import { Input, Form, Button, Card, notification } from 'antd';
+import { Input, Form, Button, notification } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
 import { MobXProviderContext, observer } from 'mobx-react';
 import intl from 'react-intl-universal';
 import FindoraHeader from '_components/FindoraHeader';
 import pageURL from '_constants/pageURL';
 import services from '_src/services';
+import HeaderMenu from '_containers/HeaderMenu';
 
 import './index.less';
 
@@ -59,7 +60,7 @@ const CreateWallet = () => {
 
   return (
     <div className="findora-wallet-create">
-      <FindoraHeader title={intl.get('page_wallet_create_title')} menu={renderCancelComponent} />
+      <FindoraHeader title={intl.get('page_wallet_create_title')} isShowBack menu={<HeaderMenu />} />
       <div className="create-wallet-box">
         <p>{intl.get('wallet_create_keystore_info')}</p>
         <Form name="createkeystorewallet" {...formItemLayout} onFinish={handleCreateKeystoreWallet}>
@@ -73,7 +74,7 @@ const CreateWallet = () => {
                 message: intl.get('wallet_create_username_no_empty'),
               },
             ]}
-            initialValue="Alice"
+            // initialValue="Alice"
           >
             <Input type="text" className="inputwidth" />
           </Form.Item>
@@ -88,7 +89,7 @@ const CreateWallet = () => {
               },
               { min: 9, message: intl.get('wallet_create_password_less9') },
             ]}
-            initialValue="123456789"
+            // initialValue="123456789"
           >
             <Input type="password" className="inputwidth" />
           </Form.Item>
@@ -112,7 +113,7 @@ const CreateWallet = () => {
                 },
               }),
             ]}
-            initialValue="123456789"
+            // initialValue="123456789"
           >
             <Input type="password" />
           </Form.Item>

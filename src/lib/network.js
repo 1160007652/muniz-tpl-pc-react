@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-02 17:20:42
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-10 15:00:52
+ * @ Modified time: 2020-07-21 14:10:24
  * @ Description: NetWork 网络请求 切换环境 库
  */
 
@@ -104,7 +104,7 @@ class Network {
    */
   async getUtxo(utxoSid) {
     const utxo = await axios.get(`${this.getLedgerRoute()}/utxo_sid/${utxoSid}`);
-    return utxo.data;
+    return utxo.data.utxo;
   }
 
   /**

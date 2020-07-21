@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-17 16:03:13
+ * @ Modified time: 2020-07-21 18:14:24
  * @ Description: 钱包导航, Header组件
  */
 
@@ -36,10 +36,8 @@ const TransactionsItem = ({ data, onClick, className, style }) => {
         </FindoraBoxView>
       </div>
 
-      <FindoraBoxView title="AssetType " isRow>
-        <div className="address" style={{ textAlign: 'right' }}>
-          {asset.tokenCode}
-        </div>
+      <FindoraBoxView title="AssetType ">
+        <div className="address">{asset.tokenCode}</div>
       </FindoraBoxView>
 
       <div className="state">

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import intl from 'react-intl-universal';
-import { message } from 'antd';
+import { message, Spin } from 'antd';
 
 import FindoraHeader from '_components/FindoraHeader';
 import HeaderMenu from '_containers/HeaderMenu';
@@ -19,6 +19,7 @@ const SendConfrim = () => {
   const hirstory = useHistory();
   const [resultData, setResultData] = useState({ type: false });
   const [isShowResult, setShowResult] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const { from, to, asset, blind } = RouterLocation.state;
 
   /** 取消窗口 */
@@ -32,52 +33,60 @@ const SendConfrim = () => {
 
   /** 提交转账 */
   async function handleClickSubmit() {
-    const result = await services.sendServer.setSendAsset(RouterLocation.state);
+    setLoading(true);
+    try {
+      const result = await services.sendServer.setSendAsset(RouterLocation.state);
 
-    // 如果 转账成功, 需要做某件事情, 打开注释进行编写
-    // if (result.code === 0) {
-    //   console.log('转账成功');
-    // }
+      // 如果 转账成功, 需要做某件事情, 打开注释进行编写
+      // if (result.code === 0) {
+      //   console.log('转账成功');
+      // }
 
-    if (result.code === -2) {
-      message.error(intl.get('send_submit_not_last_transaction'));
-      return;
+      if (result.code === -2) {
+        message.error(intl.get('send_submit_not_last_transaction'));
+        return;
+      }
+      setLoading(false);
+      setResultData({ type: result.code === 0, result });
+      setShowResult(true);
+    } catch {
+      setLoading(false);
+      message.error(intl.get('send_error1'));
     }
-
-    setResultData({ type: result.code === 0, result });
-    setShowResult(true);
   }
 
   function confrimComponent() {
     return (
       <div className="send-confrim">
         <FindoraHeader title="Send" isShowBack menu={<HeaderMenu />} />
-        <div className="send-confrim-box">
-          <FindoraBoxView title={intl.get('from')}>
-            <span className="address">{from}</span>
-          </FindoraBoxView>
-          <FindoraBoxView title={intl.get('to')}>
-            <span className="address">{to}</span>
-          </FindoraBoxView>
-          <FindoraBoxView title={intl.get('asset_name')}>
-            <div className="address">{asset.unit.short}</div>
-            <div className="address">{asset.unit.long}</div>
-          </FindoraBoxView>
-          <FindoraBoxView title={intl.get('send_amount')}>
-            <span className="address">{asset.numbers}</span>
-          </FindoraBoxView>
-          <FindoraBoxView title={intl.get('blind_amount')}>
-            <span className="address">{blind.isAmount ? 'Yes' : 'No'}</span>
-          </FindoraBoxView>
-          <FindoraBoxView title={intl.get('blind_type')}>
-            <span className="address">{blind.isType ? 'Yes' : 'No'}</span>
-          </FindoraBoxView>
-          <div className="btn-area">
-            <FindoraButton className="btn" onClick={handleClickSubmit}>
-              {intl.get('send_submit')}
-            </FindoraButton>
+        <Spin spinning={isLoading}>
+          <div className="send-confrim-box">
+            <FindoraBoxView title={intl.get('from')}>
+              <span className="address">{from}</span>
+            </FindoraBoxView>
+            <FindoraBoxView title={intl.get('to')}>
+              <span className="address">{to}</span>
+            </FindoraBoxView>
+            <FindoraBoxView title={intl.get('asset_name')}>
+              <div className="address">{asset.unit.short}</div>
+              <div className="address">{asset.unit.long}</div>
+            </FindoraBoxView>
+            <FindoraBoxView title={intl.get('send_amount')}>
+              <span className="address">{asset.numbers}</span>
+            </FindoraBoxView>
+            <FindoraBoxView title={intl.get('blind_amount')}>
+              <span className="address">{blind.isAmount ? 'Yes' : 'No'}</span>
+            </FindoraBoxView>
+            <FindoraBoxView title={intl.get('blind_type')}>
+              <span className="address">{blind.isType ? 'Yes' : 'No'}</span>
+            </FindoraBoxView>
+            <div className="btn-area">
+              <FindoraButton className="btn" onClick={handleClickSubmit}>
+                {intl.get('send_submit')}
+              </FindoraButton>
+            </div>
           </div>
-        </div>
+        </Spin>
       </div>
     );
   }

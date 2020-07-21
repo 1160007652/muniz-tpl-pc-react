@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-15 17:23:14
+ * @ Modified time: 2020-07-21 15:04:56
  * @ Description: wallet info api , 钱包信息接口
  */
 
@@ -176,14 +176,6 @@ class AssetServer {
         message: status,
       };
     }
-  };
-  /** 获取服务端 定义的资产 */
-  getAssetNameServer = async (param) => {
-    const { address } = param;
-    console.log('服务端资产,表单数据: ', param);
-    const sid = await webNetWork.getCreatedAssets(address);
-    console.log('返回的sids 数据: ', sid);
-    return sid;
   };
 }
 

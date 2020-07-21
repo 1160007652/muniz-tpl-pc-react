@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-20 10:52:14
+ * @ Modified time: 2020-07-21 17:43:00
  * @ Description: 多语言状态Mobx 模块
  *
  * asset -> balance
@@ -75,6 +75,7 @@ class AssetStore {
    * 获取可以转账的资产, 用于在Send (转账页面展示)
    */
   @action getSendAssetList = async (address) => {
+    const findoraWasm = await import('wasm');
     console.groupCollapsed('=======>  开始获取可以转账的资产');
 
     // 获取交易数据, 在转账的时候需要使用
@@ -89,7 +90,11 @@ class AssetStore {
     for (let i = 0; i < assetList.length; i++) {
       const operations = assetList[i].body.operations;
       for (let j = 0; j < operations.length; j++) {
-        const item = await webNetWork.getAssetProperties(operations[j].body.code);
+        const asset_type = findoraWasm.asset_type_from_jsvalue(operations[j].body.code.val);
+        const item = await webNetWork.getAssetProperties(asset_type);
+        // console.log(await webNetWork.getAsset(asset_type));
+        console.log('item', item);
+        item.code = asset_type;
         item.short = item.memo;
         item.long = item.code;
         result.push(item);
@@ -108,11 +113,15 @@ class AssetStore {
 
   // 获取拥有的资产
   getOwnerAsset = async (address) => {
+    const findoraWasm = await import('wasm');
     let tokenCodes = await webNetWork.getCreatedAssets(address);
     let result = [];
 
     for (let i = 0; i < tokenCodes.length; i++) {
-      const item = await webNetWork.getAssetProperties(tokenCodes[i]);
+      const asset_type = findoraWasm.asset_type_from_jsvalue(tokenCodes[i].val);
+      const item = await webNetWork.getAssetProperties(asset_type);
+      console.log('已有资产', item);
+      item.code = asset_type;
       item.short = item.memo;
       item.long = item.code;
       result.push(item);
@@ -123,6 +132,7 @@ class AssetStore {
 
   // 获取转账中的资产
   getTransactionAsset = async (address, haveAsset) => {
+    const findoraWasm = await import('wasm');
     const walletInfo = this.rootStore.walletStore.walletImportList.filter((item) => item.publickey === address)[0];
 
     const transactionResult = await transactionsMerge({ walletInfo, isGetTransaction: true });
@@ -135,14 +145,20 @@ class AssetStore {
 
     for (const transactionItem of transactionResult) {
       if (transactionItem.from !== address) {
+        const asset_type = transactionItem.asset.tokenCode;
+        console.log('transactionItem', transactionItem);
         const haveAssetList = haveAsset.filter((obj) => {
-          return obj.code === transactionItem.asset.tokenCode;
+          return obj.code === asset_type;
         });
         if (haveAssetList.length === 0) {
-          const item = await webNetWork.getAssetProperties(transactionItem.asset.tokenCode);
+          const item = await webNetWork.getAssetProperties(asset_type);
+          item.code = asset_type;
           item.short = item.memo;
           item.long = item.code;
-          result.push(item);
+          const isHaveItem = result.filter((obj) => obj.code === item.code).length > 0;
+          if (isHaveItem <= 0) {
+            result.push(item);
+          }
         }
       }
     }

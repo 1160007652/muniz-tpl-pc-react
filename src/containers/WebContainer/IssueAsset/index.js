@@ -27,7 +27,7 @@ const IssueAsset = () => {
         short: '',
         long: '',
       },
-      numbers: 100,
+      numbers: '',
     },
     // to: walletStore.walletInfo.publickey,
     blind: {

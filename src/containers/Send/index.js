@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { toJS } from 'mobx';
 import { MobXProviderContext, observer } from 'mobx-react';
 import { useHistory } from 'react-router-dom';
-import { Input, Select, Radio } from 'antd';
+import { Input, Radio } from 'antd';
 import intl from 'react-intl-universal';
 import { useImmer } from 'use-immer';
 
@@ -24,10 +24,10 @@ const Send = () => {
   const [data, setData] = useImmer({
     walletInfo: toJS(walletStore.walletInfo),
     from: walletStore.walletInfo.publickey,
-    to: 'EUUsM3akbejyEb0QGSrm3hi6PQd_gdFYwWIVKLcLKkU=',
+    to: '',
     asset: {
       unit: {},
-      numbers: '10',
+      numbers: '',
     },
     blind: {
       isAmount: false,
@@ -81,6 +81,33 @@ const Send = () => {
       });
     };
   }
+
+  /** 资产属性, 交互提示 */
+  function AssetRulesComponent() {
+    // 是否可以二次转账
+    const isTran = !data.asset.unit?.asset_rules?.transferable;
+
+    if (data.asset.unit?.issuer?.key === data.from) {
+      return (
+        <FindoraButton className="btn" onClick={handleClickItemInfo}>
+          Next
+        </FindoraButton>
+      );
+    }
+
+    return !isTran ? (
+      data.asset.unit?.asset_rules ? (
+        <div>不可以二次转账</div>
+      ) : (
+        ''
+      )
+    ) : (
+      <FindoraButton className="btn" onClick={handleClickItemInfo}>
+        Next
+      </FindoraButton>
+    );
+  }
+
   return (
     <div className="send">
       <FindoraHeader title={intl.get('page_send_title')} isShowBack menu={<HeaderMenu />} />
@@ -133,11 +160,7 @@ const Send = () => {
             <Radio value={false}>No</Radio>
           </Radio.Group>
         </FindoraBoxView>
-        <div className="btn-area">
-          <FindoraButton className="btn" onClick={handleClickItemInfo}>
-            Next
-          </FindoraButton>
-        </div>
+        <div className="btn-area">{AssetRulesComponent()}</div>
       </div>
     </div>
   );

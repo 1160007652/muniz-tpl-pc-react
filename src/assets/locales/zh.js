@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-12 14:02:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-17 13:56:21
+ * @ Modified time: 2020-07-21 14:42:00
  * @ Description: 中文文案
  */
 
@@ -57,6 +57,8 @@ const zhCN = {
     '密钥库文件是用于存储私钥的加密文件。它必须与密码一起使用才能解锁钱包。请妥善保管密钥库文件并记住密码。如果其中一个丢失，资产将无法收回。',
   wallet_down_agree: '我将保存密钥库文件并记住密码',
   wallet_down_btn: '下载钱包',
+  wallet_down_success: '下载成功',
+  wallet_down_fail: '下载失败',
   wallet_remove_title: '删除钱包',
   wallet_remove_notice: '您将要取出钱包。请确保您已保存密钥库文件以恢复钱包。',
   wallet_export_title: '导出钱包',
@@ -89,6 +91,7 @@ const zhCN = {
   send_mount_placeholder: '请输入转账金额',
   send_submit: '确认',
   send_submit_not_last_transaction: '转账失败,无最后一笔交易',
+  send_error1: '转账失败',
 
   tips_wallet_create: '请先创建钱包地址',
   tips_wallet_empty: '你还未创建钱包。',
@@ -103,14 +106,17 @@ const zhCN = {
   token_create_create: '创建',
   token_empty_tips: '请先创建资产',
   token_create_btn_tips: '点击创建',
+  token_create_error1: '创建资产失败',
 
   token_issue_issuer: '发行者',
   token_issue_amount_placeholder: '请输入发行金额',
   token_issue_empty_tips: '请先增发资产',
   token_issue_create_btn_tips: '点击增发',
+  token_issue_error1: '增发资产失败',
 
   transaction_loade_more: '加载更多',
 
   system_cancel_async: '取消异步任务, 防止内存泄露',
+  download_tips_checkbox: '请勾选复选框,再继续操作',
 };
 export default zhCN;

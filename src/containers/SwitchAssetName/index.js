@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-17 18:26:49
+ * @ Modified time: 2020-07-21 10:59:36
  * @ Description: 资产列表组件, 用于选着资产, 并返回结果
  */
 
@@ -25,71 +25,77 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
   const [isShowComponent, setShowComponent] = useState(false);
   const routeMatch = useRouteMatch();
 
-  const getAssetListCallback = (abortSignal) => {
-    setShowComponent(false);
-    async function getIssuedAssetList() {
-      await assetStore.getIssuedAssetList(address);
-      const assetList = toJS(assetStore.issueAssetList);
+  const getAssetListCallback = useCallback(
+    (abortSignal) => {
+      setShowComponent(false);
+      async function getIssuedAssetList() {
+        await assetStore.getIssuedAssetList(address);
+        const assetList = toJS(assetStore.issueAssetList);
 
-      if (abortSignal.aborted) {
-        return Promise.reject(intl.get('system_cancel_async'));
-      } else {
-        // 通知父组件结果
-        onResult(assetList.length > 0 ? assetList[0] : {});
-        setAssetCurrent(assetList[0]);
-        setShowComponent(true);
+        if (abortSignal.aborted) {
+          return Promise.reject(intl.get('system_cancel_async'));
+        } else {
+          // 通知父组件结果
+          onResult(assetList.length > 0 ? assetList[0] : {});
+          setAssetCurrent(assetList[0]);
+          setShowComponent(true);
+        }
       }
-    }
 
-    async function getCreatedAssetList() {
-      await assetStore.getCreatedAssetList(address);
+      async function getCreatedAssetList() {
+        await assetStore.getCreatedAssetList(address);
 
-      const assetList = toJS(assetStore.createdAssetList);
+        const assetList = toJS(assetStore.createdAssetList);
 
-      if (abortSignal.aborted) {
-        return Promise.reject(intl.get('system_cancel_async'));
-      } else {
-        // 通知父组件结果
-        onResult(assetList.length > 0 ? assetList[0] : {});
-        // 自身UI 交互
-        setAssetCurrent(assetList[0]);
-        setShowComponent(true);
+        if (abortSignal.aborted) {
+          return Promise.reject(intl.get('system_cancel_async'));
+        } else {
+          // 通知父组件结果
+          onResult(assetList.length > 0 ? assetList[0] : {});
+          // 自身UI 交互
+          setAssetCurrent(assetList[0]);
+          setShowComponent(true);
+        }
       }
-    }
 
-    async function getSendAssetList() {
-      await assetStore.getSendAssetList(address);
+      async function getSendAssetList() {
+        await assetStore.getSendAssetList(address);
 
-      const assetList = toJS(assetStore.sendAssetList);
+        const assetList = toJS(assetStore.sendAssetList);
 
-      if (abortSignal.aborted) {
-        return Promise.reject(intl.get('system_cancel_async'));
-      } else {
-        // 通知父组件结果
-        onResult(assetList.length > 0 ? assetList[0] : {});
-        // 自身UI 交互
-        setAssetCurrent(assetList[0]);
-        setShowComponent(true);
+        if (abortSignal.aborted) {
+          return Promise.reject(intl.get('system_cancel_async'));
+        } else {
+          // 通知父组件结果
+          onResult(assetList.length > 0 ? assetList[0] : {});
+          // 自身UI 交互
+          setAssetCurrent(assetList[0]);
+          setShowComponent(true);
+        }
       }
-    }
 
-    const getData = {
-      create: getCreatedAssetList,
-      issue: getIssuedAssetList,
-      send: getSendAssetList,
-    };
+      const getData = {
+        create: getCreatedAssetList,
+        issue: getIssuedAssetList,
+        send: getSendAssetList,
+      };
 
-    getData[actionTYpe]();
-  };
+      getData[actionTYpe]();
+    },
+    [address],
+  );
 
   useEffect(() => {
     const abortController = new AbortController();
     const abortSignal = abortController.signal;
-    getAssetListCallback(abortSignal);
+    if (address) {
+      getAssetListCallback(abortSignal);
+    }
+
     return () => {
       abortController.abort();
     };
-  }, [address]);
+  }, [getAssetListCallback]);
 
   /** 显示资产页面,切换资产事件 */
   function handleSelectAssetName(value) {

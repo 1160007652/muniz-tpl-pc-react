@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-20 10:07:11
+ * @ Modified time: 2020-07-21 10:38:34
  * @ Description: 恢复钱包、导入钱包组件
  */
 
@@ -14,6 +14,7 @@ import { MobXProviderContext, observer } from 'mobx-react';
 import { Link, useHistory } from 'react-router-dom';
 
 import FindoraHeader from '_components/FindoraHeader';
+import HeaderMenu from '_containers/HeaderMenu';
 import services from '_src/services';
 import pageURL from '_constants/pageURL';
 
@@ -76,7 +77,7 @@ const RestoreWallet = () => {
   }
   return (
     <div className="findora-wallet-empty">
-      <FindoraHeader title={intl.get('page_wallet_import_title')} menu={renderCancelComponent} />
+      <FindoraHeader title={intl.get('page_wallet_import_title')} isShowBack menu={<HeaderMenu />} />
       <div className="wallet-box">
         <Form name="restorekeystore" onFinish={handleUnlockKeystore}>
           <Row align="middle" justify="center" style={{ margin: '30px auto 10px', textAlign: 'center' }}>
@@ -86,9 +87,9 @@ const RestoreWallet = () => {
                 name="upload"
                 rules={[
                   () => ({
-                    validator(fileList) {
+                    validator(fileList, val) {
                       try {
-                        if (fileList !== undefined) {
+                        if (val.fileList !== undefined) {
                           return Promise.resolve();
                         }
                         return Promise.reject(intl.get('wallet_restore_no_upload_file'));
@@ -125,7 +126,7 @@ const RestoreWallet = () => {
                     message: intl.get('wallet_restore_inputpassword'),
                   },
                 ]}
-                initialValue="123456789"
+                // initialValue="123456789"
               >
                 <Input type="password" placeholder={intl.get('wallet_restore_inputpassword')} />
               </Form.Item>

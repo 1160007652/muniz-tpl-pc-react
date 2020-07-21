@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import intl from 'react-intl-universal';
+import { Spin, message } from 'antd';
 
 import FindoraButton from '_components/FindoraButton';
 import FindoraBoxView from '_components/FindoraBoxView';
@@ -14,6 +15,7 @@ import './index.less';
 const IssueAssetConfrim = ({ data }) => {
   const [resultData, setResultData] = useState({ type: false });
   const [isShowResult, setShowResult] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const hirstory = useHistory();
   const { issuer, asset, to, blind } = data;
 
@@ -31,48 +33,57 @@ const IssueAssetConfrim = ({ data }) => {
   }
   /** 提交数据 */
   async function handleClickSubmit() {
-    const result = await services.assetServer.issueAsset(data);
-
-    setResultData({ type: result.code === 0, result });
-    setShowResult(true);
+    setLoading(true);
+    try {
+      const result = await services.assetServer.issueAsset(data);
+      // 如果 创建成功, 切换选中钱包成当前的创建成功钱包
+      if (result.code === 0) {
+        // ...
+      }
+      setLoading(false);
+      setResultData({ type: result.code === 0, result });
+      setShowResult(true);
+    } catch {
+      setLoading(false);
+      message.error(intl.get('token_issue_error1'));
+    }
   }
 
   function confrimComponent() {
     return (
       <div className="issue-asset-confrim">
-        <div className="issue-asset-confrim-box">
-          <FindoraBoxView title={intl.get('token_issue_issuer')}>
-            <span className="address">{issuer}</span>
-          </FindoraBoxView>
-          <FindoraBoxView title={intl.get('asset_name')}>
-            <div className="address" style={{ color: 'rgba(131, 151, 177, 0.6)' }}>
-              {asset.unit.short}
-            </div>
-            <div className="address">{asset.unit.long}</div>
-          </FindoraBoxView>
-          {/* <FindoraBoxView title={intl.get('to')}>
-            <span className="address">{to}</span>
-          </FindoraBoxView> */}
-          <FindoraBoxView title={intl.get('balance')}>
-            <span className="address">{asset.numbers}</span>
-            <span style={{ marginLeft: '4px' }}>{asset.unit.short}</span>
-          </FindoraBoxView>
-          <FindoraBoxView title={intl.get('blind_amount')}>
-            <span className="address">{blind.isAmount ? 'Yes' : 'No'}</span>
-          </FindoraBoxView>
-          <FindoraBoxView title={intl.get('blind_type')}>
-            <span className="address">{blind.isType ? 'Yes' : 'No'}</span>
-          </FindoraBoxView>
-        </div>
+        <Spin spinning={isLoading}>
+          <div className="issue-asset-confrim-box">
+            <FindoraBoxView title={intl.get('token_issue_issuer')}>
+              <div className="address">{issuer}</div>
+            </FindoraBoxView>
+            <FindoraBoxView title={intl.get('asset_name')}>
+              <div className="address" style={{ color: 'rgba(131, 151, 177, 0.6)' }}>
+                {asset.unit.short}
+              </div>
+              <div className="address">{asset.unit.long}</div>
+            </FindoraBoxView>
+            <FindoraBoxView title={intl.get('balance')}>
+              <span className="address">{asset.numbers}</span>
+              <span style={{ marginLeft: '4px' }}>{asset.unit.short}</span>
+            </FindoraBoxView>
+            <FindoraBoxView title={intl.get('blind_amount')}>
+              <span className="address">{blind.isAmount ? 'Yes' : 'No'}</span>
+            </FindoraBoxView>
+            <FindoraBoxView title={intl.get('blind_type')}>
+              <span className="address">{blind.isType ? 'Yes' : 'No'}</span>
+            </FindoraBoxView>
+          </div>
 
-        <div className="btn-area">
-          <FindoraButton className="btn" onClick={handleClickCancel}>
-            {intl.get('cancel')}
-          </FindoraButton>
-          <FindoraButton className="btn" onClick={handleClickSubmit}>
-            {intl.get('confrim')}
-          </FindoraButton>
-        </div>
+          <div className="btn-area">
+            <FindoraButton className="btn" onClick={handleClickCancel}>
+              {intl.get('cancel')}
+            </FindoraButton>
+            <FindoraButton className="btn" onClick={handleClickSubmit}>
+              {intl.get('confrim')}
+            </FindoraButton>
+          </div>
+        </Spin>
       </div>
     );
   }

@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-07-09 12:14:47
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-15 16:06:00
+ * @ Modified time: 2020-07-21 13:11:09
  * @ Description: 从服务端获取txn数据, 并且同步到浏览器数据库中, 主要做数据清洗塞选
  */
 
@@ -52,8 +52,8 @@ async function getUtxoDiff({ address, sidsDiff, keyPairStr }) {
     const utxoData = await webNetWork.getUtxo(sid);
     const memoData = await webNetWork.getOwnerMemo(sid);
 
-    const assetRecord = findoraWasm.ClientAssetRecord.from_jsvalue(utxoData);
-    const ownerMemo = memoData ? findoraWasm.OwnerMemo.from_jsvalue(memoData) : null;
+    const assetRecord = findoraWasm.ClientAssetRecord.from_json(utxoData);
+    const ownerMemo = memoData ? findoraWasm.OwnerMemo.from_json(memoData) : null;
 
     const decryptAssetData = findoraWasm.open_client_asset_record(assetRecord, ownerMemo, keypair);
 

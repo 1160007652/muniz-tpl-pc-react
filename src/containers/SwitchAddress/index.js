@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-16 16:27:39
+ * @ Modified time: 2020-07-21 11:05:48
  * @ Description: 多语言切换组件
  */
 
@@ -38,7 +38,7 @@ const SwitchAddress = ({ dataList, curAddress, onChange }) => {
       </div>
     );
   }
-  return dataList ? createSelectAddress() : <div>{intl.get('tips_wallet_create')}</div>;
+  return dataList.length > 0 ? createSelectAddress() : <div>{intl.get('tips_wallet_create')}</div>;
 };
 
 SwitchAddress.propTypes = {
