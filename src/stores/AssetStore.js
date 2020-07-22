@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-21 17:43:00
+ * @ Modified time: 2020-07-22 10:00:20
  * @ Description: 多语言状态Mobx 模块
  *
  * asset -> balance
@@ -21,7 +21,7 @@ import webNetWork from '_src/services/webNetWork';
 import { relatedDB } from '_src/IndexedDB';
 import calculateTxn from '_src/utils/calculateTxn';
 import calculateUtxo from '_src/utils/calculateUtxo';
-import transactionsMerge from '_src/utils/transactionsMerge';
+import assetsMerge from '_src/utils/assetsMerge';
 
 /**
  * 资产管理Store
@@ -135,7 +135,7 @@ class AssetStore {
     const findoraWasm = await import('wasm');
     const walletInfo = this.rootStore.walletStore.walletImportList.filter((item) => item.publickey === address)[0];
 
-    const transactionResult = await transactionsMerge({ walletInfo, isGetTransaction: true });
+    const transactionResult = await assetsMerge({ walletInfo });
 
     console.log('transactionResult: ', transactionResult);
 

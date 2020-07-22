@@ -86,7 +86,7 @@ class RelatedDB {
    *
    * @param {object} address - 地址
    */
-  async getTransactionList({ address }) {
+  async getTransactionAssetList({ address }) {
     await this.openDB();
     const assetList = await this.db.txns
       .where('address')
