@@ -1,13 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import intl from 'react-intl-universal';
+import { Provider } from 'mobx-react';
+import rootStore from '_src/stores';
 
 import '_src/less/index.less';
 import './index.less';
 
 ReactDOM.render(
-  <div>
-    Options 页面 配置项文件 1234
-    <input placeholder="请输入Findora 访问密码"></input>
-  </div>,
+  <Provider {...rootStore}>
+    <div className="about-box">
+      <h3>{intl.get('about_title')}</h3>
+      <div className="version">
+        {intl.get('about_version')}:{process.env.VERSION_APP}
+      </div>
+      <p>{intl.get('about_info')}</p>
+      <a href="https://bugtracker.findora.org/projects/web-wallet/issues/new">
+        https://bugtracker.findora.org/projects/web-wallet/issues/new
+      </a>
+    </div>
+  </Provider>,
   document.getElementById('root'),
 );
