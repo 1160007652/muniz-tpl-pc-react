@@ -162,7 +162,7 @@ module.exports = {
       config: {
         base: manifest,
         extend: {
-          version: pkgJson.version.split('-')[0],
+          version: pkgJson.version,
         },
       },
     }),
