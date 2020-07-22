@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-07-17 16:20:47
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-22 10:26:23
+ * @ Modified time: 2020-07-22 15:45:16
  * @ Description: 提取转账中的资产信息
  */
 // import webNetWork from '_src/services/webNetWork';
@@ -75,5 +75,6 @@ export default async function assetsMerge({ walletInfo }) {
       }
     }
   }
+
   return result;
 }

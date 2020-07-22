@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-22 13:17:27
+ * @ Modified time: 2020-07-22 16:34:08
  * @ Description: 多语言状态Mobx 模块
  *
  * asset -> balance
@@ -22,6 +22,8 @@ import { relatedDB } from '_src/IndexedDB';
 import calculateTxn from '_src/utils/calculateTxn';
 import calculateUtxo from '_src/utils/calculateUtxo';
 import assetsMerge from '_src/utils/assetsMerge';
+import balancesMerge from '_src/utils/balancesMerge';
+import transactionsMerge from '_src/utils/transactionsMerge';
 
 /**
  * 资产管理Store
@@ -106,6 +108,16 @@ class AssetStore {
     }
 
     result = await this.getTransactionAsset(address, result);
+
+    // 加入 计算余额
+    const walletInfo = this.rootStore.walletStore.walletImportList.filter((item) => item.publickey === address)[0];
+    const transactionData = await transactionsMerge({ walletInfo, page: -1 });
+
+    result = result.map(async (item) => {
+      return await balancesMerge({ dataList: transactionData, asset: item });
+    });
+
+    result = await Promise.all(result);
 
     this.sendAssetList = result;
 

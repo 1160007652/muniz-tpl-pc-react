@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-20 10:51:30
+ * @ Modified time: 2020-07-22 16:40:33
  * @ Description: 钱包详情组件
  */
 
@@ -149,12 +149,7 @@ const WalletInfo = () => {
           />
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('balance')} isRow style={{ justifyContent: 'space-between' }}>
-          <Balance
-            assetName={assetName}
-            style={{ textAlign: 'right' }}
-            key={assetName.unit.long}
-            walletInfo={toJS(walletStore.walletInfo)}
-          />
+          <Balance asset={assetName} style={{ textAlign: 'right' }} key={assetName.unit.long} />
         </FindoraBoxView>
         <div className="line" />
       </div>

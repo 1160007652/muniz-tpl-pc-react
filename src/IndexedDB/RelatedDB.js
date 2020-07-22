@@ -69,7 +69,7 @@ class RelatedDB {
     await this.openDB();
     const limit = 3;
     const offset = page * limit;
-    const assetList = await this.db.txns
+    let assetList = await this.db.txns
       .where('address')
       .equals(address)
       .and((row) => {
@@ -79,10 +79,14 @@ class RelatedDB {
         });
         return result.length > 0;
       })
-      .reverse()
-      .offset(offset)
-      .limit(limit)
-      .toArray();
+      .reverse();
+
+    if (page >= 0) {
+      assetList = assetList.offset(offset).limit(limit).toArray();
+    } else {
+      assetList = assetList.toArray();
+    }
+
     await this.closeDB();
     return assetList;
   }

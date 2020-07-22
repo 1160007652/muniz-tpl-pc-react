@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-07-17 16:20:47
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-22 13:57:04
+ * @ Modified time: 2020-07-22 15:50:03
  * @ Description: 合并交易数据
  */
 // import webNetWork from '_src/services/webNetWork';
@@ -104,7 +104,13 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
 
   return result;
 }
-
+/**
+ *
+ *
+ * @export
+ * @param {*} { walletInfo, page }
+ * @returns
+ */
 export default async function transactionsMerge({ walletInfo, page }) {
   // 获取交易数据, 在转账的时候需要使用
   await calculateUtxo({ address: walletInfo.publickey });
