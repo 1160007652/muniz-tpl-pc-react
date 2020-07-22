@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-12 14:02:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-22 14:23:55
+ * @ Modified time: 2020-07-22 19:27:31
  * @ Description: 英文文案
  */
 
@@ -73,7 +73,7 @@ const enUS = {
   menu_setting: 'Setting',
   menu_asset_create: 'Create Asset',
   menu_asset_issue: 'Issue Asset',
-  menu_about: 'About US',
+  menu_about: 'Help',
 
   page_wallet_title: 'Wallet',
   page_wallet_detail: 'Wallet Info',
@@ -84,7 +84,7 @@ const enUS = {
   page_send_title: 'Send',
   page_transactions_title: 'Transactions',
   page_transactions_detail_title: 'Transactions Detail',
-  page_wallet_about_title: 'About US',
+  page_wallet_about_title: 'Help',
 
   wallet_restore_password_error: 'Password Error',
   wallet_restore_no_upload_file: 'No files uploaded',
@@ -127,5 +127,10 @@ const enUS = {
   system_cancel_async: 'Cancel asynchronous tasks to prevent memory leaks',
 
   download_tips_checkbox: 'Please check the box to continue',
+
+  about_title: 'Findora Wallet Application',
+  about_version: 'Version',
+  about_info:
+    'If you encounter any problems, please report the issue of the specified version number to us by clicking on the URL below to help us better solve this problem.',
 };
 export default enUS;
