@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { MobXProviderContext, observer } from 'mobx-react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import intl from 'react-intl-universal';
 import { toJS } from 'mobx';
-import { List, Button } from 'antd';
+import { List, Button, Spin } from 'antd';
 
 import FindoraHeader from '_components/FindoraHeader';
 import HeaderMenu from '_containers/HeaderMenu';
@@ -17,25 +17,31 @@ const Transactions = () => {
   const history = useHistory();
   const walletStore = React.useContext(MobXProviderContext).walletStore;
   const transactionStore = React.useContext(MobXProviderContext).transactionStore;
-
+  const historyParams = useParams();
   const walletInfo = toJS(walletStore.walletInfo);
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const dataList = transactionStore.dataList[walletInfo.publickey]?.data || [];
 
   useEffect(() => {
-    async function getTxnList() {
-      const param = { page: 0, walletInfo };
+    async function getTxnList(page) {
+      const param = { page, walletInfo };
       const result = await services.txnServer.getTxnList(param);
       if (result.length > 0) {
-        await transactionStore.getTransactionData({ address: walletInfo.publickey, data: result, page: 0 });
+        await transactionStore.getTransactionData({ address: walletInfo.publickey, data: result, page });
       }
       setInitLoading(false);
     }
     if (dataList.length > 0) {
       setInitLoading(false);
     } else {
-      getTxnList();
+      getTxnList(0);
+    }
+
+    // 默认加载 loading, 下拉刷新 refresh
+    if (historyParams.action === 'refresh') {
+      setInitLoading(true);
+      getTxnList(-2);
     }
   }, []);
 
@@ -92,18 +98,20 @@ const Transactions = () => {
   return (
     <div className="transactions">
       <FindoraHeader title={intl.get('page_transactions_title')} isShowBack menu={<HeaderMenu />} />
-      <List
-        className="transactions-box"
-        loading={initLoading}
-        itemLayout="horizontal"
-        loadMore={loadMore()}
-        dataSource={dataList}
-        renderItem={(item) => (
-          <li onClick={handleClickItemInfo(item)} key={item.txn}>
-            <TransactionsItem data={item} />
-          </li>
-        )}
-      ></List>
+      <Spin spinning={initLoading}>
+        <List
+          className="transactions-box"
+          loading={initLoading}
+          itemLayout="horizontal"
+          loadMore={loadMore()}
+          dataSource={dataList}
+          renderItem={(item) => (
+            <li onClick={handleClickItemInfo(item)} key={item.txn}>
+              <TransactionsItem data={item} />
+            </li>
+          )}
+        />
+      </Spin>
     </div>
   );
 };

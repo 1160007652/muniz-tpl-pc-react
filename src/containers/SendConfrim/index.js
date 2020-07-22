@@ -28,7 +28,7 @@ const SendConfrim = () => {
   }
   /** 显示结果后, 按钮事件 */
   function handleClickView() {
-    hirstory.replace({ pathname: pageURL.transactions });
+    hirstory.replace({ pathname: pageURL.transactions.replace(':action', 'refresh') });
   }
 
   /** 提交转账 */

@@ -2,12 +2,11 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-22 14:09:33
+ * @ Modified time: 2020-07-22 18:41:21
  * @ Description: 多语言状态Mobx 模块
  */
 
-import { action, observable, when } from 'mobx';
-import intl from 'react-intl-universal';
+import { action, observable } from 'mobx';
 
 /**
  * 交易管理Store
@@ -31,6 +30,8 @@ class TransactionStore {
 
     if (page > 0) {
       dataList = dataList.concat(data);
+    } else if (page === -2) {
+      dataList.unshift(...data);
     } else {
       dataList = data;
     }

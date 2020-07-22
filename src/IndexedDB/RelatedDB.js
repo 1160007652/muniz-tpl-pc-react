@@ -83,6 +83,8 @@ class RelatedDB {
 
     if (page >= 0) {
       assetList = assetList.offset(offset).limit(limit).toArray();
+    } else if (page === -2) {
+      assetList = assetList.offset(0).limit(1).toArray();
     } else {
       assetList = assetList.toArray();
     }

@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-22 17:24:57
+ * @ Modified time: 2020-07-22 18:13:11
  * @ Description: 钱包详情组件
  */
 
@@ -155,7 +155,10 @@ const WalletInfo = () => {
         <FindoraButton className="mb20" onClick={handleChangeRouter(pageURL.send)}>
           Send
         </FindoraButton>
-        <FindoraButton className="mb20" onClick={handleChangeRouter(pageURL.transactions)}>
+        <FindoraButton
+          className="mb20"
+          onClick={handleChangeRouter(pageURL.transactions.replace(':action', 'loading'))}
+        >
           Transactions
         </FindoraButton>
         <FindoraButton className="mb20" onClick={handleClickExportWallet}>

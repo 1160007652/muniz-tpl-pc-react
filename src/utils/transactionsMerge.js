@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-07-17 16:20:47
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-22 17:29:27
+ * @ Modified time: 2020-07-22 18:32:23
  * @ Description: 合并交易数据
  */
 // import webNetWork from '_src/services/webNetWork';
@@ -126,6 +126,7 @@ export default async function transactionsMerge({ walletInfo, page }) {
     const operations = txnList[i].body.operations;
     for (let j = 0; j < operations.length; j++) {
       const { type, body } = operations[j];
+
       if (type === 'IssueAsset') {
         const resultItem = await getIssueAssetData({ body, keypair });
         resultItem.txn = txnList[i].sid;
@@ -133,6 +134,7 @@ export default async function transactionsMerge({ walletInfo, page }) {
       }
       if (type === 'TransferAsset') {
         const resultItem = await getTransactionAssetData({ body, keypair, walletInfo });
+
         resultItem.txn = txnList[i].sid;
         result.push(resultItem);
       }

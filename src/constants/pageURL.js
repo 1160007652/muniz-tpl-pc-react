@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-22 10:54:20
+ * @ Modified time: 2020-07-22 18:09:27
  * @ Description: 路由定义, 配置文件
  */
 
@@ -37,7 +37,7 @@ const pageURL = {
   /** 转账详情页面 */
   sendConfrim: '/sendConfrim',
   /** 交易记录页面 */
-  transactions: '/transactions',
+  transactions: '/transactions/:action',
   /** 交易记录详情页面 */
   transactionsDetail: '/transactionsDetail',
   /** 资产信息审核页面, 包含 生成资产、 增发资产 信息审核 */
