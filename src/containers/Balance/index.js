@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-22 16:51:51
+ * @ Modified time: 2020-07-22 17:20:58
  * @ Description: 资产列表组件, 用于选着资产, 并返回结果
  */
 
@@ -12,10 +12,11 @@ import PropTypes from 'prop-types';
 import './index.less';
 
 const Balance = ({ style, asset }) => {
+  console.log('balance', asset);
   return (
     <div className="findora-balance" style={style}>
-      {asset?.unit?.numbers ?? ''}
-      {/* <span>{asset.unit.short}</span> */}
+      {asset?.numbers ?? ''}
+      {/* <span>{asset?.short}</span> */}
     </div>
   );
 };

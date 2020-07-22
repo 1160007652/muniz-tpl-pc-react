@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-21 13:11:07
+ * @ Modified time: 2020-07-22 18:00:11
  * @ Description: wallet info api , 钱包信息接口
  *
  */
@@ -31,16 +31,16 @@ const sendServer = {
 
     const findoraWasm = await import('wasm');
 
-    const { asset, blind, to, from } = param;
+    const { asset, blind, to, from, numbers } = param;
     // blind: { isAmount, isType} 是否隐藏
-    // asset: { numbers: 100, unit: { short: "FIN", long: "xxxxxxxxxx=="}}
+    // asset: { numbers: 100,  short: "FIN", long: "xxxxxxxxxx=="}
 
     const walletInfo = rootStore.walletStore.walletImportList.filter((item) => item.publickey === from)[0];
 
     // 当前钱包keypair
     const keypair = findoraWasm.keypair_from_str(walletInfo.keyPairStr);
 
-    const assetData = await webNetWork.getAsset(asset.unit.long);
+    const assetData = await webNetWork.getAsset(asset.long);
 
     // 资产是否可以跟踪
     const isTraceable = assetData.properties.asset_rules?.tracing_policies?.length > 0;
@@ -53,7 +53,7 @@ const sendServer = {
     await calculateUtxo({ address: from });
 
     // 获取utxoSid
-    const assetLast = await ownedDB.getAssetLast({ address: from, tokenCode: asset.unit.long });
+    const assetLast = await ownedDB.getAssetLast({ address: from, tokenCode: asset.long });
     console.log('资产的最后一笔交易: ', assetLast);
 
     if (!assetLast) {
@@ -89,10 +89,10 @@ const sendServer = {
     const txoRef = findoraWasm.TxoRef.absolute(BigInt(utxoSid));
 
     // 转账数量
-    const amount = asset.numbers;
+    const amount = numbers;
 
     // 资产地址
-    const tokenCode = asset.unit.long;
+    const tokenCode = asset.long;
 
     // 是否隐藏数量
     const isBlindAmount = blind.isAmount;

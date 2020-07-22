@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-07-17 16:20:47
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-22 15:50:03
+ * @ Modified time: 2020-07-22 17:29:27
  * @ Description: 合并交易数据
  */
 // import webNetWork from '_src/services/webNetWork';
@@ -22,9 +22,7 @@ async function getIssueAssetData({ body, keypair }) {
   const result = {
     time: '9/19/2019 18:31',
     state: true,
-    asset: {
-      unit: '短名称',
-    },
+    asset: {},
   };
 
   for (const recordsItem of records) {
@@ -59,9 +57,7 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
   const result = {
     time: '9/19/2019 18:31',
     state: true,
-    asset: {
-      unit: '短名称',
-    },
+    asset: {},
   };
 
   const { inputs, outputs, owners_memos } = transfer;

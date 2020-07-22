@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-22 16:40:33
+ * @ Modified time: 2020-07-22 17:24:57
  * @ Description: 钱包详情组件
  */
 
@@ -30,10 +30,8 @@ const WalletInfo = () => {
   const walletStore = React.useContext(MobXProviderContext).walletStore;
   const [walletPassword, setWalletPassword] = useState();
   const [assetName, setAssetName] = useState({
-    unit: {
-      short: '',
-      long: '',
-    },
+    short: '',
+    long: '',
   });
   const [visibleExport, setVisibleExport] = useState(false);
   const [visibleRemove, setVisibleRemove] = useState(false);
@@ -93,7 +91,7 @@ const WalletInfo = () => {
 
   /** 资产名称选中事件, 回调结果 */
   function handleChangeSelectAssetName(value) {
-    setAssetName({ unit: value });
+    setAssetName(value);
   }
 
   /** 余额回调结果 */
@@ -149,7 +147,7 @@ const WalletInfo = () => {
           />
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('balance')} isRow style={{ justifyContent: 'space-between' }}>
-          <Balance asset={assetName} style={{ textAlign: 'right' }} key={assetName.unit.long} />
+          <Balance asset={assetName} style={{ textAlign: 'right' }} key={assetName.long} />
         </FindoraBoxView>
         <div className="line" />
       </div>

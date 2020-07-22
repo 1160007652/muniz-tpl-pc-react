@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-21 15:04:56
+ * @ Modified time: 2020-07-22 17:26:20
  * @ Description: wallet info api , 钱包信息接口
  */
 
@@ -57,7 +57,7 @@ class AssetServer {
     const trackingKey = findoraWasm.AssetTracerKeyPair.new();
     const tracingPolicy = findoraWasm.TracingPolicy.new_with_tracking(trackingKey);
 
-    const tokenCode = asset.unit.long;
+    const tokenCode = asset.long;
 
     const blockCount = BigInt((await webNetWork.getStateCommitment())[1]);
 
@@ -124,9 +124,9 @@ class AssetServer {
     const walletInfo = rootStore.walletStore.walletImportList.filter((item) => item.publickey === issuer)[0];
 
     // blind: { isAmount, isType} 是否隐藏
-    // asset: { numbers: 100, unit: { short: "FIN", long: "xxxxxxxxxx=="}}
+    // asset: { numbers: 100, short: "FIN", long: "xxxxxxxxxx=="}
 
-    const tokenCode = asset.unit.long;
+    const tokenCode = asset.long;
 
     const blockCount = BigInt((await webNetWork.getStateCommitment())[1]);
 

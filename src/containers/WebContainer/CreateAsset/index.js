@@ -22,10 +22,8 @@ const CreateAsset = () => {
     founder: walletStore.walletInfo.publickey,
     walletInfo: toJS(walletStore.walletInfo),
     asset: {
-      unit: {
-        short: '',
-        long: '',
-      },
+      short: '',
+      long: '',
       maxNumbers: '',
     },
     memo: '',
@@ -60,14 +58,15 @@ const CreateAsset = () => {
   /** 输入资产名称 */
   function handleChangeAssetName(value) {
     setData((state) => {
-      state.asset.unit = value;
+      state.asset = { ...state.asset, ...value };
     });
+    console.log('创建资产-------', data.asset);
   }
   /** 最大值定义资产 */
   function handleChangeAssetMaxNumbers(e) {
     e.persist();
     setData((state) => {
-      state.asset.maxNumbers = e.target.value;
+      state.asset = { ...state.asset, maxNumbers: e.target.value };
     });
   }
   /** 输入记录 */

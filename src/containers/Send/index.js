@@ -25,17 +25,13 @@ const Send = () => {
     walletInfo: toJS(walletStore.walletInfo),
     from: walletStore.walletInfo.publickey,
     to: '',
-    asset: {
-      unit: {},
-      numbers: '',
-    },
+    asset: {},
+    numbers: '',
     blind: {
       isAmount: false,
       isType: false,
     },
   });
-  // 切换资产, 拥有的最大可交易余额
-  const [amount, setAmount] = useState(0);
 
   function handleClickItemInfo() {
     history.push({ pathname: pageURL.sendConfrim, state: data });
@@ -43,7 +39,7 @@ const Send = () => {
   /** 资产名称选中事件, 回调结果 */
   function handleChangeSelectAssetName(value) {
     setData((state) => {
-      state.asset.unit = value;
+      state.asset = value;
     });
   }
   /** 切换钱包地址 */
@@ -59,18 +55,16 @@ const Send = () => {
       state.to = e.target.value;
     });
   }
-  /** 资产余额回调 */
-  function handleChangeBalance(obj) {
-    setAmount(obj.numbers);
-  }
+
   /** 输入 Amount  */
   function handleChangeAmount(e) {
     e.persist();
     const newAmount = e.target.value; // 准备转移的金额
+    const amount = data.asset?.numbers ?? 0;
     setData((state) => {
       // 如果待转账的金额 <= 剩余资产, 则转移进行;
       // 如果待转账的金额 > 剩余资产,  则转移剩余的全部资产
-      state.asset.numbers = amount > newAmount ? newAmount : amount;
+      state.numbers = amount > newAmount ? newAmount : amount;
     });
   }
   /** 更新 Radio 选择 */
@@ -85,9 +79,9 @@ const Send = () => {
   /** 资产属性, 交互提示 */
   function AssetRulesComponent() {
     // 是否可以二次转账
-    const isTran = !data.asset.unit?.asset_rules?.transferable;
+    const isTran = !data.asset?.asset_rules?.transferable;
 
-    if (data.asset.unit?.issuer?.key === data.from) {
+    if (data.asset?.issuer?.key === data.from) {
       return (
         <FindoraButton className="btn" onClick={handleClickItemInfo}>
           Next
@@ -96,7 +90,7 @@ const Send = () => {
     }
 
     return !isTran ? (
-      data.asset.unit?.asset_rules ? (
+      data.asset?.asset_rules ? (
         <div>不可以二次转账</div>
       ) : (
         ''
@@ -133,18 +127,12 @@ const Send = () => {
         <FindoraBoxView title={intl.get('send_amount')}>
           <div className="send-balance">
             <span>{intl.get('send_amount_max')}</span>
-            <Balance
-              assetName={data.asset}
-              onResult={handleChangeBalance}
-              style={{ textAlign: 'right' }}
-              key={data.asset.unit.long}
-              walletInfo={data.walletInfo}
-            />
+            <Balance asset={data.asset} style={{ textAlign: 'right' }} key={data.asset.long} />
           </div>
           <Input
             placeholder={intl.get('send_mount_placeholder')}
             type="number"
-            value={data.asset.numbers}
+            value={data.numbers}
             onChange={handleChangeAmount}
           />
         </FindoraBoxView>

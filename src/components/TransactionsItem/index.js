@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-21 18:14:24
+ * @ Modified time: 2020-07-22 17:24:44
  * @ Description: 钱包导航, Header组件
  */
 
@@ -44,7 +44,8 @@ const TransactionsItem = ({ data, onClick, className, style }) => {
         <span className={state ? 'success' : 'fail'}>{state ? 'success' : 'fail'}</span>
         <div className="value">
           {txn_type === 'input' ? '+' : '-'}
-          {asset.numbers} <span>{asset.unit}</span>
+          {asset?.numbers}
+          {/* <span>{asset.short}</span> */}
         </div>
       </div>
     </div>
@@ -64,10 +65,7 @@ TransactionsItem.defaultProps = {
     from: '',
     to: '',
     state: false,
-    asset: {
-      numbers: 0,
-      unit: '',
-    },
+    asset: {},
   },
   onClick: () => {},
 };

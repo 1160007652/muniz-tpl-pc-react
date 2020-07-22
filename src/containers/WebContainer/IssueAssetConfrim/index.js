@@ -59,13 +59,13 @@ const IssueAssetConfrim = ({ data }) => {
             </FindoraBoxView>
             <FindoraBoxView title={intl.get('asset_name')}>
               <div className="address" style={{ color: 'rgba(131, 151, 177, 0.6)' }}>
-                {asset.unit.short}
+                {asset.short}
               </div>
-              <div className="address">{asset.unit.long}</div>
+              <div className="address">{asset.long}</div>
             </FindoraBoxView>
             <FindoraBoxView title={intl.get('balance')}>
               <span className="address">{asset.numbers}</span>
-              <span style={{ marginLeft: '4px' }}>{asset.unit.short}</span>
+              {/* <span style={{ marginLeft: '4px' }}>{asset.short}</span> */}
             </FindoraBoxView>
             <FindoraBoxView title={intl.get('blind_amount')}>
               <span className="address">{blind.isAmount ? 'Yes' : 'No'}</span>

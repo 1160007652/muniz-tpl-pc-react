@@ -23,10 +23,8 @@ const IssueAsset = () => {
     issuer: walletStore.walletInfo.publickey,
     walletInfo: toJS(walletStore.walletInfo),
     asset: {
-      unit: {
-        short: '',
-        long: '',
-      },
+      short: '',
+      long: '',
       numbers: '',
     },
     // to: walletStore.walletInfo.publickey,
@@ -36,26 +34,10 @@ const IssueAsset = () => {
     },
   });
 
-  /*
-  useEffect(() => {
-    async function assetTokenRules() {
-      const tokenRulesData = await webNetWork.getAssetProperties(data.asset.unit.long);
-      // 如果 数量大于 0, 说明生成的资产有 max_units 限制, 那么在这里不可以隐藏数量
-      setTokenRules(tokenRulesData);
-      console.log('资产规则: ', tokenRulesData);
-    }
-    if (data.asset.unit.long !== '') {
-      assetTokenRules();
-    }
-  }, [data.asset.unit.long]);
-  */
-
   /**
    * 创建资产, 唤醒插件, 校验信息
    */
   function handleClickCreate() {
-    // console.log(data.asset.unit);
-
     chrome.storage.sync.set({ tempIssueAssetConfrim: JSON.stringify(data) });
     chrome.windows.create({
       url: `${chrome.runtime.getURL('popup.html')}#${pageURL.assetConfrim.replace(':actionType', 'issueAssetConfrim')}`,
@@ -73,7 +55,7 @@ const IssueAsset = () => {
   /** 输入资产名称 */
   function handleChangeAssetName(value) {
     setData((state) => {
-      state.asset.unit = value;
+      state.asset = { ...state.asset, ...value };
     });
   }
   /** 输入 To 地址 */
@@ -87,7 +69,7 @@ const IssueAsset = () => {
   function handleChangeAmount(e) {
     e.persist();
     setData((state) => {
-      state.asset.numbers = e.target.value;
+      state.asset = { ...state.asset, numbers: e.target.value };
     });
   }
   /** 更新 Radio 选择 */
