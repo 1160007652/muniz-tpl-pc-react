@@ -2,13 +2,13 @@
  * @ Author: Muniz
  * @ Create Time: 2020-07-17 16:20:47
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-22 10:12:04
+ * @ Modified time: 2020-07-22 10:26:23
  * @ Description: 提取转账中的资产信息
  */
 // import webNetWork from '_src/services/webNetWork';
 import { relatedDB, ownedDB } from '_src/IndexedDB';
-import calculateTxn from '_src/utils/calculateTxn';
-import calculateUtxo from '_src/utils/calculateUtxo';
+// import calculateTxn from '_src/utils/calculateTxn';
+// import calculateUtxo from '_src/utils/calculateUtxo';
 
 /**
  * 获取交易中的正常转账数据, 返回处理完的 json 数据
@@ -52,9 +52,9 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
 
 export default async function assetsMerge({ walletInfo }) {
   // 获取交易数据, 在转账的时候需要使用
-  await calculateUtxo({ address: walletInfo.publickey });
+  // await calculateUtxo({ address: walletInfo.publickey });
   // 获取资产数据
-  await calculateTxn({ address: walletInfo.publickey });
+  // await calculateTxn({ address: walletInfo.publickey });
 
   const findoraWasm = await import('wasm');
   const keypair = findoraWasm.keypair_from_str(walletInfo.keyPairStr);

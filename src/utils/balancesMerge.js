@@ -2,13 +2,11 @@
  * @ Author: Muniz
  * @ Create Time: 2020-07-17 16:20:47
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-22 13:57:04
- * @ Description: 合并交易数据
+ * @ Modified time: 2020-07-22 13:28:29
+ * @ Description: 查看计算余额, 合并数据
  */
 // import webNetWork from '_src/services/webNetWork';
 import { relatedDB, ownedDB } from '_src/IndexedDB';
-import calculateTxn from '_src/utils/calculateTxn';
-import calculateUtxo from '_src/utils/calculateUtxo';
 
 /**
  * 处理交易中的增发数据, 返回处理完的 json 数据
@@ -105,17 +103,12 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
   return result;
 }
 
-export default async function transactionsMerge({ walletInfo, page }) {
-  // 获取交易数据, 在转账的时候需要使用
-  await calculateUtxo({ address: walletInfo.publickey });
-  // 获取资产数据
-  await calculateTxn({ address: walletInfo.publickey });
-
+export default async function balancesMerge({ walletInfo }) {
   const findoraWasm = await import('wasm');
   const keypair = findoraWasm.keypair_from_str(walletInfo.keyPairStr);
 
-  let txnList = await relatedDB.getIssueAndTransactionList({ address: walletInfo.publickey, page });
-
+  let txnList = await relatedDB.getIssueAndTransactionList({ address: walletInfo.publickey });
+  // txnList = await relatedDB.getTransactionList({ address: walletInfo.publickey });
   console.log('txnListData: ', txnList);
 
   const result = [];

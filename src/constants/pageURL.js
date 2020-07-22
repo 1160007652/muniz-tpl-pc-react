@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-25 12:14:52
+ * @ Modified time: 2020-07-22 10:54:20
  * @ Description: 路由定义, 配置文件
  */
 
@@ -16,6 +16,8 @@ const pageURL = {
    * @tutorial tutorial2
    */
   home: '/',
+  /** 关于页面 */
+  about: '/about',
   /** 导入的钱包列表 */
   walletList: '/walletList',
   /** 创建钱包页面 */

@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-12 14:02:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-21 14:42:28
+ * @ Modified time: 2020-07-22 14:23:55
  * @ Description: 英文文案
  */
 
@@ -73,6 +73,7 @@ const enUS = {
   menu_setting: 'Setting',
   menu_asset_create: 'Create Asset',
   menu_asset_issue: 'Issue Asset',
+  menu_about: 'About US',
 
   page_wallet_title: 'Wallet',
   page_wallet_detail: 'Wallet Info',
@@ -83,6 +84,7 @@ const enUS = {
   page_send_title: 'Send',
   page_transactions_title: 'Transactions',
   page_transactions_detail_title: 'Transactions Detail',
+  page_wallet_about_title: 'About US',
 
   wallet_restore_password_error: 'Password Error',
   wallet_restore_no_upload_file: 'No files uploaded',
@@ -120,6 +122,7 @@ const enUS = {
   token_issue_error1: 'Failed to issueed assets',
 
   transaction_loade_more: 'loadinf more',
+  transaction_loade_empty: 'No more data',
 
   system_cancel_async: 'Cancel asynchronous tasks to prevent memory leaks',
 

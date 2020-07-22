@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-12 14:02:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-21 14:42:00
+ * @ Modified time: 2020-07-22 14:23:34
  * @ Description: 中文文案
  */
 
@@ -69,6 +69,7 @@ const zhCN = {
   menu_setting: '设置',
   menu_asset_create: '创建资产',
   menu_asset_issue: '发行资产',
+  menu_about: '关于我们',
 
   page_wallet_title: '钱包',
   page_wallet_detail: '钱包信息',
@@ -79,6 +80,7 @@ const zhCN = {
   page_send_title: '转账',
   page_transactions_title: '交易记录',
   page_transactions_detail_title: '交易详情',
+  page_wallet_about_title: '关于我们',
 
   wallet_restore_password_error: '密码错误',
   wallet_restore_no_upload_file: '未上传文件KeyStore文件',
@@ -115,6 +117,7 @@ const zhCN = {
   token_issue_error1: '增发资产失败',
 
   transaction_loade_more: '加载更多',
+  transaction_loade_empty: '无更多数据',
 
   system_cancel_async: '取消异步任务, 防止内存泄露',
   download_tips_checkbox: '请勾选复选框,再继续操作',

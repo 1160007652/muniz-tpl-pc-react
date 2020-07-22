@@ -65,8 +65,10 @@ class RelatedDB {
    *
    * @param {object} address - 地址
    */
-  async getIssueAndTransactionList({ address }) {
+  async getIssueAndTransactionList({ address, page }) {
     await this.openDB();
+    const limit = 3;
+    const offset = page * limit;
     const assetList = await this.db.txns
       .where('address')
       .equals(address)
@@ -77,6 +79,9 @@ class RelatedDB {
         });
         return result.length > 0;
       })
+      .reverse()
+      .offset(offset)
+      .limit(limit)
       .toArray();
     await this.closeDB();
     return assetList;

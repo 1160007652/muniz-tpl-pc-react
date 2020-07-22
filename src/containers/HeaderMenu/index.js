@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-16 13:07:29
+ * @ Modified time: 2020-07-22 11:19:19
  * @ Description: 钱包菜单组件
  */
 
@@ -11,6 +11,7 @@ import { Menu, Dropdown, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { MenuOutlined } from '@ant-design/icons';
 import intl from 'react-intl-universal';
+import { InfoCircleOutlined } from '@ant-design/icons';
 
 import {
   CreateWalletIcon,
@@ -56,6 +57,12 @@ const routers = [
     page: pageURL.createAsset,
     icon: <CreateTokenIcon />,
     title: 'menu_asset_create',
+    isShow: true,
+  },
+  {
+    page: pageURL.about,
+    icon: <InfoCircleOutlined />,
+    title: 'menu_about',
     isShow: true,
   },
 ];

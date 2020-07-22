@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-22 10:00:20
+ * @ Modified time: 2020-07-22 13:17:27
  * @ Description: 多语言状态Mobx 模块
  *
  * asset -> balance
@@ -92,12 +92,16 @@ class AssetStore {
       for (let j = 0; j < operations.length; j++) {
         const asset_type = findoraWasm.asset_type_from_jsvalue(operations[j].body.code.val);
         const item = await webNetWork.getAssetProperties(asset_type);
-        // console.log(await webNetWork.getAsset(asset_type));
         console.log('item', item);
         item.code = asset_type;
         item.short = item.memo;
         item.long = item.code;
-        result.push(item);
+
+        // 防止交易中塞选出来的数据, 资产重复
+        const isHaveItem = result.filter((obj) => obj.code === item.code).length > 0;
+        if (isHaveItem <= 0) {
+          result.push(item);
+        }
       }
     }
 
@@ -155,6 +159,7 @@ class AssetStore {
           item.code = asset_type;
           item.short = item.memo;
           item.long = item.code;
+          // 防止交易中塞选出来的数据, 资产重复
           const isHaveItem = result.filter((obj) => obj.code === item.code).length > 0;
           if (isHaveItem <= 0) {
             result.push(item);
