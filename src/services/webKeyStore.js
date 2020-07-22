@@ -23,9 +23,12 @@ class WebKeyStore extends KeyStore {
   }
 
   /**
-   * JSON-encodes KeyStore and writes it to a file.
    * 下载Json编码后的 KeyStore 文件
    */
+  /**
+   * JSON-encodes keystore and writes it to a file.
+   */
+  // TODO: difference between fileName and name?
   writeToFile = ({ fileName, name }) => {
     // 过滤当前用户的keyStore
     const currentKeys = this.keys.filter((keyData) => keyData.name === name);
@@ -58,6 +61,11 @@ class WebKeyStore extends KeyStore {
   /**
    * 添加命名加密密钥对添加到KeyStore
    */
+  /**
+   * Adds a new keypair to the keystore.
+   * @param {string} password - Password of the wallet
+   * @param {string} name - Name of the keypair
+   */
   addNewKeypair = async ({ password, name }) => {
     const findoraWasm = await import('wasm');
     const keyPairStr = findoraWasm.keypair_to_str(findoraWasm.new_keypair());
@@ -72,6 +80,11 @@ class WebKeyStore extends KeyStore {
 
   /**
    * @description 恢复keyStore密钥对
+   */
+  /**
+   * Sets the keypair.
+   * @param {json} keyStoreJson - JSON-encoded keystore
+   * @param {json} password - Password of the wallet
    */
   setKeypair = async ({ keyStoreJson, password }) => {
     const findoraWasm = await import('wasm');
@@ -124,8 +137,10 @@ class WebKeyStore extends KeyStore {
     }
   };
 
-  // Is there an encryption key pair with the given name
   // 是否存在给定名称的加密密钥对
+  /**
+   * Determines if there is keypair with the given name.
+   */
   hasKeypairWithName(name) {
     return super.getIdxWithName(name) !== -1;
   }

@@ -15,6 +15,11 @@ import arrayDiff from '_src/utils/arrayDiff';
  *
  * @param {object} { address } - 钱包地址
  */
+/**
+ * Gets the new Txn SID associated with an address.
+ *
+ * @param {string} address - Base64-encoded address string
+ */
 async function getSidsDiff({ address }) {
   // 获取前端数据库中的sids
   const oldSids = await relatedDB.getSids({ address });
@@ -36,6 +41,12 @@ async function getSidsDiff({ address }) {
  * 获取 sidsDiff 数据, 对应的 txn 数据
  *
  * @param {object} { address } - 钱包地址
+ */
+/**
+ * Gets the transactions with the new Txn SIDs.
+ *
+ * @param {} address - Address related to the transactions
+ * @param {} sidsDiff - New Txn SIDs
  */
 async function getTxnDiff({ address, sidsDiff }) {
   const txnDataList = [];
@@ -80,9 +91,17 @@ async function getTxnDiff({ address, sidsDiff }) {
  *
  * @param {object} { address } - 地址
  */
+/**
+ * Gets the transaction information of an address.
+ *
+ * This function is used to view assets, balances and transactions.
+ * The transaction information is fetched by the Txn SIDs, and will be stored in the indexDB database.
+ *
+ * @param {object} address - Address of the transaction information to retrieve
+ */
 async function calculateTxn({ address }) {
   console.groupCollapsed('=======>  开始获取 TxnSids');
-  const { sidsDiff, sidsServer } = await getSidsDiff({ address });
+  const { sidsDiff, sidsServer } = await getTxnSidsDiff({ address });
 
   /**
    * 如果 sidsDiff.length > 0 , 先数据库中添加新的sids, 拉取新的 txn

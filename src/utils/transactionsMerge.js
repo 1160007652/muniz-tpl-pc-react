@@ -15,6 +15,12 @@ import calculateUtxo from '_src/utils/calculateUtxo';
  *
  * @param {*} data
  */
+/**
+ * Gets the assets issued by an issuer.
+ *
+ * @param {json} body - JSON-encoded asset records
+ * @param {XfrKeyPair} keypair - Keypair of the issuer
+ */
 async function getIssueAssetData({ body, keypair }) {
   const findoraWasm = await import('wasm');
   const { records } = body;
@@ -51,6 +57,13 @@ async function getIssueAssetData({ body, keypair }) {
  * 获取交易中的正常转账数据, 返回处理完的 json 数据
  *
  * @param {*} data
+ */
+/**
+ * Gets the transaction data of an asset transfer
+ *
+ * @param {json} body - JSON-encoded transfer information
+ * @param {XfrKeyPair} keypair - keypair of the asset owner
+ * @param {json} walletInfo - JSON-encoded wallet information
  */
 async function getTransactionAssetData({ body, keypair, walletInfo }) {
   const findoraWasm = await import('wasm');

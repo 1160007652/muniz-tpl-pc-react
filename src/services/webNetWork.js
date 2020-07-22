@@ -10,6 +10,7 @@
 
 import NetWork from '_src/lib/network';
 
+// TODO: missing documentation
 class WebNetWork extends NetWork {
   constructor() {
     super();

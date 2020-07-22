@@ -24,6 +24,10 @@ const sendServer = {
    *
    * @return {object}
    */
+  /**
+   * Transfer the asset.
+   * @param {json} param - Information needed to transfer the asse
+   */
   async setSendAsset(param) {
     console.groupCollapsed('=======>  开始转账');
 

@@ -15,6 +15,12 @@ import calculateUtxo from '_src/utils/calculateUtxo';
  *
  * @param {*} data
  */
+/**
+ * Gets the asset data of a transfer transaction
+ *
+ * @param {json} body - JSON-encoded transfer information
+ * @param {XfrKeyPair} keypair - keypair of the asset owner
+ */
 async function getTransactionAssetData({ body, keypair, walletInfo }) {
   const findoraWasm = await import('wasm');
   const { transfer } = body;

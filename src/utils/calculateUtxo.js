@@ -16,6 +16,11 @@ import rootStore from '_src/stores';
  *
  * @param {object} { address } - 钱包地址
  */
+/**
+ * Gets the new UTXO SID associated with an address.
+ *
+ * @param {string} address - Base64-encoded address string
+ */
 async function getSidsDiff({ address }) {
   // 获取前端数据库中的sids
   const oldSids = await ownedDB.getSids({ address });
@@ -37,6 +42,13 @@ async function getSidsDiff({ address }) {
  * 获取 sidsDiff 数据, 对应的 txn 数据
  *
  * @param {object} { address } - 钱包地址
+ */
+/**
+ * Gets the UTXOs with the new UTXO SIDs.
+ *
+ * @param {} address - Address owning the UTXOs
+ * @param {} sidsDiff - New UTXO SIDs
+ * @param {} keyPairStr - Hex-encoded keypair string
  */
 async function getUtxoDiff({ address, sidsDiff, keyPairStr }) {
   const utxoDataList = [];
@@ -75,11 +87,19 @@ async function getUtxoDiff({ address, sidsDiff, keyPairStr }) {
  *
  * @param {object} { address } - 地址
  */
+/**
+ * Gets the UTXO information of an address.
+ *
+ * This function is used to view assets, balances and transactions.
+ * The UTXO information is fetched by the UTXO SIDs, and will be stored in the indexDB database.
+ *
+ * @param {object} address - Address of the UTXO information to retrieve
+ */
 async function calculateUtxo({ address }) {
   console.groupCollapsed('=======>  开始获取 UtxoSids');
   const walletInfo = rootStore.walletStore.walletImportList.filter((item) => item.publickey === address)[0];
   const { publickey, keyPairStr } = walletInfo;
-  const { sidsDiff, sidsServer } = await getSidsDiff({ address: publickey });
+  const { sidsDiff, sidsServer } = await getUtxoSidsDiff({ address: publickey });
   console.log('address: ', publickey);
   /**
    * 如果 sidsDiff.length > 0 , 先数据库中添加新的sids, 拉取新的 txn

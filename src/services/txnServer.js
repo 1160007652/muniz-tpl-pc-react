@@ -21,6 +21,11 @@ const txnServer = {
    *
    * @return {object}
    */
+  /**
+   * Gets the list of transactions
+   * @param {json} param - Information needed to get the transactions
+   */
+  // TODO: what does the structure of param look like?
   async getTxnList(param) {
     console.groupCollapsed('======>   开始获取交易列表');
 

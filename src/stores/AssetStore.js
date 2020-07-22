@@ -27,26 +27,40 @@ import assetsMerge from '_src/utils/assetsMerge';
  * 资产管理Store
  * @category MobxStore
  */
+/**
+ * Store to manage assets.
+ * @category MobxStore
+ */
 class AssetStore {
   constructor(self) {
     this.rootStore = self;
   }
 
   /** createdAssets 拥有的资产列表 */
+  /** List of created assets */
   @observable createdAssetList = [];
   /** issueAssets 可增发资产列表 */
-  @observable issueAssetList = [];
-  /** sendAssetList 可转账资产列表 */
-  @observable sendAssetList = [];
+  /** List of issued assets */
+  @observable issuedAssetList = [];
+  /** sentAssetList 可转账资产列表 */
+  /** List of transferred assets */
+  @observable sentAssetList = [];
 
   /**
    * 获取创建的资产, 用于在issuedPage (增发页面展示)
+   */
+  /**
+   * Gets the issued assets of an address.
+   *
+   * Used to display the issued assets.
+   *
+   * @param {json} address - address from which the assets are issued
    */
   @action getIssuedAssetList = async (address) => {
     console.groupCollapsed('=======>  开始获取可以增发的资产');
 
     const result = await this.getOwnerAsset(address);
-    this.issueAssetList = result;
+    this.issuedAssetList = result;
 
     console.log('钱包地址: ', address);
     console.log('可增发资产: ', result);
@@ -56,6 +70,11 @@ class AssetStore {
   /**
    * 获取拥有的资产, 用于(钱包详情页面展示)
    * 该方法,暂且无调用
+   */
+  /**
+   * Gets the created assets of an address.
+   *
+   * @param {json} address - address from which the assets are created
    */
   @action getCreatedAssetList = async (address) => {
     console.groupCollapsed('=======>  开始获取拥有的资产');
@@ -73,6 +92,13 @@ class AssetStore {
 
   /**
    * 获取可以转账的资产, 用于在Send (转账页面展示)
+   */
+  /**
+   * Gets the transferred assets of an address.
+   *
+   * Used to display the transferred assets.
+   *
+   * @param {json} address - address from which the assets are transferred
    */
   @action getSendAssetList = async (address) => {
     const findoraWasm = await import('wasm');
@@ -103,7 +129,7 @@ class AssetStore {
 
     result = await this.getTransactionAsset(address, result);
 
-    this.sendAssetList = result;
+    this.sentAssetList = result;
 
     console.log('钱包地址: ', address);
     console.log('拥有资产: ', result);
