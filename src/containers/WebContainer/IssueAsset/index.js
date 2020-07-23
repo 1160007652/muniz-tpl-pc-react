@@ -18,7 +18,6 @@ import './index.less';
 
 const IssueAsset = () => {
   const walletStore = React.useContext(MobXProviderContext).walletStore;
-  const [tokenRules, setTokenRules] = useState();
   const [data, setData] = useImmer({
     issuer: walletStore.walletInfo.publickey,
     walletInfo: toJS(walletStore.walletInfo),
@@ -111,7 +110,7 @@ const IssueAsset = () => {
         <FindoraBoxView title={intl.get('blind_amount')} isRow>
           <Radio.Group
             value={data.blind.isAmount}
-            disabled={tokenRules?.asset_rules?.max_units > 0}
+            disabled={data.asset?.asset_rules?.max_units > 0}
             onChange={handleChangeRadio('isAmount')}
           >
             <Radio value={true}>Yes</Radio>

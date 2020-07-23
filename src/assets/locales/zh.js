@@ -54,7 +54,7 @@ const zhCN = {
     'Keystore文件是用于保存私钥的加密文件，与密码必须同时使用才能解锁钱包，请您务必妥善保管Keystore文件并且牢记密码，如若丢失其中一个，资产将无法找回。',
   wallet_create_next: '下一步',
   wallet_down_notice:
-    '密钥库文件是用于存储私钥的加密文件。它必须与密码一起使用才能解锁钱包。请妥善保管密钥库文件并记住密码。如果其中一个丢失，资产将无法收回。',
+    '密钥库文件是用于存储私钥的加密文件。它必须与密码一起使用才能解锁钱包。请妥善保管密钥库文件并记住密码。如果钱包或密码丢失，则无法恢复钱包',
   wallet_down_agree: '我将保存密钥库文件并记住密码',
   wallet_down_btn: '下载钱包',
   wallet_down_success: '下载成功',
@@ -96,7 +96,6 @@ const zhCN = {
   send_error1: '转账失败',
 
   tips_wallet_create: '请先创建钱包地址',
-  tips_wallet_empty: '你还未创建钱包。',
   tips_asset_create_result_success: '创建资产成功',
   tips_asset_issue_result_success: '发行资产成功',
   tips_asset_send_result_success: '转账成功',

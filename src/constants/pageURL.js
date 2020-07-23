@@ -12,9 +12,7 @@
  * @enum {string}
  */
 const pageURL = {
-  /** 首页
-   * @tutorial tutorial2
-   */
+  /** 首页 */
   home: '/',
   /** 关于页面 */
   about: '/about',

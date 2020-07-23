@@ -46,13 +46,13 @@ class WebKeyStore extends KeyStore {
       return false;
     });
 
-    const blob = new Blob([JSON.stringify(jsonKeys[0])], { type: 'utf-8' });
+    const blob = new Blob([JSON.stringify(jsonKeys[0])], { type: 'text/plain;charset=utf-8' });
     // chrome.downloads.download({
     //   url: URL.createObjectURL(blob),
-    //    filename: `${fileName}.txt`,
-    //   saveAs: false,
+    //   filename: `${fileName}.txt`,
+    //   saveAs: true,
     // });
-    saveAs(blob, `${fileName}.txt`);
+    saveAs(blob, `${fileName}.findorawallet`);
   };
 
   /**

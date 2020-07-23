@@ -98,7 +98,7 @@ const Transactions = () => {
   return (
     <div className="transactions">
       <FindoraHeader title={intl.get('page_transactions_title')} isShowBack menu={<HeaderMenu />} />
-      <Spin spinning={initLoading}>
+      <Spin spinning={historyParams.action === 'refresh' ? initLoading : false}>
         <List
           className="transactions-box"
           loading={initLoading}

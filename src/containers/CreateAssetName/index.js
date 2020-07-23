@@ -115,13 +115,13 @@ const CreateAssetName = ({ onResult }) => {
         <FindoraBoxView title={intl.get('asset_name_long')} isRow className="long-name">
           {assetNameData.long} <ReloadOutlined className="icon-reload" onClick={handleClickReloadLongName} />
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('asset_name_short')} isRow>
+        {/* <FindoraBoxView title={intl.get('asset_name_short')} isRow>
           <Input
             placeholder={intl.get('asset_name_short_placeholder')}
             value={assetNameData.short}
             onChange={handleChangeShortName}
           />
-        </FindoraBoxView>
+        </FindoraBoxView> */}
       </div>
     );
   }

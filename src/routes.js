@@ -101,12 +101,6 @@ const routeMap = [
     exact: false,
     dynamic: true,
   },
-  // {
-  //   path: undefined,
-  //   component: './containers/Order',
-  //   exact: false,
-  //   dynamic: true,
-  // },
 ];
 
 const Routes = () => {

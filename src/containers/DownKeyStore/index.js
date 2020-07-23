@@ -47,7 +47,7 @@ const DownKeyStore = () => {
         await services.webKeyStore.addNewKeypair(walletStore.createWalletData);
         message.success(intl.get('wallet_down_success'));
         setTimeout(() => {
-          history.goBack();
+          history.replace({ pathname: pageURL.home });
         }, 500);
       } catch {
         message.error(intl.get('wallet_down_fail'));

@@ -1,12 +1,11 @@
-/**
- * @ Author: Muniz
- * @ Create Time: 2020-07-13 13:42:40
- * @ Modified by: Muniz
- * @ Modified time: 2020-07-13 13:43:49
- * @ Description: 事件节流
- */
+/** @module utils/throttle */
 
-export default function throttle(func, wait) {
+/**
+ * 事件节流
+ * @param {function} func 函数
+ * @param {number} wait 等待时间
+ */
+function throttle(func, wait) {
   let timer = null;
   return function () {
     if (!timer) return false;
@@ -18,3 +17,4 @@ export default function throttle(func, wait) {
     }, wait);
   };
 }
+export default throttle;

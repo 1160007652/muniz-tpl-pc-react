@@ -1,12 +1,4 @@
 /**
- * @ Author: zhipanLiu
- * @ Create Time: 2020-05-26 01:27:10
- * @ Modified by: Muniz
- * @ Modified time: 2020-07-22 16:34:08
- * @ Description: 多语言状态Mobx 模块
- *
- * asset -> balance
- * transactions
  *
  * 查看资产: 分3种模型开发, 分别如下:
  *
@@ -43,6 +35,9 @@ class AssetStore {
 
   /**
    * 获取创建的资产, 用于在issuedPage (增发页面展示)
+   *
+   * @async
+   * @param {string} address 钱包地址
    */
   @action getIssuedAssetList = async (address) => {
     console.groupCollapsed('=======>  开始获取可以增发的资产');
@@ -58,6 +53,8 @@ class AssetStore {
   /**
    * 获取拥有的资产, 用于(钱包详情页面展示)
    * 该方法,暂且无调用
+   * @async
+   * @param {string} address 钱包地址
    */
   @action getCreatedAssetList = async (address) => {
     console.groupCollapsed('=======>  开始获取拥有的资产');
@@ -75,6 +72,8 @@ class AssetStore {
 
   /**
    * 获取可以转账的资产, 用于在Send (转账页面展示)
+   * @async
+   * @param {string} address 钱包地址
    */
   @action getSendAssetList = async (address) => {
     const findoraWasm = await import('wasm');
@@ -127,7 +126,13 @@ class AssetStore {
     console.groupEnd();
   };
 
-  // 获取拥有的资产
+  /**
+   * 获取拥有的资产
+   *
+   * @async
+   * @param {string} address 钱包地址
+   * @returns {Array} 返回该地址拥有的资产集
+   */
   getOwnerAsset = async (address) => {
     const findoraWasm = await import('wasm');
     let tokenCodes = await webNetWork.getCreatedAssets(address);
@@ -146,7 +151,14 @@ class AssetStore {
     return result;
   };
 
-  // 获取转账中的资产
+  /**
+   * 获取转账中的资产
+   *
+   * @async
+   * @param {string} address 钱包地址
+   * @param {Array} haveAsset 拥有资产的集合
+   * @returns {Array} 返回转账资产集
+   */
   getTransactionAsset = async (address, haveAsset) => {
     const findoraWasm = await import('wasm');
     const walletInfo = this.rootStore.walletStore.walletImportList.filter((item) => item.publickey === address)[0];

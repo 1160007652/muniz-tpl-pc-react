@@ -1,19 +1,13 @@
-/**
- * @ Author: Muniz
- * @ Create Time: 2020-07-17 16:20:47
- * @ Modified by: Muniz
- * @ Modified time: 2020-07-22 17:29:16
- * @ Description: 提取转账中的资产信息
- */
-// import webNetWork from '_src/services/webNetWork';
-import { relatedDB, ownedDB } from '_src/IndexedDB';
-// import calculateTxn from '_src/utils/calculateTxn';
-// import calculateUtxo from '_src/utils/calculateUtxo';
+/** @module utils/assetsMerge */
+import { relatedDB } from '_src/IndexedDB';
 
 /**
  * 获取交易中的正常转账数据, 返回处理完的 json 数据
- *
- * @param {*} data
+ * @param obj {object}
+ * @param {object} obj.body 交易记录中的 operations.body 字段
+ * @param {object} obj.keypair 钱包 keypair
+ * @param {object} obj.walletInfo 单个钱包对象
+ * @returns {object} 解密之后的资产数据
  */
 async function getTransactionAssetData({ body, keypair, walletInfo }) {
   const findoraWasm = await import('wasm');
@@ -30,7 +24,7 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
   if (new Set([outputs.length, owners_memos.length]).size === 1) {
     for (let k = 0; k < inputs.length; k++) {
       // owners_memos 数据
-      const ownerMemo = owners_memos[k];
+      const ownerMemo = owners_memos[k] ? findoraWasm.OwnerMemo.from_json(owners_memos[k]) : null;
       console.log('ownerMemo: ', ownerMemo);
 
       // inputs 数据
@@ -48,7 +42,14 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
   return result;
 }
 
-export default async function assetsMerge({ walletInfo }) {
+/**
+ * 将数据库中的交易数据,转化为清洗完毕的资产集
+ * @export
+ * @param obj {object}
+ * @param {object} obj.walletInfo 单个钱包对象
+ * @returns {array} 资产数据集
+ */
+async function assetsMerge({ walletInfo }) {
   // 获取交易数据, 在转账的时候需要使用
   // await calculateUtxo({ address: walletInfo.publickey });
   // 获取资产数据
@@ -76,3 +77,5 @@ export default async function assetsMerge({ walletInfo }) {
 
   return result;
 }
+
+export default assetsMerge;

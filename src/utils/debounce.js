@@ -1,12 +1,11 @@
-/**
- * @ Author: Muniz
- * @ Create Time: 2020-07-13 13:46:48
- * @ Modified by: Muniz
- * @ Modified time: 2020-07-13 13:47:26
- * @ Description: 防抖, 立即执行
- */
+/** @module utils/debounce */
 
-export default function debounce(func, wait) {
+/**
+ * 防抖, 立即执行
+ * @param {func} func 函数
+ * @param {number} wait 等待时间
+ */
+function debounce(func, wait) {
   let timer = null;
   return function () {
     let context = this;
@@ -19,3 +18,5 @@ export default function debounce(func, wait) {
     if (callnow) func.apply(context, args);
   };
 }
+
+export default debounce;

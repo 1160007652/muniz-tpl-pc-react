@@ -1,11 +1,4 @@
-/**
- * @ Author: Muniz
- * @ Create Time: 2020-07-17 16:20:47
- * @ Modified by: Muniz
- * @ Modified time: 2020-07-22 18:32:23
- * @ Description: 合并交易数据
- */
-// import webNetWork from '_src/services/webNetWork';
+/** @module utils/transactionsMerge */
 import { relatedDB, ownedDB } from '_src/IndexedDB';
 import calculateTxn from '_src/utils/calculateTxn';
 import calculateUtxo from '_src/utils/calculateUtxo';
@@ -13,7 +6,11 @@ import calculateUtxo from '_src/utils/calculateUtxo';
 /**
  * 处理交易中的增发数据, 返回处理完的 json 数据
  *
- * @param {*} data
+ * @async
+ * @param {object} obj
+ * @param {object} obj.body 交易记录中的 operations.body 字段
+ * @param {object} obj.keypair 钱包 keypair
+ * @returns {object} 返回解密之后的增发资产数据
  */
 async function getIssueAssetData({ body, keypair }) {
   const findoraWasm = await import('wasm');
@@ -48,7 +45,12 @@ async function getIssueAssetData({ body, keypair }) {
 /**
  * 获取交易中的正常转账数据, 返回处理完的 json 数据
  *
- * @param {*} data
+ * @async
+ * @param {object} obj
+ * @param {object} obj.body 交易记录中的 operations.body 字段
+ * @param {object} obj.keypair 钱包 keypair
+ * @param {object} obj.walletInfo 单个钱包对象
+ * @returns {object} 解密之后的交易资产数据
  */
 async function getTransactionAssetData({ body, keypair, walletInfo }) {
   const findoraWasm = await import('wasm');
@@ -65,24 +67,27 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
   if (new Set([outputs.length, owners_memos.length]).size === 1) {
     for (let k = 0; k < inputs.length; k++) {
       // owners_memos 数据
-      const ownerMemo = owners_memos[k];
+      const ownerMemo = owners_memos[k] ? findoraWasm.OwnerMemo.from_json(owners_memos[k]) : null;
       console.log('ownerMemo: ', ownerMemo);
 
       // inputs 数据
-      const inputsAssetRecord = await findoraWasm.ClientAssetRecord.from_json(inputs[k]);
-      console.log('inputsAssetRecord: ', inputsAssetRecord);
+      // const inputsAssetRecord = await findoraWasm.ClientAssetRecord.from_json(inputs[k]);
+      // console.log('inputsAssetRecord: ', inputsAssetRecord);
 
-      const decryptInputAssetData = await findoraWasm.open_client_asset_record(inputsAssetRecord, ownerMemo, keypair);
-      console.log('decryptInputAssetData: ', decryptInputAssetData);
+      // const decryptInputAssetData = await findoraWasm.open_client_asset_record(inputsAssetRecord, ownerMemo, keypair);
+      // console.log('decryptInputAssetData: ', decryptInputAssetData);
 
-      result.from = decryptInputAssetData.blind_asset_record.public_key;
-      result.asset.inputNumbers = decryptInputAssetData.amount;
+      // result.from = decryptInputAssetData.blind_asset_record.public_key;
+      // result.asset.inputNumbers = decryptInputAssetData.amount;
+
+      result.from = inputs[k].public_key;
 
       // outputs 数据
       const outputsAssetRecord = await findoraWasm.ClientAssetRecord.from_json(outputs[k]);
       console.log('outputsAssetRecord: ', outputsAssetRecord);
+
       const decryptOutputAssetData = await findoraWasm.open_client_asset_record(outputsAssetRecord, ownerMemo, keypair);
-      console.log('decryptOutputAssetData: ', outputsAssetRecord);
+      console.log('decryptOutputAssetData: ', decryptOutputAssetData);
 
       result.to = decryptOutputAssetData.blind_asset_record.public_key;
       result.asset.tokenCode = findoraWasm.asset_type_from_jsvalue(decryptOutputAssetData.asset_type);
@@ -100,14 +105,23 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
 
   return result;
 }
+
 /**
+ * 从数据库中, 计算合并出可用于查询交易列表页面的数据
+ * @param {object} obj
+ * @param {object} obj.page 分页查询
+ * @param {object} obj.walletInfo 单个钱包对象
+ * @returns {array} 历史交易记录集
+ * @example
+ * 如果page === -1, 返回全部数据
+ * transactionsMerge({walletInfo, page: -1});
+ * 如果page === -2, 返回最新的一条数据
+ * transactionsMerge({walletInfo, page: -2});
+ * 如果page >= 0, 分页加载数据, 一次加载3条.
+ * transactionsMerge({walletInfo, page: 1});
  *
- *
- * @export
- * @param {*} { walletInfo, page }
- * @returns
  */
-export default async function transactionsMerge({ walletInfo, page }) {
+async function transactionsMerge({ walletInfo, page }) {
   // 获取交易数据, 在转账的时候需要使用
   await calculateUtxo({ address: walletInfo.publickey });
   // 获取资产数据
@@ -142,3 +156,5 @@ export default async function transactionsMerge({ walletInfo, page }) {
   }
   return result;
 }
+
+export default transactionsMerge;

@@ -1,10 +1,4 @@
-/**
- * @ Author: Muniz
- * @ Create Time: 2020-07-09 12:14:47
- * @ Modified by: Muniz
- * @ Modified time: 2020-07-16 09:32:26
- * @ Description: 从服务端获取txn数据, 并且同步到浏览器数据库中, 主要做数据清洗塞选
- */
+/** @module utils/calculateTxn */
 
 import webNetWork from '_src/services/webNetWork';
 import { relatedDB } from '_src/IndexedDB';
@@ -13,7 +7,10 @@ import arrayDiff from '_src/utils/arrayDiff';
 /**
  * 获取 getRelatedSids , sids 的差异, 计算出新的sids
  *
- * @param {object} { address } - 钱包地址
+ * @async
+ * @param {object} obj
+ * @param {string} obj.address 钱包地址
+ * @returns {object} 数据库sids,服务端sids,sids差集
  */
 async function getSidsDiff({ address }) {
   // 获取前端数据库中的sids
@@ -35,7 +32,11 @@ async function getSidsDiff({ address }) {
 /**
  * 获取 sidsDiff 数据, 对应的 txn 数据
  *
- * @param {object} { address } - 钱包地址
+ * @async
+ * @param {object} obj
+ * @param {string} obj.address 钱包地址
+ * @param {array} obj.sidsDiff RelatedSids前端数据与服务端数据的差集
+ * @returns {array} 返回sid对应的数据详情集
  */
 async function getTxnDiff({ address, sidsDiff }) {
   const txnDataList = [];
@@ -76,9 +77,11 @@ async function getTxnDiff({ address, sidsDiff }) {
 }
 
 /**
- * 此方法,主要用于 “资产、余额、交易记录” 事件, 通过sid 获取txn, 把数据过滤清洗存放到indexedDB数据库中.
+ * 从服务端获取txn数据, 并且同步到浏览器数据库中, 主要做数据清洗塞选, 主要用于 “资产、余额、交易记录” 事件, 通过sid 获取txn, 把数据过滤清洗存放到indexedDB数据库中.
  *
- * @param {object} { address } - 地址
+ * @async
+ * @param {object} obj
+ * @param {string} obj.address 钱包地址
  */
 async function calculateTxn({ address }) {
   console.groupCollapsed('=======>  开始获取 TxnSids');
@@ -101,8 +104,6 @@ async function calculateTxn({ address }) {
       await relatedDB.closeDB();
     }
   }
-
-  // await relatedDB.getAssetList({ address });
   console.groupEnd();
 }
 

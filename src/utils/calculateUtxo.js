@@ -1,10 +1,4 @@
-/**
- * @ Author: Muniz
- * @ Create Time: 2020-07-09 12:14:47
- * @ Modified by: Muniz
- * @ Modified time: 2020-07-21 13:11:09
- * @ Description: 从服务端获取txn数据, 并且同步到浏览器数据库中, 主要做数据清洗塞选
- */
+/** @module utils/calculateUtxo */
 
 import webNetWork from '_src/services/webNetWork';
 import { ownedDB } from '_src/IndexedDB';
@@ -12,9 +6,12 @@ import arrayDiff from '_src/utils/arrayDiff';
 import rootStore from '_src/stores';
 
 /**
- * 获取 getRelatedSids , sids 的差异, 计算出新的sids
+ * 获取 getOwnedSids , sids 的差异, 计算出新的sids
  *
- * @param {object} { address } - 钱包地址
+ * @async
+ * @param {object} obj
+ * @param {string} obj.address 钱包地址
+ * @returns {object} 数据库sids,服务端sids,sids差集
  */
 async function getSidsDiff({ address }) {
   // 获取前端数据库中的sids
@@ -36,12 +33,15 @@ async function getSidsDiff({ address }) {
 /**
  * 获取 sidsDiff 数据, 对应的 txn 数据
  *
- * @param {object} { address } - 钱包地址
+ * @async
+ * @param {object} obj
+ * @param {string} obj.address 钱包地址
+ * @param {array}  obj.sidsDiff ownedSids数据库与服务端中的sids数据差集
+ * @param {string} obj.keyPairStr 钱包的keypairStr
+ * @returns {array} 返回增量ownedSids对应解密之后的数据集
  */
 async function getUtxoDiff({ address, sidsDiff, keyPairStr }) {
   const utxoDataList = [];
-
-  // ownedDB.db.currentTransaction.abort();
 
   const findoraWasm = await import('wasm');
   const keypair = findoraWasm.keypair_from_str(keyPairStr);
@@ -71,9 +71,11 @@ async function getUtxoDiff({ address, sidsDiff, keyPairStr }) {
 }
 
 /**
- * 此方法,主要用于 “资产、余额、交易记录” 事件, 通过sid 获取txn, 把数据过滤清洗存放到indexedDB数据库中.
+ * 从服务端获取txn数据, 并且同步到浏览器数据库中, 主要做数据清洗塞选, 主要用于 “资产、余额、交易记录” 事件, 通过sid 获取txn, 把数据过滤清洗存放到indexedDB数据库中.
  *
- * @param {object} { address } - 地址
+ * @async
+ * @param {object} obj
+ * @param {string} obj.address 钱包地址
  */
 async function calculateUtxo({ address }) {
   console.groupCollapsed('=======>  开始获取 UtxoSids');

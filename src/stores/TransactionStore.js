@@ -1,11 +1,3 @@
-/**
- * @ Author: zhipanLiu
- * @ Create Time: 2020-05-26 01:27:10
- * @ Modified by: Muniz
- * @ Modified time: 2020-07-22 18:41:21
- * @ Description: 多语言状态Mobx 模块
- */
-
 import { action, observable } from 'mobx';
 
 /**
@@ -13,18 +5,31 @@ import { action, observable } from 'mobx';
  * @category MobxStore
  */
 class TransactionStore {
-  constructor() {
-    // this.init();
-  }
-
   /**
    * 交易记录数据
-   *
-   * { 钱包地址: { data: 钱包交易数据, pages}}
+   * 模型: { 钱包地址: { data: 钱包交易数据, pages}}
    * */
   @observable dataList = {};
 
-  /** 切换多语言方法 */
+  /**
+   * 切换多语言方法
+   * @param {object} obj
+   * @param {string} obj.address
+   * @param {Array}  obj.data  最新的交易记录数据
+   * @param {number} obj.page 页数
+   * @example
+   *
+   * 如果page > 0, 插入到数组的尾位置
+   * getTransactionData({address, data, page: 0})
+   *
+   * 如果page < 0, 插入到数组的首位置
+   * getTransactionData({address, data, page: -2})
+   *
+   * 如果page <= 0, 首次获取数据覆盖数组
+   * getTransactionData({address, data, page: -1})
+   *
+   *
+   */
   @action getTransactionData({ address, data, page = 0 }) {
     let dataList = this.dataList[address]?.data || [];
 

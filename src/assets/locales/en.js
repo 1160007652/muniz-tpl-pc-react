@@ -57,7 +57,7 @@ const enUS = {
     'The keystore file is an encrypted file used to store the private key. It must be used with the password to unlock the wallet. Please keep the keystore file properly and remember the password. If one of them is lost, the asset will not be recovered.',
   wallet_create_next: 'Next',
   wallet_down_notice:
-    'The keystore file is an encrypted file used to store the private key. It must be used with the password to unlock the wallet. Please keep the keystore file properly and remember the password. If one of them is lost,the asset will not be recovered.',
+    'The keystore file is an encrypted file used to store the private key. It must be used with the password to unlock the wallet. Please keep the keystore file properly and remember the password. If either the wallet or the password is lost, the wallet can not be recovered.',
   wallet_down_agree: 'I will save the keystore file and remember the password',
   wallet_down_btn: 'Download Keystore File',
   wallet_down_success: 'DownLoad Success',
@@ -101,7 +101,6 @@ const enUS = {
   send_error1: 'Transfer Failed',
 
   tips_wallet_create: 'Please create wallet address first',
-  tips_wallet_empty: "You don't have any wallet.",
   tips_asset_create_result_success: 'Success Created Asset',
   tips_asset_issue_result_success: 'Success Issued Asset',
   tips_asset_send_result_success: 'Success Send Asset',

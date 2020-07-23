@@ -104,7 +104,7 @@ const RestoreWallet = () => {
                   showUploadList={false}
                   beforeUpload={handleBeforeUpload}
                   onChange={handleChangeUpload}
-                  accept=".txt"
+                  accept=".findorawallet"
                 >
                   <Button type="primary">
                     <UploadOutlined />

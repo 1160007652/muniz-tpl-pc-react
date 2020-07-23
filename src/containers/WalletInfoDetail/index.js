@@ -72,7 +72,12 @@ const WalletInfo = () => {
       message.error(intl.get('restorewallet_passworderror'));
     } else {
       const blob = new Blob([JSON.stringify(keyStore)], { type: 'utf-8' });
-      saveAs(blob, `${publickey}.txt`);
+      saveAs(blob, `${publickey}.findorawallet`);
+      // chrome.downloads.download({
+      //   url: URL.createObjectURL(blob),
+      //   filename: `${fileName}.findorawallet`,
+      //   saveAs: true,
+      // });
 
       setVisibleExport(false);
     }
