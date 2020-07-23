@@ -49,8 +49,9 @@ const SendConfrim = () => {
       setLoading(false);
       setResultData({ type: result.code === 0, result });
       setShowResult(true);
-    } catch {
+    } catch (err) {
       setLoading(false);
+      console.log(err);
       message.error(intl.get('send_error1'));
     }
   }
