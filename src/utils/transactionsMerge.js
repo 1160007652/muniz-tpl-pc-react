@@ -90,10 +90,12 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
       console.log('decryptOutputAssetData: ', decryptOutputAssetData);
 
       result.to = decryptOutputAssetData.blind_asset_record.public_key;
+
       result.asset.tokenCode = findoraWasm.asset_type_from_jsvalue(decryptOutputAssetData.asset_type);
+
       result.asset.numbers = decryptOutputAssetData.amount;
       result.asset.outputNumbers = decryptOutputAssetData.amount;
-
+      console.log(11111);
       // outputs 中 输入地址与 钱包地址一样, 表示:输入金额, 反之:输出金额
       if (decryptOutputAssetData.blind_asset_record.public_key === walletInfo.publickey) {
         result.txn_type = 'input'; // 输入
