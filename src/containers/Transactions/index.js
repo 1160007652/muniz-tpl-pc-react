@@ -35,15 +35,14 @@ const Transactions = () => {
       setRefreshLoding(false);
     }
     if (dataList.length > 0) {
+      // 默认加载 loading, 下拉刷新 refresh
+      if (historyParams.action === 'refresh') {
+        setRefreshLoding(true);
+        getTxnList(-2);
+      }
       setInitLoading(false);
     } else {
       getTxnList(0);
-    }
-
-    // 默认加载 loading, 下拉刷新 refresh
-    if (historyParams.action === 'refresh') {
-      setRefreshLoding(true);
-      getTxnList(-2);
     }
   }, []);
 
