@@ -80,7 +80,7 @@ const IssueAssetConfrim = ({ data }) => {
               {intl.get('cancel')}
             </FindoraButton>
             <FindoraButton className="btn" onClick={handleClickSubmit}>
-              {intl.get('confrim')}
+              {intl.get('confirm')}
             </FindoraButton>
           </div>
         </Spin>

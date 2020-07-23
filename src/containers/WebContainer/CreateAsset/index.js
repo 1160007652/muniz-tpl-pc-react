@@ -118,14 +118,17 @@ const CreateAsset = () => {
             <Radio value="fungible">Fungible</Radio>
           </Radio.Group>
         </FindoraBoxView> */}
-        <FindoraBoxView title={<FindoraTips desc={intl.get('traceable')}>{intl.get('traceable')}</FindoraTips>} isRow>
+        <FindoraBoxView
+          title={<FindoraTips desc={intl.get('traceable_tips')}>{intl.get('traceable')}</FindoraTips>}
+          isRow
+        >
           <Radio.Group value={data.traceable} onChange={handleChangeRadio('traceable')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
         </FindoraBoxView>
         <FindoraBoxView
-          title={<FindoraTips desc={intl.get('transferable')}>{intl.get('transferable')}</FindoraTips>}
+          title={<FindoraTips desc={intl.get('transferable_tips')}>{intl.get('transferable')}</FindoraTips>}
           isRow
         >
           <Radio.Group value={data.transferable} onChange={handleChangeRadio('transferable')}>
@@ -133,7 +136,10 @@ const CreateAsset = () => {
             <Radio value={false}>No</Radio>
           </Radio.Group>
         </FindoraBoxView>
-        <FindoraBoxView title={<FindoraTips desc={intl.get('updatable')}>{intl.get('updatable')}</FindoraTips>} isRow>
+        <FindoraBoxView
+          title={<FindoraTips desc={intl.get('updatable_tips')}>{intl.get('updatable')}</FindoraTips>}
+          isRow
+        >
           <Radio.Group value={data.updatable} onChange={handleChangeRadio('updatable')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>

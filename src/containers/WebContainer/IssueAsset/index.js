@@ -117,15 +117,15 @@ const IssueAsset = () => {
             <Radio value={false}>No</Radio>
           </Radio.Group>
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('blind_type')} isRow>
+        {/* <FindoraBoxView title={intl.get('blind_type')} isRow>
           <Radio.Group value={data.blind.isType} disabled onChange={handleChangeRadio('isType')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
-        </FindoraBoxView>
+        </FindoraBoxView> */}
         <div className="btn-area">
           <FindoraButton className="btn" onClick={handleClickCreate}>
-            {intl.get('confrim')}
+            {intl.get('confirm')}
           </FindoraButton>
         </div>
       </div>

@@ -76,10 +76,10 @@ const sendServer = {
     const assetRecord = findoraWasm.ClientAssetRecord.from_json(utxoData);
     const ownerMemo = memoData ? findoraWasm.OwnerMemo.from_json(memoData) : null;
 
-    const decryptUtxoData = findoraWasm.open_client_asset_record(assetRecord, ownerMemo, keypair);
-    console.log('assetRecord: ', assetRecord);
-    console.log('ownerMemo:', ownerMemo);
-    console.log('decryptUtxoData: ', decryptUtxoData);
+    // const decryptUtxoData = findoraWasm.open_client_asset_record(assetRecord, ownerMemo, keypair);
+    // console.log('assetRecord: ', assetRecord);
+    // console.log('ownerMemo:', ownerMemo);
+    // console.log('decryptUtxoData: ', decryptUtxoData);
 
     /*
       还缺少,获取 ownerMeo 的功能
@@ -123,12 +123,8 @@ const sendServer = {
         .add_output_no_tracking(BigInt(amount), toPublickey, tokenCode, isBlindAmount, isBlindType);
     }
 
-    transferOp = transferOp
-      .balance()
-      .create(findoraWasm.TransferType.standard_transfer_type())
-      .sign(keypair)
-      .transaction();
-
+    transferOp = transferOp.create(findoraWasm.TransferType.standard_transfer_type()).sign(keypair).transaction();
+    //  .balance()
     console.log('开始获取 blockCount');
 
     const blockCount = BigInt((await webNetWork.getStateCommitment())[1]);

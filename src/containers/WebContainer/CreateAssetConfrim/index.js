@@ -68,9 +68,9 @@ const CreateAssetConfrim = ({ data }) => {
             <FindoraBoxView title={intl.get('memo')}>
               <span className="address">{memo}</span>
             </FindoraBoxView>
-            <FindoraBoxView title={intl.get('policy')}>
+            {/* <FindoraBoxView title={intl.get('policy')}>
               <span className="address">{policy}</span>
-            </FindoraBoxView>
+            </FindoraBoxView> */}
             <FindoraBoxView title={intl.get('traceable')}>
               <span className="address">{traceable ? 'Yes' : 'No'}</span>
             </FindoraBoxView>
@@ -91,7 +91,7 @@ const CreateAssetConfrim = ({ data }) => {
               {intl.get('cancel')}
             </FindoraButton>
             <FindoraButton className="btn" onClick={handleClickSubmit}>
-              {intl.get('confrim')}
+              {intl.get('confirm')}
             </FindoraButton>
           </div>
         </Spin>
