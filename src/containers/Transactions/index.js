@@ -21,6 +21,7 @@ const Transactions = () => {
   const walletInfo = toJS(walletStore.walletInfo);
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [refreshLoding, setRefreshLoding] = useState(false);
   const dataList = transactionStore.dataList[walletInfo.publickey]?.data || [];
 
   useEffect(() => {
@@ -31,6 +32,7 @@ const Transactions = () => {
         await transactionStore.getTransactionData({ address: walletInfo.publickey, data: result, page });
       }
       setInitLoading(false);
+      setRefreshLoding(false);
     }
     if (dataList.length > 0) {
       setInitLoading(false);
@@ -40,7 +42,7 @@ const Transactions = () => {
 
     // 默认加载 loading, 下拉刷新 refresh
     if (historyParams.action === 'refresh') {
-      setInitLoading(true);
+      setRefreshLoding(true);
       getTxnList(-2);
     }
   }, []);
@@ -98,7 +100,7 @@ const Transactions = () => {
   return (
     <div className="transactions">
       <FindoraHeader title={intl.get('page_transactions_title')} isShowBack menu={<HeaderMenu />} />
-      <Spin spinning={historyParams.action === 'refresh' ? initLoading : false}>
+      <Spin spinning={refreshLoding}>
         <List
           className="transactions-box"
           loading={initLoading}

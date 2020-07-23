@@ -25,7 +25,7 @@ const TransactionsItem = ({ data, onClick, className, style }) => {
   const { time, from, to, asset, state, txn_type } = data;
   return (
     <div className={classNames('transactions-item', className)} onClick={onClick} style={style}>
-      <div className="time">{time}</div>
+      {/* <div className="time">{time}</div> */}
 
       <div className="utxo">
         <FindoraBoxView title="From">

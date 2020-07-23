@@ -30,7 +30,7 @@ const CreateAssetConfrim = ({ data }) => {
   }
   /** 显示结果后, 按钮事件 */
   function handleClickView() {
-    hirstory.push({ pathname: pageURL.walletInfo });
+    hirstory.replace({ pathname: pageURL.walletInfo });
   }
   /** 提交数据 */
   async function handleClickSubmit() {
