@@ -117,6 +117,7 @@ const sendServer = {
     } else {
       console.log('转账 - 不可以跟踪');
       console.log('转账 - 金额: ', BigInt(amount), amount);
+
       transferOp = findoraWasm.TransferOperationBuilder.new()
         .add_input_no_tracking(txoRef, assetRecord, ownerMemo, keypair, BigInt(amount))
         .add_output_no_tracking(BigInt(amount), toPublickey, tokenCode, isBlindAmount, isBlindType);
