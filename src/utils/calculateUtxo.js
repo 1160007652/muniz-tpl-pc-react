@@ -55,7 +55,11 @@ async function getUtxoDiff({ address, sidsDiff, keyPairStr }) {
     const assetRecord = findoraWasm.ClientAssetRecord.from_json(utxoData);
     const ownerMemo = memoData ? findoraWasm.OwnerMemo.from_json(memoData) : null;
 
-    const decryptAssetData = findoraWasm.open_client_asset_record(assetRecord, ownerMemo, keypair);
+    const decryptAssetData = findoraWasm.open_client_asset_record(
+      assetRecord,
+      ownerMemo ? ownerMemo.clone() : ownerMemo,
+      keypair,
+    );
 
     decryptAssetData.asset_type = findoraWasm.asset_type_from_jsvalue(decryptAssetData.asset_type);
 
