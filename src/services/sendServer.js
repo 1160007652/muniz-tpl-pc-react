@@ -112,23 +112,24 @@ const sendServer = {
 
       // 生成转账数据
       transferOp = findoraWasm.TransferOperationBuilder.new()
-        .add_input_with_tracking(txoRef, assetRecord, ownerMemo, tracingPolicies, keypair, BigInt(amount))
+        .add_input_with_tracking(txoRef, assetRecord, ownerMemo?.clone(), tracingPolicies, keypair, BigInt(amount))
         .add_output_with_tracking(BigInt(amount), toPublickey, tracingPolicies, tokenCode, isBlindAmount, isBlindType);
     } else {
       console.log('转账 - 不可以跟踪');
       console.log('转账 - 金额: ', BigInt(amount), amount);
 
       transferOp = findoraWasm.TransferOperationBuilder.new()
-        .add_input_no_tracking(txoRef, assetRecord, ownerMemo, keypair, BigInt(amount))
+        .add_input_no_tracking(txoRef, assetRecord, ownerMemo?.clone(), keypair, BigInt(amount))
         .add_output_no_tracking(BigInt(amount), toPublickey, tokenCode, isBlindAmount, isBlindType);
     }
 
-    transferOp = transferOp.create(findoraWasm.TransferType.standard_transfer_type()).sign(keypair).transaction();
+    // findoraWasm.TransferType.standard_transfer_type()
+    transferOp = transferOp.create().sign(keypair).transaction();
     //  .balance()
     console.log('开始获取 blockCount');
 
     const blockCount = BigInt((await webNetWork.getStateCommitment())[1]);
-    const transferTxn = findoraWasm.TransactionBuilder.new(blockCount).add_operation(transferOp).transaction();
+    const transferTxn = findoraWasm.TransactionBuilder.new(blockCount).add_transfer_operation(transferOp).transaction();
     console.log('转账提交的数据: ', transferTxn);
     // 发起转账交易
     const handle = await webNetWork.submitTransaction(transferTxn);

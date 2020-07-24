@@ -107,33 +107,24 @@ function takeObject(idx) {
     dropObject(idx);
     return ret;
 }
-
-function makeMutClosure(arg0, arg1, dtor, f) {
-    const state = { a: arg0, b: arg1, cnt: 1 };
-    const real = (...args) => {
-        // First up with a closure we increment the internal reference
-        // count. This ensures that the Rust closure environment won't
-        // be deallocated while we're invoking it.
-        state.cnt++;
-        const a = state.a;
-        state.a = 0;
-        try {
-            return f(a, state.b, ...args);
-        } finally {
-            if (--state.cnt === 0) wasm.__wbindgen_export_2.get(dtor)(a, state.b);
-            else state.a = a;
-        }
-    };
-    real.original = state;
-    return real;
-}
-function __wbg_adapter_20(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h78d9bdba856d0107(arg0, arg1, addHeapObject(arg2));
+/**
+* Returns the git commit hash and commit date of the commit this library was built against.
+* @returns {string}
+*/
+export function build_id() {
+    try {
+        wasm.build_id(8);
+        var r0 = getInt32Memory0()[8 / 4 + 0];
+        var r1 = getInt32Memory0()[8 / 4 + 1];
+        return getStringFromWasm0(r0, r1);
+    } finally {
+        wasm.__wbindgen_free(r0, r1);
+    }
 }
 
 /**
 * Generates random base64 encoded asset type string. Used in asset definitions.
-* @see {@link WasmTransactionBuilder#add_operation_create_asset} for instructions on how to define an asset with a new
+* @see {@link TransactionBuilder#add_operation_create_asset} for instructions on how to define an asset with a new
 * asset type
 * @returns {string}
 */
@@ -193,6 +184,24 @@ export function verify_authenticated_txn(state_commitment, authenticated_txn) {
     return ret !== 0;
 }
 
+/**
+* Given a serialized state commitment and an authenticated custom data result, returns true if the custom data result correctly
+* hashes up to the state commitment and false otherwise.
+* @param {string} state_commitment - String representing the state commitment.
+* @param {JsValue} authenticated_txn - JSON-encoded value representing the authenticated custom
+* data result.
+* @throws Will throw an error if the state commitment or the authenticated result fail to deserialize.
+* @param {string} state_commitment
+* @param {any} authenticated_res
+* @returns {boolean}
+*/
+export function verify_authenticated_custom_data_result(state_commitment, authenticated_res) {
+    var ptr0 = passStringToWasm0(state_commitment, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    var len0 = WASM_VECTOR_LEN;
+    var ret = wasm.verify_authenticated_custom_data_result(ptr0, len0, addHeapObject(authenticated_res));
+    return ret !== 0;
+}
+
 const u32CvtShim = new Uint32Array(2);
 
 const uint64CvtShim = new BigUint64Array(u32CvtShim.buffer);
@@ -242,6 +251,7 @@ export function get_null_pk() {
 }
 
 /**
+* @ignore
 * @returns {string}
 */
 export function create_default_policy_info() {
@@ -265,6 +275,7 @@ export function create_default_policy_info() {
 * * `ir_denominator`- interest rate denominator
 * * `fiat_code` - base64 string representing asset type used to pay off the loan
 * * `amount` - loan amount
+* @ignore
 * @param {BigInt} ir_numerator
 * @param {BigInt} ir_denominator
 * @param {string} fiat_code
@@ -341,16 +352,14 @@ function isLikeNone(x) {
     return x === undefined || x === null;
 }
 /**
-* Returns a JsValue containing decrypted owner record information,
+* Returns a JavaScript object containing decrypted owner record information,
 * where `amount` is the decrypted asset amount, and `asset_type` is the decrypted asset type code.
 *
 * @param {ClientAssetRecord} record - Owner record.
-* @see {@link ClientAssetRecord#from_json} for information about fetching the asset record.
-*
 * @param {OwnerMemo} owner_memo - Owner memo of the associated record.
-* TODO (Redmine issue #126): Unable to get owner memo.
-*
 * @param {XfrKeyPair} keypair - Keypair of asset owner.
+* @see {@link ClientAssetRecord#from_json_record} for information about how to construct an asset record object
+* from a JSON result returned from the ledger server.
 * @param {ClientAssetRecord} record
 * @param {OwnerMemo | undefined} owner_memo
 * @param {XfrKeyPair} keypair
@@ -485,175 +494,6 @@ export function keypair_from_str(str) {
     var len0 = WASM_VECTOR_LEN;
     var ret = wasm.keypair_from_str(ptr0, len0);
     return XfrKeyPair.__wrap(ret);
-}
-
-/**
-* Returns the SHA256 signature of the given string as a hex-encoded
-* string.
-* @ignore
-* @param {string} str
-* @returns {string}
-*/
-export function sha256str(str) {
-    try {
-        var ptr0 = passStringToWasm0(str, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-        var len0 = WASM_VECTOR_LEN;
-        wasm.sha256str(8, ptr0, len0);
-        var r0 = getInt32Memory0()[8 / 4 + 0];
-        var r1 = getInt32Memory0()[8 / 4 + 1];
-        return getStringFromWasm0(r0, r1);
-    } finally {
-        wasm.__wbindgen_free(r0, r1);
-    }
-}
-
-/**
-* Signs the given message using the given transfer key pair.
-* @ignore
-* @param {XfrKeyPair} key_pair
-* @param {string} message
-* @returns {any}
-*/
-export function sign(key_pair, message) {
-    _assertClass(key_pair, XfrKeyPair);
-    var ptr0 = passStringToWasm0(message, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-    var len0 = WASM_VECTOR_LEN;
-    var ret = wasm.sign(key_pair.ptr, ptr0, len0);
-    return takeObject(ret);
-}
-
-/**
-* Submit a transaction to the ledger and return a promise for the
-* ledger's eventual response. The transaction will be enqueued for
-* validation. If it is valid, it will eventually be committed to the
-* ledger.
-*
-* To determine whether or not the transaction has been committed to the ledger,
-* query the ledger by transaction handle.
-*
-* Contained in the response of `submit_transaction` is a `TransactionHandle` that can be used to
-* query the status of the transaction.
-* @param {string} path - Submission server path (e.g. `https://localhost:8669`)
-* @param {string} transaction_str - JSON-encoded transaction string.
-*
-* @see {@link get_txn_status} for information about transaction statuses.
-* @param {string} path
-* @param {string} transaction_str
-* @returns {Promise<any>}
-*/
-export function submit_transaction(path, transaction_str) {
-    var ptr0 = passStringToWasm0(path, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-    var len0 = WASM_VECTOR_LEN;
-    var ptr1 = passStringToWasm0(transaction_str, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-    var len1 = WASM_VECTOR_LEN;
-    var ret = wasm.submit_transaction(ptr0, len0, ptr1, len1);
-    return takeObject(ret);
-}
-
-/**
-* Given a transaction ID, returns a promise for the transaction status.
-* @param {string} path - Address of submission server. E.g. `https://localhost:8669`.
-* @param {string} path
-* @param {string} handle
-* @returns {Promise<any>}
-*/
-export function get_txn_status(path, handle) {
-    var ptr0 = passStringToWasm0(path, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-    var len0 = WASM_VECTOR_LEN;
-    var ptr1 = passStringToWasm0(handle, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-    var len1 = WASM_VECTOR_LEN;
-    var ret = wasm.get_txn_status(ptr0, len0, ptr1, len1);
-    return takeObject(ret);
-}
-
-/**
-* If successful, returns a promise that will eventually provide a
-* JsValue describing an unspent transaction output (UTXO).
-* Otherwise, returns 'not found'. The request fails if the txo uid
-* has been spent or the transaction index does not correspond to a
-* transaction.
-* @param {string} path - Address of ledger server. E.g. `https://localhost:8668`.
-* @param {BigInt} sid - UTXO SID.
-* @param {string} path
-* @param {BigInt} sid
-* @returns {Promise<any>}
-*/
-export function get_txo(path, sid) {
-    var ptr0 = passStringToWasm0(path, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-    var len0 = WASM_VECTOR_LEN;
-    uint64CvtShim[0] = sid;
-    const low1 = u32CvtShim[0];
-    const high1 = u32CvtShim[1];
-    var ret = wasm.get_txo(ptr0, len0, low1, high1);
-    return takeObject(ret);
-}
-
-/**
-* If successful, returns a promise that will eventually provide a
-* JsValue describing a transaction.
-* Otherwise, returns `not found`. The request fails if the transaction index does not correspond
-* to a transaction.
-*
-* @example <caption> Error handling </caption>
-* try {
-*     await wasm.get_transaction("http::localhost:8668", 1);
-* } catch (err) {
-*     console.log(err)
-* }
-* @param {String} path - Address of ledger server. E.g. `https://localhost:8668`.
-* @param {BigInt} sid - Transaction SID.
-* @param {string} path
-* @param {BigInt} sid
-* @returns {Promise<any>}
-*/
-export function get_transaction(path, sid) {
-    var ptr0 = passStringToWasm0(path, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-    var len0 = WASM_VECTOR_LEN;
-    uint64CvtShim[0] = sid;
-    const low1 = u32CvtShim[0];
-    const high1 = u32CvtShim[1];
-    var ret = wasm.get_transaction(ptr0, len0, low1, high1);
-    return takeObject(ret);
-}
-
-/**
-* Returns a JSON-encoded version of the state commitment of a running ledger. This is used to
-* check the authenticity of transactions and blocks.
-* @param {string} path - Address of ledger server. E.g. `https://localhost:8668`.
-* @param {string} path
-* @returns {Promise<any>}
-*/
-export function get_state_commitment(path) {
-    var ptr0 = passStringToWasm0(path, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-    var len0 = WASM_VECTOR_LEN;
-    var ret = wasm.get_state_commitment(ptr0, len0);
-    return takeObject(ret);
-}
-
-/**
-* If successful, returns a promise that will eventually provide a
-* JsValue describing an asset token. Otherwise, returns 'not found'.
-* The request fails if the given token code does not correspond to
-* an asset.
-* @example <caption> Error handling </caption>
-* try {
-*     await wasm.get_asset_token("http::localhost:8668", code);
-* } catch (err) {
-*     console.log(err)
-* }
-* @param {string} path - Address of ledger server. E.g. `https://localhost:8668`.
-* @param {string} code - Base64-encoded asset token string.
-* @param {string} path
-* @param {string} code
-* @returns {Promise<any>}
-*/
-export function get_asset_token(path, code) {
-    var ptr0 = passStringToWasm0(path, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-    var len0 = WASM_VECTOR_LEN;
-    var ptr1 = passStringToWasm0(code, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-    var len1 = WASM_VECTOR_LEN;
-    var ret = wasm.get_asset_token(ptr0, len0, ptr1, len1);
-    return takeObject(ret);
 }
 
 /**
@@ -827,21 +667,26 @@ function handleError(f) {
         }
     };
 }
-function __wbg_adapter_137(arg0, arg1, arg2, arg3) {
-    wasm.wasm_bindgen__convert__closures__invoke2_mut__h189dc5c2e5a15118(arg0, arg1, addHeapObject(arg2), addHeapObject(arg3));
-}
 
 function getArrayU8FromWasm0(ptr, len) {
     return getUint8Memory0().subarray(ptr / 1, ptr / 1 + len);
 }
 /**
-* Simple asset rules:
-* 1) Traceable: Records and identities of traceable assets can be decrypted by a provided tracking key
-* 2) Transferable: Non-transferable assets can only be transferred once from the issuer to
-*    another user.
-* 3) Updatable: Whether the asset memo can be updated.
-* 4) Transfer signature rules: Signature weights and threshold for a valid transfer.
-* 5) Max units: Optional limit on total issuance amount.
+* When an asset is defined, several options governing the assets must be
+* specified:
+* 1. **Traceable**: Records and identities of traceable assets can be decrypted by a provided tracking key. By defaults, assets do not have
+* any tracing policies.
+* 2. **Transferable**: Non-transferable assets can only be transferred once from the issuer to another user. By default, assets are transferable.
+* 3. **Updatable**: Whether the asset memo can be updated. By default, assets are not updatable.
+* 4. **Transfer signature rules**: Signature weights and threshold for a valid transfer. By
+*    default, there are no special signature requirements.
+* 5. **Max units**: Optional limit on the total number of units of this asset that can be issued.
+*    By default, assets do not have issuance caps.
+* @see {@link TracingPolicies} for more information about tracing policies.
+* @see {@link TransactionBuilder#add_operation_update_memo|add_operation_update_memo} for more information about how to add
+* a memo update operation to a transaction.
+* @see {@link SignatureRules} for more information about co-signatures.
+* @see {@link TransactionBuilder#add_operation_create_asset|add_operation_create_asset} for information about how to add asset rules to an asset definition.
 */
 export class AssetRules {
 
@@ -859,7 +704,7 @@ export class AssetRules {
         wasm.__wbg_assetrules_free(ptr);
     }
     /**
-    * Create a default set of asset rules.
+    * Create a default set of asset rules. See class description for defaults.
     * @returns {AssetRules}
     */
     static new() {
@@ -897,7 +742,7 @@ export class AssetRules {
     /**
     * Transferability toggle. Assets that are not transferable can only be transferred by the asset
     * issuer.
-    * @param {bool} transferable - Boolean indicating whether asset can be transferred.
+    * @param {boolean} transferable - Boolean indicating whether asset can be transferred.
     * @param {boolean} transferable
     * @returns {AssetRules}
     */
@@ -909,7 +754,9 @@ export class AssetRules {
     }
     /**
     * The updatable flag determines whether the asset memo can be updated after issuance.
-    * @param {bool} updatable - Boolean indicating whether asset memo can be updated.
+    * @param {boolean} updatable - Boolean indicating whether asset memo can be updated.
+    * @see {@link TransactionBuilder#add_operation_update_memo} for more information about how to add
+    * a memo update operation to a transaction.
     * @param {boolean} updatable
     * @returns {AssetRules}
     */
@@ -937,8 +784,11 @@ export class AssetRules {
     }
 }
 /**
-* Key pair of the asset tracer. This key pair can be used to decrypt traced assets and
-* identities.
+* Key pair used by asset tracers to decrypt asset amounts, types, and identity
+* commitments associated with traceable asset transfers.
+* @see {@link TracingPolicy} for information about tracing policies.
+* @see {@link AssetRules#add_tracing_policy} for information about how to add a tracing policy to
+* an asset definition.
 */
 export class AssetTracerKeyPair {
 
@@ -956,6 +806,7 @@ export class AssetTracerKeyPair {
         wasm.__wbg_assettracerkeypair_free(ptr);
     }
     /**
+    * Creates a new tracer key pair.
     * @returns {AssetTracerKeyPair}
     */
     static new() {
@@ -983,28 +834,10 @@ export class AssetType {
         wasm.__wbg_assettype_free(ptr);
     }
     /**
-    * Builds an asset type from a JSON-serialized JavaScript value.
-    * @param {JsValue} val - JSON asset type fetched from ledger server with the `asset_token/{code}` route.
-    *
-    * Note: The first field of an asset type is `properties`. E.g.:
-    * `"properties": {
-    *   "code": {
-    *     "val": [
-    *       151,   8, 106,  38, 126, 101, 250, 236,
-    *       134,  77,  83, 180,  43, 152,  47,  57,
-    *       83,  30,  60,   8, 132, 218,  48,  52,
-    *       167, 167, 190, 244,  34,  45,  78,  80
-    *     ]
-    *   },
-    *   "issuer": { "key": 'iFW4jY_DQVSGED05kTseBBn0BllPB9Q9escOJUpf4DY=' },
-    *   "memo": 'test memo',
-    *   "asset_rules": {
-    *     "transferable": true,
-    *     "updatable": false,
-    *     "transfer_multisig_rules": null,
-    *     "max_units": 5000
-    *   }
-    * }`.
+    * Builds an asset type from a JSON-encoded JavaScript value.
+    * @param {JsValue} val - JSON-encoded asset type fetched from ledger server.
+    * @see {@link Network#getAssetProperties|Network.getAsset} for information about how to
+    * fetch an asset type from the ledger server.
     * @param {any} json
     * @returns {AssetType}
     */
@@ -1017,7 +850,7 @@ export class AssetType {
         }
     }
     /**
-    * Fetch the tracing policies from the asset definition.
+    * Fetch the tracing policies associated with this asset type.
     * @returns {TracingPolicies}
     */
     get_tracing_policies() {
@@ -1027,7 +860,7 @@ export class AssetType {
 }
 /**
 * Authenticated address identity registry value. Contains a proof that the AIR result is stored
-* in the ledger.
+* on the ledger.
 */
 export class AuthenticatedAIRResult {
 
@@ -1046,6 +879,8 @@ export class AuthenticatedAIRResult {
     }
     /**
     * Construct an AIRResult from the JSON-encoded value returned by the ledger.
+    * @see {@link Network#getAIRResult|Network.getAIRResult} for information about how to fetch a
+    * value from the address identity registry.
     * @param {any} json
     * @returns {AuthenticatedAIRResult}
     */
@@ -1058,7 +893,8 @@ export class AuthenticatedAIRResult {
         }
     }
     /**
-    * Returns true if the authenticated AIR result proofs verify succesfully.
+    * Returns true if the authenticated AIR result proofs verify succesfully. If the proofs are
+    * valid, the identity commitment contained in the AIR result is a valid part of the ledger.
     * @param {string} state_commitment - String representing the ledger state commitment.
     * @param {string} state_commitment
     * @returns {boolean}
@@ -1081,7 +917,6 @@ export class AuthenticatedAIRResult {
 /**
 * Object representing an authenticable asset record. Clients can validate authentication proofs
 * against a ledger state commitment.
-* @see {@link Network#get_state_commitment} for instructions on fetching a ledger state commitment.
 */
 export class AuthenticatedAssetRecord {
 
@@ -1100,10 +935,10 @@ export class AuthenticatedAssetRecord {
     }
     /**
     * Given a serialized state commitment, returns true if the
-    * authenticated utxo proofs validate correctly and false otherwise. If the proofs validate, the
+    * authenticated UTXO proofs validate correctly and false otherwise. If the proofs validate, the
     * asset record contained in this structure exists on the ledger and is unspent.
     * @param {string} state_commitment - String representing the state commitment.
-    * @see {@link network#get_state_commitment} for instructions on fetching a ledger state commitment.
+    * @see {@link Network#getStateCommitment|Network.getStateCommitment} for instructions on fetching a ledger state commitment.
     * @throws Will throw an error if the state commitment fails to deserialize.
     * @param {string} state_commitment
     * @returns {boolean}
@@ -1115,6 +950,11 @@ export class AuthenticatedAssetRecord {
         return ret !== 0;
     }
     /**
+    * Builds an AuthenticatedAssetRecord from a JSON-encoded asset record returned from the ledger
+    * server.
+    * @param {JsValue} val - JSON-encoded asset record fetched from ledger server.
+    * @see {@link Network#getUtxo|Network.getUtxo} for information about how to
+    * fetch an asset record from the ledger server.
     * @param {any} record
     * @returns {AuthenticatedAssetRecord}
     */
@@ -1128,7 +968,9 @@ export class AuthenticatedAssetRecord {
     }
 }
 /**
-* TXO of the client's asset record.
+* This object represents an asset record owned by a ledger key pair.
+* @see {@link open_client_asset_record} for information about how to decrypt an encrypted asset
+* record.
 */
 export class ClientAssetRecord {
 
@@ -1146,11 +988,10 @@ export class ClientAssetRecord {
         wasm.__wbg_clientassetrecord_free(ptr);
     }
     /**
-    * Builds a client record from a JSON-serialized JavaScript value.
-    * @param {JsValue} val - JSON-encoded autehtnicated asset record fetched from ledger server with the `utxo_sid/{sid}` route,
-    * where `sid` can be fetched from the query server with the `get_owned_utxos/{address}` route.
-    *
-    * Note: The first field of an asset record is `utxo`. E.g.:
+    * Builds a client record from a JSON-encodedJavaScript value.
+    * @param {JsValue} val - JSON-encoded authenticated asset record fetched from ledger server.
+    * @see {@link Network#getUtxo|Network.getUtxo} for information about how to
+    * fetch an asset record from the ledger server.
     * @param {any} val
     * @returns {ClientAssetRecord}
     */
@@ -1240,10 +1081,10 @@ export class CredUserSecretKey {
     }
 }
 /**
-* Credential information containing:
-* * Issuer public key.
-* * Credential signature.
-* * Credential attributes and associated values.
+* A user credential that can be used to selectively reveal credential attributes.
+* @see {@link wasm_credential_commit} for information about how to commit to a credential.
+* @see {@link wasm_credential_reveal} for information about how to selectively reveal credential
+* attributes.
 */
 export class Credential {
 
@@ -1263,6 +1104,8 @@ export class Credential {
 }
 /**
 * Commitment to a credential record.
+* @see {@link wasm_credential_verify_commitment} for information about how to verify a
+* credential commitment.
 */
 export class CredentialCommitment {
 
@@ -1300,6 +1143,9 @@ export class CredentialCommitmentAndPoK {
         wasm.__wbg_credentialcommitmentandpok_free(ptr);
     }
     /**
+    * Returns the underlying credential commitment.
+    * @see {@link wasm_credential_verify_commitment} for information about how to verify a
+    * credential commitment.
     * @returns {CredentialCommitment}
     */
     get_commitment() {
@@ -1307,6 +1153,9 @@ export class CredentialCommitmentAndPoK {
         return CredentialCommitment.__wrap(ret);
     }
     /**
+    * Returns the underlying proof of knowledge that the credential is a valid re-randomization.
+    * @see {@link wasm_credential_verify_commitment} for information about how to verify a
+    * credential commitment.
     * @returns {CredentialPoK}
     */
     get_pok() {
@@ -1373,6 +1222,8 @@ export class CredentialIssuerKeyPair {
 /**
 * Proof that a credential is a valid re-randomization of a credential signed by a certain asset
 * issuer.
+* @see {@link wasm_credential_verify_commitment} for information about how to verify a
+* credential commitment.
 */
 export class CredentialPoK {
 
@@ -1511,6 +1362,27 @@ export class KVBlind {
         var ret = wasm.kvblind_gen_random();
         return KVBlind.__wrap(ret);
     }
+    /**
+    * Convert the key pair to a JSON-encoded value that can be used in the browser.
+    * @returns {any}
+    */
+    to_json() {
+        var ret = wasm.kvblind_to_json(this.ptr);
+        return takeObject(ret);
+    }
+    /**
+    * Create a KVBlind from a JSON-encoded value.
+    * @param {any} val
+    * @returns {KVBlind}
+    */
+    static from_json(val) {
+        try {
+            var ret = wasm.kvblind_from_json(addBorrowedObject(val));
+            return KVBlind.__wrap(ret);
+        } finally {
+            heap[stack_pointer++] = undefined;
+        }
+    }
 }
 /**
 * Hash that can be stored in the ledger's custom data store.
@@ -1532,27 +1404,34 @@ export class KVHash {
     }
     /**
     * Generate a new custom data hash without a blinding factor.
-    * @param {string} data
+    * @param {JsValue} data - Data to hash. Must be an array of bytes.
+    * @param {any} data
     * @returns {KVHash}
     */
     static new_no_blind(data) {
-        var ptr0 = passStringToWasm0(data, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-        var len0 = WASM_VECTOR_LEN;
-        var ret = wasm.kvhash_new_no_blind(ptr0, len0);
-        return KVHash.__wrap(ret);
+        try {
+            var ret = wasm.kvhash_new_no_blind(addBorrowedObject(data));
+            return KVHash.__wrap(ret);
+        } finally {
+            heap[stack_pointer++] = undefined;
+        }
     }
     /**
     * Generate a new custom data hash with a blinding factor.
-    * @param {string} data
+    * @param {JsValue} data - Data to hash. Must be an array of bytes.
+    * @param {KVBlind} kv_blind - Optional blinding factor.
+    * @param {any} data
     * @param {KVBlind} kv_blind
     * @returns {KVHash}
     */
     static new_with_blind(data, kv_blind) {
-        var ptr0 = passStringToWasm0(data, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-        var len0 = WASM_VECTOR_LEN;
-        _assertClass(kv_blind, KVBlind);
-        var ret = wasm.kvhash_new_with_blind(ptr0, len0, kv_blind.ptr);
-        return KVHash.__wrap(ret);
+        try {
+            _assertClass(kv_blind, KVBlind);
+            var ret = wasm.kvhash_new_with_blind(addBorrowedObject(data), kv_blind.ptr);
+            return KVHash.__wrap(ret);
+        } finally {
+            heap[stack_pointer++] = undefined;
+        }
     }
 }
 /**
@@ -1580,6 +1459,31 @@ export class Key {
     */
     static gen_random() {
         var ret = wasm.key_gen_random();
+        return Key.__wrap(ret);
+    }
+    /**
+    * Returns a base64 encoded version of the Key.
+    * @returns {string}
+    */
+    to_base64() {
+        try {
+            wasm.key_to_base64(8, this.ptr);
+            var r0 = getInt32Memory0()[8 / 4 + 0];
+            var r1 = getInt32Memory0()[8 / 4 + 1];
+            return getStringFromWasm0(r0, r1);
+        } finally {
+            wasm.__wbindgen_free(r0, r1);
+        }
+    }
+    /**
+    * Generates a Key from a base64-encoded String.
+    * @param {string} string
+    * @returns {Key}
+    */
+    static from_base64(string) {
+        var ptr0 = passStringToWasm0(string, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        var len0 = WASM_VECTOR_LEN;
+        var ret = wasm.key_from_base64(ptr0, len0);
         return Key.__wrap(ret);
     }
 }
@@ -1618,6 +1522,14 @@ export class OwnerMemo {
         } finally {
             heap[stack_pointer++] = undefined;
         }
+    }
+    /**
+    * Creates a clone of the owner memo.
+    * @returns {OwnerMemo}
+    */
+    clone() {
+        var ret = wasm.ownermemo_clone(this.ptr);
+        return OwnerMemo.__wrap(ret);
     }
 }
 /**
@@ -1783,10 +1695,10 @@ export class TransactionBuilder {
     *
     * @param {XfrKeyPair} key_pair -  Issuer XfrKeyPair.
     * @param {string} memo - Text field for asset definition.
-    * @param {string} token_code - Optional Base64 string representing the token code of the asset to be issued
+    * @param {string} token_code - Optional Base64 string representing the token code of the asset to be issued.
+    * If empty, a token code will be chosen at random.
     * @param {AssetRules} asset_rules - Asset rules object specifying which simple policies apply
     * to the asset.
-    * If empty, a token code will be chosen at random.
     * @param {XfrKeyPair} key_pair
     * @param {string} memo
     * @param {string} token_code
@@ -1808,6 +1720,7 @@ export class TransactionBuilder {
         return TransactionBuilder.__wrap(ret);
     }
     /**
+    * @ignore
     * @param {XfrKeyPair} key_pair
     * @param {string} memo
     * @param {string} token_code
@@ -1832,6 +1745,7 @@ export class TransactionBuilder {
         return TransactionBuilder.__wrap(ret);
     }
     /**
+    * @ignore
     * @param {string} token_code
     * @param {string} which_check
     * @returns {TransactionBuilder}
@@ -1856,7 +1770,7 @@ export class TransactionBuilder {
     * @param {string} code - Base64 string representing the token code of the asset to be issued.
     * @param {BigInt} seq_num - Issuance sequence number. Every subsequent issuance of a given asset type must have a higher sequence number than before.
     * @param {BigInt} amount - Amount to be issued.
-    * @param {bool} conf_amount - `true` means the asset amount is confidential, and `false` means it's nonconfidential.
+    * @param {boolean} conf_amount - `true` means the asset amount is confidential, and `false` means it's nonconfidential.
     * @param {PublicParams} zei_params - Public parameters necessary to generate asset records.
     * @param {XfrKeyPair} key_pair
     * @param {string} code
@@ -1883,7 +1797,15 @@ export class TransactionBuilder {
         return TransactionBuilder.__wrap(ret);
     }
     /**
-    * Adds an add air assign operation to a WasmTransactionBuilder instance.
+    * Adds an operation to the transaction builder that appends a credential commitment to the address
+    * identity registry.
+    * @param {XfrKeyPair} key_pair - Ledger key that is tied to the credential.
+    * @param {CredUserPublicKey} user_public_key - Public key of the credential user.
+    * @param {CredIssuerPublicKey} issuer_public_key - Public key of the credential issuer.
+    * @param {CredentialCommitment} commitment - Credential commitment to add to the address identity registry.
+    * @param {CredPoK} pok- Proof that a credential commitment is a valid re-randomization.
+    * @see {@link wasm_credential_commit} for information about how to generate a credential
+    * commitment.
     * @param {XfrKeyPair} key_pair
     * @param {CredUserPublicKey} user_public_key
     * @param {CredIssuerPublicKey} issuer_public_key
@@ -1903,7 +1825,13 @@ export class TransactionBuilder {
         return TransactionBuilder.__wrap(ret);
     }
     /**
-    * Adds an add kv update operation to a WasmTransactionBuilder instance without kv hash.
+    * Adds an operation to the transaction builder that removes a hash from ledger's custom data
+    * store.
+    * @param {XfrKeyPair} auth_key_pair - Key pair that is authorized to delete the hash at the
+    * provided key.
+    * @param {Key} key - The key of the custom data store whose value will be cleared if the
+    * transaction validates.
+    * @param {BigInt} seq_num - Nonce to prevent replays.
     * @param {XfrKeyPair} auth_key_pair
     * @param {Key} key
     * @param {BigInt} seq_num
@@ -1921,7 +1849,14 @@ export class TransactionBuilder {
         return TransactionBuilder.__wrap(ret);
     }
     /**
-    * Adds an add kv update operation to a WasmTransactionBuilder instance with kv hash.
+    * Adds an operation to the transaction builder that adds a hash to the ledger's custom data
+    * store.
+    * @param {XfrKeyPair} auth_key_pair - Key pair that is authorized to add the hash at the
+    * provided key.
+    * @param {Key} key - The key of the custom data store the value will be added to if the
+    * transaction validates.
+    * @param {KVHash} hash - The hash to add to the custom data store.
+    * @param {BigInt} seq_num - Nonce to prevent replays.
     * @param {XfrKeyPair} auth_key_pair
     * @param {Key} key
     * @param {BigInt} seq_num
@@ -1937,13 +1872,18 @@ export class TransactionBuilder {
         const low0 = u32CvtShim[0];
         const high0 = u32CvtShim[1];
         _assertClass(kv_hash, KVHash);
-        var ptr1 = kv_hash.ptr;
-        kv_hash.ptr = 0;
-        var ret = wasm.transactionbuilder_add_operation_kv_update_with_hash(ptr, auth_key_pair.ptr, key.ptr, low0, high0, ptr1);
+        var ret = wasm.transactionbuilder_add_operation_kv_update_with_hash(ptr, auth_key_pair.ptr, key.ptr, low0, high0, kv_hash.ptr);
         return TransactionBuilder.__wrap(ret);
     }
     /**
-    * Adds an `UpdateMemo` operation to a WasmTransactionBuilder with the given memo
+    * Adds an operation to the transaction builder that adds a hash to the ledger's custom data
+    * store.
+    * @param {XfrKeyPair} auth_key_pair - Asset creator key pair.
+    * @param {String} key - The base64-encoded token code of the asset whose memo will be updated.
+    * transaction validates.
+    * @param {String} new_memo - The new asset memo.
+    * @see {@link AssetRules#set_updatable|AssetRules.set_updatable} for more information about how
+    * to define an updatable asset.
     * @param {XfrKeyPair} auth_key_pair
     * @param {string} code
     * @param {string} new_memo
@@ -1961,19 +1901,19 @@ export class TransactionBuilder {
         return TransactionBuilder.__wrap(ret);
     }
     /**
-    * Adds a serialized operation to a WasmTransactionBuilder instance
-    * @param {string} op -  a JSON-serialized operation (i.e. a transfer operation).
-    * @see {@link WasmTransferOperationBuilder} for details on constructing a transfer operation.
+    * Adds a serialized transfer asset operation to a transaction builder instance.
+    * @param {string} op - a JSON-serialized transfer operation.
+    * @see {@link TransferOperationBuilder} for details on constructing a transfer operation.
     * @throws Will throw an error if `op` fails to deserialize.
     * @param {string} op
     * @returns {TransactionBuilder}
     */
-    add_operation(op) {
+    add_transfer_operation(op) {
         var ptr = this.ptr;
         this.ptr = 0;
         var ptr0 = passStringToWasm0(op, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         var len0 = WASM_VECTOR_LEN;
-        var ret = wasm.transactionbuilder_add_operation(ptr, ptr0, len0);
+        var ret = wasm.transactionbuilder_add_transfer_operation(ptr, ptr0, len0);
         return TransactionBuilder.__wrap(ret);
     }
     /**
@@ -2013,7 +1953,7 @@ export class TransactionBuilder {
     }
     /**
     * Fetches an owner memo from a transaction
-    * @param {number} idx - Record to fetch. Records are added to the transaction builder sequentially.
+    * @param {number} idx - Owner memo to fetch. Owner memos are added to the transaction builder sequentially.
     * @param {number} idx
     * @returns {OwnerMemo | undefined}
     */
@@ -2049,6 +1989,7 @@ export class TransferOperationBuilder {
         return TransferOperationBuilder.__wrap(ret);
     }
     /**
+    * @ignore
     * @returns {string}
     */
     debug() {
@@ -2155,8 +2096,8 @@ export class TransferOperationBuilder {
     * @param tracing_key {AssetTracerKeyPair} - Optional tracing key, must be added to traced
     * assets.
     * @param code {string} - String representation of the asset token code.
-    * @param conf_amount {bool} - `true` means the output's asset amount is confidential, and `false` means it's nonconfidential.
-    * @param conf_type {bool} - `true` means the output's asset type is confidential, and `false` means it's nonconfidential.
+    * @param conf_amount {boolean} - `true` means the output's asset amount is confidential, and `false` means it's nonconfidential.
+    * @param conf_type {boolean} - `true` means the output's asset type is confidential, and `false` means it's nonconfidential.
     * @throws Will throw an error if `code` fails to deserialize.
     * @param {BigInt} amount
     * @param {XfrPublicKey} recipient
@@ -2185,8 +2126,8 @@ export class TransferOperationBuilder {
     * @param {BigInt} amount - amount to transfer to the recipient
     * @param {XfrPublicKey} recipient - public key of the recipient
     * @param code {string} - String representaiton of the asset token code
-    * @param conf_amount {bool} - `true` means the output's asset amount is confidential, and `false` means it's nonconfidential.
-    * @param conf_type {bool} - `true` means the output's asset type is confidential, and `false` means it's nonconfidential.
+    * @param conf_amount {boolean} - `true` means the output's asset amount is confidential, and `false` means it's nonconfidential.
+    * @param conf_type {boolean} - `true` means the output's asset type is confidential, and `false` means it's nonconfidential.
     * @throws Will throw an error if `code` fails to deserialize.
     * @param {BigInt} amount
     * @param {XfrPublicKey} recipient
@@ -2222,20 +2163,14 @@ export class TransferOperationBuilder {
     /**
     * Wraps around TransferOperationBuilder to finalize the transaction.
     *
-    * @param {TransferType} transfer_type - Transfer operation type.
-    * @throws Will throw an error if `transfer_type` fails to deserialize.
     * @throws Will throw an error if input and output amounts do not add up.
     * @throws Will throw an error if not all record owners have signed the transaction.
-    * @param {TransferType} transfer_type
     * @returns {TransferOperationBuilder}
     */
-    create(transfer_type) {
+    create() {
         var ptr = this.ptr;
         this.ptr = 0;
-        _assertClass(transfer_type, TransferType);
-        var ptr0 = transfer_type.ptr;
-        transfer_type.ptr = 0;
-        var ret = wasm.transferoperationbuilder_create(ptr, ptr0);
+        var ret = wasm.transferoperationbuilder_create(ptr);
         return TransferOperationBuilder.__wrap(ret);
     }
     /**
@@ -2298,43 +2233,6 @@ export class TransferOperationBuilder {
     }
 }
 /**
-* Indicates whether the transfer is a standard one, or a debt swap.
-*/
-export class TransferType {
-
-    static __wrap(ptr) {
-        const obj = Object.create(TransferType.prototype);
-        obj.ptr = ptr;
-
-        return obj;
-    }
-
-    free() {
-        const ptr = this.ptr;
-        this.ptr = 0;
-
-        wasm.__wbg_transfertype_free(ptr);
-    }
-    /**
-    * Standard TransferType variant for txn builder.
-    * Returns a token as a string signifying that the Standard policy should be used when evaluating the transaction.
-    * @returns {TransferType}
-    */
-    static standard_transfer_type() {
-        var ret = wasm.transfertype_standard_transfer_type();
-        return TransferType.__wrap(ret);
-    }
-    /**
-    * Debt swap TransferType variant for txn builder.
-    * Returns a token as a string signifying that the DebtSwap policy should be used when evaluating the transaction.
-    * @returns {TransferType}
-    */
-    static debt_transfer_type() {
-        var ret = wasm.transfertype_debt_transfer_type();
-        return TransferType.__wrap(ret);
-    }
-}
-/**
 * Indicates whether the TXO ref is an absolute or relative value.
 */
 export class TxoRef {
@@ -2361,7 +2259,7 @@ export class TxoRef {
     * transaction containing both an issuance and a transfer).
     *
     * # Arguments
-    * @param {BigInt} idx -  Relative Txo (transaction output) SID.
+    * @param {BigInt} idx -  Relative TXO (transaction output) SID.
     * @param {BigInt} idx
     * @returns {TxoRef}
     */
@@ -2435,6 +2333,11 @@ export class XfrPublicKey {
     }
 }
 
+export const __wbindgen_string_new = function(arg0, arg1) {
+    var ret = getStringFromWasm0(arg0, arg1);
+    return addHeapObject(ret);
+};
+
 export const __wbindgen_json_parse = function(arg0, arg1) {
     var ret = JSON.parse(getStringFromWasm0(arg0, arg1));
     return addHeapObject(ret);
@@ -2452,134 +2355,6 @@ export const __wbindgen_json_serialize = function(arg0, arg1) {
 export const __wbindgen_object_drop_ref = function(arg0) {
     takeObject(arg0);
 };
-
-export const __wbindgen_string_new = function(arg0, arg1) {
-    var ret = getStringFromWasm0(arg0, arg1);
-    return addHeapObject(ret);
-};
-
-export const __wbg_instanceof_Window_0e8decd0a6179699 = function(arg0) {
-    var ret = getObject(arg0) instanceof Window;
-    return ret;
-};
-
-export const __wbg_fetch_aad6acd90fb3d3ad = function(arg0, arg1) {
-    var ret = getObject(arg0).fetch(getObject(arg1));
-    return addHeapObject(ret);
-};
-
-export const __wbindgen_object_clone_ref = function(arg0) {
-    var ret = getObject(arg0);
-    return addHeapObject(ret);
-};
-
-export const __wbg_headers_5b3b48dc79e2b8e7 = function(arg0) {
-    var ret = getObject(arg0).headers;
-    return addHeapObject(ret);
-};
-
-export const __wbg_newwithstrandinit_f8135da00ad2e787 = handleError(function(arg0, arg1, arg2) {
-    var ret = new Request(getStringFromWasm0(arg0, arg1), getObject(arg2));
-    return addHeapObject(ret);
-});
-
-export const __wbg_set_f7962fcf206a328b = handleError(function(arg0, arg1, arg2, arg3, arg4) {
-    getObject(arg0).set(getStringFromWasm0(arg1, arg2), getStringFromWasm0(arg3, arg4));
-});
-
-export const __wbindgen_cb_drop = function(arg0) {
-    const obj = takeObject(arg0).original;
-    if (obj.cnt-- == 1) {
-        obj.a = 0;
-        return true;
-    }
-    var ret = false;
-    return ret;
-};
-
-export const __wbg_call_79ca0d435495a83a = handleError(function(arg0, arg1) {
-    var ret = getObject(arg0).call(getObject(arg1));
-    return addHeapObject(ret);
-});
-
-export const __wbg_newnoargs_db0587fa712f9acc = function(arg0, arg1) {
-    var ret = new Function(getStringFromWasm0(arg0, arg1));
-    return addHeapObject(ret);
-};
-
-export const __wbg_call_122c1a957507a0d7 = handleError(function(arg0, arg1, arg2) {
-    var ret = getObject(arg0).call(getObject(arg1), getObject(arg2));
-    return addHeapObject(ret);
-});
-
-export const __wbg_new_17a08b876c4dedc9 = function() {
-    var ret = new Object();
-    return addHeapObject(ret);
-};
-
-export const __wbg_new_3f7019af886f0c9c = function(arg0, arg1) {
-    try {
-        var state0 = {a: arg0, b: arg1};
-        var cb0 = (arg0, arg1) => {
-            const a = state0.a;
-            state0.a = 0;
-            try {
-                return __wbg_adapter_137(a, state0.b, arg0, arg1);
-            } finally {
-                state0.a = a;
-            }
-        };
-        var ret = new Promise(cb0);
-        return addHeapObject(ret);
-    } finally {
-        state0.a = state0.b = 0;
-    }
-};
-
-export const __wbg_resolve_57cbe6ab0b3b60a7 = function(arg0) {
-    var ret = Promise.resolve(getObject(arg0));
-    return addHeapObject(ret);
-};
-
-export const __wbg_then_45c887a50a229274 = function(arg0, arg1) {
-    var ret = getObject(arg0).then(getObject(arg1));
-    return addHeapObject(ret);
-};
-
-export const __wbg_then_9d18941da21f7104 = function(arg0, arg1, arg2) {
-    var ret = getObject(arg0).then(getObject(arg1), getObject(arg2));
-    return addHeapObject(ret);
-};
-
-export const __wbg_self_d1b58dbab69d5bb1 = handleError(function() {
-    var ret = self.self;
-    return addHeapObject(ret);
-});
-
-export const __wbg_window_de445cb18819ad4b = handleError(function() {
-    var ret = window.window;
-    return addHeapObject(ret);
-});
-
-export const __wbg_globalThis_68afcb0d98f0112d = handleError(function() {
-    var ret = globalThis.globalThis;
-    return addHeapObject(ret);
-});
-
-export const __wbg_global_baed4e4fa850c0d0 = handleError(function() {
-    var ret = global.global;
-    return addHeapObject(ret);
-});
-
-export const __wbindgen_is_undefined = function(arg0) {
-    var ret = getObject(arg0) === undefined;
-    return ret;
-};
-
-export const __wbg_set_ede434d91072bd5f = handleError(function(arg0, arg1, arg2) {
-    var ret = Reflect.set(getObject(arg0), getObject(arg1), getObject(arg2));
-    return ret;
-});
 
 export const __wbg_getRandomValues_f5e14ab7ac8e995d = function(arg0, arg1, arg2) {
     getObject(arg0).getRandomValues(getArrayU8FromWasm0(arg1, arg2));
@@ -2604,6 +2379,11 @@ export const __wbg_crypto_968f1772287e2df0 = function(arg0) {
     return addHeapObject(ret);
 };
 
+export const __wbindgen_is_undefined = function(arg0) {
+    var ret = getObject(arg0) === undefined;
+    return ret;
+};
+
 export const __wbg_getRandomValues_a3d34b4fee3c2869 = function(arg0) {
     var ret = getObject(arg0).getRandomValues;
     return addHeapObject(ret);
@@ -2615,10 +2395,5 @@ export const __wbindgen_throw = function(arg0, arg1) {
 
 export const __wbindgen_rethrow = function(arg0) {
     throw takeObject(arg0);
-};
-
-export const __wbindgen_closure_wrapper1293 = function(arg0, arg1, arg2) {
-    var ret = makeMutClosure(arg0, arg1, 182, __wbg_adapter_20);
-    return addHeapObject(ret);
 };
 

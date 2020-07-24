@@ -28,14 +28,18 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
       console.log('ownerMemo: ', ownerMemo);
 
       // inputs 数据
-      const inputsAssetRecord = await findoraWasm.ClientAssetRecord.from_json(inputs[k]);
-      console.log('inputsAssetRecord: ', inputsAssetRecord);
+      const outputsAssetRecord = await findoraWasm.ClientAssetRecord.from_json(outputs[k]);
+      console.log('inputsAssetRecord: ', outputsAssetRecord);
 
-      const decryptInputAssetData = await findoraWasm.open_client_asset_record(inputsAssetRecord, ownerMemo, keypair);
-      console.log('decryptInputAssetData: ', decryptInputAssetData);
+      const decryptoutputAssetData = await findoraWasm.open_client_asset_record(
+        outputsAssetRecord,
+        ownerMemo?.clone(),
+        keypair,
+      );
+      console.log('decryptInputAssetData: ', decryptoutputAssetData);
 
-      result.from = decryptInputAssetData.blind_asset_record.public_key;
-      result.asset.tokenCode = findoraWasm.asset_type_from_jsvalue(decryptInputAssetData.asset_type);
+      result.from = decryptoutputAssetData.blind_asset_record.public_key;
+      result.asset.tokenCode = findoraWasm.asset_type_from_jsvalue(decryptoutputAssetData.asset_type);
     }
   }
 
