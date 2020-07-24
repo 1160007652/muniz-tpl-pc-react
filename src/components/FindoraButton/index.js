@@ -22,9 +22,12 @@ import './index.less';
  * )
  *
  */
-const FindoraButton = ({ children, onClick, className }) => {
+const FindoraButton = ({ children, onClick, className, disabled }) => {
   return (
-    <div className={classNames('findora-button', className)} onClick={onClick}>
+    <div
+      className={classNames('findora-button', className, { disabled: disabled })}
+      onClick={disabled ? () => {} : onClick}
+    >
       {children}
     </div>
   );

@@ -130,7 +130,11 @@ const IssueAsset = () => {
           />
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('blind_amount')} isRow>
-          <Radio.Group value={data.blind.isAmount} disabled={isShowAmount} onChange={handleChangeRadio('isAmount')}>
+          <Radio.Group
+            value={data.blind.isAmount}
+            disabled={data.asset?.asset_rules?.max_units}
+            onChange={handleChangeRadio('isAmount')}
+          >
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
@@ -142,7 +146,7 @@ const IssueAsset = () => {
           </Radio.Group>
         </FindoraBoxView> */}
         <div className="btn-area">
-          <FindoraButton className="btn" onClick={handleClickCreate}>
+          <FindoraButton className="btn" onClick={handleClickCreate} disabled={isShowAmount}>
             {intl.get('confirm')}
           </FindoraButton>
         </div>
