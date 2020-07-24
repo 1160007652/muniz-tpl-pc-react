@@ -1,13 +1,18 @@
-# yarn
+**/target
 *.lock
 *.log
 .cache/
+.dockerignore
 .DS_Store
-.history
+.git/
+.gitignore
 .history/
 .idea
 dist/
+Dockerfile
 docs/
 extensions/
+Jenkinsfile
 libs
 node_modules
+target
