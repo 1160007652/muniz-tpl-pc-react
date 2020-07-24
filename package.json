@@ -100,7 +100,6 @@
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",
     "@csstools/normalize.css": "^10.1.0",
     "@hot-loader/react-dom": "^16.13.0",
-    "@polkadot/react-identicon": "^0.56.1",
     "antd": "^4.3.3",
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
