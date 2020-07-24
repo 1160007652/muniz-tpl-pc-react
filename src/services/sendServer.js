@@ -56,14 +56,14 @@ const sendServer = {
     const assetLast = await ownedDB.getAssetLast({ address: from, tokenCode: asset.long });
     console.log('资产的最后一笔交易: ', assetLast);
 
-    // if (!assetLast) {
-    // return {
-    //   code: -2,
-    //   message: 'No last transaction',
-    // };
-    // }
+    if (!assetLast) {
+      return {
+        code: -2,
+        message: 'No last transaction',
+      };
+    }
 
-    let utxoSid = assetLast?.sid ?? 0;
+    const utxoSid = assetLast.sid;
     console.log('当前资产的最后一笔交易SID: ', utxoSid);
 
     const utxoData = await webNetWork.getUtxo(utxoSid);
@@ -78,7 +78,7 @@ const sendServer = {
 
     // const decryptUtxoData = findoraWasm.open_client_asset_record(assetRecord, ownerMemo, keypair);
     // console.log('assetRecord: ', assetRecord);
-    // console.log('ownerMemo:', ownerMemo);
+
     // console.log('decryptUtxoData: ', decryptUtxoData);
 
     /*
@@ -104,6 +104,7 @@ const sendServer = {
     // 生成转账数据
     let transferOp = {};
 
+    console.log('ownerMemo: - 前', ownerMemo);
     if (isTraceable) {
       console.log('转账 - 可以跟踪');
       // 获取跟踪的 trackingKey
@@ -112,19 +113,28 @@ const sendServer = {
 
       // 生成转账数据
       transferOp = findoraWasm.TransferOperationBuilder.new()
-        .add_input_with_tracking(txoRef, assetRecord, ownerMemo?.clone(), tracingPolicies, keypair, BigInt(amount))
+        .add_input_with_tracking(
+          txoRef,
+          assetRecord,
+          ownerMemo ? ownerMemo.clone() : ownerMemo,
+          tracingPolicies,
+          keypair,
+          BigInt(amount),
+        )
         .add_output_with_tracking(BigInt(amount), toPublickey, tracingPolicies, tokenCode, isBlindAmount, isBlindType);
     } else {
       console.log('转账 - 不可以跟踪');
       console.log('转账 - 金额: ', BigInt(amount), amount);
 
       transferOp = findoraWasm.TransferOperationBuilder.new()
-        .add_input_no_tracking(txoRef, assetRecord, ownerMemo?.clone(), keypair, BigInt(amount))
+        .add_input_no_tracking(txoRef, assetRecord, ownerMemo ? ownerMemo.clone() : ownerMemo, keypair, BigInt(amount))
         .add_output_no_tracking(BigInt(amount), toPublickey, tokenCode, isBlindAmount, isBlindType);
     }
 
     // findoraWasm.TransferType.standard_transfer_type()
     transferOp = transferOp.balance().create().sign(keypair).transaction();
+
+    console.log('ownerMemo: - 后', ownerMemo ? ownerMemo.clone() : ownerMemo);
 
     console.log('开始获取 blockCount');
 
