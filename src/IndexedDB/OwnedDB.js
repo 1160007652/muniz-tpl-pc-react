@@ -46,11 +46,14 @@ class OwnedDB {
    */
   async getAssetLast({ address, tokenCode }) {
     await this.openDB();
+    console.log(address, tokenCode);
     const assetList = await this.db.txns
       .where('address')
       .equals(address)
       .and((row) => {
+        console.log(row);
         const { asset_type } = row.body;
+        console.log('数据库中的 asset_type, ', asset_type);
         return asset_type === tokenCode;
       })
       .last();

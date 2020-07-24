@@ -56,14 +56,14 @@ const sendServer = {
     const assetLast = await ownedDB.getAssetLast({ address: from, tokenCode: asset.long });
     console.log('资产的最后一笔交易: ', assetLast);
 
-    if (!assetLast) {
-      return {
-        code: -2,
-        message: 'No last transaction',
-      };
-    }
+    // if (!assetLast) {
+    // return {
+    //   code: -2,
+    //   message: 'No last transaction',
+    // };
+    // }
 
-    let utxoSid = assetLast.sid;
+    let utxoSid = assetLast?.sid ?? 0;
     console.log('当前资产的最后一笔交易SID: ', utxoSid);
 
     const utxoData = await webNetWork.getUtxo(utxoSid);
@@ -124,8 +124,8 @@ const sendServer = {
     }
 
     // findoraWasm.TransferType.standard_transfer_type()
-    transferOp = transferOp.create().sign(keypair).transaction();
-    //  .balance()
+    transferOp = transferOp.balance().create().sign(keypair).transaction();
+
     console.log('开始获取 blockCount');
 
     const blockCount = BigInt((await webNetWork.getStateCommitment())[1]);

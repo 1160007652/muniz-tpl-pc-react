@@ -28,7 +28,7 @@ async function getIssueAssetData({ body, keypair }) {
       console.log('assetRecord: ', assetRecord);
       const ownerMemo = recordsItem[1] ? await findoraWasm.OwnerMemo.from_json(recordsItem[1]) : null;
       console.log('ownerMemo: ', ownerMemo, recordsItem[1]);
-      const decryptAssetData = await findoraWasm.open_client_asset_record(assetRecord, ownerMemo, keypair);
+      const decryptAssetData = await findoraWasm.open_client_asset_record(assetRecord, ownerMemo?.clone(), keypair);
       console.log('decryptAssetData: ', decryptAssetData);
 
       result.txn_type = 'input'; // 只能给自己增发, 增发必定是 输入
@@ -67,7 +67,7 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
   if (new Set([outputs.length, owners_memos.length]).size === 1) {
     for (let k = 0; k < inputs.length; k++) {
       // owners_memos 数据
-      const ownerMemo = owners_memos[k] ? findoraWasm.OwnerMemo.from_json(owners_memos[k]) : null;
+      const ownerMemo = owners_memos[k] ? findoraWasm.OwnerMemo.from_json(owners_memos[k]).clone() : null;
       console.log('ownerMemo: ', ownerMemo);
 
       // inputs 数据
