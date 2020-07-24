@@ -10,6 +10,7 @@
  */
 async function balancesMerge({ dataList, asset }) {
   let numbers = 0;
+  console.log(dataList);
   dataList.forEach((item) => {
     // {txn_type === 'input' ? '+' : '-'}
     if (item.asset.tokenCode === asset.code) {

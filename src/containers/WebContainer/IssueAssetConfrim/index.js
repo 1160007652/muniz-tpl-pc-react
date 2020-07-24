@@ -17,7 +17,7 @@ const IssueAssetConfrim = ({ data }) => {
   const [isShowResult, setShowResult] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const hirstory = useHistory();
-  const { issuer, asset, to, blind } = data;
+  const { issuer, asset, inputBumbers, blind } = data;
 
   /** 取消窗口 */
   function handleClickCancel() {
@@ -64,7 +64,7 @@ const IssueAssetConfrim = ({ data }) => {
               <div className="address">{asset.long}</div>
             </FindoraBoxView>
             <FindoraBoxView title={intl.get('balance')}>
-              <span className="address">{asset.numbers}</span>
+              <span className="address">{inputBumbers}</span>
               {/* <span style={{ marginLeft: '4px' }}>{asset.short}</span> */}
             </FindoraBoxView>
             <FindoraBoxView title={intl.get('blind_amount')}>

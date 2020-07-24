@@ -29,7 +29,7 @@ const CreateAsset = () => {
     memo: '',
     policy: 'fungible',
     traceable: false,
-    transferable: false,
+    transferable: true,
     updatable: false,
   });
 
@@ -136,7 +136,7 @@ const CreateAsset = () => {
             <Radio value={false}>No</Radio>
           </Radio.Group>
         </FindoraBoxView>
-        <FindoraBoxView
+        {/* <FindoraBoxView
           title={<FindoraTips desc={intl.get('updatable_tips')}>{intl.get('updatable')}</FindoraTips>}
           isRow
         >
@@ -144,7 +144,7 @@ const CreateAsset = () => {
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
-        </FindoraBoxView>
+        </FindoraBoxView> */}
         <div className="btn-area">
           <FindoraButton className="btn" onClick={handleClickCreate}>
             {intl.get('token_create_create')}

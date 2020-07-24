@@ -18,6 +18,7 @@ import './index.less';
 
 const IssueAsset = () => {
   const walletStore = React.useContext(MobXProviderContext).walletStore;
+  const [isShowAmount, setShowAmount] = useState(false);
   const [data, setData] = useImmer({
     issuer: walletStore.walletInfo.publickey,
     walletInfo: toJS(walletStore.walletInfo),
@@ -26,7 +27,7 @@ const IssueAsset = () => {
       long: '',
       numbers: '',
     },
-    // to: walletStore.walletInfo.publickey,
+    inputBumbers: '',
     blind: {
       isAmount: false,
       isType: false,
@@ -53,8 +54,19 @@ const IssueAsset = () => {
   }
   /** 输入资产名称 */
   function handleChangeAssetName(value) {
+    const asset_rules = {
+      max_units: null,
+      transfer_multisig_rules: null,
+      transferable: true,
+      updatable: false,
+    };
+    const isAmount = value?.asset_rules?.max_units
+      ? data.inputBumbers + value?.numbers > value?.asset_rules?.max_units
+      : false;
+    setShowAmount(isAmount);
+
     setData((state) => {
-      state.asset = { ...state.asset, ...value };
+      state.asset = { ...state.asset, asset_rules, ...value };
     });
   }
   /** 输入 To 地址 */
@@ -67,9 +79,19 @@ const IssueAsset = () => {
   /** 输入 Amount  */
   function handleChangeAmount(e) {
     e.persist();
+    const value = Number(e.target.value) || '';
     setData((state) => {
-      state.asset = { ...state.asset, numbers: e.target.value };
+      state.inputBumbers = value;
     });
+    if (value) {
+      const isAmount = data.asset?.asset_rules?.max_units
+        ? value + Number(data.asset?.numbers) > data.asset?.asset_rules?.max_units
+        : false;
+
+      setShowAmount(isAmount);
+    } else {
+      setShowAmount(false);
+    }
   }
   /** 更新 Radio 选择 */
   function handleChangeRadio(key) {
@@ -103,16 +125,12 @@ const IssueAsset = () => {
           <Input
             placeholder={intl.get('token_issue_amount_placeholder')}
             type="number"
-            value={data.asset.numbers}
+            value={data.inputBumbers}
             onChange={handleChangeAmount}
           />
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('blind_amount')} isRow>
-          <Radio.Group
-            value={data.blind.isAmount}
-            disabled={data.asset?.asset_rules?.max_units > 0}
-            onChange={handleChangeRadio('isAmount')}
-          >
+          <Radio.Group value={data.blind.isAmount} disabled={isShowAmount} onChange={handleChangeRadio('isAmount')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>

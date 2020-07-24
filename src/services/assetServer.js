@@ -120,7 +120,7 @@ class AssetServer {
     const zeiParams = findoraWasm.PublicParams.new();
     console.log('zeiParams: ', zeiParams);
 
-    const { asset, blind, issuer, to } = param;
+    const { asset, blind, issuer, inputBumbers } = param;
     const walletInfo = rootStore.walletStore.walletImportList.filter((item) => item.publickey === issuer)[0];
 
     // blind: { isAmount, isType} 是否隐藏
@@ -153,7 +153,7 @@ class AssetServer {
         keypair,
         tokenCode,
         BigInt(stateCommitment[1]),
-        BigInt(asset.numbers),
+        BigInt(inputBumbers),
         blind.isAmount,
         zeiParams,
       )

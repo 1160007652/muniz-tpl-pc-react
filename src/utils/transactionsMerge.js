@@ -189,12 +189,13 @@ async function transactionsMerge({ walletInfo, page }) {
 
       if (type === 'IssueAsset') {
         const resultItem = await getIssueAssetData({ body, keypair });
+        resultItem.type = 'IssueAsset';
         resultItem.txn = txnList[i].sid;
         result.push(resultItem);
       }
       if (type === 'TransferAsset') {
         const resultItem = await getTransactionAssetData({ body, keypair, walletInfo });
-
+        resultItem.type = 'TransferAsset';
         resultItem.txn = txnList[i].sid;
         result.push(resultItem);
       }

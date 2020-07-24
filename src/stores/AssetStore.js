@@ -42,7 +42,17 @@ class AssetStore {
   @action getIssuedAssetList = async (address) => {
     console.groupCollapsed('=======>  开始获取可以增发的资产');
 
-    const result = await this.getOwnerAsset(address);
+    let result = await this.getOwnerAsset(address);
+    // 加入 计算余额
+    const walletInfo = this.rootStore.walletStore.walletImportList.filter((item) => item.publickey === address)[0];
+    let transactionData = await transactionsMerge({ walletInfo, page: -1 });
+    transactionData = transactionData.filter((item) => item.type === 'IssueAsset');
+    result = result.map(async (item) => {
+      return await balancesMerge({ dataList: transactionData, asset: item });
+    });
+
+    result = await Promise.all(result);
+
     this.issueAssetList = result;
 
     console.log('钱包地址: ', address);

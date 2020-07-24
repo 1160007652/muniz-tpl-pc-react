@@ -38,9 +38,18 @@ const Send = () => {
   }
   /** 资产名称选中事件, 回调结果 */
   function handleChangeSelectAssetName(value) {
+    const asset_rules = {
+      max_units: null,
+      transfer_multisig_rules: null,
+      transferable: true,
+      updatable: false,
+    };
     setData((state) => {
-      state.asset = value;
+      state.asset = { ...state.asset, asset_rules, ...value };
     });
+    // setData((state) => {
+    //   state.asset = value;
+    // });
   }
   /** 切换钱包地址 */
   function handleChangeSwitchAddress(address) {
