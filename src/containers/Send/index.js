@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { toJS } from 'mobx';
 import { MobXProviderContext, observer } from 'mobx-react';
 import { useHistory } from 'react-router-dom';
@@ -17,10 +17,17 @@ import Balance from '_containers/Balance';
 import pageURL from '_constants/pageURL';
 
 import './index.less';
+import { object } from 'prop-types';
 
 const Send = () => {
   const history = useHistory();
   const walletStore = React.useContext(MobXProviderContext).walletStore;
+  const [nextDisabled, setNextDisabled] = useState(true);
+  const [error, setError] = useImmer({
+    assetNameError: null,
+    amountError: 'send_error5',
+    toError: 'send_error4',
+  });
   const [data, setData] = useImmer({
     walletInfo: toJS(walletStore.walletInfo),
     from: walletStore.walletInfo.publickey,
@@ -38,18 +45,51 @@ const Send = () => {
   }
   /** 资产名称选中事件, 回调结果 */
   function handleChangeSelectAssetName(value) {
+    setNextDisabled(true);
     const asset_rules = {
-      max_units: null,
-      transfer_multisig_rules: null,
-      transferable: true,
-      updatable: false,
+      asset_rules: {
+        max_units: null,
+        transfer_multisig_rules: null,
+        transferable: true,
+        updatable: false,
+      },
+      ...value,
     };
+
+    if ('numbers' in value) {
+      setError((state) => {
+        state.assetNameError = null;
+      });
+    } else {
+      console.log(1231321);
+      setError((state) => {
+        state.assetNameError = 'send_error6';
+      });
+      return;
+    }
+    console.log('ssssssss2222: ', value);
+    if (!asset_rules.asset_rules.transferable) {
+      setError((state) => {
+        state.assetNameError = 'send_error2';
+        state.amountError = 'send_error5';
+        if (Object.values(state).every((item) => item !== null)) {
+          setNextDisabled(false);
+        }
+      });
+    } else {
+      setError((state) => {
+        state.assetNameError = null;
+        state.amountError = 'send_error5';
+        if (Object.values(state).every((item) => item !== null)) {
+          setNextDisabled(false);
+        }
+      });
+    }
+
     setData((state) => {
-      state.asset = { ...state.asset, asset_rules, ...value };
+      state.asset = { ...state.asset, ...asset_rules };
+      state.numbers = '';
     });
-    // setData((state) => {
-    //   state.asset = value;
-    // });
   }
   /** 切换钱包地址 */
   function handleChangeSwitchAddress(address) {
@@ -60,8 +100,23 @@ const Send = () => {
   /** 输入 To 地址 */
   function handleChangeTo(e) {
     e.persist();
+    const to = e.target.value;
+    if (!to) {
+      setNextDisabled(true);
+      setError((state) => {
+        state.toError = 'send_error4';
+      });
+    } else {
+      setError((state) => {
+        state.toError = null;
+        if (Object.values(state).every((item) => item === null)) {
+          setNextDisabled(false);
+        }
+      });
+    }
+
     setData((state) => {
-      state.to = e.target.value;
+      state.to = to;
     });
   }
 
@@ -70,10 +125,32 @@ const Send = () => {
     e.persist();
     const newAmount = e.target.value; // 准备转移的金额
     const amount = data.asset?.numbers ?? 0;
+
+    if (newAmount) {
+      if (newAmount > amount) {
+        setNextDisabled(true);
+        setError((state) => {
+          state.amountError = 'send_error3';
+        });
+      } else {
+        setError((state) => {
+          state.amountError = null;
+          if (Object.values(state).every((item) => item === null)) {
+            setNextDisabled(false);
+          }
+        });
+      }
+    } else {
+      setNextDisabled(true);
+      setError((state) => {
+        state.amountError = 'send_error5';
+      });
+    }
+
     setData((state) => {
       // 如果待转账的金额 <= 剩余资产, 则转移进行;
       // 如果待转账的金额 > 剩余资产,  则转移剩余的全部资产
-      state.numbers = amount > newAmount ? newAmount : amount;
+      state.numbers = newAmount; // amount > newAmount ? newAmount : amount;
     });
   }
   /** 更新 Radio 选择 */
@@ -88,24 +165,17 @@ const Send = () => {
   /** 资产属性, 交互提示 */
   function AssetRulesComponent() {
     // 是否可以二次转账
-    const isTran = !data.asset?.asset_rules?.transferable;
 
     if (data.asset?.issuer?.key === data.from) {
       return (
-        <FindoraButton className="btn" onClick={handleClickItemInfo}>
+        <FindoraButton className="btn" onClick={handleClickItemInfo} disabled={nextDisabled}>
           Next
         </FindoraButton>
       );
     }
 
-    return !isTran ? (
-      data.asset?.asset_rules ? (
-        <div>不可以二次转账</div>
-      ) : (
-        ''
-      )
-    ) : (
-      <FindoraButton className="btn" onClick={handleClickItemInfo}>
+    return (
+      <FindoraButton className="btn" onClick={handleClickItemInfo} disabled={nextDisabled}>
         Next
       </FindoraButton>
     );
@@ -125,6 +195,7 @@ const Send = () => {
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('to')}>
           <Input placeholder="Please to address" value={data.to} className="address" onChange={handleChangeTo} />
+          {error.toError && <div className="error">{intl.get(error.toError)}</div>}
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('asset_name')}>
           <SwitchAssetName
@@ -132,7 +203,9 @@ const Send = () => {
             address={data.from}
             actionTYpe={SwitchAssetName.ACTION_TYPE.SEND}
           />
+          {error.assetNameError && <div className="error">{intl.get(error.assetNameError)}</div>}
         </FindoraBoxView>
+
         <FindoraBoxView title={intl.get('send_amount')}>
           <div className="send-balance">
             <span>{intl.get('send_amount_max')}</span>
@@ -144,6 +217,7 @@ const Send = () => {
             value={data.numbers}
             onChange={handleChangeAmount}
           />
+          {error.amountError && <div className="error">{intl.get(error.amountError)}</div>}
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('blind_amount')} isRow>
           <Radio.Group value={data.blind.isAmount} onChange={handleChangeRadio('isAmount')}>
@@ -151,12 +225,12 @@ const Send = () => {
             <Radio value={false}>No</Radio>
           </Radio.Group>
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('blind_type')} isRow>
+        {/* <FindoraBoxView title={intl.get('blind_type')} isRow>
           <Radio.Group value={data.blind.isType} disabled onChange={handleChangeRadio('isType')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
-        </FindoraBoxView>
+        </FindoraBoxView> */}
         <div className="btn-area">{AssetRulesComponent()}</div>
       </div>
     </div>

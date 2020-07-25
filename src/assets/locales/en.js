@@ -103,6 +103,11 @@ const enUS = {
   send_submit: 'Submit',
   send_submit_not_last_transaction: 'Transfer failed, no last transaction',
   send_error1: 'Transfer Failed',
+  send_error2: 'The asset does not support secondary transfers',
+  send_error3: 'Cannot exceed the maximum transferable balance of the asset',
+  send_error4: 'To address cannot be empty',
+  send_error5: 'The transfer amount cannot be empty',
+  send_error6: 'Transfer assets cannot be empty',
 
   tips_wallet_create: 'Please create wallet address first',
   tips_asset_create_result_success: 'Success Created Asset',
@@ -125,6 +130,7 @@ const enUS = {
   token_issue_error1: 'Failed to issueed assets',
   token_issue_error2: 'Cannot exceed the maximum additional issuance limit',
   token_issue_error3: 'The asset cannot hide the amount',
+  token_issue_error4: 'The additional issuance amount cannot be empty',
 
   transaction_loade_more: 'loadinf more',
   transaction_loade_empty: 'No more data',

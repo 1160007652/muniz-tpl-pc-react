@@ -70,9 +70,9 @@ const IssueAssetConfrim = ({ data }) => {
             <FindoraBoxView title={intl.get('blind_amount')}>
               <span className="address">{blind.isAmount ? 'Yes' : 'No'}</span>
             </FindoraBoxView>
-            <FindoraBoxView title={intl.get('blind_type')}>
+            {/* <FindoraBoxView title={intl.get('blind_type')}>
               <span className="address">{blind.isType ? 'Yes' : 'No'}</span>
-            </FindoraBoxView>
+            </FindoraBoxView> */}
           </div>
 
           <div className="btn-area">

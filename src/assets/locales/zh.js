@@ -97,6 +97,11 @@ const zhCN = {
   send_submit: '确认',
   send_submit_not_last_transaction: '转账失败,无最后一笔交易',
   send_error1: '转账失败',
+  send_error2: '该资产不支持二次转账',
+  send_error3: '不可超过该资产最大可转账余额',
+  send_error4: 'To地址不能为空',
+  send_error5: '转账金额不能为空',
+  send_error6: '转账资产不能为空',
 
   tips_wallet_create: '请先创建钱包地址',
   tips_asset_create_result_success: '创建资产成功',
@@ -119,6 +124,7 @@ const zhCN = {
   token_issue_error1: '增发资产失败',
   token_issue_error2: '不可超过最大可增发上限',
   token_issue_error3: '该资产不可以隐藏金额',
+  token_issue_error4: '增发金额不能为空',
 
   transaction_loade_more: '加载更多',
   transaction_loade_empty: '无更多数据',
