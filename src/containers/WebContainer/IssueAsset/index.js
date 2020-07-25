@@ -27,7 +27,7 @@ const IssueAsset = () => {
       long: '',
       numbers: '',
     },
-    inputBumbers: '',
+    inputNumbers: '',
     blind: {
       isAmount: false,
       isType: false,
@@ -61,38 +61,35 @@ const IssueAsset = () => {
       updatable: false,
     };
     const isAmount = value?.asset_rules?.max_units
-      ? data.inputBumbers + value?.numbers > value?.asset_rules?.max_units
+      ? data.inputNumbers + value?.numbers > value?.asset_rules?.max_units
       : false;
     setShowAmount(isAmount);
 
     setData((state) => {
       state.asset = { ...state.asset, asset_rules, ...value };
+      console.log(state.asset);
     });
   }
-  /** 输入 To 地址 */
-  function handleChangeTo(e) {
-    e.persist();
-    setData((state) => {
-      state.to = e.target.value;
-    });
-  }
+
   /** 输入 Amount  */
   function handleChangeAmount(e) {
     e.persist();
     const value = Number(e.target.value) || '';
+
     setData((state) => {
-      state.inputBumbers = value;
+      state.inputNumbers = value;
     });
+
     if (value) {
       const isAmount = data.asset?.asset_rules?.max_units
         ? value + Number(data.asset?.numbers) > data.asset?.asset_rules?.max_units
         : false;
-
       setShowAmount(isAmount);
     } else {
       setShowAmount(false);
     }
   }
+
   /** 更新 Radio 选择 */
   function handleChangeRadio(key) {
     return (e) => {
@@ -118,26 +115,31 @@ const IssueAsset = () => {
             address={data.issuer}
           />
         </FindoraBoxView>
-        {/* <FindoraBoxView title={intl.get('to')} isRow>
-          <Input placeholder="Please to address" value={data.to} onChange={handleChangeTo} />
-        </FindoraBoxView> */}
-        <FindoraBoxView title={intl.get('balance')} isRow>
+
+        <FindoraBoxView title={intl.get('balance')} isRow titleDirection="top">
           <Input
             placeholder={intl.get('token_issue_amount_placeholder')}
-            type="number"
-            value={data.inputBumbers}
+            value={data.inputNumbers}
+            type="text"
             onChange={handleChangeAmount}
+            suffix={data.asset?.asset_rules?.max_units}
           />
+          <div>sss e</div>
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('blind_amount')} isRow>
+        <FindoraBoxView title={intl.get('blind_amount')} isRow titleDirection="top">
           <Radio.Group
             value={data.blind.isAmount}
-            disabled={data.asset?.asset_rules?.max_units}
+            disabled={
+              data.asset?.asset_rules?.max_units
+                ? data.asset?.asset_rules?.max_units - Number(data.asset?.numbers)
+                : null
+            }
             onChange={handleChangeRadio('isAmount')}
           >
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
+          <div>{data.asset?.asset_rules?.max_units && '该资产不可以隐藏金额'}</div>
         </FindoraBoxView>
         {/* <FindoraBoxView title={intl.get('blind_type')} isRow>
           <Radio.Group value={data.blind.isType} disabled onChange={handleChangeRadio('isType')}>
