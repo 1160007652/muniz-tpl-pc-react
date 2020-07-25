@@ -117,6 +117,8 @@ const zhCN = {
   token_issue_empty_tips: '请先增发资产',
   token_issue_create_btn_tips: '点击增发',
   token_issue_error1: '增发资产失败',
+  token_issue_error2: '不可超过最大可增发上限',
+  token_issue_error3: '该资产不可以隐藏金额',
 
   transaction_loade_more: '加载更多',
   transaction_loade_empty: '无更多数据',

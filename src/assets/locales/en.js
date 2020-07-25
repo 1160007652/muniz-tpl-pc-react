@@ -123,6 +123,8 @@ const enUS = {
   token_issue_empty_tips: 'Please issued assets',
   token_issue_create_btn_tips: 'Click issue',
   token_issue_error1: 'Failed to issueed assets',
+  token_issue_error2: 'Cannot exceed the maximum additional issuance limit',
+  token_issue_error3: 'The asset cannot hide the amount',
 
   transaction_loade_more: 'loadinf more',
   transaction_loade_empty: 'No more data',

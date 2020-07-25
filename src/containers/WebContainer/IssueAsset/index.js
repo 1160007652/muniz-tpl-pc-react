@@ -18,7 +18,7 @@ import './index.less';
 
 const IssueAsset = () => {
   const walletStore = React.useContext(MobXProviderContext).walletStore;
-  const [isShowAmount, setShowAmount] = useState(false);
+  const [nextDisabled, setNextDisabled] = useState(true);
   const [data, setData] = useImmer({
     issuer: walletStore.walletInfo.publickey,
     walletInfo: toJS(walletStore.walletInfo),
@@ -63,11 +63,13 @@ const IssueAsset = () => {
     const isAmount = value?.asset_rules?.max_units
       ? data.inputNumbers + value?.numbers > value?.asset_rules?.max_units
       : false;
-    setShowAmount(isAmount);
+    setNextDisabled(isAmount);
 
+    if (!data.inputNumbers) {
+      setNextDisabled(true);
+    }
     setData((state) => {
       state.asset = { ...state.asset, asset_rules, ...value };
-      console.log(state.asset);
     });
   }
 
@@ -76,18 +78,18 @@ const IssueAsset = () => {
     e.persist();
     const value = Number(e.target.value) || '';
 
-    setData((state) => {
-      state.inputNumbers = value;
-    });
-
     if (value) {
       const isAmount = data.asset?.asset_rules?.max_units
         ? value + Number(data.asset?.numbers) > data.asset?.asset_rules?.max_units
         : false;
-      setShowAmount(isAmount);
+      setNextDisabled(isAmount);
     } else {
-      setShowAmount(false);
+      setNextDisabled(true);
     }
+
+    setData((state) => {
+      state.inputNumbers = value;
+    });
   }
 
   /** 更新 Radio 选择 */
@@ -122,18 +124,22 @@ const IssueAsset = () => {
             value={data.inputNumbers}
             type="text"
             onChange={handleChangeAmount}
-            suffix={data.asset?.asset_rules?.max_units}
+            suffix={
+              data.asset?.asset_rules?.max_units
+                ? `max amount: ${data.asset?.asset_rules?.max_units - Number(data.asset?.numbers)}`
+                : null
+            }
           />
-          <div>sss e</div>
+          <div>
+            {data.inputNumbers > data.asset?.asset_rules?.max_units - Number(data.asset?.numbers)
+              ? data.asset?.asset_rules?.max_units && ' 不可超过最大可增发上限'
+              : null}
+          </div>
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('blind_amount')} isRow titleDirection="top">
           <Radio.Group
             value={data.blind.isAmount}
-            disabled={
-              data.asset?.asset_rules?.max_units
-                ? data.asset?.asset_rules?.max_units - Number(data.asset?.numbers)
-                : null
-            }
+            disabled={data.asset?.asset_rules?.max_units}
             onChange={handleChangeRadio('isAmount')}
           >
             <Radio value={true}>Yes</Radio>
@@ -148,7 +154,7 @@ const IssueAsset = () => {
           </Radio.Group>
         </FindoraBoxView> */}
         <div className="btn-area">
-          <FindoraButton className="btn" onClick={handleClickCreate} disabled={isShowAmount}>
+          <FindoraButton className="btn" onClick={handleClickCreate} disabled={nextDisabled}>
             {intl.get('confirm')}
           </FindoraButton>
         </div>
