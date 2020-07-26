@@ -125,8 +125,8 @@ const Send = () => {
   function handleChangeTo(e) {
     e.persist();
     const to = e.target.value;
+    setNextDisabled(true);
     if (!to) {
-      setNextDisabled(true);
       setError((state) => {
         state.toError = 'send_error4';
       });
@@ -244,11 +244,8 @@ const Send = () => {
           {error.amountError && <div className="error">{intl.get(error.amountError)}</div>}
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('blind_amount')} isRow titleDirection="top">
-          <Radio.Group
-            value={data.blind.isAmount}
-            onChange={handleChangeRadio('isAmount')}
-            disabled={blindError.amountError}
-          >
+          {/* disabled={blindError.amountError} */}
+          <Radio.Group value={data.blind.isAmount} onChange={handleChangeRadio('isAmount')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
@@ -256,7 +253,8 @@ const Send = () => {
           {blindError.amountError && <div className="error">{intl.get(blindError.amountError)}</div>}
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('blind_type')} isRow>
-          <Radio.Group value={data.blind.isType} disabled={blindError.typeError} onChange={handleChangeRadio('isType')}>
+          {/* disabled={blindError.typeError} */}
+          <Radio.Group value={data.blind.isType} onChange={handleChangeRadio('isType')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
