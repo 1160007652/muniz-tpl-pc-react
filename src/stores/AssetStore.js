@@ -182,12 +182,13 @@ class AssetStore {
     const result = [];
 
     for (const transactionItem of transactionResult) {
-      if (transactionItem.from !== address) {
+      if (transactionItem.to === address) {
         const asset_type = transactionItem.asset.tokenCode;
         console.log('transactionItem', transactionItem);
         const haveAssetList = haveAsset.filter((obj) => {
           return obj.code === asset_type;
         });
+        console.log('haveAssetList', haveAssetList);
         if (haveAssetList.length === 0) {
           const item = await webNetWork.getAssetProperties(asset_type);
           item.code = asset_type;

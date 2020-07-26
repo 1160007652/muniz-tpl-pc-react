@@ -17,7 +17,6 @@ import Balance from '_containers/Balance';
 import pageURL from '_constants/pageURL';
 
 import './index.less';
-import { object } from 'prop-types';
 
 const Send = () => {
   const history = useHistory();

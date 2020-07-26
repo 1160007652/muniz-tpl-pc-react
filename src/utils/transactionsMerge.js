@@ -2,6 +2,7 @@
 import { relatedDB, ownedDB } from '_src/IndexedDB';
 import calculateTxn from '_src/utils/calculateTxn';
 import calculateUtxo from '_src/utils/calculateUtxo';
+import webNetWork from '_src/services/webNetWork';
 
 /**
  * 处理交易中的增发数据, 返回处理完的 json 数据
@@ -20,10 +21,26 @@ async function getIssueAssetData({ body, keypair }) {
     time: '9/19/2019 18:31',
     state: true,
     asset: {},
+    blind: {
+      isAmount: false,
+      isType: false,
+    },
   };
 
   for (const recordsItem of records) {
     for (let k = 0; k < recordsItem.length; k++) {
+      if ('NonConfidential' in recordsItem[0].amount) {
+        result.blind.isAmount = false;
+      } else {
+        result.blind.isAmount = true;
+      }
+
+      if ('NonConfidential' in recordsItem[0].asset_type) {
+        result.blind.isType = false;
+      } else {
+        result.blind.isType = true;
+      }
+
       const assetRecord = await findoraWasm.ClientAssetRecord.from_json(recordsItem[0]);
       console.log('assetRecord: ', assetRecord);
       const ownerMemo = recordsItem[1] ? await findoraWasm.OwnerMemo.from_json(recordsItem[1]) : null;
@@ -55,19 +72,43 @@ async function getIssueAssetData({ body, keypair }) {
 async function getTransactionAssetData({ body, keypair, walletInfo }) {
   const findoraWasm = await import('wasm');
   const { transfer } = body;
-
+  const ownedInput = body?.inputs[0];
   const result = {
     time: '9/19/2019 18:31',
     state: true,
     asset: {},
+    blind: {
+      isAmount: false,
+      isType: false,
+    },
   };
 
   const { inputs, outputs, owners_memos } = transfer;
 
   if (new Set([outputs.length, owners_memos.length]).size === 1) {
+    if ('NonConfidential' in outputs[0].amount) {
+      result.blind.isAmount = false;
+    } else {
+      result.blind.isAmount = true;
+    }
+
+    if ('NonConfidential' in outputs[0].asset_type) {
+      result.blind.isType = false;
+    } else {
+      result.blind.isType = true;
+    }
+
     // for (let k = 0; k < inputs.length; k++) {
     if (walletInfo.publickey === inputs[0].public_key) {
       // 发送者解密数据
+
+      // const utxoData = await webNetWork.getUtxo(ownedInput.Absolute);
+      // console.log('utxoData sid: => ', utxoData);
+
+      const memoData = await webNetWork.getOwnerMemo(ownedInput.Absolute);
+      console.log('memoData absoult', memoData);
+
+      const ownerMemoInput = memoData ? findoraWasm.OwnerMemo.from_json(memoData) : null;
 
       // inputs 数据 我的 ownedData
       const ownerMemo = owners_memos[1] ? findoraWasm.OwnerMemo.from_json(owners_memos[1]) : null;
@@ -78,7 +119,7 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
 
       const decryptInputAssetData = await findoraWasm.open_client_asset_record(
         inputsAssetRecord,
-        ownerMemo?.clone(),
+        ownerMemoInput?.clone(),
         keypair,
       );
 

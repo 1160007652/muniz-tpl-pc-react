@@ -114,28 +114,21 @@ const sendServer = {
 
       // 生成转账数据
       transferOp = findoraWasm.TransferOperationBuilder.new()
-        .add_input_with_tracking(
-          txoRef,
-          assetRecord,
-          ownerMemo ? ownerMemo.clone() : ownerMemo,
-          tracingPolicies,
-          keypair,
-          BigInt(amount),
-        )
+        .add_input_with_tracking(txoRef, assetRecord, ownerMemo?.clone(), tracingPolicies, keypair, BigInt(amount))
         .add_output_with_tracking(BigInt(amount), toPublickey, tracingPolicies, tokenCode, isBlindAmount, isBlindType);
     } else {
       console.log('转账 - 不可以跟踪');
       console.log('转账 - 金额: ', BigInt(amount), amount);
 
       transferOp = findoraWasm.TransferOperationBuilder.new()
-        .add_input_no_tracking(txoRef, assetRecord, ownerMemo ? ownerMemo.clone() : ownerMemo, keypair, BigInt(amount))
+        .add_input_no_tracking(txoRef, assetRecord, ownerMemo?.clone(), keypair, BigInt(amount))
         .add_output_no_tracking(BigInt(amount), toPublickey, tokenCode, isBlindAmount, isBlindType);
     }
 
     // findoraWasm.TransferType.standard_transfer_type()
     transferOp = transferOp.balance().create().sign(keypair).transaction();
 
-    console.log('ownerMemo: - 后', ownerMemo ? ownerMemo.clone() : ownerMemo);
+    console.log('ownerMemo: - 后', ownerMemo?.clone());
 
     console.log('开始获取 blockCount');
 

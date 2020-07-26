@@ -9,11 +9,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import intl from 'react-intl-universal';
 
 import FindoraBoxView from '../FindoraBoxView';
 
 import './index.less';
-import { Divider } from 'antd';
 
 /**
  * TransactionsItem 纯组件, 交易列表使用
@@ -22,7 +22,7 @@ import { Divider } from 'antd';
  *
  */
 const TransactionsItem = ({ data, onClick, className, style }) => {
-  const { time, from, to, asset, state, txn_type } = data;
+  const { type, blind, from, to, asset, state, txn_type } = data;
   return (
     <div className={classNames('transactions-item', className)} onClick={onClick} style={style}>
       {/* <div className="time">{time}</div> */}
@@ -39,9 +39,17 @@ const TransactionsItem = ({ data, onClick, className, style }) => {
       <FindoraBoxView title="AssetType ">
         <div className="address">{asset.tokenCode}</div>
       </FindoraBoxView>
-
       <div className="state">
-        <span className={state ? 'success' : 'fail'}>{state ? 'success' : 'fail'}</span>
+        <div>
+          <span className="tag">{type}</span>
+          {blind.isAmount && <span className="tag">{intl.get('blind_amount')}</span>}
+          {blind.isType && <span className="tag">{intl.get('blind_type')}</span>}
+        </div>
+      </div>
+      <div className="state">
+        <div>
+          <span className={state ? 'success tag' : 'fail tag'}>{state ? 'success' : 'fail'}</span>
+        </div>
         <div className="value">
           {txn_type === 'input' ? '+' : '-'}
           {asset?.numbers}
