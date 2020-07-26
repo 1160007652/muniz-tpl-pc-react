@@ -65,7 +65,7 @@ const Send = () => {
       });
       return;
     }
-    if (!asset_rules.asset_rules.transferable) {
+    if (!asset_rules.asset_rules.transferable && data.from !== value?.issuer?.key) {
       setError((state) => {
         state.assetNameError = 'send_error2';
         state.amountError = 'send_error5';
