@@ -6,8 +6,8 @@ class RelatedDB {
     this.init();
   }
   async init() {
-    // 定义数据库
-    await this.db.version(String(process.env.VERSION_APP).split('.')[0]).stores({
+    // 定义数据库 String(process.env.VERSION_APP).split('.')[0]
+    await this.db.version(1).stores({
       sids: '&address',
       txns: '++id, address, sid',
     });
