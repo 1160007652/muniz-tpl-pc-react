@@ -60,13 +60,11 @@ const Send = () => {
         state.assetNameError = null;
       });
     } else {
-      console.log(1231321);
       setError((state) => {
         state.assetNameError = 'send_error6';
       });
       return;
     }
-    console.log('ssssssss2222: ', value);
     if (!asset_rules.asset_rules.transferable) {
       setError((state) => {
         state.assetNameError = 'send_error2';

@@ -102,9 +102,6 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
     if (walletInfo.publickey === inputs[0].public_key) {
       // 发送者解密数据
 
-      // const utxoData = await webNetWork.getUtxo(ownedInput.Absolute);
-      // console.log('utxoData sid: => ', utxoData);
-
       const memoData = await webNetWork.getOwnerMemo(ownedInput.Absolute);
       console.log('memoData absoult', memoData);
 
