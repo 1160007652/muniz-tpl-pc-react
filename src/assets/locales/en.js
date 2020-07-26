@@ -108,6 +108,7 @@ const enUS = {
   send_error4: 'To address cannot be empty',
   send_error5: 'The transfer amount cannot be empty',
   send_error6: 'Transfer assets cannot be empty',
+  send_error7: 'The asset cannot be hidden',
 
   tips_wallet_create: 'Please create wallet address first',
   tips_asset_create_result_success: 'Success Created Asset',

@@ -33,7 +33,7 @@ const IssueAsset = () => {
     inputNumbers: '',
     blind: {
       isAmount: false,
-      isType: false,
+      // isType: false,
     },
   });
 
