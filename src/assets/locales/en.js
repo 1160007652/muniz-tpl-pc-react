@@ -81,6 +81,7 @@ const enUS = {
   menu_wallet_import: 'Import Wallet',
   menu_setting: 'Setting',
   menu_asset_create: 'Create or Issue Asset',
+  menu_asset_create1: 'Create Asset',
   menu_asset_issue: 'Issue Asset',
   menu_about: 'Help',
 

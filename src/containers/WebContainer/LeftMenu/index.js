@@ -30,7 +30,7 @@ const routers = [
   {
     page: pageURL.createAsset,
     icon: <CreateTokenIcon />,
-    title: 'menu_asset_create',
+    title: 'menu_asset_create1',
     isShow: true,
   },
   {

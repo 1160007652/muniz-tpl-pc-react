@@ -76,6 +76,7 @@ const zhCN = {
   menu_wallet_import: '导入钱包',
   menu_setting: '设置',
   menu_asset_create: '创建或增发资产',
+  menu_asset_create1: '创建资产',
   menu_asset_issue: '发行资产',
   menu_about: '帮助',
 
