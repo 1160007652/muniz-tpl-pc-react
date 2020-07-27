@@ -116,12 +116,16 @@ const CreateAsset = () => {
         </FindoraBoxView>
 
         <FindoraBoxView title={intl.get('memo')} isRow>
-          <Input placeholder="Please to memo" value={data.memo} onChange={handleChangeMemo} />
+          <Input
+            placeholder={intl.get('token_create_memo_placeholder')}
+            value={data.memo}
+            onChange={handleChangeMemo}
+          />
         </FindoraBoxView>
 
         <FindoraBoxView title={intl.get('token_create_max_amount')} isRow>
           <Input
-            placeholder="Please to Value"
+            placeholder={intl.get('token_create_max_amount_placeholder')}
             type="number"
             value={data.asset.maxNumbers}
             onChange={handleChangeAssetMaxNumbers}
