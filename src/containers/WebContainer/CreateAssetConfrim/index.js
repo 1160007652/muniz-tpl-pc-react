@@ -56,7 +56,7 @@ const CreateAssetConfrim = ({ data }) => {
       <div className="create-asset-confrim">
         <Spin spinning={isLoading}>
           <div className="create-asset-confrim-box">
-            <FindoraBoxView title={intl.get('token_create_founder')}>
+            <FindoraBoxView title={intl.get('token_issue_issuer')}>
               <span className="address">{founder}</span>
             </FindoraBoxView>
             <FindoraBoxView title={intl.get('asset_name')}>
