@@ -57,14 +57,24 @@ const IssueAsset = () => {
   }
   /** 输入资产名称 */
   function handleChangeAssetName(value) {
+    // const asset_rules = {
+    //   max_units: null,
+    //   transfer_multisig_rules: null,
+    //   transferable: true,
+    //   updatable: false,
+    // };
+
     const asset_rules = {
-      max_units: null,
-      transfer_multisig_rules: null,
-      transferable: true,
-      updatable: false,
+      asset_rules: {
+        max_units: null,
+        transfer_multisig_rules: null,
+        transferable: true,
+        updatable: false,
+      },
+      ...value,
     };
 
-    if ('numbers' in value) {
+    if ('numbers' in asset_rules) {
       setError((state) => {
         state.assetNameError = null;
         if (Object.values(state).every((item) => item !== null)) {
@@ -79,8 +89,19 @@ const IssueAsset = () => {
       return;
     }
 
-    const isAmount = value?.asset_rules?.max_units
-      ? data.inputNumbers + value?.numbers > value?.asset_rules?.max_units
+    // 是否支持隐藏数量, 隐藏类型, 并且修改状态
+    if (asset_rules.asset_rules.max_units) {
+      setData((state) => {
+        state.blind.isAmount = false;
+      });
+    } else {
+      setData((state) => {
+        state.blind.isAmount = true;
+      });
+    }
+
+    const isAmount = asset_rules.asset_rules?.max_units
+      ? data.inputNumbers + asset_rules?.numbers > asset_rules?.asset_rules?.max_units
       : false;
     setNextDisabled(isAmount);
 
@@ -88,7 +109,7 @@ const IssueAsset = () => {
       setNextDisabled(true);
     }
     setData((state) => {
-      state.asset = { ...state.asset, asset_rules, ...value };
+      state.asset = { ...state.asset, ...asset_rules };
       state.inputNumbers = '';
     });
     setError((state) => {

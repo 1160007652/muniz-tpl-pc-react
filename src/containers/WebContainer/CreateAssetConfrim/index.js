@@ -77,9 +77,9 @@ const CreateAssetConfrim = ({ data }) => {
             <FindoraBoxView title={intl.get('transferable')}>
               <span className="address">{transferable ? 'Yes' : 'No'}</span>
             </FindoraBoxView>
-            <FindoraBoxView title={intl.get('updatable')}>
+            {/* <FindoraBoxView title={intl.get('updatable')}>
               <span className="address">{updatable ? 'Yes' : 'No'}</span>
-            </FindoraBoxView>
+            </FindoraBoxView> */}
             <FindoraBoxView title={intl.get('token_create_max_amount')}>
               <span className="address">{asset.maxNumbers}</span>
               {/* <span style={{ marginLeft: '4px' }}>{asset.short}</span> */}
