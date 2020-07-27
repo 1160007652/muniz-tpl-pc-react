@@ -143,7 +143,7 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
       result.asset.outputNumbers = decryptOutputAssetData.amount;
 
       // outputs 中 输入地址与 钱包地址一样, 表示:输入金额, 反之:输出金额
-      if (decryptOutputAssetData.blind_asset_record.public_key === walletInfo.publickey) {
+      if (decryptOutputAssetData.blind_asset_record.public_key === walletInfo.publickey && result.to !== result.from) {
         result.txn_type = 'output'; // 输入
       } else {
         result.txn_type = 'input'; // 输出

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { toJS } from 'mobx';
 import { MobXProviderContext, observer } from 'mobx-react';
 import { useHistory } from 'react-router-dom';
-import { Input, Radio } from 'antd';
+import { Input, Radio, InputNumber, Tag } from 'antd';
 import intl from 'react-intl-universal';
 import { useImmer } from 'use-immer';
 
@@ -145,9 +145,8 @@ const Send = () => {
   }
 
   /** 输入 Amount  */
-  function handleChangeAmount(e) {
-    e.persist();
-    const newAmount = e.target.value; // 准备转移的金额
+  function handleChangeAmount(value) {
+    const newAmount = value; // 准备转移的金额
     const amount = data.asset?.numbers ?? 0;
 
     if (newAmount) {
@@ -205,6 +204,10 @@ const Send = () => {
     );
   }
 
+  function limitDecimals(value) {
+    return Number(String(value).replace(/^(0+)|[^\d]+/g, '')) || '';
+  }
+
   return (
     <div className="send">
       <FindoraHeader title={intl.get('page_send_title')} isShowBack menu={<HeaderMenu />} />
@@ -235,12 +238,18 @@ const Send = () => {
             <span>{intl.get('send_amount_max')}</span>
             <Balance asset={data.asset} style={{ textAlign: 'right' }} key={data.asset.long} />
           </div>
-          <Input
+          <InputNumber
             placeholder={intl.get('send_mount_placeholder')}
-            type="number"
             value={data.numbers}
+            min={0}
+            max={data.asset.numbers}
+            step={1}
+            style={{ width: '100%' }}
             onChange={handleChangeAmount}
+            formatter={limitDecimals}
+            parser={limitDecimals}
           />
+
           {error.amountError && <div className="error">{intl.get(error.amountError)}</div>}
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('blind_amount')} isRow titleDirection="top">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { toJS } from 'mobx';
 import { MobXProviderContext, observer } from 'mobx-react';
-import { Input, Select, Radio } from 'antd';
+import { Tag, InputNumber, Radio } from 'antd';
 import { useImmer } from 'use-immer';
 import intl from 'react-intl-universal';
 
@@ -97,10 +97,9 @@ const IssueAsset = () => {
   }
 
   /** 输入 Amount  */
-  function handleChangeAmount(e) {
-    e.persist();
-    let value = e.target.value;
-
+  function handleChangeAmount(value) {
+    // e.persist();
+    // let value = e.target.value;
     if (Number(value)) {
       if (data.asset?.asset_rules?.max_units) {
         if (Number(value) > data.asset?.asset_rules?.max_units - Number(data.asset?.numbers)) {
@@ -145,6 +144,10 @@ const IssueAsset = () => {
       });
     };
   }
+
+  function limitDecimals(value) {
+    return Number(String(value).replace(/^(0+)|[^\d]+/g, '')) || '';
+  }
   return (
     <FindoraWebContainer className="issue-asset" title={intl.get('menu_asset_issue')}>
       <div className="issue-asset-box">
@@ -165,17 +168,30 @@ const IssueAsset = () => {
         </FindoraBoxView>
 
         <FindoraBoxView title={intl.get('balance')} isRow titleDirection="top">
-          <Input
-            placeholder={intl.get('token_issue_amount_placeholder')}
-            value={data.inputNumbers}
-            type="text"
-            onChange={handleChangeAmount}
-            suffix={
-              data.asset?.asset_rules?.max_units
-                ? `max amount: ${data.asset?.asset_rules?.max_units - Number(data.asset?.numbers)}`
-                : null
-            }
-          />
+          <div className="input-number-box">
+            <InputNumber
+              placeholder={intl.get('token_issue_amount_placeholder')}
+              value={data.inputNumbers}
+              min={0}
+              max={
+                data.asset?.asset_rules?.max_units
+                  ? data.asset?.asset_rules?.max_units - Number(data.asset?.numbers)
+                  : Number.MAX_SAFE_INTEGER
+              }
+              step={1}
+              style={{ width: '100%' }}
+              onChange={handleChangeAmount}
+              formatter={limitDecimals}
+              parser={limitDecimals}
+            />
+            {data.asset?.asset_rules?.max_units ? (
+              <Tag className="max-amount">{`max amount: ${
+                data.asset?.asset_rules?.max_units - Number(data.asset?.numbers)
+              }`}</Tag>
+            ) : (
+              <Tag className="max-amount">{intl.get('token_issue_amount_unlimited')}</Tag>
+            )}
+          </div>
           {error.amountError && <div className="error">{intl.get(error.amountError)}</div>}
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('blind_amount')} isRow titleDirection="top">

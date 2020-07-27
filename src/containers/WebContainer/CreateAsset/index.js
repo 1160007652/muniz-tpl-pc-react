@@ -96,7 +96,11 @@ const CreateAsset = () => {
           />
         </FindoraBoxView>
 
-        <FindoraBoxView title={intl.get('asset_name')} isRow titleDirection="top">
+        <FindoraBoxView
+          title={<FindoraTips desc={intl.get('asset_name_tips')}>{intl.get('asset_name')}</FindoraTips>}
+          isRow
+          titleDirection="top"
+        >
           <CreateAssetName onResult={handleChangeAssetName} />
         </FindoraBoxView>
 

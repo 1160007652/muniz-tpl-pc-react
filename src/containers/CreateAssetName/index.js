@@ -113,7 +113,8 @@ const CreateAssetName = ({ onResult }) => {
         />
 
         <FindoraBoxView title={intl.get('asset_name_long')} isRow className="long-name">
-          {assetNameData.long} <ReloadOutlined className="icon-reload" onClick={handleClickReloadLongName} />
+          {assetNameData.long}
+          {/* <ReloadOutlined className="icon-reload" onClick={handleClickReloadLongName} /> */}
         </FindoraBoxView>
         {/* <FindoraBoxView title={intl.get('asset_name_short')} isRow>
           <Input
@@ -176,7 +177,7 @@ const CreateAssetName = ({ onResult }) => {
     const result = assetList.filter((item) => item.long === value);
     onShowResult(result.length > 0 ? result[0] : {});
   }
-  return createAssetName();
+  return <div>{assetNameData.long}</div>;
 };
 
 CreateAssetName.propTypes = {
