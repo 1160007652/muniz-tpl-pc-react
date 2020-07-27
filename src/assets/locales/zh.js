@@ -37,6 +37,9 @@ const zhCN = {
   blind_amount: '隐藏数量',
   confrim: '确认',
 
+  txn_IssueAsset: '发行',
+  txn_TransferAsset: '转让',
+
   asset_name_create_default_notice: '长名称由系统生成，用户定义短名称。短名称可以重复定义。',
   asset_name_long: '长名称',
   asset_name_short: '短名称',

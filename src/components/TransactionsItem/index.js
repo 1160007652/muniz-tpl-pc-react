@@ -41,7 +41,7 @@ const TransactionsItem = ({ data, onClick, className, style }) => {
       </FindoraBoxView>
       <div className="state">
         <div>
-          <span className="tag">{type}</span>
+          <span className="tag">{intl.get(`txn_${type}`)}</span>
           {blind.isAmount && <span className="tag">{intl.get('blind_amount')}</span>}
           {blind.isType && <span className="tag">{intl.get('blind_type')}</span>}
         </div>
