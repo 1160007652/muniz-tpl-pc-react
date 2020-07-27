@@ -114,7 +114,9 @@ const zhCN = {
   network_testnet: '测试网',
 
   token_create_founder: '创建者',
-  token_create_max_amount: '最大资产金额',
+  token_create_memo_placeholder: '请输入备注',
+  token_create_max_amount: '最大增发金额',
+  token_create_max_amount_placeholder: '请设置最大增发金额',
   token_create_create: '创建',
   token_empty_tips: '请先创建资产',
   token_create_btn_tips: '点击创建',

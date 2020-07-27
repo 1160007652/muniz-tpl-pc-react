@@ -129,7 +129,7 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
         </Fragment>
       ) : (
         <div>
-          {intl.get('token_empty_tips')},<Link to={pageURL.createAsset}>{intl.get('token_create_btn_tips')}</Link>
+          {intl.get('token_empty_tips')}. <Link to={pageURL.createAsset}>{intl.get('token_create_btn_tips')}.</Link>
         </div>
       );
 
