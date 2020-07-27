@@ -16,14 +16,12 @@ import './index.less';
  * FindoraRouterBack 纯组件, 返回上一级路由
  * @component
  * @example <caption>组件案例</caption>
- * const title = "导航标题"
- * const menu = <div>组件库</div>
  * return (
- *   <FindoraHeader title={title} menu={menu}/>
+ *   <FindoraRouterBack />
  * )
  *
  */
-const FindoraRouterBack = ({ title, menu }) => {
+const FindoraRouterBack = () => {
   const history = useHistory();
   function handleClickBack() {
     history.goBack();

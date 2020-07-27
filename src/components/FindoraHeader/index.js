@@ -10,7 +10,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import FindoraRouterBack from '../FindoraRouterBack';
-// import HeaderMenu from '../../containers/HeaderMenu';
 
 import './index.less';
 
@@ -30,10 +29,9 @@ import './index.less';
  * )
  *
  * @example <caption>带菜单的导航</caption>
- * const title = "Findora wallet"
- *
+ * const title = "Findora wallet";
  * return (
- *   <FindoraHeader title={title} isShowBack={false} menu={<HeaderMenu/>} />
+ *   <FindoraHeader title={title} isShowBack={false} menu={<div>menu</div>} />
  * )
  *
  */
