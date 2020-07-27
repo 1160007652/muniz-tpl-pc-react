@@ -57,7 +57,7 @@ const enUS = {
   wallet_create_inputpassword_again: 'Password Again',
   wallet_create_password_less9: 'Password length cannot be less than 9',
   wallet_create_username_no_empty: 'Username not entered',
-  wallet_create_password_no_match: 'Two passwords are inconsistent',
+  wallet_create_password_no_match: 'Passwords do not match',
   wallet_create_keystore_info:
     'The keystore file is an encrypted file used to store the private key. It must be used with the password to unlock the wallet. Please keep the keystore file properly and remember the password. If one of them is lost, the asset will not be recovered.',
   wallet_create_next: 'Next',
@@ -71,6 +71,7 @@ const enUS = {
   wallet_remove_notice:
     'You are about to remove the wallet. Please make sure you have saved the keystore file to restore the wallet.',
   wallet_export_title: 'Export Wallet',
+  wallet_create_lafter_import_tips: 'Import your new wallet',
 
   menu_home: 'Wallets',
   menu_wallet_create: 'Create Wallet',

@@ -14,6 +14,9 @@ import HeaderMenu from '_containers/HeaderMenu';
 import './index.less';
 
 const About = () => {
+  function handleOnClickGoIssue() {
+    window.open('http://www.baidu.com');
+  }
   return (
     <div className="findora-wallet-about">
       <FindoraHeader title={intl.get('page_wallet_about_title')} isShowBack menu={<HeaderMenu />} />
@@ -23,9 +26,9 @@ const About = () => {
           {intl.get('about_version')}:{process.env.VERSION_APP}
         </div>
         <p>{intl.get('about_info')}</p>
-        <a href="https://bugtracker.findora.org/projects/web-wallet/issues/new">
+        <div onClick={handleOnClickGoIssue} className="go_issue">
           https://bugtracker.findora.org/projects/web-wallet/issues/new
-        </a>
+        </div>
       </div>
     </div>
   );

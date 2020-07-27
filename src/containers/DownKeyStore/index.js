@@ -6,7 +6,7 @@
  * @ Description: 下载钱包KeyStore 文件
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Alert, Form, Button, Checkbox, message } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
 import intl from 'react-intl-universal';
@@ -22,7 +22,7 @@ import './index.less';
 const DownKeyStore = () => {
   const walletStore = React.useContext(MobXProviderContext).walletStore;
   const history = useHistory();
-
+  const [isSuccess, setIsSuccess] = useState(false);
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -46,13 +46,17 @@ const DownKeyStore = () => {
         // 如果 为 True , 才允许下载 KeyStore
         await services.webKeyStore.addNewKeypair(walletStore.createWalletData);
         message.success(intl.get('wallet_down_success'));
-        setTimeout(() => {
-          history.replace({ pathname: pageURL.home });
-        }, 500);
+
+        setIsSuccess(true);
       } catch {
         message.error(intl.get('wallet_down_fail'));
+        setIsSuccess(false);
       }
     }
+  }
+
+  function handleOnClickToPath() {
+    history.replace({ pathname: pageURL.restoreWallet });
   }
 
   return (
@@ -86,7 +90,11 @@ const DownKeyStore = () => {
             </Button>
           </Form.Item>
         </Form>
-        {/* <Link to={pageURL.createwallet}>{intl.get('navigation_back')}</Link> */}
+        {isSuccess && (
+          <Button type="primary" className="import-wallet" onClick={handleOnClickToPath}>
+            {intl.get('wallet_create_lafter_import_tips')}
+          </Button>
+        )}
       </div>
     </div>
   );
