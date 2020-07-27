@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { toJS } from 'mobx';
 import { MobXProviderContext, observer } from 'mobx-react';
 import { Input, Radio } from 'antd';
@@ -18,6 +18,9 @@ import './index.less';
 
 const CreateAsset = () => {
   const walletStore = React.useContext(MobXProviderContext).walletStore;
+  const [windowInfo, setWindowInfo] = useImmer({
+    isCreatedWindow: false,
+  });
   const [data, setData] = useImmer({
     founder: walletStore.walletInfo.publickey,
     walletInfo: toJS(walletStore.walletInfo),
@@ -39,15 +42,24 @@ const CreateAsset = () => {
   function handleClickCreate() {
     chrome.storage.sync.set({ tempCreateAssetConfrim: JSON.stringify(data) });
 
-    chrome.windows.create({
-      url: `${chrome.runtime.getURL('popup.html')}#${pageURL.assetConfrim.replace(
-        ':actionType',
-        'createAssetConfrim',
-      )}`,
-      type: 'popup',
-      width: 400,
-      height: 630,
-    });
+    if (!windowInfo.isCreatedWindow) {
+      const www = chrome.windows.create(
+        {
+          url: `${chrome.runtime.getURL('popup.html')}#${pageURL.assetConfrim.replace(
+            ':actionType',
+            'createAssetConfrim',
+          )}`,
+          type: 'popup',
+          width: 400,
+          height: 630,
+        },
+        () => {
+          // setWindowInfo((state) => {
+          //   state.isCreatedWindow = true;
+          // });
+        },
+      );
+    }
   }
   /** 切换钱包地址 */
   function handleChangeSwitchAddress(address) {
@@ -60,7 +72,6 @@ const CreateAsset = () => {
     setData((state) => {
       state.asset = { ...state.asset, ...value };
     });
-    console.log('创建资产-------', data.asset);
   }
   /** 最大值定义资产 */
   function handleChangeAssetMaxNumbers(e) {

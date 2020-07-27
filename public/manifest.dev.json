@@ -5,7 +5,7 @@
   "name": "Findora Wallet Application",
   "short_name": "findora",
   "manifest_version": 2,
-  "permissions": ["storage", "downloads"],
+  "permissions": ["storage", "downloads", "tabs"],
   "background": {
     "scripts": ["js/background.js"],
     "persistent": true
