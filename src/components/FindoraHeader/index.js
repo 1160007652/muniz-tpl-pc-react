@@ -24,6 +24,9 @@ import './index.less';
  * )
  *
  */
+/**
+ * Findora header component.
+ */
 const FindoraHeader = ({ title, menu, isShowBack }) => {
   return (
     <div className="findora-header">
@@ -39,10 +42,13 @@ const FindoraHeader = ({ title, menu, isShowBack }) => {
 
 FindoraHeader.propTypes = {
   /** 菜单 */
+  /** Menu */
   menu: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   /** 标题 */
+  /** Titile */
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   /** 是否显示返回按钮 */
+  /** Whether to display the "back" button */
   isShowBack: PropTypes.bool,
 };
 

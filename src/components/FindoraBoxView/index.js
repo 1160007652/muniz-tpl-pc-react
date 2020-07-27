@@ -17,6 +17,7 @@ import './index.less';
  * @example <caption>组件案例</caption>
  *
  */
+// TODO: how to translate?
 const FindoraBoxView = ({ children, title, titleDirection, isRow, className, style }) => {
   return (
     <div className={classNames('findora-box-view', className, { 'box-row': isRow })} style={style}>
@@ -28,10 +29,13 @@ const FindoraBoxView = ({ children, title, titleDirection, isRow, className, sty
 
 FindoraBoxView.propTypes = {
   /** 点击事件 */
+  /** Click event */
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   /** 是否横行展示 */
+  /** Whether to support horizontal scroll */
   isRow: PropTypes.bool,
   /** 标题显示位置 */
+  /** Title placement */
   titleDirection: PropTypes.oneOf(['top', 'center', 'bottom']),
 };
 

@@ -50,10 +50,8 @@ class AssetServer {
   /**
    * @description 生成资产, 向服务器发送
    * 未实现 .set_transfer_multisig_rules() 多签 规则
-   * 未实现 跟踪资产
    * @param {*} param, 定义资产所需要的 data 数据
    */
-  // TODO: 资产跟踪实现了吧？
   /**
    * Creates the asset and submits the transaction.
    * @param {json} param - Information needed to create the asset

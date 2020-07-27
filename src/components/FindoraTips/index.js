@@ -21,6 +21,9 @@ import './index.less';
  * @example <caption>组件案例</caption>
  *
  */
+/**
+ * Findora component to provide tips.
+ */
 const FindoraTips = ({ children, desc, placement, className }) => {
   return (
     <div className={classNames('findora-tips', className)}>
@@ -33,8 +36,10 @@ const FindoraTips = ({ children, desc, placement, className }) => {
 
 FindoraTips.propTypes = {
   /** 提示信息 */
+  /** Tip description */
   desc: PropTypes.string,
   /** 提示对齐方式 */
+  /** Tip placement */
   placement: PropTypes.string,
 };
 

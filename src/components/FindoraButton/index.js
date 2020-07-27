@@ -22,6 +22,10 @@ import './index.less';
  * )
  *
  */
+/**
+ *
+ * Findora button component.
+ */
 const FindoraButton = ({ children, onClick, className }) => {
   return (
     <div className={classNames('findora-button', className)} onClick={onClick}>
@@ -32,6 +36,7 @@ const FindoraButton = ({ children, onClick, className }) => {
 
 FindoraButton.propTypes = {
   /** 点击事件 */
+  /** Click event */
   onClick: PropTypes.func,
 };
 

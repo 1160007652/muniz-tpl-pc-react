@@ -21,6 +21,9 @@ import { Divider } from 'antd';
  * @example <caption>组件案例</caption>
  *
  */
+/**
+ * Component to display transaction list
+ */
 const TransactionsItem = ({ data, onClick, className, style }) => {
   const { time, from, to, asset, state, txn_type } = data;
   return (
@@ -52,9 +55,11 @@ const TransactionsItem = ({ data, onClick, className, style }) => {
 };
 
 TransactionsItem.propTypes = {
-  /** 点击事件 */
+  /** 数据源 */
+  /** Data source */
   data: PropTypes.object,
-  /** 是否横行展示 */
+  /** 点击事件 */
+  /** Click event */
   onClick: PropTypes.func,
 };
 

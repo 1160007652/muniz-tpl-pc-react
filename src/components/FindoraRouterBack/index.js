@@ -23,6 +23,9 @@ import './index.less';
  * )
  *
  */
+/**
+ * Findora component to go back to the previous route.
+ */
 const FindoraRouterBack = ({ title, menu }) => {
   const history = useHistory();
   function handleClickBack() {

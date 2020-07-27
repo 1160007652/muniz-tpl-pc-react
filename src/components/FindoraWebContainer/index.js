@@ -17,6 +17,10 @@ import './index.less';
  * @example <caption>组件案例</caption>
  *
  */
+/**
+ * Findora web container component
+ */
+// TODO: translation
 const FindoraWebContainer = ({ children, title, className, style }) => {
   return (
     <div className={classNames('findora-web-container', className)} style={style}>
@@ -28,6 +32,7 @@ const FindoraWebContainer = ({ children, title, className, style }) => {
 
 FindoraWebContainer.propTypes = {
   /** 页面标题 */
+  /** Page title */
   title: PropTypes.string,
 };
 
