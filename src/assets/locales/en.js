@@ -124,7 +124,7 @@ const enUS = {
 
   token_create_founder: 'Issuer',
   token_create_memo_placeholder: 'Please enter memo',
-  token_create_max_amount: 'Max units',
+  token_create_max_amount: 'Max Units Limit',
   token_create_max_amount_placeholder: 'Please set max units that can be issued',
   token_create_create: 'Create',
   token_empty_tips: 'Please create an asset before issuing',
@@ -135,7 +135,7 @@ const enUS = {
   token_issue_amount_placeholder: 'Please enter amount',
   token_issue_empty_tips: 'Please issued assets',
   token_issue_create_btn_tips: 'Click issue',
-  token_issue_amount_unlimited: 'UnLimited',
+  token_issue_amount_unlimited: 'Unlimited',
   token_issue_error1: 'Issue Asset failed',
   token_issue_error2: 'Cannot exceed the additional amount that can be issued',
   token_issue_error3: 'The asset cannot hide the amount',

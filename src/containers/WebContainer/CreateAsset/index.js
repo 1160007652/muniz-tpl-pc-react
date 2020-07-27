@@ -34,6 +34,7 @@ const CreateAsset = () => {
     traceable: false,
     transferable: true,
     updatable: false,
+    maxUnits: false,
   });
 
   /**
@@ -93,6 +94,7 @@ const CreateAsset = () => {
     return (e) => {
       setData((state) => {
         state[key] = e.target.value;
+        state.asset.maxNumbers = key === 'maxUnits' && e.target.value ? state.asset.maxNumbers : '';
       });
     };
   }
@@ -123,13 +125,20 @@ const CreateAsset = () => {
           />
         </FindoraBoxView>
 
-        <FindoraBoxView title={intl.get('token_create_max_amount')} isRow>
-          <Input
-            placeholder={intl.get('token_create_max_amount_placeholder')}
-            type="number"
-            value={data.asset.maxNumbers}
-            onChange={handleChangeAssetMaxNumbers}
-          />
+        <FindoraBoxView title={intl.get('token_create_max_amount')} isRow titleDirection="top">
+          <Radio.Group value={data.maxUnits} onChange={handleChangeRadio('maxUnits')}>
+            <Radio value={true}>Yes</Radio>
+            <Radio value={false}>No</Radio>
+          </Radio.Group>
+          {data.maxUnits && (
+            <Input
+              placeholder={intl.get('token_create_max_amount_placeholder')}
+              type="number"
+              style={{ marginTop: '10px' }}
+              value={data.asset.maxNumbers}
+              onChange={handleChangeAssetMaxNumbers}
+            />
+          )}
         </FindoraBoxView>
         {/* 第一版, 暂且不实现 该功能 */}
         {/* <FindoraBoxView title={<FindoraTips desc={intl.get('policy')}>{intl.get('policy')}</FindoraTips>} isRow>

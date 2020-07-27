@@ -28,7 +28,6 @@ const CreateAssetConfrim = ({ data }) => {
 
   /** 取消窗口 */
   function handleClickCancel() {
-    window.postMessage('11111', '*');
     chrome.storage.sync.remove(['tempCreateAssetConfrim']);
     chrome.windows.getCurrent((curWindow) => {
       chrome.windows.remove(curWindow.id);
@@ -36,8 +35,7 @@ const CreateAssetConfrim = ({ data }) => {
   }
   /** 显示结果后, 按钮事件 */
   function handleClickView() {
-    port.postMessage({ joke: '敲门' });
-    // hirstory.replace({ pathname: pageURL.walletInfo });
+    hirstory.replace({ pathname: pageURL.walletInfo });
   }
   /** 提交数据 */
   async function handleClickSubmit() {
