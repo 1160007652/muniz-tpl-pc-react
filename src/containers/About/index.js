@@ -15,7 +15,7 @@ import './index.less';
 
 const About = () => {
   function handleOnClickGoIssue() {
-    window.open('http://www.baidu.com');
+    window.open('https://bugtracker.findora.org/projects/web-wallet/issues/new');
   }
   return (
     <div className="findora-wallet-about">

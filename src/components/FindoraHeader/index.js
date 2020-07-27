@@ -10,17 +10,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import FindoraRouterBack from '../FindoraRouterBack';
+// import HeaderMenu from '../../containers/HeaderMenu';
 
 import './index.less';
 
 /**
  * FindoraHeader 纯组件
  * @component
- * @example <caption>组件案例</caption>
- * const title = "导航标题"
- * const menu = <div>组件库</div>
+ * @example <caption>可返回的导航</caption>
+ * const title = "Findora wallet"
  * return (
- *   <FindoraHeader title={title} menu={menu}/>
+ *   <FindoraHeader title={title} isShowBack={true}/>
+ * )
+ *
+ * @example <caption>带logo的导航</caption>
+ * const title = "Findora wallet"
+ * return (
+ *   <FindoraHeader title={title} isShowBack={false}/>
+ * )
+ *
+ * @example <caption>带菜单的导航</caption>
+ * const title = "Findora wallet"
+ *
+ * return (
+ *   <FindoraHeader title={title} isShowBack={false} menu={<HeaderMenu/>} />
  * )
  *
  */
