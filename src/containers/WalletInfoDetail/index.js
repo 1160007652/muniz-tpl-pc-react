@@ -162,7 +162,7 @@ const WalletInfo = () => {
         </FindoraButton>
         <FindoraButton
           className="mb20"
-          onClick={handleChangeRouter(pageURL.transactions.replace(':action', 'loading'))}
+          onClick={handleChangeRouter(pageURL.transactions.replace(':action', 'detail-loading'))}
         >
           Transactions
         </FindoraButton>

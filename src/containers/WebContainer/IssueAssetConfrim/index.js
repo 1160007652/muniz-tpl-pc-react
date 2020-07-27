@@ -29,7 +29,7 @@ const IssueAssetConfrim = ({ data }) => {
   }
   /** 显示结果后, 按钮事件 */
   function handleClickView() {
-    hirstory.replace({ pathname: pageURL.transactions.replace(':action', 'loading') });
+    hirstory.replace({ pathname: pageURL.transactions.replace(':action', 'issue-loding') });
   }
   /** 提交数据 */
   async function handleClickSubmit() {
