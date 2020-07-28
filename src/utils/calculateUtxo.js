@@ -113,7 +113,7 @@ async function calculateUtxo({ address }) {
   console.groupCollapsed('=======>  开始获取 UtxoSids');
   const walletInfo = rootStore.walletStore.walletImportList.filter((item) => item.publickey === address)[0];
   const { publickey, keyPairStr } = walletInfo;
-  const { sidsDiff, sidsServer } = await getUtxoSidsDiff({ address: publickey });
+  const { sidsDiff, sidsServer } = await getSidsDiff({ address: publickey });
   console.log('address: ', publickey);
   /**
    * 如果 sidsDiff.length > 0 , 先数据库中添加新的sids, 拉取新的 txn

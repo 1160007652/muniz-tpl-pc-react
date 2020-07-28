@@ -111,7 +111,7 @@ async function getTxnDiff({ address, sidsDiff }) {
  */
 async function calculateTxn({ address }) {
   console.groupCollapsed('=======>  开始获取 TxnSids');
-  const { sidsDiff, sidsServer } = await getTxnSidsDiff({ address });
+  const { sidsDiff, sidsServer } = await getSidsDiff({ address });
 
   /**
    * 如果 sidsDiff.length > 0 , 先数据库中添加新的sids, 拉取新的 txn
