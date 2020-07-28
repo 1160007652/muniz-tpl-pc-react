@@ -112,6 +112,7 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
 
   function getAssetListSelect() {
     // 增发列表
+    const here = 'HHHHHHHH';
     const issueAssetListComponent =
       assetStore.issuedAssetList.length > 0 ? (
         <Fragment>
@@ -128,7 +129,11 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
           {/* <div className="tips">{assetCurrent?.long}</div> */}
         </Fragment>
       ) : (
-        <Link to={pageURL.createAsset}>{intl.get('token_empty_tips')}</Link>
+        <div>
+          {intl.get('token_empty_tips')}
+          <Link to={pageURL.createAsset}>{intl.get('token_or_issue_empty_here')}</Link>
+          {intl.get('token_create_btn_tips')}
+        </div>
       );
 
     // 拥有资产的列表
@@ -148,9 +153,13 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
           {/* <div className="tips">{assetCurrent?.long}</div> */}
         </Fragment>
       ) : (
-        <a href={`${chrome.runtime.getURL('popup.html')}#${pageURL.issueAsset}`} target="_blank">
+        <div>
           {intl.get('token_issue_empty_tips')}
-        </a>
+          <a href={`${chrome.runtime.getURL('popup.html')}#${pageURL.issueAsset}`} target="_blank">
+            {intl.get('token_or_issue_empty_here')}
+          </a>
+          {intl.get('token_issue_create_btn_tips')}
+        </div>
       );
 
     // 转账列表
@@ -170,9 +179,13 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
           {/* <div className="tips">{assetCurrent?.long}</div> */}
         </Fragment>
       ) : (
-        <a href={`${chrome.runtime.getURL('popup.html')}#${pageURL.issueAsset}`} target="_blank">
+        <div>
           {intl.get('token_issue_empty_tips')}
-        </a>
+          <a href={`${chrome.runtime.getURL('popup.html')}#${pageURL.issueAsset}`} target="_blank">
+            {intl.get('token_or_issue_empty_here')}
+          </a>
+          {intl.get('token_issue_create_btn_tips')}
+        </div>
       );
 
     if (isShowComponent) {
