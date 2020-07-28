@@ -12,7 +12,7 @@ import classNames from 'classnames';
 import './index.less';
 
 /**
- * FindoraBoxView 纯组件, 用于包裹输入组件, 产出带标题, 展示信息的组件 s
+ * FindoraBoxView 纯组件, 用于包裹输入组件, 产出带标题, 展示信息的组件
  * @component
  * @example <caption>组件案例</caption>
  *
@@ -20,7 +20,15 @@ import './index.less';
  *  <FindoraBoxView title="标题" ><div style={{ backGround: 'green' }}>测试组件</div></FindoraBoxView>
  * )
  */
-const FindoraBoxView = ({ children, title, titleDirection, isRow, className, style }) => {
+/**
+ * Findora box view pure components to display component with title and information.
+ * @component
+ * @example <caption>Component Example</caption>
+ *
+ * return(
+ *  <FindoraBoxView title="Title" ><div style={{ backGround: 'green' }}>Testing Component</div></FindoraBoxView>
+ * )
+ */ const FindoraBoxView = ({ children, title, titleDirection, isRow, className, style }) => {
   return (
     <div className={classNames('findora-box-view', className, { 'box-row': isRow })} style={style}>
       <div className={classNames('title', titleDirection)}>{title}</div>
@@ -31,10 +39,13 @@ const FindoraBoxView = ({ children, title, titleDirection, isRow, className, sty
 
 FindoraBoxView.propTypes = {
   /** 点击事件 */
+  /** Click event */
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   /** 是否横行展示 */
+  /** Whether to support horizontal scroll */
   isRow: PropTypes.bool,
   /** 标题显示位置 */
+  /** Title placement */
   titleDirection: PropTypes.oneOf(['top', 'center', 'bottom']),
 };
 

@@ -1,7 +1,12 @@
 import React from 'react';
 
 /**
- * Loading 异步加载路由的过度组件
+ * Loading 异步加载路由的过渡组件
+ * @component
+ *
+ */
+/**
+ * Component for async route loading.
  * @component
  *
  */

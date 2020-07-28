@@ -21,8 +21,12 @@ const sendServer = {
    * @author Muniz
    * @description 资产转账
    * @param {param} address - 转账需要的表单数据
-   *
-   * @return {object}
+   * @returns {object}
+   */
+  /**
+   * Transfer the asset.
+   * @param {object} param - Information needed to transfer the asset.
+   * @returns {object}
    */
   async setSendAsset(param) {
     console.groupCollapsed('=======>  开始转账');
