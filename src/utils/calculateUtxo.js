@@ -21,7 +21,7 @@ import rootStore from '_src/stores';
  * @param {string} address - Base64-encoded address string.
  * @returns {object} New UTXO SIDs.
  */
-async function getSidsDiff({ address }) {
+async function getUtxoSidsDiff({ address }) {
   // 获取前端数据库中的sids
   const oldSids = await ownedDB.getSids({ address });
   console.log('数据库中的sids: ', oldSids);

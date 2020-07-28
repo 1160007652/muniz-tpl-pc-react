@@ -20,7 +20,7 @@ import arrayDiff from '_src/utils/arrayDiff';
  * @param {string} address - Base64-encoded address string.
  * @returns {object} - New Txn SIDs.
  */
-async function getSidsDiff({ address }) {
+async function getTxnSidsDiff({ address }) {
   // 获取前端数据库中的sids
   const oldSids = await relatedDB.getSids({ address });
   console.log('数据库中的sids: ', oldSids);
