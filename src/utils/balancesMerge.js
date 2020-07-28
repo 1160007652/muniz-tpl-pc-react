@@ -14,8 +14,15 @@ async function balancesMerge({ dataList, asset }) {
   dataList.forEach((item) => {
     // {txn_type === 'input' ? '+' : '-'}
     if (item.asset.tokenCode === asset.code) {
+      console.log('xxxxxxxxx: ', item, asset);
+
       if (item.txn_type === 'input') {
         numbers = numbers + item.asset.numbers;
+
+        // 自己给自己转账的金额, 不计算在内, 需要把之前计算的金额, 减去
+        if (item.from === item.to && item.type === 'TransferAsset') {
+          numbers = numbers - item.asset.numbers;
+        }
       } else {
         numbers = numbers - item.asset.numbers;
       }

@@ -7,6 +7,7 @@
  */
 
 import { action, observable, when } from 'mobx';
+import intl from 'react-intl-universal';
 import { message } from 'antd';
 
 /**
@@ -93,7 +94,7 @@ class WalletStore {
   @action importWallet({ walletInfo, walletList }) {
     if (walletInfo) {
       if (this.walletImportList.some((item) => item.publickey === walletInfo.publickey)) {
-        message.info('该钱包已导入, 请无重复操作');
+        message.info(intl.get('wallet_import_has_been'));
       } else {
         this.walletImportList.push(walletInfo);
       }

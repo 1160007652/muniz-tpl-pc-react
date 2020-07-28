@@ -70,6 +70,7 @@ const zhCN = {
   wallet_remove_notice: '您将要取出钱包。请确保您已保存密钥库文件以恢复钱包。',
   wallet_export_title: '导出钱包',
   wallet_create_lafter_import_tips: '导入您的新钱包',
+  wallet_import_has_been: '该钱包已导入, 请无重复操作',
 
   menu_home: '钱包列表',
   menu_wallet_create: '创建钱包',
