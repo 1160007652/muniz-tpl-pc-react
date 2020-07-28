@@ -11,17 +11,23 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Tooltip } from 'antd';
 
-import { InfoCircleOutlined } from '@ant-design/icons';
-
 import './index.less';
 
 /**
  * FindoraTips 纯组件
  * @component
+ * @example
+ * return (
+ *  <FindoraTips desc="有关标题的描述信息">标题</FindoraTips>
+ * )
  */
 /**
  * Findora component to provide tips.
  * @component
+ * @example
+ * return (
+ *  <FindoraTips desc="Description about the title.">Title</FindoraTips>
+ * )
  */
 const FindoraTips = ({ children, desc, placement, className }) => {
   return (

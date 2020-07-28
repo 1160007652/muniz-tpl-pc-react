@@ -38,7 +38,7 @@ class WebKeyStore extends KeyStore {
    * @param {string} obj.name - Wallet name.
    *
    */
-  writeToFile = ({ fileName, name }) => {
+  writeToFile = ({ publickey, name }) => {
     // 过滤当前用户的keyStore
     const currentKeys = this.keys.filter((keyData) => keyData.name === name);
 
@@ -58,13 +58,18 @@ class WebKeyStore extends KeyStore {
       return false;
     });
 
-    const blob = new Blob([JSON.stringify(jsonKeys[0])], { type: 'text/plain;charset=utf-8' });
-    // chrome.downloads.download({
-    //   url: URL.createObjectURL(blob),
-    //   filename: `${fileName}.txt`,
-    //   saveAs: true,
-    // });
-    saveAs(blob, `${fileName}.findorawallet`);
+    const blob = new Blob([JSON.stringify(jsonKeys[0])], { type: 'findorawallet/plain;charset=utf-8' });
+    const fileData = new File([blob], `${publickey}.findorawallet`, {
+      type: 'findorawallet/plain;charset=utf-8',
+    });
+    console.log(fileData);
+    chrome.downloads.download({
+      filename: `${publickey}.findorawallet`,
+      saveAs: true,
+      conflictAction: 'overwrite',
+      url: URL.createObjectURL(fileData),
+      method: 'GET',
+    });
   };
 
   /**
@@ -84,7 +89,9 @@ class WebKeyStore extends KeyStore {
     const keyPairObj = await findoraWasm.keypair_from_str(keyPairStr);
     const address = await findoraWasm.get_pub_key_str(keyPairObj);
     // 下载KeyStore
-    this.writeToFile({ fileName: address.replace(/^_|_$/g, ''), name });
+    let publickey = address.replace(/^_|_$/g, '');
+    publickey = publickey.replace(/"/g, '');
+    this.writeToFile({ publickey, name });
   };
 
   /**

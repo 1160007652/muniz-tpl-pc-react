@@ -14,10 +14,28 @@ import './index.less';
 /**
  * FindoraWebContainer 纯组件, 创建资产、增发资产承载容器页面的通用页面模型
  * @component
+ * @example <caption>组件案例</caption>
+ * return (
+ *  <FindoraWebContainer title="演示页面">
+ *    <div style={{ height: '100px', background: '#eee', paddingTop: '20px' }}>
+ *       这里是关于显示页面的信息
+ *    </div>
+ *  </FindoraWebContainer>
+ * )
+ *
  */
 /**
  * Findora web container component for creating and issuing assets.
  * @component
+ * @example <caption>Component Example</caption>
+ * return (
+ *  <FindoraWebContainer title="Demo Page">
+ *    <div style={{ height: '100px', background: '#eee', paddingTop: '20px' }}>
+ *       Here's the information about the Demo Page.
+ *    </div>
+ *  </FindoraWebContainer>
+ * )
+ *
  */
 const FindoraWebContainer = ({ children, title, className, style }) => {
   return (
