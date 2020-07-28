@@ -20,7 +20,7 @@ import './index.less';
  * @component
  */
 /**
- * Component to display transaction list
+ * Pure component to display transaction list
  * @component
  */
 const TransactionsItem = ({ data, onClick, className, style }) => {

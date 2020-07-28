@@ -27,7 +27,7 @@ import './index.less';
  */
 /**
  *
- * Findora button component.
+ * Findora button pure component.
  * @component
  * @example <caption>Enabled Status</caption>
  * const handleOnclick = ()=>{alert('findora-button')}

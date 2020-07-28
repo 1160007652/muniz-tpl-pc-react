@@ -22,7 +22,7 @@ import './index.less';
  *
  */
 /**
- * Findora component to go back to the previous route.
+ * Findora pure component to go back to the previous route.
  * @component
  * @example <caption>Component Example</caption>
  * return (

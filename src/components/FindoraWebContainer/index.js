@@ -25,7 +25,7 @@ import './index.less';
  *
  */
 /**
- * Findora web container component for creating and issuing assets.
+ * Findora web container pure component for creating and issuing assets.
  * @component
  * @example <caption>Component Example</caption>
  * return (

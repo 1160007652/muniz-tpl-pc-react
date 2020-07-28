@@ -21,7 +21,7 @@ import './index.less';
  * )
  */
 /**
- * Findora box view to display comment with title and information.
+ * Findora box view pure components to display component with title and information.
  * @component
  * @example <caption>Component Example</caption>
  *

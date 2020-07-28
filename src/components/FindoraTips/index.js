@@ -22,7 +22,7 @@ import './index.less';
  * )
  */
 /**
- * Findora component to provide tips.
+ * Findora pure component to provide tips.
  * @component
  * @example
  * return (

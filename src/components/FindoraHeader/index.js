@@ -36,7 +36,7 @@ import './index.less';
  *
  */
 /**
- * Findora header component.
+ * Findora header pure component.
  * @component
  * @example <caption>Navigation - with "Back" Button</caption>
  * const title = "Findora wallet"

@@ -23,16 +23,8 @@ import './index.less';
  *
  */
 /**
- * Component to render wallet list
+ * Pure component to render wallet list
  * @component
- * @example <caption>Component Example</caption>
- * const data = [{ name: 'Alice1', address: '1234567==' }]
- * const onClick = ()=> {alert('Click succeeded.')}
- * const
- * return (
- *   <WalletListItem data={data} onClick={onClick} />
- * )
- *
  */
 const WalletListItem = ({ data, isShowEdit, style, className, onClick, onChangeName }) => {
   const [isCopy, setCopy] = useState(false);
