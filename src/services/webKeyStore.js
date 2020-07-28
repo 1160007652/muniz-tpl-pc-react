@@ -24,11 +24,20 @@ class WebKeyStore extends KeyStore {
 
   /**
    * 下载Json编码后的 KeyStore 文件
+   *
+   * @param {object} obj
+   * @param {string} obj.fileName - 文件名
+   * @param {string} obj.name - 钱包名
+   *
    */
   /**
    * JSON-encodes keystore and writes it to a file.
+   *
+   * @param {object} obj
+   * @param {string} obj.fileName - File name.
+   * @param {string} obj.name - Wallet name.
+   *
    */
-  // TODO: difference between fileName and name?
   writeToFile = ({ fileName, name }) => {
     // 过滤当前用户的keyStore
     const currentKeys = this.keys.filter((keyData) => keyData.name === name);
@@ -83,8 +92,8 @@ class WebKeyStore extends KeyStore {
    */
   /**
    * Sets the keypair.
-   * @param {json} keyStoreJson - JSON-encoded keystore
-   * @param {json} password - Password of the wallet
+   * @param {object} keyStoreJson - JSON-encoded keystore
+   * @param {object} password - Password of the wallet
    */
   setKeypair = async ({ keyStoreJson, password }) => {
     const findoraWasm = await import('wasm');

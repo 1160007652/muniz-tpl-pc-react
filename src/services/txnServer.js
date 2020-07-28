@@ -17,15 +17,14 @@ const txnServer = {
   /**
    * @author Muniz
    * @description 获取交易信息
-   * @param {param} address - 转账需要的表单数据
-   *
-   * @return {object}
+   * @param {object} parm - 转账需要的表单数据，包含页数和钱包信息
+   * @returns {object}
    */
   /**
-   * Gets the list of transactions
-   * @param {json} param - Information needed to get the transactions
+   * Gets the list of transactions.
+   * @param {object} param - Data needed to get the transactions, including page and wallet information.
+   * @returns {object}
    */
-  // TODO: what does the structure of param look like?
   async getTxnList(param) {
     console.groupCollapsed('======>   开始获取交易列表');
 

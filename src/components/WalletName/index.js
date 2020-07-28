@@ -28,6 +28,15 @@ import './index.less';
  */
 /**
  * Component to display and edit wallet name
+ * @component
+ * @example <caption>Component Example</caption>
+ * const data = [{ name: 'Alice1', address: '1234567==' }]
+ * const onClick = ()=> {alert('Click succeeded.')}
+ * const
+ * return (
+ *   <WalletListItem data={data} onClick={onClick} />
+ * )
+ *
  */
 const WalletName = ({ data, onChangeName, isShowEdit }) => {
   const [name, setName] = useState(data.name);

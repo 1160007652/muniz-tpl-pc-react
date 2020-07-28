@@ -16,7 +16,10 @@ import rootStore from '_src/stores';
 /**
  * Gets the new UTXO SID associated with an address.
  *
- * @param {string} address - Base64-encoded address string
+ * @async
+ * @param {object} obj
+ * @param {string} address - Base64-encoded address string.
+ * @returns {object} New UTXO SIDs.
  */
 async function getSidsDiff({ address }) {
   // 获取前端数据库中的sids
@@ -28,7 +31,7 @@ async function getSidsDiff({ address }) {
   newOwnedSids = newOwnedSids.sort((a, b) => a - b);
   console.log('服务端中的sids: ', newOwnedSids);
 
-  // 获取数组的差集
+  // 获取数组增加的数据
   const sidsDiff = arrayDiff(newOwnedSids, oldSids);
   console.log('差异Sids: ', sidsDiff);
 
@@ -48,9 +51,12 @@ async function getSidsDiff({ address }) {
 /**
  * Gets the UTXOs with the new UTXO SIDs.
  *
- * @param {} address - Address owning the UTXOs
- * @param {} sidsDiff - New UTXO SIDs
- * @param {} keyPairStr - Hex-encoded keypair string
+ * @async
+ * @param {object} obj
+ * @param {string} address - Address owning the UTXOs.
+ * @param {array} sidsDiff - New UTXO SIDs.
+ * @param {string} keyPairStr - Hex-encoded keypair string.
+ * @returns {array} UTXOs correcponding to the new UTXO SIDs.
  */
 async function getUtxoDiff({ address, sidsDiff, keyPairStr }) {
   const utxoDataList = [];
@@ -99,7 +105,9 @@ async function getUtxoDiff({ address, sidsDiff, keyPairStr }) {
  * This function is used to view assets, balances and transactions.
  * The UTXO information is fetched by the UTXO SIDs, and will be stored in the indexDB database.
  *
- * @param {object} address - Address of the UTXO information to retrieve
+ * @async
+ * @param {object} obj
+ * @param {object} address - Address of the UTXO information to retrieve.
  */
 async function calculateUtxo({ address }) {
   console.groupCollapsed('=======>  开始获取 UtxoSids');

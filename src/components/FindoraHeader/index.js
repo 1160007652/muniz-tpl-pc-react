@@ -37,6 +37,25 @@ import './index.less';
  */
 /**
  * Findora header component.
+ * @component
+ * @example <caption>Navigation - with "Back" Button</caption>
+ * const title = "Findora wallet"
+ * return (
+ *   <FindoraHeader title={title} isShowBack={true}/>
+ * )
+ *
+ * @example <caption>Navigation - with Logo</caption>
+ * const title = "Findora wallet"
+ * return (
+ *   <FindoraHeader title={title} isShowBack={false}/>
+ * )
+ *
+ * @example <caption>Navigation - with Menu</caption>
+ * const title = "Findora wallet";
+ * return (
+ *   <FindoraHeader title={title} isShowBack={false} menu={<div>menu</div>} />
+ * )
+ *
  */
 const FindoraHeader = ({ title, menu, isShowBack }) => {
   return (

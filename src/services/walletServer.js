@@ -20,7 +20,8 @@ const walletServer = {
    */
   /**
    * Gets the asset balances.
-   * @param {json} param - wallet information
+   * @param {object} param - wallet information.
+   * @returns {object}
    */
   async getBlance(param) {
     console.log('余额表单数据:', param);

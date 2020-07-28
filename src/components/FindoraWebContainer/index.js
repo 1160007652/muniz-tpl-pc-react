@@ -12,15 +12,13 @@ import classNames from 'classnames';
 import './index.less';
 
 /**
- * FindoraWebContainer 纯组件, 在网页形式打开插件石, 的通用标题页面
+ * FindoraWebContainer 纯组件, 创建资产、增发资产承载容器页面的通用页面模型
  * @component
- * @example <caption>组件案例</caption>
- *
  */
 /**
- * Findora web container component
+ * Findora web container component for creating and issuing assets.
+ * @component
  */
-// TODO: translation
 const FindoraWebContainer = ({ children, title, className, style }) => {
   return (
     <div className={classNames('findora-web-container', className)} style={style}>

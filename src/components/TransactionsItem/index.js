@@ -18,11 +18,10 @@ import './index.less';
 /**
  * TransactionsItem 纯组件, 交易列表使用
  * @component
- * @example <caption>组件案例</caption>
- *
  */
 /**
  * Component to display transaction list
+ * @component
  */
 const TransactionsItem = ({ data, onClick, className, style }) => {
   const { type, blind, from, to, asset, state, txn_type } = data;

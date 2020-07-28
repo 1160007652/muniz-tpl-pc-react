@@ -16,10 +16,13 @@ import webNetWork from '_src/services/webNetWork';
 /**
  * Gets the assets issued by an issuer.
  *
- * @param {json} body - JSON-encoded asset records
- * @param {XfrKeyPair} keypair - Keypair of the issuer
+ * @async
+ * @param {object} obj
+ * @param {object} body - Operation body in the transaction record.
+ * @param {object} keypair - Keypair of the issuer.
+ * @returns {object} Decrypted data of the issued asset.
  */
-async function getIssueAssetData({ body, keypair }) {
+async function getIssuedAssetData({ body, keypair }) {
   const findoraWasm = await import('wasm');
   const { records } = body;
 
@@ -78,9 +81,11 @@ async function getIssueAssetData({ body, keypair }) {
 /**
  * Gets the transaction data of an asset transfer
  *
- * @param {json} body - JSON-encoded transfer information
- * @param {XfrKeyPair} keypair - keypair of the asset owner
- * @param {json} walletInfo - JSON-encoded wallet information
+ * @param {object} obj
+ * @param {object} obj.body - Operation body in the transaction record.
+ * @param {object} obj.keypair - Wallet keypair.
+ * @param {object} obj.walletInfo - Wallet information.
+ * @returns {object} Decrypted asset data.
  */
 async function getTransactionAssetData({ body, keypair, walletInfo }) {
   const findoraWasm = await import('wasm');
@@ -206,8 +211,8 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
 /**
  * 从数据库中, 计算合并出可用于查询交易列表页面的数据
  * @param {object} obj
- * @param {object} obj.page 分页查询
  * @param {object} obj.walletInfo 单个钱包对象
+ * @param {object} obj.page 分页查询
  * @returns {array} 历史交易记录集
  * @example
  * 如果page === -1, 返回全部数据
@@ -215,6 +220,21 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
  * 如果page === -2, 返回最新的一条数据
  * transactionsMerge({walletInfo, page: -2});
  * 如果page >= 0, 分页加载数据, 一次加载3条.
+ * transactionsMerge({walletInfo, page: 1});
+ *
+ */
+/**
+ * Calculates and merges data for displaying transaction list.
+ * @param {object} obj
+ * @param {object} obj.walletInfo - Wallet information
+ * @param {object} obj.page - Page to look for
+ * @returns {array} Transaction history
+ * @example
+ * If page === -1, returns all the data.
+ * transactionsMerge({walletInfo, page: -1});
+ * If page === -2, returns the most recent record.
+ * transactionsMerge({walletInfo, page: -2});
+ * If page >= 0, loads records by pages, three at a time.
  * transactionsMerge({walletInfo, page: 1});
  *
  */
@@ -239,7 +259,7 @@ async function transactionsMerge({ walletInfo, page }) {
       const { type, body } = operations[j];
 
       if (type === 'IssueAsset') {
-        const resultItem = await getIssueAssetData({ body, keypair });
+        const resultItem = await getIssuedAssetData({ body, keypair });
         resultItem.type = 'IssueAsset';
         resultItem.txn = txnList[i].sid;
         result.push(resultItem);

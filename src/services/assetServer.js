@@ -54,7 +54,7 @@ class AssetServer {
    */
   /**
    * Creates the asset and submits the transaction.
-   * @param {json} param - Information needed to create the asset
+   * @param {object} param - Information needed to create the asset
    */
   createAsset = async (param) => {
     console.groupCollapsed('=======>  开始创建资产');
@@ -121,7 +121,7 @@ class AssetServer {
    */
   /**
    * Issues the asset and submits the transaction.
-   * @param {json} param - Information needed to issue the asset
+   * @param {object} param - Information needed to issue the asset
    */
   issueAsset = async (param) => {
     console.groupCollapsed('=======>  开始增发资产');

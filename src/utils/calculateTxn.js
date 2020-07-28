@@ -13,9 +13,12 @@ import arrayDiff from '_src/utils/arrayDiff';
  * @returns {object} 数据库sids,服务端sids,sids差集
  */
 /**
- * Gets the new Txn SID associated with an address.
+ * Gets the new Txn SIDs associated with an address.
  *
- * @param {string} address - Base64-encoded address string
+ * @async
+ * @param {object} obj
+ * @param {string} address - Base64-encoded address string.
+ * @returns {object} - New Txn SIDs.
  */
 async function getSidsDiff({ address }) {
   // 获取前端数据库中的sids
@@ -27,7 +30,7 @@ async function getSidsDiff({ address }) {
   newRelatedSids = newRelatedSids.sort((a, b) => a - b);
   console.log('服务端中的sids: ', newRelatedSids);
 
-  // 获取数组的差集
+  // 获取数组增加的数据
   const sidsDiff = arrayDiff(newRelatedSids, oldSids);
   console.log('差异Sids: ', sidsDiff);
 
@@ -46,8 +49,11 @@ async function getSidsDiff({ address }) {
 /**
  * Gets the transactions with the new Txn SIDs.
  *
- * @param {} address - Address related to the transactions
- * @param {} sidsDiff - New Txn SIDs
+ * @async
+ * @param {object} obj
+ * @param {string} address - Address related to the transactions.
+ * @param {array} sidsDiff - New Txn SIDs.
+ * @returns {array} Transactions corresponding to the new Txn SIDs.
  */
 async function getTxnDiff({ address, sidsDiff }) {
   const txnDataList = [];
@@ -100,6 +106,7 @@ async function getTxnDiff({ address, sidsDiff }) {
  * This function is used to view assets, balances and transactions.
  * The transaction information is fetched by the Txn SIDs, and will be stored in the indexDB database.
  *
+ * @param {object} obj
  * @param {object} address - Address of the transaction information to retrieve
  */
 async function calculateTxn({ address }) {

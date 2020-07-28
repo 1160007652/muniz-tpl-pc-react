@@ -28,6 +28,17 @@ import './index.less';
 /**
  *
  * Findora button component.
+ * @component
+ * @example <caption>Enabled Status</caption>
+ * const handleOnclick = ()=>{alert('findora-button')}
+ * return (
+ *   <FindoraButton onClick={handleOnclick}>点击按钮</FindoraButton>
+ * )
+ * @example <caption>Disabled Status</caption>
+ * return (
+ *   <FindoraButton disabled>点击按钮</FindoraButton>
+ * )
+ *
  */
 const FindoraButton = ({ children, onClick, className, disabled }) => {
   return (

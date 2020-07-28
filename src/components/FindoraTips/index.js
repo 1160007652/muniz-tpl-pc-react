@@ -18,11 +18,10 @@ import './index.less';
 /**
  * FindoraTips 纯组件
  * @component
- * @example <caption>组件案例</caption>
- *
  */
 /**
  * Findora component to provide tips.
+ * @component
  */
 const FindoraTips = ({ children, desc, placement, className }) => {
   return (

@@ -36,7 +36,8 @@ class RootStore {
     /** 资产状态管理 */
     /** Store to manage assets */
     this.assetStore = new AssetStore(this);
-    /** 交易记录关了 */
+    /** 交易记录管理 */
+    /** Store to manage transactions */
     this.transactionStore = new TransactionStore(this);
   }
 }

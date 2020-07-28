@@ -51,12 +51,13 @@ class AssetStore {
    *
    * Used to display the issued assets.
    *
-   * @param {json} address - address from which the assets are issued
+   * @async
+   * @param {object} address - address from which the assets are issued.
    */
   @action getIssuedAssetList = async (address) => {
     console.groupCollapsed('=======>  开始获取可以增发的资产');
 
-    let result = await this.getOwnerAsset(address);
+    let result = await this.getOwnedAssets(address);
     // 加入 计算余额
     const walletInfo = this.rootStore.walletStore.walletImportList.filter((item) => item.publickey === address)[0];
     let transactionData = await transactionsMerge({ walletInfo, page: -1 });
@@ -83,12 +84,15 @@ class AssetStore {
   /**
    * Gets the created assets of an address.
    *
-   * @param {json} address - address from which the assets are created
+   * Note: This function isn't currently being used.
+   *
+   * @async
+   * @param {object} address - address from which the assets are created.
    */
   @action getCreatedAssetList = async (address) => {
     console.groupCollapsed('=======>  开始获取拥有的资产');
 
-    let result = await this.getOwnerAsset(address);
+    let result = await this.getOwnedAssets(address);
 
     result = await this.getTransactionAsset(address, result);
 
@@ -109,7 +113,8 @@ class AssetStore {
    *
    * Used to display the transferred assets.
    *
-   * @param {json} address - address from which the assets are transferred
+   * @async
+   * @param {object} address - address from which the assets are transferred.
    */
   @action getSendAssetList = async (address) => {
     const findoraWasm = await import('wasm');
@@ -167,9 +172,16 @@ class AssetStore {
    *
    * @async
    * @param {string} address 钱包地址
-   * @returns {Array} 返回该地址拥有的资产集
+   * @returns {array} 返回该地址拥有的资产集
    */
-  getOwnerAsset = async (address) => {
+  /**
+   * Gets owned assets.
+   *
+   * @async
+   * @param {string} address - Wallet address.
+   * @returns {array} Assets owned by the address.
+   */
+  getOwnedAssets = async (address) => {
     const findoraWasm = await import('wasm');
     let tokenCodes = await webNetWork.getCreatedAssets(address);
     let result = [];
@@ -194,6 +206,14 @@ class AssetStore {
    * @param {string} address 钱包地址
    * @param {Array} haveAsset 拥有资产的集合
    * @returns {Array} 返回转账资产集
+   */
+  /**
+   * Gets the transferred asset.
+   *
+   * @async
+   * @param {string} address - Wallet address.
+   * @param {array} haveAsset - Owned assets.
+   * @returns {array} - List of transferred asset.
    */
   getTransactionAsset = async (address, haveAsset) => {
     const findoraWasm = await import('wasm');

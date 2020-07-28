@@ -29,7 +29,7 @@ class WalletStore {
    * @memberof WalletStore
    */
   /**
-   * Wallet information, including name and address
+   * Wallet information, including name and address.
    * @memberof WalletStore
    */
   @observable walletInfo = {};
@@ -38,7 +38,7 @@ class WalletStore {
    * @memberof WalletStore
    */
   /**
-   * List of imported information
+   * List of imported information.
    * @memberof WalletStore
    */
   @observable walletImportList = []; //
@@ -48,10 +48,9 @@ class WalletStore {
    * @memberof WalletStore
    */
   /**
-   * Created wallet information
+   * Data used to create the wallet.
    * @memberof WalletStore
    */
-  // TODO: what's the difference between createWalletData and walletInfo?
   @observable createWalletData = {
     name: '', // 名称
     password: '', // 密码
@@ -67,10 +66,10 @@ class WalletStore {
    */
   /**
    *
-   * Sets the wallet information
-   * @param {json} walletInfo - Wallet information
-   * @param {string} walletInfo.name - Name of the wallet
-   * @param {string} walletInfo.address - Address of the wallet
+   * Sets the wallet information.
+   * @param {object} walletInfo - Wallet information.
+   * @param {string} walletInfo.name - Name of the wallet.
+   * @param {string} walletInfo.address - Address of the wallet.
    * @memberof WalletStore
    */
   @action setWalletInfo(walletInfo) {
@@ -92,11 +91,11 @@ class WalletStore {
    * @memberof WalletStore
    */
   /**
-   * Saves the information of the created wallet.
+   * Saves the information used to create the wallet.
    *
-   * @param {json} walletInfo - Wallet information
-   * @param {string} walletInfo.name - Name of the wallet
-   * @param {string} walletInfo.address - Address of the wallet
+   * @param {object} walletInfo - Wallet information.
+   * @param {string} walletInfo.name - Name of the wallet.
+   * @param {string} walletInfo.address - Address of the wallet.
    * @memberof WalletStore
    */
   @action setCreateWalletData(walletInfo) {
@@ -129,14 +128,15 @@ class WalletStore {
   /**
    * 设置导入钱包, 同时把数据存入 chrome.storage.sync 浏览器中
    * @param {Object} walletInfo
+   * @param {Object} walletList
    * @memberof WalletStore
    */
   /**
    * Writes data to chrome.storage.sync when importing the wallet.
-   * @param {json} walletInfo - Wallet information
+   * @param {object} walletInfo - Wallet information.
+   * @param {Object} walletList - List of wallets.
    * @memberof WalletStore
    */
-  // TODO: what is walletList?
   @action importWallet({ walletInfo, walletList }) {
     if (walletInfo) {
       if (this.walletImportList.some((item) => item.publickey === walletInfo.publickey)) {
