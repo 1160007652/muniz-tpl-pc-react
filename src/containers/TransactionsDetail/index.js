@@ -36,7 +36,7 @@ const TransactionsDetail = () => {
           <span className="address">{to}</span>
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('asset_name')}>
-          <span className="address">{asset.unit}</span>
+          <span className="address">{asset.tokenCode}</span>
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('balance')}>
           <span className="address">{asset.numbers}</span>

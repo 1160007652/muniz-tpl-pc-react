@@ -6,7 +6,7 @@ class RelatedDB {
     this.init();
   }
   async init() {
-    // 定义数据库
+    // 定义数据库 String(process.env.VERSION_APP).split('.')[0]
     await this.db.version(1).stores({
       sids: '&address',
       txns: '++id, address, sid',
@@ -65,9 +65,11 @@ class RelatedDB {
    *
    * @param {object} address - 地址
    */
-  async getIssueAndTransactionList({ address }) {
+  async getIssueAndTransactionList({ address, page }) {
     await this.openDB();
-    const assetList = await this.db.txns
+    const limit = 3;
+    const offset = page * limit;
+    let assetList = await this.db.txns
       .where('address')
       .equals(address)
       .and((row) => {
@@ -77,7 +79,16 @@ class RelatedDB {
         });
         return result.length > 0;
       })
-      .toArray();
+      .reverse();
+
+    if (page >= 0) {
+      assetList = assetList.offset(offset).limit(limit).toArray();
+    } else if (page === -2) {
+      assetList = assetList.offset(0).limit(1).toArray();
+    } else {
+      assetList = assetList.toArray();
+    }
+
     await this.closeDB();
     return assetList;
   }

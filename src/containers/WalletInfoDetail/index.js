@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-20 10:51:30
+ * @ Modified time: 2020-07-22 18:13:11
  * @ Description: 钱包详情组件
  */
 
@@ -30,10 +30,8 @@ const WalletInfo = () => {
   const walletStore = React.useContext(MobXProviderContext).walletStore;
   const [walletPassword, setWalletPassword] = useState();
   const [assetName, setAssetName] = useState({
-    unit: {
-      short: '',
-      long: '',
-    },
+    short: '',
+    long: '',
   });
   const [visibleExport, setVisibleExport] = useState(false);
   const [visibleRemove, setVisibleRemove] = useState(false);
@@ -74,7 +72,12 @@ const WalletInfo = () => {
       message.error(intl.get('restorewallet_passworderror'));
     } else {
       const blob = new Blob([JSON.stringify(keyStore)], { type: 'utf-8' });
-      saveAs(blob, `${publickey}.txt`);
+      saveAs(blob, `${publickey}.findorawallet`);
+      // chrome.downloads.download({
+      //   url: URL.createObjectURL(blob),
+      //   filename: `${fileName}.findorawallet`,
+      //   saveAs: true,
+      // });
 
       setVisibleExport(false);
     }
@@ -93,7 +96,7 @@ const WalletInfo = () => {
 
   /** 资产名称选中事件, 回调结果 */
   function handleChangeSelectAssetName(value) {
-    setAssetName({ unit: value });
+    setAssetName(value);
   }
 
   /** 余额回调结果 */
@@ -149,12 +152,7 @@ const WalletInfo = () => {
           />
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('balance')} isRow style={{ justifyContent: 'space-between' }}>
-          <Balance
-            assetName={assetName}
-            style={{ textAlign: 'right' }}
-            key={assetName.unit.long}
-            walletInfo={toJS(walletStore.walletInfo)}
-          />
+          <Balance asset={assetName} style={{ textAlign: 'right' }} key={assetName.long} />
         </FindoraBoxView>
         <div className="line" />
       </div>
@@ -162,7 +160,10 @@ const WalletInfo = () => {
         <FindoraButton className="mb20" onClick={handleChangeRouter(pageURL.send)}>
           Send
         </FindoraButton>
-        <FindoraButton className="mb20" onClick={handleChangeRouter(pageURL.transactions)}>
+        <FindoraButton
+          className="mb20"
+          onClick={handleChangeRouter(pageURL.transactions.replace(':action', 'detail-loading'))}
+        >
           Transactions
         </FindoraButton>
         <FindoraButton className="mb20" onClick={handleClickExportWallet}>

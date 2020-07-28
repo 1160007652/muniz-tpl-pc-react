@@ -12,10 +12,13 @@ import classNames from 'classnames';
 import './index.less';
 
 /**
- * FindoraBoxView 纯组件, 用于包裹输入组件, 产出带标题, 展示信息的组件
+ * FindoraBoxView 纯组件, 用于包裹输入组件, 产出带标题, 展示信息的组件 s
  * @component
  * @example <caption>组件案例</caption>
  *
+ * return(
+ *  <FindoraBoxView title="标题" ><div style={{ backGround: 'green' }}>测试组件</div></FindoraBoxView>
+ * )
  */
 // TODO: how to translate?
 const FindoraBoxView = ({ children, title, titleDirection, isRow, className, style }) => {

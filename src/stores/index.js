@@ -2,13 +2,14 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-05-26 01:27:10
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-08 18:11:16
+ * @ Modified time: 2020-07-22 13:53:20
  * @ Description: 根状态管理, 最佳使用方式
  */
 
 import LocaleStore from './LocaleStore';
 import WalletStore from './WalletStore';
 import AssetStore from './AssetStore';
+import TransactionStore from './TransactionStore';
 
 /**
  * 创建根Stroe, 统一管理状态
@@ -35,6 +36,8 @@ class RootStore {
     /** 资产状态管理 */
     /** Store to manage assets */
     this.assetStore = new AssetStore(this);
+    /** 交易记录关了 */
+    this.transactionStore = new TransactionStore(this);
   }
 }
 

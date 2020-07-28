@@ -6,7 +6,7 @@ class OwnedDB {
     this.init();
   }
   async init() {
-    // 定义数据库
+    // 定义数据库 String(process.env.VERSION_APP).split('.')[0]
     await this.db.version(1).stores({
       sids: '&address',
       txns: '++id, address, sid',
@@ -46,11 +46,14 @@ class OwnedDB {
    */
   async getAssetLast({ address, tokenCode }) {
     await this.openDB();
+    console.log(address, tokenCode);
     const assetList = await this.db.txns
       .where('address')
       .equals(address)
       .and((row) => {
+        console.log(row);
         const { asset_type } = row.body;
+        console.log('数据库中的 asset_type, ', asset_type);
         return asset_type === tokenCode;
       })
       .last();

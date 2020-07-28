@@ -24,6 +24,12 @@ const routeMap = [
     dynamic: false,
   },
   {
+    path: pageURL.about,
+    component: './containers/About',
+    exact: true,
+    dynamic: true,
+  },
+  {
     path: pageURL.walletList,
     component: './containers/WalletListView',
     exact: true,
@@ -95,12 +101,6 @@ const routeMap = [
     exact: false,
     dynamic: true,
   },
-  // {
-  //   path: undefined,
-  //   component: './containers/Order',
-  //   exact: false,
-  //   dynamic: true,
-  // },
 ];
 
 const Routes = () => {

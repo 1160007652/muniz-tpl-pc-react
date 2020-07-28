@@ -20,3 +20,15 @@
 // 这样转化 结果就一样
 { data: [1,2,3,4] }
 ```
+
+> 配置options选项页面
+
+```json
+  {
+    "options_page": "options.html",
+    "options_ui": {
+      "page": "options.html",
+      "chrome_style": true
+    },
+  }
+```

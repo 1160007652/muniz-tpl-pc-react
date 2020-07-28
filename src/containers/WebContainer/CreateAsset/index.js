@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { toJS } from 'mobx';
 import { MobXProviderContext, observer } from 'mobx-react';
 import { Input, Radio } from 'antd';
@@ -18,21 +18,23 @@ import './index.less';
 
 const CreateAsset = () => {
   const walletStore = React.useContext(MobXProviderContext).walletStore;
+  const [windowInfo, setWindowInfo] = useImmer({
+    isCreatedWindow: false,
+  });
   const [data, setData] = useImmer({
     founder: walletStore.walletInfo.publickey,
     walletInfo: toJS(walletStore.walletInfo),
     asset: {
-      unit: {
-        short: '',
-        long: '',
-      },
+      short: '',
+      long: '',
       maxNumbers: '',
     },
     memo: '',
     policy: 'fungible',
     traceable: false,
-    transferable: false,
+    transferable: true,
     updatable: false,
+    maxUnits: false,
   });
 
   /**
@@ -41,15 +43,24 @@ const CreateAsset = () => {
   function handleClickCreate() {
     chrome.storage.sync.set({ tempCreateAssetConfrim: JSON.stringify(data) });
 
-    chrome.windows.create({
-      url: `${chrome.runtime.getURL('popup.html')}#${pageURL.assetConfrim.replace(
-        ':actionType',
-        'createAssetConfrim',
-      )}`,
-      type: 'popup',
-      width: 400,
-      height: 630,
-    });
+    if (!windowInfo.isCreatedWindow) {
+      const www = chrome.windows.create(
+        {
+          url: `${chrome.runtime.getURL('popup.html')}#${pageURL.assetConfrim.replace(
+            ':actionType',
+            'createAssetConfrim',
+          )}`,
+          type: 'popup',
+          width: 400,
+          height: 630,
+        },
+        () => {
+          // setWindowInfo((state) => {
+          //   state.isCreatedWindow = true;
+          // });
+        },
+      );
+    }
   }
   /** 切换钱包地址 */
   function handleChangeSwitchAddress(address) {
@@ -60,14 +71,14 @@ const CreateAsset = () => {
   /** 输入资产名称 */
   function handleChangeAssetName(value) {
     setData((state) => {
-      state.asset.unit = value;
+      state.asset = { ...state.asset, ...value };
     });
   }
   /** 最大值定义资产 */
   function handleChangeAssetMaxNumbers(e) {
     e.persist();
     setData((state) => {
-      state.asset.maxNumbers = e.target.value;
+      state.asset = { ...state.asset, maxNumbers: e.target.value };
     });
   }
   /** 输入记录 */
@@ -83,13 +94,14 @@ const CreateAsset = () => {
     return (e) => {
       setData((state) => {
         state[key] = e.target.value;
+        state.asset.maxNumbers = key === 'maxUnits' && e.target.value ? state.asset.maxNumbers : '';
       });
     };
   }
   return (
     <FindoraWebContainer className="create-asset" title={intl.get('menu_asset_create')}>
       <div className="create-asset-box">
-        <FindoraBoxView title={intl.get('token_create_founder')} isRow titleDirection="top">
+        <FindoraBoxView title={intl.get('token_issue_issuer')} isRow titleDirection="top">
           <SwitchAddress
             dataList={walletStore.walletImportList}
             curAddress={data.founder}
@@ -97,21 +109,36 @@ const CreateAsset = () => {
           />
         </FindoraBoxView>
 
-        <FindoraBoxView title={intl.get('asset_name')} isRow titleDirection="top">
+        <FindoraBoxView
+          title={<FindoraTips desc={intl.get('asset_name_tips')}>{intl.get('asset_name')}</FindoraTips>}
+          isRow
+          titleDirection="top"
+        >
           <CreateAssetName onResult={handleChangeAssetName} />
         </FindoraBoxView>
 
         <FindoraBoxView title={intl.get('memo')} isRow>
-          <Input placeholder="Please to memo" value={data.memo} onChange={handleChangeMemo} />
+          <Input
+            placeholder={intl.get('token_create_memo_placeholder')}
+            value={data.memo}
+            onChange={handleChangeMemo}
+          />
         </FindoraBoxView>
 
-        <FindoraBoxView title={intl.get('token_create_max_amount')} isRow>
-          <Input
-            placeholder="Please to Value"
-            type="number"
-            value={data.asset.maxNumbers}
-            onChange={handleChangeAssetMaxNumbers}
-          />
+        <FindoraBoxView title={intl.get('token_create_max_amount')} isRow titleDirection="top">
+          <Radio.Group value={data.maxUnits} onChange={handleChangeRadio('maxUnits')}>
+            <Radio value={true}>Yes</Radio>
+            <Radio value={false}>No</Radio>
+          </Radio.Group>
+          {data.maxUnits && (
+            <Input
+              placeholder={intl.get('token_create_max_amount_placeholder')}
+              type="number"
+              style={{ marginTop: '10px' }}
+              value={data.asset.maxNumbers}
+              onChange={handleChangeAssetMaxNumbers}
+            />
+          )}
         </FindoraBoxView>
         {/* 第一版, 暂且不实现 该功能 */}
         {/* <FindoraBoxView title={<FindoraTips desc={intl.get('policy')}>{intl.get('policy')}</FindoraTips>} isRow>
@@ -119,14 +146,17 @@ const CreateAsset = () => {
             <Radio value="fungible">Fungible</Radio>
           </Radio.Group>
         </FindoraBoxView> */}
-        <FindoraBoxView title={<FindoraTips desc={intl.get('traceable')}>{intl.get('traceable')}</FindoraTips>} isRow>
+        <FindoraBoxView
+          title={<FindoraTips desc={intl.get('traceable_tips')}>{intl.get('traceable')}</FindoraTips>}
+          isRow
+        >
           <Radio.Group value={data.traceable} onChange={handleChangeRadio('traceable')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
         </FindoraBoxView>
         <FindoraBoxView
-          title={<FindoraTips desc={intl.get('transferable')}>{intl.get('transferable')}</FindoraTips>}
+          title={<FindoraTips desc={intl.get('transferable_tips')}>{intl.get('transferable')}</FindoraTips>}
           isRow
         >
           <Radio.Group value={data.transferable} onChange={handleChangeRadio('transferable')}>
@@ -134,12 +164,15 @@ const CreateAsset = () => {
             <Radio value={false}>No</Radio>
           </Radio.Group>
         </FindoraBoxView>
-        <FindoraBoxView title={<FindoraTips desc={intl.get('updatable')}>{intl.get('updatable')}</FindoraTips>} isRow>
+        {/* <FindoraBoxView
+          title={<FindoraTips desc={intl.get('updatable_tips')}>{intl.get('updatable')}</FindoraTips>}
+          isRow
+        >
           <Radio.Group value={data.updatable} onChange={handleChangeRadio('updatable')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
-        </FindoraBoxView>
+        </FindoraBoxView> */}
         <div className="btn-area">
           <FindoraButton className="btn" onClick={handleClickCreate}>
             {intl.get('token_create_create')}

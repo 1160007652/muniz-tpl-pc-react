@@ -16,6 +16,7 @@ const plugins = [
   ['@babel/plugin-proposal-class-properties', { loose: true }],
   '@babel/plugin-syntax-dynamic-import',
   '@babel/plugin-proposal-optional-chaining',
+  '@babel/plugin-proposal-nullish-coalescing-operator',
   '@babel/plugin-transform-runtime',
   ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }],
 ];

@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-21 10:59:36
+ * @ Modified time: 2020-07-22 17:02:06
  * @ Description: 资产列表组件, 用于选着资产, 并返回结果
  */
 
@@ -14,7 +14,6 @@ import PropTypes from 'prop-types';
 import { Select, Skeleton } from 'antd';
 import intl from 'react-intl-universal';
 
-import services from '_src/services';
 import pageURL from '_constants/pageURL';
 
 import './index.less';
@@ -119,17 +118,18 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
           <Select value={assetCurrent?.long} style={{ width: '100%' }} onChange={handleSelectAssetName}>
             {assetStore.issuedAssetList.map((item) => {
               return (
-                <Select.Option value={item.long} key={item.long}>
-                  {item.short}
+                <Select.Option value={item.long} key={item.long} style={{ fontSize: '12px' }}>
+                  {/* {item.short} */}
+                  {item.long}
                 </Select.Option>
               );
             })}
           </Select>
-          <div className="tips">{assetCurrent?.long}</div>
+          {/* <div className="tips">{assetCurrent?.long}</div> */}
         </Fragment>
       ) : (
         <div>
-          {intl.get('token_empty_tips')},<Link to={pageURL.createAsset}>{intl.get('token_create_btn_tips')}</Link>
+          {intl.get('token_empty_tips')}. <Link to={pageURL.createAsset}>{intl.get('token_create_btn_tips')}.</Link>
         </div>
       );
 
@@ -140,13 +140,14 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
           <Select value={assetCurrent?.long} style={{ width: '100%' }} onChange={handleSelectAssetName}>
             {assetStore.createdAssetList.map((item) => {
               return (
-                <Select.Option value={item.long} key={item.long}>
-                  {item.short}
+                <Select.Option value={item.long} key={item.long} style={{ fontSize: '12px' }}>
+                  {/* {item.short} */}
+                  {item.long}
                 </Select.Option>
               );
             })}
           </Select>
-          <div className="tips">{assetCurrent?.long}</div>
+          {/* <div className="tips">{assetCurrent?.long}</div> */}
         </Fragment>
       ) : (
         <div>
@@ -164,13 +165,14 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
           <Select value={assetCurrent?.long} style={{ width: '100%' }} onChange={handleSelectAssetName}>
             {assetStore.sentAssetList.map((item) => {
               return (
-                <Select.Option value={item.long} key={item.long}>
-                  {item.short}
+                <Select.Option value={item.long} key={item.long} style={{ fontSize: '12px' }}>
+                  {/* {item.short} */}
+                  {item.long}
                 </Select.Option>
               );
             })}
           </Select>
-          <div className="tips">{assetCurrent?.long}</div>
+          {/* <div className="tips">{assetCurrent?.long}</div> */}
         </Fragment>
       ) : (
         <div>

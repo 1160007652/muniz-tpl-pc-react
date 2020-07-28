@@ -2,10 +2,10 @@
   "author": "findora",
   "description": "findora web extsions wallet",
   "homepage_url": "https://github.com/findoraorg/web-wallet/",
-  "name": "findora ext wallet extension",
+  "name": "Findora Wallet Application",
   "short_name": "findora",
   "manifest_version": 2,
-  "permissions": ["storage", "downloads"],
+  "permissions": ["storage", "downloads", "tabs"],
   "background": {
     "scripts": ["js/background.js"],
     "persistent": true
@@ -14,11 +14,7 @@
     "default_title": "findora",
     "default_popup": "popup.html"
   },
-  "options_page": "options.html",
-  "options_ui": {
-    "page": "options.html",
-    "chrome_style": true
-  },
+
   "content_scripts": [
     {
       "js": ["js/content.js"],

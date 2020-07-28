@@ -14,12 +14,19 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    .fail,
-    .success {
-      width: 60px;
+    .tag {
+      margin-right: 10px;
+      padding: 0 10px;
       color: #fff;
       font-size: 12px;
       text-align: center;
+      background: #bf0e94;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+    .fail,
+    .success {
       background-color: #e3317d;
     }
     .success {

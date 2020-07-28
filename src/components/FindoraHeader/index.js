@@ -2,7 +2,7 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-06-25 10:53:45
+ * @ Modified time: 2020-07-22 11:28:36
  * @ Description: 钱包导航, Header组件
  */
 
@@ -16,11 +16,22 @@ import './index.less';
 /**
  * FindoraHeader 纯组件
  * @component
- * @example <caption>组件案例</caption>
- * const title = "导航标题"
- * const menu = <div>组件库</div>
+ * @example <caption>可返回的导航</caption>
+ * const title = "Findora wallet"
  * return (
- *   <FindoraHeader title={title} menu={menu}/>
+ *   <FindoraHeader title={title} isShowBack={true}/>
+ * )
+ *
+ * @example <caption>带logo的导航</caption>
+ * const title = "Findora wallet"
+ * return (
+ *   <FindoraHeader title={title} isShowBack={false}/>
+ * )
+ *
+ * @example <caption>带菜单的导航</caption>
+ * const title = "Findora wallet";
+ * return (
+ *   <FindoraHeader title={title} isShowBack={false} menu={<div>menu</div>} />
  * )
  *
  */

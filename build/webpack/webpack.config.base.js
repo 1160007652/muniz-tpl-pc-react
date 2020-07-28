@@ -6,6 +6,7 @@ const WebpackBar = require('webpackbar');
 const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ManifestPlugin = require('webpack-extension-manifest-plugin');
+const { DefinePlugin } = require('webpack');
 
 const { webpackEntry } = require('../utils/getEntry');
 const { PROJECT_ROOT, SRC_ROOT, LESS_PATH_ROOT } = require('../utils/getPath');
@@ -161,9 +162,12 @@ module.exports = {
       config: {
         base: manifest,
         extend: {
-          version: pkgJson.version.split('-')[0],
+          version: pkgJson.version,
         },
       },
+    }),
+    new DefinePlugin({
+      'process.env.VERSION_APP': JSON.stringify(pkgJson.version),
     }),
   ],
 };

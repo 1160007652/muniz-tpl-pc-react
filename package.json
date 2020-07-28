@@ -1,13 +1,13 @@
 {
   "name": "chrome-extensions-wallet",
-  "version": "1.0.0",
+  "version": "0.0.5",
   "description": "findora web wallet chrome extensions plugin",
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development node build/server.js",
     "build": "cross-env NODE_ENV=production webpack --config build/pro.js",
     "lint": "yarn run lint-eslint && yarn run lint-stylelint",
-    "lint-eslint": "eslint -c .eslintrc.js --ext .js {src,build}/**/*.{js}",
+    "lint-eslint": "eslint -c .eslintrc.js --ext .js {src,build}/**/*.js",
     "lint-stylelint": "stylelint --config .stylelintrc.json src/**/*.{less,scss} --syntax scss",
     "doc": "bash ./build/jsdoc.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -90,16 +90,16 @@
     "webpack-dev-server": "^3.11.0",
     "webpack-extension-manifest-plugin": "^0.5.0",
     "webpack-hot-middleware": "^2.25.0",
-    "webpack-merge": "^4.2.2",
+    "webpack-merge": "^5.0.9",
     "webpackbar": "^4.0.0",
     "worker-loader": "^2.0.0",
     "yargs": "^15.3.1"
   },
   "dependencies": {
     "@ant-design/aliyun-theme": "^0.0.4",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",
     "@csstools/normalize.css": "^10.1.0",
     "@hot-loader/react-dom": "^16.13.0",
-    "@polkadot/react-identicon": "^0.53.1",
     "antd": "^4.3.3",
     "axios": "^0.19.2",
     "classnames": "^2.2.6",

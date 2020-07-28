@@ -20,7 +20,7 @@ const SendConfrim = () => {
   const [resultData, setResultData] = useState({ type: false });
   const [isShowResult, setShowResult] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const { from, to, asset, blind } = RouterLocation.state;
+  const { from, to, asset, blind, numbers } = RouterLocation.state;
 
   /** 取消窗口 */
   function handleClickCancel() {
@@ -28,7 +28,7 @@ const SendConfrim = () => {
   }
   /** 显示结果后, 按钮事件 */
   function handleClickView() {
-    hirstory.replace({ pathname: pageURL.transactions });
+    hirstory.replace({ pathname: pageURL.transactions.replace(':action', 'refresh') });
   }
 
   /** 提交转账 */
@@ -49,8 +49,9 @@ const SendConfrim = () => {
       setLoading(false);
       setResultData({ type: result.code === 0, result });
       setShowResult(true);
-    } catch {
+    } catch (err) {
       setLoading(false);
+      console.log(err);
       message.error(intl.get('send_error1'));
     }
   }
@@ -68,11 +69,11 @@ const SendConfrim = () => {
               <span className="address">{to}</span>
             </FindoraBoxView>
             <FindoraBoxView title={intl.get('asset_name')}>
-              <div className="address">{asset.unit.short}</div>
-              <div className="address">{asset.unit.long}</div>
+              {/* <div className="address">{asset.short}</div> */}
+              <div className="address">{asset.long}</div>
             </FindoraBoxView>
             <FindoraBoxView title={intl.get('send_amount')}>
-              <span className="address">{asset.numbers}</span>
+              <span className="address">{numbers}</span>
             </FindoraBoxView>
             <FindoraBoxView title={intl.get('blind_amount')}>
               <span className="address">{blind.isAmount ? 'Yes' : 'No'}</span>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { toJS } from 'mobx';
 import { MobXProviderContext, observer } from 'mobx-react';
-import { Input, Select, Radio } from 'antd';
+import { Tag, InputNumber, Radio } from 'antd';
 import { useImmer } from 'use-immer';
 import intl from 'react-intl-universal';
 
@@ -12,50 +12,35 @@ import SwitchAddress from '_containers/SwitchAddress';
 import SwitchAssetName from '_containers/SwitchAssetName';
 
 import pageURL from '_constants/pageURL';
-import webNetWork from '_src/services/webNetWork';
 
 import './index.less';
 
 const IssueAsset = () => {
   const walletStore = React.useContext(MobXProviderContext).walletStore;
-  const [tokenRules, setTokenRules] = useState();
+  const [nextDisabled, setNextDisabled] = useState(true);
+  const [error, setError] = useImmer({
+    amountError: null,
+    assetNameError: null,
+  });
   const [data, setData] = useImmer({
     issuer: walletStore.walletInfo.publickey,
     walletInfo: toJS(walletStore.walletInfo),
     asset: {
-      unit: {
-        short: '',
-        long: '',
-      },
+      short: '',
+      long: '',
       numbers: '',
     },
-    // to: walletStore.walletInfo.publickey,
+    inputNumbers: '',
     blind: {
-      isAmount: false,
-      isType: false,
+      isAmount: true,
+      // isType: false,
     },
   });
-
-  /*
-  useEffect(() => {
-    async function assetTokenRules() {
-      const tokenRulesData = await webNetWork.getAssetProperties(data.asset.unit.long);
-      // 如果 数量大于 0, 说明生成的资产有 max_units 限制, 那么在这里不可以隐藏数量
-      setTokenRules(tokenRulesData);
-      console.log('资产规则: ', tokenRulesData);
-    }
-    if (data.asset.unit.long !== '') {
-      assetTokenRules();
-    }
-  }, [data.asset.unit.long]);
-  */
 
   /**
    * 创建资产, 唤醒插件, 校验信息
    */
   function handleClickCreate() {
-    // console.log(data.asset.unit);
-
     chrome.storage.sync.set({ tempIssueAssetConfrim: JSON.stringify(data) });
     chrome.windows.create({
       url: `${chrome.runtime.getURL('popup.html')}#${pageURL.assetConfrim.replace(':actionType', 'issueAssetConfrim')}`,
@@ -72,24 +57,106 @@ const IssueAsset = () => {
   }
   /** 输入资产名称 */
   function handleChangeAssetName(value) {
+    // const asset_rules = {
+    //   max_units: null,
+    //   transfer_multisig_rules: null,
+    //   transferable: true,
+    //   updatable: false,
+    // };
+
+    const asset_rules = {
+      asset_rules: {
+        max_units: null,
+        transfer_multisig_rules: null,
+        transferable: true,
+        updatable: false,
+      },
+      ...value,
+    };
+
+    if ('numbers' in asset_rules) {
+      setError((state) => {
+        state.assetNameError = null;
+        if (Object.values(state).every((item) => item !== null)) {
+          setNextDisabled(false);
+        }
+      });
+    } else {
+      setNextDisabled(true);
+      setError((state) => {
+        state.assetNameError = 'send_error6';
+      });
+      return;
+    }
+
+    // 是否支持隐藏数量, 隐藏类型, 并且修改状态
+    if (asset_rules.asset_rules.max_units) {
+      setData((state) => {
+        state.blind.isAmount = false;
+      });
+    } else {
+      setData((state) => {
+        state.blind.isAmount = true;
+      });
+    }
+
+    const isAmount = asset_rules.asset_rules?.max_units
+      ? data.inputNumbers + asset_rules?.numbers > asset_rules?.asset_rules?.max_units
+      : false;
+    setNextDisabled(isAmount);
+
+    if (!Number(data.inputNumbers)) {
+      setNextDisabled(true);
+    }
     setData((state) => {
-      state.asset.unit = value;
+      state.asset = { ...state.asset, ...asset_rules };
+      state.inputNumbers = '';
+    });
+    setError((state) => {
+      state.amountError = 'token_issue_error4';
     });
   }
-  /** 输入 To 地址 */
-  function handleChangeTo(e) {
-    e.persist();
-    setData((state) => {
-      state.to = e.target.value;
-    });
-  }
+
   /** 输入 Amount  */
-  function handleChangeAmount(e) {
-    e.persist();
+  function handleChangeAmount(value) {
+    // e.persist();
+    // let value = e.target.value;
+    if (Number(value)) {
+      if (data.asset?.asset_rules?.max_units) {
+        if (Number(value) > data.asset?.asset_rules?.max_units - Number(data.asset?.numbers)) {
+          setNextDisabled(true);
+          setError((state) => {
+            state.amountError = 'token_issue_error2';
+          });
+          value = data.asset?.asset_rules?.max_units - Number(data.asset?.numbers);
+        } else {
+          setError((state) => {
+            state.amountError = null;
+            if (Object.values(state).every((item) => item === null)) {
+              setNextDisabled(false);
+            }
+          });
+        }
+      } else {
+        setError((state) => {
+          state.amountError = null;
+          if (Object.values(state).every((item) => item === null)) {
+            setNextDisabled(false);
+          }
+        });
+      }
+    } else {
+      setNextDisabled(true);
+      setError((state) => {
+        state.amountError = 'token_issue_error4';
+      });
+    }
+
     setData((state) => {
-      state.asset.numbers = e.target.value;
+      state.inputNumbers = value;
     });
   }
+
   /** 更新 Radio 选择 */
   function handleChangeRadio(key) {
     return (e) => {
@@ -97,6 +164,10 @@ const IssueAsset = () => {
         state.blind[key] = e.target.value;
       });
     };
+  }
+
+  function limitDecimals(value) {
+    return Number(String(value).replace(/^(0+)|[^\d]+/g, '')) || '';
   }
   return (
     <FindoraWebContainer className="issue-asset" title={intl.get('menu_asset_issue')}>
@@ -114,37 +185,56 @@ const IssueAsset = () => {
             actionTYpe={SwitchAssetName.ACTION_TYPE.ISSUE}
             address={data.issuer}
           />
+          {error.assetNameError && <div className="error">{intl.get(error.assetNameError)}</div>}
         </FindoraBoxView>
-        {/* <FindoraBoxView title={intl.get('to')} isRow>
-          <Input placeholder="Please to address" value={data.to} onChange={handleChangeTo} />
-        </FindoraBoxView> */}
-        <FindoraBoxView title={intl.get('balance')} isRow>
-          <Input
-            placeholder={intl.get('token_issue_amount_placeholder')}
-            type="number"
-            value={data.asset.numbers}
-            onChange={handleChangeAmount}
-          />
+
+        <FindoraBoxView title={intl.get('balance')} isRow titleDirection="top">
+          <div className="input-number-box">
+            <InputNumber
+              placeholder={intl.get('token_issue_amount_placeholder')}
+              value={data.inputNumbers}
+              min={0}
+              max={
+                data.asset?.asset_rules?.max_units
+                  ? data.asset?.asset_rules?.max_units - Number(data.asset?.numbers)
+                  : Number.MAX_SAFE_INTEGER
+              }
+              step={1}
+              style={{ width: '100%' }}
+              onChange={handleChangeAmount}
+              formatter={limitDecimals}
+              parser={limitDecimals}
+            />
+            {data.asset?.asset_rules?.max_units ? (
+              <Tag className="max-amount">{`max amount: ${
+                data.asset?.asset_rules?.max_units - Number(data.asset?.numbers)
+              }`}</Tag>
+            ) : (
+              <Tag className="max-amount">{intl.get('token_issue_amount_unlimited')}</Tag>
+            )}
+          </div>
+          {error.amountError && <div className="error">{intl.get(error.amountError)}</div>}
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('blind_amount')} isRow>
+        <FindoraBoxView title={intl.get('blind_amount')} isRow titleDirection="top">
           <Radio.Group
             value={data.blind.isAmount}
-            disabled={tokenRules?.asset_rules?.max_units > 0}
+            disabled={data.asset?.asset_rules?.max_units}
             onChange={handleChangeRadio('isAmount')}
           >
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
+          <div className="error">{data.asset?.asset_rules?.max_units && intl.get('token_issue_error3')}</div>
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('blind_type')} isRow>
+        {/* <FindoraBoxView title={intl.get('blind_type')} isRow>
           <Radio.Group value={data.blind.isType} disabled onChange={handleChangeRadio('isType')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
-        </FindoraBoxView>
+        </FindoraBoxView> */}
         <div className="btn-area">
-          <FindoraButton className="btn" onClick={handleClickCreate}>
-            {intl.get('confrim')}
+          <FindoraButton className="btn" onClick={handleClickCreate} disabled={nextDisabled}>
+            {intl.get('confirm')}
           </FindoraButton>
         </div>
       </div>

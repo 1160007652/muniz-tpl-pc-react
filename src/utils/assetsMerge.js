@@ -1,19 +1,13 @@
-/**
- * @ Author: Muniz
- * @ Create Time: 2020-07-17 16:20:47
- * @ Modified by: Muniz
- * @ Modified time: 2020-07-22 10:12:04
- * @ Description: 提取转账中的资产信息
- */
-// import webNetWork from '_src/services/webNetWork';
-import { relatedDB, ownedDB } from '_src/IndexedDB';
-import calculateTxn from '_src/utils/calculateTxn';
-import calculateUtxo from '_src/utils/calculateUtxo';
+/** @module utils/assetsMerge */
+import { relatedDB } from '_src/IndexedDB';
 
 /**
  * 获取交易中的正常转账数据, 返回处理完的 json 数据
- *
- * @param {*} data
+ * @param obj {object}
+ * @param {object} obj.body 交易记录中的 operations.body 字段
+ * @param {object} obj.keypair 钱包 keypair
+ * @param {object} obj.walletInfo 单个钱包对象
+ * @returns {object} 解密之后的资产数据
  */
 /**
  * Gets the asset data of a transfer transaction
@@ -28,39 +22,48 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
   const result = {
     time: '9/19/2019 18:31',
     state: true,
-    asset: {
-      unit: '短名称',
-    },
+    asset: {},
   };
 
   const { inputs, outputs, owners_memos } = transfer;
 
-  if (new Set([outputs.length, owners_memos.length]).size === 1) {
-    for (let k = 0; k < inputs.length; k++) {
-      // owners_memos 数据
-      const ownerMemo = owners_memos[k];
-      console.log('ownerMemo: ', ownerMemo);
+  // if (new Set([outputs.length, owners_memos.length]).size === 1) {
+  for (let k = 0; k < inputs.length; k++) {
+    // owners_memos 数据
+    const ownerMemo = owners_memos[k] ? findoraWasm.OwnerMemo.from_json(owners_memos[k]) : null;
+    console.log('ownerMemo: ', ownerMemo);
 
-      // inputs 数据
-      const inputsAssetRecord = await findoraWasm.ClientAssetRecord.from_json(inputs[k]);
-      console.log('inputsAssetRecord: ', inputsAssetRecord);
+    // inputs 数据
+    const outputsAssetRecord = await findoraWasm.ClientAssetRecord.from_json(outputs[k]);
+    console.log('inputsAssetRecord: ', outputsAssetRecord);
 
-      const decryptInputAssetData = await findoraWasm.open_client_asset_record(inputsAssetRecord, ownerMemo, keypair);
-      console.log('decryptInputAssetData: ', decryptInputAssetData);
+    const decryptoutputAssetData = await findoraWasm.open_client_asset_record(
+      outputsAssetRecord,
+      ownerMemo?.clone(),
+      keypair,
+    );
+    console.log('decryptInputAssetData: ', decryptoutputAssetData);
 
-      result.from = decryptInputAssetData.blind_asset_record.public_key;
-      result.asset.tokenCode = findoraWasm.asset_type_from_jsvalue(decryptInputAssetData.asset_type);
-    }
+    result.to = decryptoutputAssetData.blind_asset_record.public_key;
+    result.asset.tokenCode = findoraWasm.asset_type_from_jsvalue(decryptoutputAssetData.asset_type);
   }
+  // }
 
   return result;
 }
 
-export default async function assetsMerge({ walletInfo }) {
+/**
+ * 将数据库中的交易数据,转化为清洗完毕的资产集
+ * @export
+ * @param obj {object}
+ * @param {object} obj.walletInfo 单个钱包对象
+ * @returns {array} 资产数据集
+ */
+async function assetsMerge({ walletInfo }) {
   // 获取交易数据, 在转账的时候需要使用
-  await calculateUtxo({ address: walletInfo.publickey });
+  // await calculateUtxo({ address: walletInfo.publickey });
   // 获取资产数据
-  await calculateTxn({ address: walletInfo.publickey });
+  // await calculateTxn({ address: walletInfo.publickey });
 
   const findoraWasm = await import('wasm');
   const keypair = findoraWasm.keypair_from_str(walletInfo.keyPairStr);
@@ -81,5 +84,8 @@ export default async function assetsMerge({ walletInfo }) {
       }
     }
   }
+
   return result;
 }
+
+export default assetsMerge;

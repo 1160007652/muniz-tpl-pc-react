@@ -2,7 +2,7 @@
  * @ Author: zhipanLiu
  * @ Create Time: 2020-06-04 17:10:14
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-21 13:11:07
+ * @ Modified time: 2020-07-22 18:00:11
  * @ Description: wallet info api , 钱包信息接口
  *
  */
@@ -35,16 +35,16 @@ const sendServer = {
 
     const findoraWasm = await import('wasm');
 
-    const { asset, blind, to, from } = param;
+    const { asset, blind, to, from, numbers } = param;
     // blind: { isAmount, isType} 是否隐藏
-    // asset: { numbers: 100, unit: { short: "FIN", long: "xxxxxxxxxx=="}}
+    // asset: { numbers: 100,  short: "FIN", long: "xxxxxxxxxx=="}
 
     const walletInfo = rootStore.walletStore.walletImportList.filter((item) => item.publickey === from)[0];
 
     // 当前钱包keypair
     const keypair = findoraWasm.keypair_from_str(walletInfo.keyPairStr);
 
-    const assetData = await webNetWork.getAsset(asset.unit.long);
+    const assetData = await webNetWork.getAsset(asset.long);
 
     // 资产是否可以跟踪
     const isTraceable = assetData.properties.asset_rules?.tracing_policies?.length > 0;
@@ -57,7 +57,7 @@ const sendServer = {
     await calculateUtxo({ address: from });
 
     // 获取utxoSid
-    const assetLast = await ownedDB.getAssetLast({ address: from, tokenCode: asset.unit.long });
+    const assetLast = await ownedDB.getAssetLast({ address: from, tokenCode: asset.long });
     console.log('资产的最后一笔交易: ', assetLast);
 
     if (!assetLast) {
@@ -67,7 +67,7 @@ const sendServer = {
       };
     }
 
-    let utxoSid = assetLast.sid;
+    const utxoSid = assetLast.sid;
     console.log('当前资产的最后一笔交易SID: ', utxoSid);
 
     const utxoData = await webNetWork.getUtxo(utxoSid);
@@ -78,12 +78,13 @@ const sendServer = {
 
     // 提取 record , 获取资产的数量
     const assetRecord = findoraWasm.ClientAssetRecord.from_json(utxoData);
+
     const ownerMemo = memoData ? findoraWasm.OwnerMemo.from_json(memoData) : null;
 
-    const decryptUtxoData = findoraWasm.open_client_asset_record(assetRecord, ownerMemo, keypair);
-    console.log('assetRecord: ', assetRecord);
-    console.log('ownerMemo:', ownerMemo);
-    console.log('decryptUtxoData: ', decryptUtxoData);
+    // const decryptUtxoData = findoraWasm.open_client_asset_record(assetRecord, ownerMemo, keypair);
+    // console.log('assetRecord: ', assetRecord);
+
+    // console.log('decryptUtxoData: ', decryptUtxoData);
 
     /*
       还缺少,获取 ownerMeo 的功能
@@ -93,10 +94,10 @@ const sendServer = {
     const txoRef = findoraWasm.TxoRef.absolute(BigInt(utxoSid));
 
     // 转账数量
-    const amount = asset.numbers;
+    const amount = numbers;
 
     // 资产地址
-    const tokenCode = asset.unit.long;
+    const tokenCode = asset.long;
 
     // 是否隐藏数量
     const isBlindAmount = blind.isAmount;
@@ -108,6 +109,7 @@ const sendServer = {
     // 生成转账数据
     let transferOp = {};
 
+    console.log('ownerMemo: - 前', ownerMemo);
     if (isTraceable) {
       console.log('转账 - 可以跟踪');
       // 获取跟踪的 trackingKey
@@ -116,26 +118,26 @@ const sendServer = {
 
       // 生成转账数据
       transferOp = findoraWasm.TransferOperationBuilder.new()
-        .add_input_with_tracking(txoRef, assetRecord, ownerMemo, tracingPolicies, keypair, BigInt(amount))
+        .add_input_with_tracking(txoRef, assetRecord, ownerMemo?.clone(), tracingPolicies, keypair, BigInt(amount))
         .add_output_with_tracking(BigInt(amount), toPublickey, tracingPolicies, tokenCode, isBlindAmount, isBlindType);
     } else {
       console.log('转账 - 不可以跟踪');
       console.log('转账 - 金额: ', BigInt(amount), amount);
+
       transferOp = findoraWasm.TransferOperationBuilder.new()
-        .add_input_no_tracking(txoRef, assetRecord, ownerMemo, keypair, BigInt(amount))
+        .add_input_no_tracking(txoRef, assetRecord, ownerMemo?.clone(), keypair, BigInt(amount))
         .add_output_no_tracking(BigInt(amount), toPublickey, tokenCode, isBlindAmount, isBlindType);
     }
 
-    transferOp = transferOp
-      .balance()
-      .create(findoraWasm.TransferType.standard_transfer_type())
-      .sign(keypair)
-      .transaction();
+    // findoraWasm.TransferType.standard_transfer_type()
+    transferOp = transferOp.balance().create().sign(keypair).transaction();
+
+    console.log('ownerMemo: - 后', ownerMemo?.clone());
 
     console.log('开始获取 blockCount');
 
     const blockCount = BigInt((await webNetWork.getStateCommitment())[1]);
-    const transferTxn = findoraWasm.TransactionBuilder.new(blockCount).add_operation(transferOp).transaction();
+    const transferTxn = findoraWasm.TransactionBuilder.new(blockCount).add_transfer_operation(transferOp).transaction();
     console.log('转账提交的数据: ', transferTxn);
     // 发起转账交易
     const handle = await webNetWork.submitTransaction(transferTxn);

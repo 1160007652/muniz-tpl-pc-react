@@ -17,7 +17,7 @@ const IssueAssetConfrim = ({ data }) => {
   const [isShowResult, setShowResult] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const hirstory = useHistory();
-  const { issuer, asset, to, blind } = data;
+  const { issuer, asset, inputNumbers, blind } = data;
 
   /** 取消窗口 */
   function handleClickCancel() {
@@ -29,7 +29,7 @@ const IssueAssetConfrim = ({ data }) => {
   }
   /** 显示结果后, 按钮事件 */
   function handleClickView() {
-    hirstory.push({ pathname: pageURL.transactions });
+    hirstory.replace({ pathname: pageURL.transactions.replace(':action', 'issue-loding') });
   }
   /** 提交数据 */
   async function handleClickSubmit() {
@@ -59,20 +59,20 @@ const IssueAssetConfrim = ({ data }) => {
             </FindoraBoxView>
             <FindoraBoxView title={intl.get('asset_name')}>
               <div className="address" style={{ color: 'rgba(131, 151, 177, 0.6)' }}>
-                {asset.unit.short}
+                {asset.short}
               </div>
-              <div className="address">{asset.unit.long}</div>
+              <div className="address">{asset.long}</div>
             </FindoraBoxView>
             <FindoraBoxView title={intl.get('balance')}>
-              <span className="address">{asset.numbers}</span>
-              <span style={{ marginLeft: '4px' }}>{asset.unit.short}</span>
+              <span className="address">{inputNumbers}</span>
+              {/* <span style={{ marginLeft: '4px' }}>{asset.short}</span> */}
             </FindoraBoxView>
             <FindoraBoxView title={intl.get('blind_amount')}>
               <span className="address">{blind.isAmount ? 'Yes' : 'No'}</span>
             </FindoraBoxView>
-            <FindoraBoxView title={intl.get('blind_type')}>
+            {/* <FindoraBoxView title={intl.get('blind_type')}>
               <span className="address">{blind.isType ? 'Yes' : 'No'}</span>
-            </FindoraBoxView>
+            </FindoraBoxView> */}
           </div>
 
           <div className="btn-area">
@@ -80,7 +80,7 @@ const IssueAssetConfrim = ({ data }) => {
               {intl.get('cancel')}
             </FindoraButton>
             <FindoraButton className="btn" onClick={handleClickSubmit}>
-              {intl.get('confrim')}
+              {intl.get('confirm')}
             </FindoraButton>
           </div>
         </Spin>

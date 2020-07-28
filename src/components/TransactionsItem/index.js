@@ -2,18 +2,18 @@
  * @ Author: Muniz
  * @ Create Time: 2020-06-09 19:27:48
  * @ Modified by: Muniz
- * @ Modified time: 2020-07-21 18:14:24
+ * @ Modified time: 2020-07-22 17:24:44
  * @ Description: 钱包导航, Header组件
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import intl from 'react-intl-universal';
 
 import FindoraBoxView from '../FindoraBoxView';
 
 import './index.less';
-import { Divider } from 'antd';
 
 /**
  * TransactionsItem 纯组件, 交易列表使用
@@ -25,10 +25,10 @@ import { Divider } from 'antd';
  * Component to display transaction list
  */
 const TransactionsItem = ({ data, onClick, className, style }) => {
-  const { time, from, to, asset, state, txn_type } = data;
+  const { type, blind, from, to, asset, state, txn_type } = data;
   return (
     <div className={classNames('transactions-item', className)} onClick={onClick} style={style}>
-      <div className="time">{time}</div>
+      {/* <div className="time">{time}</div> */}
 
       <div className="utxo">
         <FindoraBoxView title="From">
@@ -39,15 +39,24 @@ const TransactionsItem = ({ data, onClick, className, style }) => {
         </FindoraBoxView>
       </div>
 
-      <FindoraBoxView title="AssetType ">
+      <FindoraBoxView title={intl.get('transaction_asset_type')}>
         <div className="address">{asset.tokenCode}</div>
       </FindoraBoxView>
-
       <div className="state">
-        <span className={state ? 'success' : 'fail'}>{state ? 'success' : 'fail'}</span>
+        <div>
+          <span className="tag">{intl.get(`txn_${type}`)}</span>
+          {blind.isAmount && <span className="tag">{intl.get('blind_amount')}</span>}
+          {blind.isType && <span className="tag">{intl.get('blind_type')}</span>}
+        </div>
+      </div>
+      <div className="state">
+        <div>
+          <span className={state ? 'success tag' : 'fail tag'}>{state ? 'success' : 'fail'}</span>
+        </div>
         <div className="value">
           {txn_type === 'input' ? '+' : '-'}
-          {asset.numbers} <span>{asset.unit}</span>
+          {asset?.numbers}
+          {/* <span>{asset.short}</span> */}
         </div>
       </div>
     </div>
@@ -69,10 +78,7 @@ TransactionsItem.defaultProps = {
     from: '',
     to: '',
     state: false,
-    asset: {
-      numbers: 0,
-      unit: '',
-    },
+    asset: {},
   },
   onClick: () => {},
 };

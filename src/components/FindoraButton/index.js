@@ -14,11 +14,14 @@ import './index.less';
 /**
  * FindoraButton 纯组件
  * @component
- * @example <caption>组件案例</caption>
- * const onCLick = ()=>{console.log('点击了按钮')}
- * <Box><FindoraButton onCLick={onCLick} >点击按钮</FindoraButton></Box>
+ * @example <caption>可用状态</caption>
+ * const handleOnclick = ()=>{alert('findora-button')}
  * return (
- *   <FindoraButton onCLick={onCLick} >点击按钮</FindoraButton>
+ *   <FindoraButton onClick={handleOnclick}>点击按钮</FindoraButton>
+ * )
+ * @example <caption>禁用状态</caption>
+ * return (
+ *   <FindoraButton disabled>点击按钮</FindoraButton>
  * )
  *
  */
@@ -26,9 +29,12 @@ import './index.less';
  *
  * Findora button component.
  */
-const FindoraButton = ({ children, onClick, className }) => {
+const FindoraButton = ({ children, onClick, className, disabled }) => {
   return (
-    <div className={classNames('findora-button', className)} onClick={onClick}>
+    <div
+      className={classNames('findora-button', className, { disabled: disabled })}
+      onClick={disabled ? () => {} : onClick}
+    >
       {children}
     </div>
   );
