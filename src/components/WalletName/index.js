@@ -17,14 +17,6 @@ import './index.less';
 /**
  * WalletName 钱包名称展示组件, 以及编辑功能
  * @component
- * @example <caption>组件案例</caption>
- * const data = [{ name: 'Alice1', address: '1234567==' }]
- * const onClick = ()=> {alert('点击成功')}
- * const
- * return (
- *   <WalletListItem data={data} onClick={onClick} />
- * )
- *
  */
 const WalletName = ({ data, onChangeName, isShowEdit }) => {
   const [name, setName] = useState(data.name);

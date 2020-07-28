@@ -20,13 +20,6 @@ import './index.less';
 /**
  * WalletListItem 纯组件, 渲染钱包列表使用
  * @component
- * @example <caption>组件案例</caption>
- * const data = [{ name: 'Alice1', address: '1234567==' }]
- * const onClick = ()=> {alert('点击成功')}
- * const
- * return (
- *   <WalletListItem data={data} onClick={onClick} />
- * )
  *
  */
 const WalletListItem = ({ data, isShowEdit, style, className, onClick, onChangeName }) => {

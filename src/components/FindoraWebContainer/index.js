@@ -15,6 +15,13 @@ import './index.less';
  * FindoraWebContainer 纯组件, 在网页形式打开插件石, 的通用标题页面
  * @component
  * @example <caption>组件案例</caption>
+ * return (
+ *  <FindoraWebContainer title="演示页面">
+ *    <div style={{ height: '100px', background: '#eee', paddingTop: '20px' }}>
+ *       这里是关于显示页面的信息
+ *    </div>
+ *  </FindoraWebContainer>
+ * )
  *
  */
 const FindoraWebContainer = ({ children, title, className, style }) => {

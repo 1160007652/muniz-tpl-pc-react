@@ -1,5 +1,11 @@
 import React from 'react';
 
+/**
+ * Loading 异步加载路由的过度组件
+ * @component
+ *
+ */
+
 function Loading(props) {
   if (props.error) {
     return (

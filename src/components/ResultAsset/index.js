@@ -1,12 +1,17 @@
 import React from 'react';
 import intl from 'react-intl-universal';
-
+import PropTypes from 'prop-types';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 
-import FindoraButton from '_components/FindoraButton';
+import FindoraButton from '../FindoraButton';
 
 import './index.less';
 
+/**
+ * ResultAsset 纯组件, 结果展示页面
+ * @component
+ *
+ */
 const ResultAsset = ({ data, title, onClose, onView }) => {
   const isSuccess = data.type;
 
@@ -49,6 +54,24 @@ const ResultAsset = ({ data, title, onClose, onView }) => {
       </div>
     </div>
   );
+};
+
+ResultAsset.propTypes = {
+  /** 失败事件 */
+  onClose: PropTypes.func,
+  /** 数据源 */
+  data: PropTypes.object,
+  /** 标题 */
+  title: PropTypes.string,
+  /** 成功事件 */
+  onView: PropTypes.func,
+};
+
+ResultAsset.defaultProps = {
+  onClose: () => {},
+  onView: () => {},
+  title: 'Created',
+  data: {},
 };
 
 export default ResultAsset;
