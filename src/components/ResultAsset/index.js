@@ -12,6 +12,10 @@ import './index.less';
  * @component
  *
  */
+/**
+ * Pure component to display the result.
+ * @component
+ */
 const ResultAsset = ({ data, title, onClose, onView }) => {
   const isSuccess = data.type;
 
@@ -58,12 +62,16 @@ const ResultAsset = ({ data, title, onClose, onView }) => {
 
 ResultAsset.propTypes = {
   /** 失败事件 */
+  /** Failed event */
   onClose: PropTypes.func,
   /** 数据源 */
+  /** Data source */
   data: PropTypes.object,
   /** 标题 */
+  /** Title */
   title: PropTypes.string,
   /** 成功事件 */
+  /** Succeed event */
   onView: PropTypes.func,
 };
 

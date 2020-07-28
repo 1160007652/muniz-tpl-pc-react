@@ -22,6 +22,13 @@ class AssetServer {
    *
    * @memberof assetServer
    */
+  /**
+   * Gets the public parameters used to issue assets.
+   *
+   * Generating this is expensive and should be done as infrequently as possible.
+   *
+   * @memberof assetServer
+   */
   getPublicParams = async () => {
     const findoraWasm = await import('wasm');
     const zeiParams = findoraWasm.PublicParams.new();
@@ -29,6 +36,10 @@ class AssetServer {
   };
   /**
    * @description 系统生成资产地址-长名称
+   * @returns {string}
+   */
+  /**
+   * Gets randomly generated base64-encoded asset type code.
    * @returns {string}
    */
   getAssetNameLong = async () => {
@@ -39,8 +50,11 @@ class AssetServer {
   /**
    * @description 生成资产, 向服务器发送
    * 未实现 .set_transfer_multisig_rules() 多签 规则
-   * 未实现 跟踪资产
    * @param {*} param, 定义资产所需要的 data 数据
+   */
+  /**
+   * Creates the asset and submits the transaction.
+   * @param {object} param - Information needed to create the asset
    */
   createAsset = async (param) => {
     console.groupCollapsed('=======>  开始创建资产');
@@ -104,6 +118,10 @@ class AssetServer {
    * @description 发行|增发 资产, 向服务器发送
    *
    * @param {*} param, 发行|增发 资产所需要的 data 数据
+   */
+  /**
+   * Issues the asset and submits the transaction.
+   * @param {object} param - Information needed to issue the asset
    */
   issueAsset = async (param) => {
     console.groupCollapsed('=======>  开始增发资产');

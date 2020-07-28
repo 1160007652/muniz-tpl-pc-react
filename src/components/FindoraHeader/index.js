@@ -35,6 +35,28 @@ import './index.less';
  * )
  *
  */
+/**
+ * Findora header pure component.
+ * @component
+ * @example <caption>Navigation - with "Back" Button</caption>
+ * const title = "Findora wallet"
+ * return (
+ *   <FindoraHeader title={title} isShowBack={true}/>
+ * )
+ *
+ * @example <caption>Navigation - with Logo</caption>
+ * const title = "Findora wallet"
+ * return (
+ *   <FindoraHeader title={title} isShowBack={false}/>
+ * )
+ *
+ * @example <caption>Navigation - with Menu</caption>
+ * const title = "Findora wallet";
+ * return (
+ *   <FindoraHeader title={title} isShowBack={false} menu={<div>menu</div>} />
+ * )
+ *
+ */
 const FindoraHeader = ({ title, menu, isShowBack }) => {
   return (
     <div className="findora-header">
@@ -50,10 +72,13 @@ const FindoraHeader = ({ title, menu, isShowBack }) => {
 
 FindoraHeader.propTypes = {
   /** 菜单 */
+  /** Menu */
   menu: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   /** 标题 */
+  /** Titile */
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   /** 是否显示返回按钮 */
+  /** Whether to display the "back" button */
   isShowBack: PropTypes.bool,
 };
 

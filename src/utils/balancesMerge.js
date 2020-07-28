@@ -8,6 +8,14 @@
  * @param obj.asset {object} 某一个资产对象
  * @returns {array} 返回资产数组
  */
+/**
+ * Calculates the asset balance by merging the transaction history.
+ * @async
+ * @param {object} obj
+ * @param {array} obj.dataList - Transaction history of an address fetched from data storage.
+ * @param {object} obj.asset - Asset whose balance will be calculated.
+ * @returns {array} Asset information
+ */
 async function balancesMerge({ dataList, asset }) {
   let numbers = 0;
   console.log(dataList);

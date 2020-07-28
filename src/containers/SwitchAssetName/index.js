@@ -29,7 +29,7 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
       setShowComponent(false);
       async function getIssuedAssetList() {
         await assetStore.getIssuedAssetList(address);
-        const assetList = toJS(assetStore.issueAssetList);
+        const assetList = toJS(assetStore.issuedAssetList);
 
         if (abortSignal.aborted) {
           return Promise.reject(intl.get('system_cancel_async'));
@@ -60,7 +60,7 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
       async function getSendAssetList() {
         await assetStore.getSendAssetList(address);
 
-        const assetList = toJS(assetStore.sendAssetList);
+        const assetList = toJS(assetStore.sentAssetList);
 
         if (abortSignal.aborted) {
           return Promise.reject(intl.get('system_cancel_async'));
@@ -100,8 +100,8 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
   function handleSelectAssetName(value) {
     const assetList = {
       create: toJS(assetStore.createdAssetList).filter((item) => item.long === value),
-      issue: toJS(assetStore.issueAssetList).filter((item) => item.long === value),
-      send: toJS(assetStore.sendAssetList).filter((item) => item.long === value),
+      issue: toJS(assetStore.issuedAssetList).filter((item) => item.long === value),
+      send: toJS(assetStore.sentAssetList).filter((item) => item.long === value),
     };
     // 通知父组件结果
     onResult(assetList[actionTYpe].length > 0 ? assetList[actionTYpe][0] : {});
@@ -114,10 +114,10 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
     // 增发列表
     const here = 'HHHHHHHH';
     const issueAssetListComponent =
-      assetStore.issueAssetList.length > 0 ? (
+      assetStore.issuedAssetList.length > 0 ? (
         <Fragment>
           <Select value={assetCurrent?.long} style={{ width: '100%' }} onChange={handleSelectAssetName}>
-            {assetStore.issueAssetList.map((item) => {
+            {assetStore.issuedAssetList.map((item) => {
               return (
                 <Select.Option value={item.long} key={item.long} style={{ fontSize: '12px' }}>
                   {/* {item.short} */}
@@ -164,10 +164,10 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
 
     // 转账列表
     const sendAssetListComponent =
-      assetStore.sendAssetList.length > 0 ? (
+      assetStore.sentAssetList.length > 0 ? (
         <Fragment>
           <Select value={assetCurrent?.long} style={{ width: '100%' }} onChange={handleSelectAssetName}>
-            {assetStore.sendAssetList.map((item) => {
+            {assetStore.sentAssetList.map((item) => {
               return (
                 <Select.Option value={item.long} key={item.long} style={{ fontSize: '12px' }}>
                   {/* {item.short} */}
