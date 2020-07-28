@@ -69,15 +69,20 @@ const WalletInfo = () => {
     const result = await services.webKeyStore.setKeypair(param);
 
     if (result === 'passworderror') {
-      message.error(intl.get('restorewallet_passworderror'));
+      message.error(intl.get('wallet_restore_password_error'));
     } else {
-      const blob = new Blob([JSON.stringify(keyStore)], { type: 'utf-8' });
-      saveAs(blob, `${publickey}.findorawallet`);
-      // chrome.downloads.download({
-      //   url: URL.createObjectURL(blob),
-      //   filename: `${fileName}.findorawallet`,
-      //   saveAs: true,
-      // });
+      const blob = new Blob([JSON.stringify(keyStore)], { type: 'findorawallet/plain;charset=utf-8' });
+      const fileData = new File([blob], `${publickey}.findorawallet`, {
+        type: 'findorawallet/plain;charset=utf-8',
+      });
+
+      chrome.downloads.download({
+        filename: `${publickey}.findorawallet`,
+        saveAs: true,
+        conflictAction: 'overwrite',
+        url: URL.createObjectURL(fileData),
+        method: 'GET',
+      });
 
       setVisibleExport(false);
     }

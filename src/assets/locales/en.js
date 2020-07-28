@@ -97,7 +97,7 @@ const enUS = {
   page_wallet_about_title: 'Help',
 
   wallet_restore_password_error: 'Password Error',
-  wallet_restore_no_upload_file: 'No files uploaded',
+  wallet_restore_no_upload_file: 'No file added',
   wallet_restore_upload_file: 'Add KeyStore file',
   wallet_restore_inputpassword: 'Please enter password',
   wallet_restore_submit: 'Import',
