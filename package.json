@@ -1,6 +1,6 @@
 {
   "name": "chrome-extensions-wallet",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "findora web wallet chrome extensions plugin",
   "main": "index.js",
   "scripts": {
