@@ -99,7 +99,7 @@ const CreateAsset = () => {
     };
   }
   return (
-    <FindoraWebContainer className="create-asset" title={intl.get('menu_asset_create')}>
+    <FindoraWebContainer className="create-asset" title={intl.get('menu_asset_create1')}>
       <div className="create-asset-box">
         <FindoraBoxView title={intl.get('token_issue_issuer')} isRow titleDirection="top">
           <SwitchAddress

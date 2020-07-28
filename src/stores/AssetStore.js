@@ -21,17 +21,24 @@ import transactionsMerge from '_src/utils/transactionsMerge';
  * 资产管理Store
  * @category MobxStore
  */
+/**
+ * Store to manage assets.
+ * @category MobxStore
+ */
 class AssetStore {
   constructor(self) {
     this.rootStore = self;
   }
 
   /** createdAssets 拥有的资产列表 */
+  /** List of created assets */
   @observable createdAssetList = [];
   /** issueAssets 可增发资产列表 */
-  @observable issueAssetList = [];
-  /** sendAssetList 可转账资产列表 */
-  @observable sendAssetList = [];
+  /** List of issued assets */
+  @observable issuedAssetList = [];
+  /** sentAssetList 可转账资产列表 */
+  /** List of transferred assets */
+  @observable sentAssetList = [];
 
   /**
    * 获取创建的资产, 用于在issuedPage (增发页面展示)
@@ -39,10 +46,18 @@ class AssetStore {
    * @async
    * @param {string} address 钱包地址
    */
+  /**
+   * Gets the issued assets of an address.
+   *
+   * Used to display the issued assets.
+   *
+   * @async
+   * @param {object} address - address from which the assets are issued.
+   */
   @action getIssuedAssetList = async (address) => {
     console.groupCollapsed('=======>  开始获取可以增发的资产');
 
-    let result = await this.getOwnerAsset(address);
+    let result = await this.getOwnedAssets(address);
     // 加入 计算余额
     const walletInfo = this.rootStore.walletStore.walletImportList.filter((item) => item.publickey === address)[0];
     let transactionData = await transactionsMerge({ walletInfo, page: -1 });
@@ -53,7 +68,7 @@ class AssetStore {
 
     result = await Promise.all(result);
 
-    this.issueAssetList = result;
+    this.issuedAssetList = result;
 
     console.log('钱包地址: ', address);
     console.log('可增发资产: ', result);
@@ -66,10 +81,18 @@ class AssetStore {
    * @async
    * @param {string} address 钱包地址
    */
+  /**
+   * Gets the created assets of an address.
+   *
+   * Note: This function isn't currently being used.
+   *
+   * @async
+   * @param {object} address - address from which the assets are created.
+   */
   @action getCreatedAssetList = async (address) => {
     console.groupCollapsed('=======>  开始获取拥有的资产');
 
-    let result = await this.getOwnerAsset(address);
+    let result = await this.getOwnedAssets(address);
 
     result = await this.getTransactionAsset(address, result);
 
@@ -84,6 +107,14 @@ class AssetStore {
    * 获取可以转账的资产, 用于在Send (转账页面展示)
    * @async
    * @param {string} address 钱包地址
+   */
+  /**
+   * Gets the transferred assets of an address.
+   *
+   * Used to display the transferred assets.
+   *
+   * @async
+   * @param {object} address - address from which the assets are transferred.
    */
   @action getSendAssetList = async (address) => {
     const findoraWasm = await import('wasm');
@@ -128,7 +159,7 @@ class AssetStore {
 
     result = await Promise.all(result);
 
-    this.sendAssetList = result;
+    this.sentAssetList = result;
 
     console.log('钱包地址: ', address);
     console.log('拥有资产: ', result);
@@ -141,9 +172,16 @@ class AssetStore {
    *
    * @async
    * @param {string} address 钱包地址
-   * @returns {Array} 返回该地址拥有的资产集
+   * @returns {array} 返回该地址拥有的资产集
    */
-  getOwnerAsset = async (address) => {
+  /**
+   * Gets owned assets.
+   *
+   * @async
+   * @param {string} address - Wallet address.
+   * @returns {array} Assets owned by the address.
+   */
+  getOwnedAssets = async (address) => {
     const findoraWasm = await import('wasm');
     let tokenCodes = await webNetWork.getCreatedAssets(address);
     let result = [];
@@ -168,6 +206,14 @@ class AssetStore {
    * @param {string} address 钱包地址
    * @param {Array} haveAsset 拥有资产的集合
    * @returns {Array} 返回转账资产集
+   */
+  /**
+   * Gets the transferred asset.
+   *
+   * @async
+   * @param {string} address - Wallet address.
+   * @param {array} haveAsset - Owned assets.
+   * @returns {array} - List of transferred asset.
    */
   getTransactionAsset = async (address, haveAsset) => {
     const findoraWasm = await import('wasm');

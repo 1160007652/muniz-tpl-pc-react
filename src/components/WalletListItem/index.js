@@ -20,14 +20,11 @@ import './index.less';
 /**
  * WalletListItem 纯组件, 渲染钱包列表使用
  * @component
- * @example <caption>组件案例</caption>
- * const data = [{ name: 'Alice1', address: '1234567==' }]
- * const onClick = ()=> {alert('点击成功')}
- * const
- * return (
- *   <WalletListItem data={data} onClick={onClick} />
- * )
  *
+ */
+/**
+ * Pure component to render wallet list
+ * @component
  */
 const WalletListItem = ({ data, isShowEdit, style, className, onClick, onChangeName }) => {
   const [isCopy, setCopy] = useState(false);
@@ -72,12 +69,16 @@ const WalletListItem = ({ data, isShowEdit, style, className, onClick, onChangeN
 
 WalletListItem.propTypes = {
   /** 数据源 */
+  /** Data source */
   data: PropTypes.object,
   /** 是否显示名称编辑框 */
+  /** Whether to display the name editing box */
   isShowEdit: PropTypes.bool,
   /** 点击事件 */
+  /** Click event */
   onClick: PropTypes.func,
   /** 修改钱包名称事件 */
+  /** Event to change wallet name */
   onChangeName: PropTypes.func,
 };
 

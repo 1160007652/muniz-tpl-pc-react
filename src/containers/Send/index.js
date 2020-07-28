@@ -22,10 +22,7 @@ const Send = () => {
   const history = useHistory();
   const walletStore = React.useContext(MobXProviderContext).walletStore;
   const [nextDisabled, setNextDisabled] = useState(true);
-  const [blindError, setBlindError] = useImmer({
-    amountError: null,
-    typeError: null,
-  });
+
   const [error, setError] = useImmer({
     assetNameError: null,
     amountError: 'send_error5',
@@ -69,27 +66,6 @@ const Send = () => {
         state.assetNameError = 'send_error6';
       });
       return;
-    }
-
-    // 是否支持隐藏数量, 隐藏类型, 并且修改状态
-    if (asset_rules.asset_rules.max_units) {
-      setBlindError((state) => {
-        state.amountError = 'token_issue_error3';
-        state.typeError = 'send_error7';
-      });
-      setData((state) => {
-        state.blind.isAmount = false;
-        state.blind.isType = false;
-      });
-    } else {
-      setBlindError((state) => {
-        state.amountError = null;
-        state.typeError = null;
-      });
-      setData((state) => {
-        state.blind.isAmount = true;
-        state.blind.isType = true;
-      });
     }
 
     if (!asset_rules.asset_rules.transferable && data.from !== value?.issuer?.key) {
@@ -253,21 +229,16 @@ const Send = () => {
           {error.amountError && <div className="error">{intl.get(error.amountError)}</div>}
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('blind_amount')} isRow titleDirection="top">
-          {/* disabled={blindError.amountError} */}
           <Radio.Group value={data.blind.isAmount} onChange={handleChangeRadio('isAmount')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
-
-          {blindError.amountError && <div className="error">{intl.get(blindError.amountError)}</div>}
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('blind_type')} isRow>
-          {/* disabled={blindError.typeError} */}
           <Radio.Group value={data.blind.isType} onChange={handleChangeRadio('isType')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
-          {blindError.typeError && <div className="error">{intl.get(blindError.typeError)}</div>}
         </FindoraBoxView>
         <div className="btn-area">{AssetRulesComponent()}</div>
       </div>

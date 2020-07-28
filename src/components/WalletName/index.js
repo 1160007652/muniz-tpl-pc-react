@@ -17,14 +17,10 @@ import './index.less';
 /**
  * WalletName 钱包名称展示组件, 以及编辑功能
  * @component
- * @example <caption>组件案例</caption>
- * const data = [{ name: 'Alice1', address: '1234567==' }]
- * const onClick = ()=> {alert('点击成功')}
- * const
- * return (
- *   <WalletListItem data={data} onClick={onClick} />
- * )
- *
+ */
+/**
+ * Component to display and edit wallet name
+ * @component
  */
 const WalletName = ({ data, onChangeName, isShowEdit }) => {
   const [name, setName] = useState(data.name);
@@ -74,10 +70,13 @@ const WalletName = ({ data, onChangeName, isShowEdit }) => {
 
 WalletName.propTypes = {
   /** 数据源 */
+  /** Data source */
   data: PropTypes.object,
   /** 是否显示编辑框 */
+  /** Whether to display the editing box */
   isShowEdit: PropTypes.bool,
-  /** 点击事件 */
+  /** 修改钱包名称事件 */
+  /** Event to change wallet name */
   onChangeName: PropTypes.func,
 };
 

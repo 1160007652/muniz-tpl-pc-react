@@ -18,6 +18,11 @@ const walletServer = {
    * @param string address - 钱包地址
    * @returns {object}
    */
+  /**
+   * Gets the asset balances.
+   * @param {object} param - wallet information.
+   * @returns {object}
+   */
   async getBlance(param) {
     console.log('余额表单数据:', param);
     const { walletInfo } = param;

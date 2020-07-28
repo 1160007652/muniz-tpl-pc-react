@@ -23,10 +23,22 @@ class WebKeyStore extends KeyStore {
   }
 
   /**
-   * JSON-encodes KeyStore and writes it to a file.
    * 下载Json编码后的 KeyStore 文件
+   *
+   * @param {object} obj
+   * @param {string} obj.fileName - 文件名
+   * @param {string} obj.name - 钱包名
+   *
    */
-  writeToFile = ({ fileName, name }) => {
+  /**
+   * JSON-encodes keystore and writes it to a file.
+   *
+   * @param {object} obj
+   * @param {string} obj.fileName - File name.
+   * @param {string} obj.name - Wallet name.
+   *
+   */
+  writeToFile = ({ publickey, name }) => {
     // 过滤当前用户的keyStore
     const currentKeys = this.keys.filter((keyData) => keyData.name === name);
 
@@ -46,17 +58,27 @@ class WebKeyStore extends KeyStore {
       return false;
     });
 
-    const blob = new Blob([JSON.stringify(jsonKeys[0])], { type: 'text/plain;charset=utf-8' });
-    // chrome.downloads.download({
-    //   url: URL.createObjectURL(blob),
-    //   filename: `${fileName}.txt`,
-    //   saveAs: true,
-    // });
-    saveAs(blob, `${fileName}.findorawallet`);
+    const blob = new Blob([JSON.stringify(jsonKeys[0])], { type: 'findorawallet/plain;charset=utf-8' });
+    const fileData = new File([blob], `${publickey}.findorawallet`, {
+      type: 'findorawallet/plain;charset=utf-8',
+    });
+    console.log(fileData);
+    chrome.downloads.download({
+      filename: `${publickey}.findorawallet`,
+      saveAs: true,
+      conflictAction: 'overwrite',
+      url: URL.createObjectURL(fileData),
+      method: 'GET',
+    });
   };
 
   /**
    * 添加命名加密密钥对添加到KeyStore
+   */
+  /**
+   * Adds a new keypair to the keystore.
+   * @param {string} password - Password of the wallet
+   * @param {string} name - Name of the keypair
    */
   addNewKeypair = async ({ password, name }) => {
     const findoraWasm = await import('wasm');
@@ -67,11 +89,18 @@ class WebKeyStore extends KeyStore {
     const keyPairObj = await findoraWasm.keypair_from_str(keyPairStr);
     const address = await findoraWasm.get_pub_key_str(keyPairObj);
     // 下载KeyStore
-    this.writeToFile({ fileName: address.replace(/^_|_$/g, ''), name });
+    let publickey = address.replace(/^_|_$/g, '');
+    publickey = publickey.replace(/"/g, '');
+    this.writeToFile({ publickey, name });
   };
 
   /**
    * @description 恢复keyStore密钥对
+   */
+  /**
+   * Sets the keypair.
+   * @param {object} keyStoreJson - JSON-encoded keystore
+   * @param {object} password - Password of the wallet
    */
   setKeypair = async ({ keyStoreJson, password }) => {
     const findoraWasm = await import('wasm');
@@ -124,8 +153,10 @@ class WebKeyStore extends KeyStore {
     }
   };
 
-  // Is there an encryption key pair with the given name
   // 是否存在给定名称的加密密钥对
+  /**
+   * Determines if there is keypair with the given name.
+   */
   hasKeypairWithName(name) {
     return super.getIdxWithName(name) !== -1;
   }

@@ -18,8 +18,10 @@ import './index.less';
 /**
  * TransactionsItem 纯组件, 交易列表使用
  * @component
- * @example <caption>组件案例</caption>
- *
+ */
+/**
+ * Pure component to display transaction list
+ * @component
  */
 const TransactionsItem = ({ data, onClick, className, style }) => {
   const { type, blind, from, to, asset, state, txn_type } = data;
@@ -61,9 +63,11 @@ const TransactionsItem = ({ data, onClick, className, style }) => {
 };
 
 TransactionsItem.propTypes = {
-  /** 点击事件 */
+  /** 数据源 */
+  /** Data source */
   data: PropTypes.object,
-  /** 是否横行展示 */
+  /** 点击事件 */
+  /** Click event */
   onClick: PropTypes.func,
 };
 

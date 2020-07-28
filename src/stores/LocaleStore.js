@@ -15,15 +15,21 @@ import zh from '_src/assets/locales/zh';
  * 多语言管理Store
  * @category MobxStore
  */
+/**
+ * Store to manage languages.
+ * @category MobxStore
+ */
 class LocaleStore {
   constructor() {
     this.init();
   }
 
   /** 当前是那个国家的语言 */
+  /** Current language */
   @observable locale = 'en';
 
   /** 切换多语言方法 */
+  /** Switch language */
   @action changeLocale(value) {
     intl.init({
       currentLocale: value,

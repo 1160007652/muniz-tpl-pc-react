@@ -21,6 +21,11 @@ setConfig({
   reloadHooks: false, // 可以阻止 热更新时, 组件生命周期的 自动触发
 });
 
+// chrome.downloads.onDeterminingFilename.addListener(function (item, suggest) {
+//   console.log(item);
+//   suggest({ filename: item.filename.replace('.txt', '.findorawallet'), conflictAction: 'overwrite' });
+// });
+
 ReactDOM.render(
   <Provider {...rootStore}>
     <Routes />

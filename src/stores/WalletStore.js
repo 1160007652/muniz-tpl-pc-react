@@ -7,14 +7,20 @@
  */
 
 import { action, observable, when } from 'mobx';
+import intl from 'react-intl-universal';
 import { message } from 'antd';
 
 /**
  * 钱包管理Store
  * @category MobxStore
  */
+/**
+ * Store to manage the wallet.
+ * @category MobxStore
+ */
 class WalletStore {
   /** 构造方法, 初始化数据 */
+  /** Constructs a wallet store. */
   constructor() {
     this.init();
   }
@@ -23,15 +29,27 @@ class WalletStore {
    * 当前钱包应用使用的钱包信息, 如名称,地址
    * @memberof WalletStore
    */
+  /**
+   * Wallet information, including name and address.
+   * @memberof WalletStore
+   */
   @observable walletInfo = {};
   /**
    * 钱包导入成功存放数据 列表
+   * @memberof WalletStore
+   */
+  /**
+   * List of imported information.
    * @memberof WalletStore
    */
   @observable walletImportList = []; //
 
   /**
    * 创建钱包的信息
+   * @memberof WalletStore
+   */
+  /**
+   * Data used to create the wallet.
    * @memberof WalletStore
    */
   @observable createWalletData = {
@@ -47,8 +65,16 @@ class WalletStore {
    * @param {string} walletInfo.address - 地址
    * @memberof WalletStore
    */
-  @action setWalletInfo(obj) {
-    this.walletInfo = obj;
+  /**
+   *
+   * Sets the wallet information.
+   * @param {object} walletInfo - Wallet information.
+   * @param {string} walletInfo.name - Name of the wallet.
+   * @param {string} walletInfo.address - Address of the wallet.
+   * @memberof WalletStore
+   */
+  @action setWalletInfo(walletInfo) {
+    this.walletInfo = walletInfo;
     when(
       () => this.walletInfo,
       () => {
@@ -65,12 +91,27 @@ class WalletStore {
    * @param {string} walletInfo.address - 地址
    * @memberof WalletStore
    */
+  /**
+   * Saves the information used to create the wallet.
+   *
+   * @param {object} walletInfo - Wallet information.
+   * @param {string} walletInfo.name - Name of the wallet.
+   * @param {string} walletInfo.address - Address of the wallet.
+   * @memberof WalletStore
+   */
   @action setCreateWalletData(walletInfo) {
     this.createWalletData = walletInfo;
   }
 
   /**
    * 当添加过钱包KeyStore数据后, 下次打开钱包插件, 会从Chrome.storage.sync中读取吃就好的数据,已实现数据的复原
+   * @memberof WalletStore
+   */
+  /**
+   * Reads from chrome.storage.sync to restore data.
+   *
+   * Used when opening the Wallet Extension after keystore has been imported.
+   *
    * @memberof WalletStore
    */
   init() {
@@ -88,12 +129,19 @@ class WalletStore {
   /**
    * 设置导入钱包, 同时把数据存入 chrome.storage.sync 浏览器中
    * @param {Object} walletInfo
+   * @param {Object} walletList
+   * @memberof WalletStore
+   */
+  /**
+   * Writes data to chrome.storage.sync when importing the wallet.
+   * @param {object} walletInfo - Wallet information.
+   * @param {Object} walletList - List of wallets.
    * @memberof WalletStore
    */
   @action importWallet({ walletInfo, walletList }) {
     if (walletInfo) {
       if (this.walletImportList.some((item) => item.publickey === walletInfo.publickey)) {
-        message.info('该钱包已导入, 请无重复操作');
+        message.info(intl.get('wallet_import_has_been'));
       } else {
         this.walletImportList.push(walletInfo);
       }

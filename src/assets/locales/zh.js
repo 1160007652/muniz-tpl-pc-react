@@ -70,6 +70,7 @@ const zhCN = {
   wallet_remove_notice: '您将要取出钱包。请确保您已保存密钥库文件以恢复钱包。',
   wallet_export_title: '导出钱包',
   wallet_create_lafter_import_tips: '导入您的新钱包',
+  wallet_import_has_been: '该钱包已导入, 请无重复操作',
 
   menu_home: '钱包列表',
   menu_wallet_create: '创建钱包',
@@ -92,7 +93,7 @@ const zhCN = {
   page_wallet_about_title: '帮助',
 
   wallet_restore_password_error: '密码错误',
-  wallet_restore_no_upload_file: '未上传文件KeyStore文件',
+  wallet_restore_no_upload_file: '未填加KeyStore文件',
   wallet_restore_upload_file: '选择KeyStore文件',
   wallet_restore_inputpassword: '请输入密码',
   wallet_restore_submit: '完成',

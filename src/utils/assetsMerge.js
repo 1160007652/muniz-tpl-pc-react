@@ -9,6 +9,15 @@ import { relatedDB } from '_src/IndexedDB';
  * @param {object} obj.walletInfo 单个钱包对象
  * @returns {object} 解密之后的资产数据
  */
+/**
+ * Gets the asset data of a transfer transaction
+ *
+ * @param {object} obj
+ * @param {object} obj.body - Operation body in the transaction record.
+ * @param {object} obj.keypair - Wallet keypair.
+ * @param {object} obj.walletInfo - Wallet information.
+ * @returns {object} Decrypted asset data.
+ */
 async function getTransactionAssetData({ body, keypair, walletInfo }) {
   const findoraWasm = await import('wasm');
   const { transfer } = body;
@@ -52,6 +61,13 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
  * @param obj {object}
  * @param {object} obj.walletInfo 单个钱包对象
  * @returns {array} 资产数据集
+ */
+/**
+ * Gets asset set with the transaction data.
+ * @export
+ * @param {object} obj
+ * @param {object} walletInfo - Wallet information.
+ * @returns {array} Asset data.
  */
 async function assetsMerge({ walletInfo }) {
   // 获取交易数据, 在转账的时候需要使用
