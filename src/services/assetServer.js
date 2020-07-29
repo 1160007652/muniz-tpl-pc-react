@@ -93,7 +93,6 @@ class AssetServer {
     console.log('生成资产: ', definitionTransaction);
 
     const handle = await webNetWork.submitTransaction(definitionTransaction);
-    // result = b17b27ffaa61a9e854fefe01bc6e744755c958a6906b991af89c3397b4415247
 
     console.log('生成资产返回: ', handle);
 
