@@ -141,31 +141,39 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
       console.log('decryptInputAssetData: ', decryptInputAssetData);
 
       // outputs 数据 我的 ownedData
-      const outputsAssetRecord = await findoraWasm.ClientAssetRecord.from_json(outputs[1]);
-      console.log('outputsAssetRecord: ', outputsAssetRecord);
 
-      const decryptOutputAssetData = findoraWasm.open_client_asset_record(
-        outputsAssetRecord,
-        ownerMemo?.clone(),
-        keypair,
-      );
+      if (outputs.length > 1) {
+        const outputsAssetRecord = await findoraWasm.ClientAssetRecord.from_json(outputs[1]);
+        console.log('outputsAssetRecord: ', outputsAssetRecord);
 
-      console.log('decryptOutputAssetData: ', decryptOutputAssetData);
+        const decryptOutputAssetData = findoraWasm.open_client_asset_record(
+          outputsAssetRecord,
+          ownerMemo?.clone(),
+          keypair,
+        );
+        console.log('decryptOutputAssetData: ', decryptOutputAssetData);
+
+        result.asset.numbers = decryptInputAssetData.amount - decryptOutputAssetData.amount;
+        result.asset.outputNumbers = decryptOutputAssetData.amount;
+      } else {
+        result.asset.numbers = decryptInputAssetData.amount - 0; // 结果为 转出的金额, 也就是 全部转出了输入金额
+        result.asset.outputNumbers = decryptInputAssetData.amount;
+      }
 
       result.from = inputs[0].public_key;
       result.to = outputs[0].public_key;
 
-      result.asset.tokenCode = findoraWasm.asset_type_from_jsvalue(decryptOutputAssetData.asset_type);
-
-      result.asset.numbers = decryptInputAssetData.amount - decryptOutputAssetData.amount;
-      result.asset.outputNumbers = decryptOutputAssetData.amount;
-
       // outputs 中 输入地址与 钱包地址一样, 表示:输入金额, 反之:输出金额
-      if (decryptOutputAssetData.blind_asset_record.public_key === walletInfo.publickey && result.to !== result.from) {
+      if (decryptInputAssetData.blind_asset_record.public_key === walletInfo.publickey) {
         result.txn_type = 'output'; // 输入
       } else {
         result.txn_type = 'input'; // 输出
       }
+      if (result.to === result.from) {
+        result.txn_type = 'input'; // 输入
+      }
+
+      result.asset.tokenCode = findoraWasm.asset_type_from_jsvalue(decryptInputAssetData.asset_type);
 
       // result.asset.inputNumbers = decryptInputAssetData.amount;
     } else {
@@ -187,19 +195,23 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
         keypair,
       );
       console.log('decryptOutputAssetData: ', decryptOutputAssetData);
-
       result.to = decryptOutputAssetData.blind_asset_record.public_key;
 
       result.asset.tokenCode = findoraWasm.asset_type_from_jsvalue(decryptOutputAssetData.asset_type);
 
       result.asset.numbers = decryptOutputAssetData.amount;
       result.asset.outputNumbers = decryptOutputAssetData.amount;
-      console.log(11111);
+
       // outputs 中 输入地址与 钱包地址一样, 表示:输入金额, 反之:输出金额
       if (decryptOutputAssetData.blind_asset_record.public_key === walletInfo.publickey) {
         result.txn_type = 'input'; // 输入
       } else {
         result.txn_type = 'output'; // 输出
+      }
+
+      if (result.to === result.from) {
+        console.log('接受者 输入输出相同');
+        result.txn_type = 'output'; // 输入
       }
     }
     // }

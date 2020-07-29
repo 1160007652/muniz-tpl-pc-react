@@ -159,7 +159,7 @@ class AssetStore {
 
     result = await Promise.all(result);
 
-    this.sentAssetList = result;
+    this.sentAssetList = result.filter((item) => item.numbers > 0);
 
     console.log('钱包地址: ', address);
     console.log('拥有资产: ', result);

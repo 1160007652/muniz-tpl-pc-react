@@ -112,7 +112,6 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
 
   function getAssetListSelect() {
     // 增发列表
-    const here = 'HHHHHHHH';
     const issueAssetListComponent =
       assetStore.issuedAssetList.length > 0 ? (
         <Fragment>
