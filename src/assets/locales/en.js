@@ -68,7 +68,7 @@ const enUS = {
     'The keystore file is an encrypted file used to store the private key. It must be used with the password to unlock the wallet. Please keep the keystore file properly and remember the password. If either the wallet or the password is lost, the wallet can not be recovered.',
   wallet_down_agree: 'I will save the keystore file and remember the password',
   wallet_down_btn: 'Download Keystore File',
-  wallet_down_success: 'DownLoad Success',
+  wallet_down_success: 'Download Succeeded',
   wallet_down_fail: 'DownLoad Failed',
   wallet_remove_title: 'Remove Wallet',
   wallet_remove_notice:
