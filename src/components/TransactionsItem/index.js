@@ -41,6 +41,11 @@ const TransactionsItem = ({ data, onClick, className, style }) => {
       <FindoraBoxView title={intl.get('transaction_asset_type')}>
         <div className="address">{asset.tokenCode}</div>
       </FindoraBoxView>
+
+      <FindoraBoxView title={`${intl.get('asset_name')} ${intl.get('memo')}`}>
+        <div>{asset.memo}</div>
+      </FindoraBoxView>
+
       <div className="state">
         <div>
           <span className="tag">{intl.get(`txn_${type}`)}</span>

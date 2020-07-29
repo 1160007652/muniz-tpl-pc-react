@@ -272,12 +272,20 @@ async function transactionsMerge({ walletInfo, page }) {
 
       if (type === 'IssueAsset') {
         const resultItem = await getIssuedAssetData({ body, keypair });
+
+        const assetProperties = await webNetWork.getAssetProperties(resultItem.asset.tokenCode);
+        resultItem.asset.memo = assetProperties.memo;
+
         resultItem.type = 'IssueAsset';
         resultItem.txn = txnList[i].sid;
         result.push(resultItem);
       }
       if (type === 'TransferAsset') {
         const resultItem = await getTransactionAssetData({ body, keypair, walletInfo });
+
+        const assetProperties = await webNetWork.getAssetProperties(resultItem.asset.tokenCode);
+        resultItem.asset.memo = assetProperties.memo;
+
         resultItem.type = 'TransferAsset';
         resultItem.txn = txnList[i].sid;
         result.push(resultItem);

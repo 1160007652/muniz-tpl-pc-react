@@ -125,7 +125,7 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
               );
             })}
           </Select>
-          {/* <div className="tips">{assetCurrent?.long}</div> */}
+          <div className="tips">{assetCurrent?.short}</div>
         </Fragment>
       ) : (
         <div>
@@ -149,7 +149,7 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
               );
             })}
           </Select>
-          {/* <div className="tips">{assetCurrent?.long}</div> */}
+          <div className="tips">{assetCurrent?.short}</div>
         </Fragment>
       ) : (
         <div>
@@ -175,7 +175,7 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
               );
             })}
           </Select>
-          {/* <div className="tips">{assetCurrent?.long}</div> */}
+          <div className="tips">{assetCurrent?.short}</div>
         </Fragment>
       ) : (
         <div>
