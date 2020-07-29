@@ -21,11 +21,6 @@ const CreateAssetConfrim = ({ data }) => {
   const hirstory = useHistory();
   const { founder, asset, memo, policy, traceable, transferable, updatable } = data;
 
-  // window.onbeforeunload = function (e) {
-  //   e = e || window.event;
-  //   return '关闭提示';
-  // };
-
   /** 取消窗口 */
   function handleClickCancel() {
     chrome.storage.sync.remove(['tempCreateAssetConfrim']);

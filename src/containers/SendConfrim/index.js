@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { MobXProviderContext } from 'mobx-react';
 import { useLocation, useHistory } from 'react-router-dom';
 import intl from 'react-intl-universal';
 import { message, Spin } from 'antd';
@@ -15,6 +16,7 @@ import pageURL from '_constants/pageURL';
 import './index.less';
 
 const SendConfrim = () => {
+  const walletStore = React.useContext(MobXProviderContext).walletStore;
   const RouterLocation = useLocation();
   const hirstory = useHistory();
   const [resultData, setResultData] = useState({ type: false });
@@ -38,9 +40,9 @@ const SendConfrim = () => {
       const result = await services.sendServer.setSendAsset(RouterLocation.state);
 
       // 如果 转账成功, 需要做某件事情, 打开注释进行编写
-      // if (result.code === 0) {
-      //   console.log('转账成功');
-      // }
+      if (result.code === 0) {
+        walletStore.setWalletInfo(RouterLocation.state.walletInfo);
+      }
 
       if (result.code === -2) {
         message.error(intl.get('send_submit_not_last_transaction'));

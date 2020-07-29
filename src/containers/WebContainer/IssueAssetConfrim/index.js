@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { MobXProviderContext } from 'mobx-react';
 import { useHistory } from 'react-router-dom';
 import intl from 'react-intl-universal';
 import { Spin, message } from 'antd';
@@ -13,6 +14,7 @@ import pageURL from '_constants/pageURL';
 import './index.less';
 
 const IssueAssetConfrim = ({ data }) => {
+  const walletStore = React.useContext(MobXProviderContext).walletStore;
   const [resultData, setResultData] = useState({ type: false });
   const [isShowResult, setShowResult] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -37,8 +39,9 @@ const IssueAssetConfrim = ({ data }) => {
     try {
       const result = await services.assetServer.issueAsset(data);
       // 如果 创建成功, 切换选中钱包成当前的创建成功钱包
+      // 如果 创建成功, 切换选中钱包成当前的创建成功钱包
       if (result.code === 0) {
-        // ...
+        walletStore.setWalletInfo(data.walletInfo);
       }
       setLoading(false);
       setResultData({ type: result.code === 0, result });
