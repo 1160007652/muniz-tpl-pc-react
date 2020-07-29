@@ -131,6 +131,7 @@ const zhCN = {
   token_create_error1: '创建资产失败',
   token_or_issue_empty_here: ' 这里 ',
   token_issue_issuer: '发行者',
+  token_issue_amount: '增发金额',
   token_issue_amount_placeholder: '请输入发行金额',
   token_issue_empty_tips: '您尚未拥有任何资产。如果您创建了资产，请单击',
   token_issue_create_btn_tips: '增发它',

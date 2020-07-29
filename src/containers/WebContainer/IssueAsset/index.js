@@ -188,7 +188,7 @@ const IssueAsset = () => {
           {error.assetNameError && <div className="error">{intl.get(error.assetNameError)}</div>}
         </FindoraBoxView>
 
-        <FindoraBoxView title={intl.get('balance')} isRow titleDirection="top">
+        <FindoraBoxView title={intl.get('token_issue_amount')} isRow titleDirection="top">
           <div className="input-number-box">
             <InputNumber
               placeholder={intl.get('token_issue_amount_placeholder')}

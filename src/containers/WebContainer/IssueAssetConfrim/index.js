@@ -66,7 +66,7 @@ const IssueAssetConfrim = ({ data }) => {
               </div>
               <div className="address">{asset.long}</div>
             </FindoraBoxView>
-            <FindoraBoxView title={intl.get('balance')}>
+            <FindoraBoxView title={intl.get('token_issue_amount')}>
               <span className="address">{inputNumbers}</span>
               {/* <span style={{ marginLeft: '4px' }}>{asset.short}</span> */}
             </FindoraBoxView>
