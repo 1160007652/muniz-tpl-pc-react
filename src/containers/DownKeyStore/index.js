@@ -23,6 +23,7 @@ const DownKeyStore = () => {
   const walletStore = React.useContext(MobXProviderContext).walletStore;
   const history = useHistory();
   const [isSuccess, setIsSuccess] = useState(false);
+  const [fileData, setFileData] = useState(null);
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -44,11 +45,40 @@ const DownKeyStore = () => {
     if (e.remember) {
       try {
         // 如果 为 True , 才允许下载 KeyStore
-        await services.webKeyStore.addNewKeypair(walletStore.createWalletData);
-        message.success(intl.get('wallet_down_success'));
+        let fileDataTemp = null;
+        let fileName = '';
+
+        if (!fileData) {
+          fileDataTemp = await services.webKeyStore.addNewKeypair(walletStore.createWalletData);
+          fileName = fileDataTemp.name;
+        } else {
+          fileName = fileData.name;
+        }
+
+        console.log(fileDataTemp);
+        chrome.downloads.download(
+          {
+            filename: `${fileName}.findorawallet`,
+            saveAs: true,
+            conflictAction: 'overwrite',
+            url: window.URL.createObjectURL(fileData || fileDataTemp),
+            method: 'GET',
+          },
+          (downloadItem) => {
+            console.log(downloadItem);
+            if (downloadItem) {
+              setFileData(fileDataTemp);
+              message.success(intl.get('wallet_down_success'));
+            } else {
+              setFileData(null);
+              message.error(intl.get('wallet_down_fail'));
+            }
+          },
+        );
 
         setIsSuccess(true);
-      } catch {
+      } catch (eee) {
+        console.log(eee);
         message.error(intl.get('wallet_down_fail'));
         setIsSuccess(false);
       }

@@ -62,14 +62,7 @@ class WebKeyStore extends KeyStore {
     const fileData = new File([blob], `${publickey}.findorawallet`, {
       type: 'findorawallet/plain;charset=utf-8',
     });
-    console.log(fileData);
-    chrome.downloads.download({
-      filename: `${publickey}.findorawallet`,
-      saveAs: true,
-      conflictAction: 'overwrite',
-      url: URL.createObjectURL(fileData),
-      method: 'GET',
-    });
+    return fileData;
   };
 
   /**
@@ -91,7 +84,8 @@ class WebKeyStore extends KeyStore {
     // 下载KeyStore
     let publickey = address.replace(/^_|_$/g, '');
     publickey = publickey.replace(/"/g, '');
-    this.writeToFile({ publickey, name });
+    const fileData = this.writeToFile({ publickey, name });
+    return fileData;
   };
 
   /**
