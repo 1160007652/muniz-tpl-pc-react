@@ -69,7 +69,7 @@ const enUS = {
   wallet_down_agree: 'I will save the keystore file and remember the password',
   wallet_down_btn: 'Download Keystore File',
   wallet_down_success: 'Download Succeeded',
-  wallet_down_fail: 'DownLoad Failed',
+  wallet_down_fail: 'Download Failed',
   wallet_remove_title: 'Remove Wallet',
   wallet_remove_notice:
     'You are about to remove the wallet. Please make sure you have saved the keystore file to restore the wallet.',
