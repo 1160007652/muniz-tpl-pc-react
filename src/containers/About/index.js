@@ -15,7 +15,7 @@ import './index.less';
 
 const About = () => {
   function handleOnClickGoIssue() {
-    window.open('https://bugtracker.findora.org/projects/web-wallet/issues/new');
+    window.open('https://bugtracker.findora.org/projects/testnet/issues/new');
   }
   return (
     <div className="findora-wallet-about">
@@ -27,7 +27,7 @@ const About = () => {
         </div>
         <p>{intl.get('about_info')}</p>
         <div onClick={handleOnClickGoIssue} className="go_issue">
-          https://bugtracker.findora.org/projects/web-wallet/issues/new
+          https://bugtracker.findora.org/projects/testnet/issues/new
         </div>
       </div>
     </div>
