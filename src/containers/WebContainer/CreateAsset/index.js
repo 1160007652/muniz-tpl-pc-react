@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { toJS } from 'mobx';
 import { MobXProviderContext, observer } from 'mobx-react';
-import { Input, Radio } from 'antd';
+import { Input, InputNumber, Radio } from 'antd';
 import { useImmer } from 'use-immer';
 import intl from 'react-intl-universal';
 
@@ -18,8 +18,9 @@ import './index.less';
 
 const CreateAsset = () => {
   const walletStore = React.useContext(MobXProviderContext).walletStore;
-  const [windowInfo, setWindowInfo] = useImmer({
-    isCreatedWindow: false,
+  const [nextDisabled, setNextDisabled] = useState(false);
+  const [error, setError] = useImmer({
+    amountError: null,
   });
   const [data, setData] = useImmer({
     founder: walletStore.walletInfo.publickey,
@@ -43,24 +44,18 @@ const CreateAsset = () => {
   function handleClickCreate() {
     chrome.storage.sync.set({ tempCreateAssetConfrim: JSON.stringify(data) });
 
-    if (!windowInfo.isCreatedWindow) {
-      const www = chrome.windows.create(
-        {
-          url: `${chrome.runtime.getURL('popup.html')}#${pageURL.assetConfrim.replace(
-            ':actionType',
-            'createAssetConfrim',
-          )}`,
-          type: 'popup',
-          width: 400,
-          height: 630,
-        },
-        () => {
-          // setWindowInfo((state) => {
-          //   state.isCreatedWindow = true;
-          // });
-        },
-      );
-    }
+    chrome.windows.create(
+      {
+        url: `${chrome.runtime.getURL('popup.html')}#${pageURL.assetConfrim.replace(
+          ':actionType',
+          'createAssetConfrim',
+        )}`,
+        type: 'popup',
+        width: 400,
+        height: 630,
+      },
+      () => {},
+    );
   }
   /** 切换钱包地址 */
   function handleChangeSwitchAddress(address) {
@@ -75,10 +70,21 @@ const CreateAsset = () => {
     });
   }
   /** 最大值定义资产 */
-  function handleChangeAssetMaxNumbers(e) {
-    e.persist();
+  function handleChangeAssetMaxNumbers(value) {
+    if (value) {
+      setNextDisabled(false);
+      setError((state) => {
+        state.amountError = null;
+      });
+    } else {
+      setNextDisabled(true);
+      setError((state) => {
+        state.amountError = 'token_create_max_amount_limit_tips';
+      });
+    }
+
     setData((state) => {
-      state.asset = { ...state.asset, maxNumbers: e.target.value };
+      state.asset = { ...state.asset, maxNumbers: value };
     });
   }
   /** 输入记录 */
@@ -92,11 +98,26 @@ const CreateAsset = () => {
   /** 更新 Radio 选择 */
   function handleChangeRadio(key) {
     return (e) => {
+      const value = e.target.value;
+      if (key === 'maxUnits' && value && !data.asset.maxNumbers) {
+        setNextDisabled(true);
+        setError((state) => {
+          state.amountError = 'token_create_max_amount_limit_tips';
+        });
+      } else {
+        setNextDisabled(false);
+        setError((state) => {
+          state.amountError = null;
+        });
+      }
       setData((state) => {
-        state[key] = e.target.value;
-        state.asset.maxNumbers = key === 'maxUnits' && e.target.value ? state.asset.maxNumbers : '';
+        state[key] = value;
+        state.asset.maxNumbers = key === 'maxUnits' && value ? state.asset.maxNumbers : '';
       });
     };
+  }
+  function limitDecimals(value) {
+    return Number(String(value).replace(/^(0+)|[^\d]+/g, '')) || '';
   }
   return (
     <FindoraWebContainer className="create-asset" title={intl.get('menu_asset_create1')}>
@@ -131,13 +152,19 @@ const CreateAsset = () => {
             <Radio value={false}>No</Radio>
           </Radio.Group>
           {data.maxUnits && (
-            <Input
-              placeholder={intl.get('token_create_max_amount_placeholder')}
-              type="number"
-              style={{ marginTop: '10px' }}
-              value={data.asset.maxNumbers}
-              onChange={handleChangeAssetMaxNumbers}
-            />
+            <div style={{ marginTop: '10px' }}>
+              <InputNumber
+                placeholder={intl.get('token_create_max_amount_placeholder')}
+                style={{ width: '100%' }}
+                min={0}
+                step={1}
+                value={data.asset.maxNumbers}
+                onChange={handleChangeAssetMaxNumbers}
+                formatter={limitDecimals}
+                parser={limitDecimals}
+              />
+              {error.amountError && <div className="error">{intl.get(error.amountError)}</div>}
+            </div>
           )}
         </FindoraBoxView>
         {/* 第一版, 暂且不实现 该功能 */}
@@ -174,7 +201,7 @@ const CreateAsset = () => {
           </Radio.Group>
         </FindoraBoxView> */}
         <div className="btn-area">
-          <FindoraButton className="btn" onClick={handleClickCreate}>
+          <FindoraButton className="btn" onClick={handleClickCreate} disabled={nextDisabled}>
             {intl.get('token_create_create')}
           </FindoraButton>
         </div>

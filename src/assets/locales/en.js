@@ -124,6 +124,7 @@ const enUS = {
   network_online: 'Online',
   network_testnet: 'Testnet',
 
+  token_create_max_amount_limit_tips: 'Max units limit cannot be empty',
   token_create_founder: 'Issuer',
   token_create_memo_placeholder: 'Please enter memo',
   token_create_max_amount: 'Max Units Limit',
