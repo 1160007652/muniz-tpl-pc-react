@@ -12,6 +12,7 @@ const zhCN = {
   navigation_back: '返回',
   wallet_name_edit_placeholder: '请输入钱包名称',
 
+  done: '完成',
   notice: '提示',
   warning: '警告',
   cancel: '取消',
@@ -71,6 +72,7 @@ const zhCN = {
   wallet_export_title: '导出钱包',
   wallet_create_lafter_import_tips: '导入您的新钱包',
   wallet_import_has_been: '该钱包已导入, 请无重复操作',
+  wallet_empty_tips: '当前没有导入钱包',
 
   menu_home: '钱包列表',
   menu_wallet_create: '创建钱包',

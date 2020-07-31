@@ -13,6 +13,7 @@ const enUS = {
   navigation_back: 'Back',
   wallet_name_edit_placeholder: 'Place wallet name',
 
+  done: 'Done',
   notice: 'NOTICE',
   warning: 'WARNING',
   cancel: 'Cancel',
@@ -76,6 +77,7 @@ const enUS = {
   wallet_export_title: 'Export Wallet',
   wallet_create_lafter_import_tips: 'Import your new wallet',
   wallet_import_has_been: 'The wallet has been imported, please do not repeat the operation',
+  wallet_empty_tips: 'No wallets are currently imported',
 
   menu_home: 'Wallets',
   menu_wallet_create: 'Create Wallet',
@@ -114,7 +116,7 @@ const enUS = {
   send_error3: 'Cannot exceed the transferrable units of the asset',
   send_error4: 'To address cannot be empty',
   send_error5: 'The transfer amount cannot be empty',
-  send_error6: 'Transfer assets cannot be empty',
+  send_error6: 'An asset must be selected',
   send_error7: 'The asset cannot be hidden',
 
   tips_wallet_create: 'Please create wallet address first',

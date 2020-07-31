@@ -48,7 +48,7 @@ const ResultAsset = ({ data, title, onClose, onView }) => {
       <div className="btn-area">
         {isSuccess ? (
           <FindoraButton className="btn" onClick={onView}>
-            {intl.get('view')}
+            {title === 'Created' ? intl.get('done') : intl.get('view')}
           </FindoraButton>
         ) : (
           <FindoraButton className="btn" onClick={onClose}>

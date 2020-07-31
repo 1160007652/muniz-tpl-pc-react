@@ -18,6 +18,7 @@ import './index.less';
 const WalletEmpty = () => {
   return (
     <div className="findora-wallet-empty">
+      <div className="wallet-empty-tips">{intl.get('wallet_empty_tips')}</div>
       <div className="button-area">
         <Link to={pageURL.createwallet} className="button-create-wallet">
           <FindoraButton>{intl.get('page_wallet_create_title')}</FindoraButton>
