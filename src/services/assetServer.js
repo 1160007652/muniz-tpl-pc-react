@@ -110,7 +110,7 @@ class AssetServer {
     } else {
       return {
         code: -1,
-        message: status,
+        message: status.Rejected,
       };
     }
   };

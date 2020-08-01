@@ -42,7 +42,7 @@ const ResultAsset = ({ data, title, onClose, onView }) => {
             <CloseOutlined className="icon fail" />
           </div>
           <div className="tips">{intl.get('fail')}</div>
-          <div className="message">{data.result.message}</div>
+          <div className="message">{data?.result?.message}</div>
         </div>
       )}
       <div className="btn-area">

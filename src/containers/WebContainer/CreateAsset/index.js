@@ -99,19 +99,28 @@ const CreateAsset = () => {
   function handleChangeRadio(key) {
     return (e) => {
       const value = e.target.value;
-      if (key === 'maxUnits' && value && !data.asset.maxNumbers) {
-        setNextDisabled(true);
-        setError((state) => {
-          state.amountError = 'token_create_max_amount_limit_tips';
-        });
-        setData((state) => {
-          state.asset.maxNumbers = key === 'maxUnits' && value ? state.asset.maxNumbers : '';
-        });
-      } else {
-        setNextDisabled(false);
-        setError((state) => {
-          state.amountError = null;
-        });
+      if (key === 'maxUnits') {
+        if (value) {
+          if (!data.asset.maxNumbers) {
+            setNextDisabled(true);
+
+            setError((state) => {
+              state.amountError = 'token_create_max_amount_limit_tips';
+            });
+          } else {
+            setNextDisabled(false);
+            setError((state) => {
+              state.amountError = null;
+            });
+          }
+          setData((state) => {
+            state.asset.maxNumbers = state.asset.maxNumbers;
+          });
+        } else {
+          setData((state) => {
+            state.asset.maxNumbers = '';
+          });
+        }
       }
       setData((state) => {
         state[key] = value;
