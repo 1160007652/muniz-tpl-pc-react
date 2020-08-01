@@ -75,7 +75,7 @@ const Transactions = () => {
             lineHeight: '32px',
           }}
         >
-          <Button onClick={handleClickReload}>{intl.get('transaction_loade_more')}</Button>
+          {dataList.length > 2 && <Button onClick={handleClickReload}>{intl.get('transaction_loade_more')}</Button>}
         </div>
       ) : null;
     } else {
@@ -88,7 +88,7 @@ const Transactions = () => {
             lineHeight: '32px',
           }}
         >
-          <Button onClick={handleClickReload}>{intl.get('transaction_loade_more')}</Button>
+          {dataList.length > 2 && <Button onClick={handleClickReload}>{intl.get('transaction_loade_more')}</Button>}
         </div>
       ) : (
         <div className="data-empty">{intl.get('transaction_loade_empty')}</div>

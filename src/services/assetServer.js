@@ -82,6 +82,7 @@ class AssetServer {
     if (asset.maxNumbers && asset.maxNumbers > 0) {
       assetRules = assetRules.set_max_units(BigInt(asset.maxNumbers));
     }
+
     if (traceable) {
       assetRules = assetRules.add_tracing_policy(tracingPolicy);
     }

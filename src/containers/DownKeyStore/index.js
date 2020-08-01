@@ -58,7 +58,7 @@ const DownKeyStore = () => {
         console.log(fileDataTemp);
         chrome.downloads.download(
           {
-            filename: `${fileName}.findorawallet`,
+            filename: fileName,
             saveAs: true,
             conflictAction: 'overwrite',
             url: window.URL.createObjectURL(fileData || fileDataTemp),
