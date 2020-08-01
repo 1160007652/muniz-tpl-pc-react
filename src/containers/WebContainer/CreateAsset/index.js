@@ -104,6 +104,9 @@ const CreateAsset = () => {
         setError((state) => {
           state.amountError = 'token_create_max_amount_limit_tips';
         });
+        setData((state) => {
+          state.asset.maxNumbers = key === 'maxUnits' && value ? state.asset.maxNumbers : '';
+        });
       } else {
         setNextDisabled(false);
         setError((state) => {
@@ -112,7 +115,6 @@ const CreateAsset = () => {
       }
       setData((state) => {
         state[key] = value;
-        state.asset.maxNumbers = key === 'maxUnits' && value ? state.asset.maxNumbers : '';
       });
     };
   }
