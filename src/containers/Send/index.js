@@ -22,7 +22,9 @@ const Send = () => {
   const history = useHistory();
   const walletStore = React.useContext(MobXProviderContext).walletStore;
   const [nextDisabled, setNextDisabled] = useState(true);
-
+  const [blindError, setBlindError] = useImmer({
+    isTypeError: null,
+  });
   const [error, setError] = useImmer({
     assetNameError: null,
     amountError: 'send_error5',
@@ -50,6 +52,7 @@ const Send = () => {
     const asset_rules = {
       asset_rules: {
         max_units: null,
+        tracing_policies: null,
         transfer_multisig_rules: null,
         transferable: true,
         updatable: false,
@@ -66,6 +69,22 @@ const Send = () => {
         state.assetNameError = 'send_error6';
       });
       return;
+    }
+
+    if (asset_rules.asset_rules.tracing_policies) {
+      setBlindError((state) => {
+        state.isTypeError = 'send_error7';
+      });
+      setData((state) => {
+        state.blind.isType = false;
+      });
+    } else {
+      setBlindError((state) => {
+        state.isTypeError = null;
+      });
+      setData((state) => {
+        state.blind.isType = true;
+      });
     }
 
     if (!asset_rules.asset_rules.transferable && data.from !== value?.issuer?.key) {
@@ -235,10 +254,15 @@ const Send = () => {
           </Radio.Group>
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('blind_type')} isRow>
-          <Radio.Group value={data.blind.isType} onChange={handleChangeRadio('isType')}>
+          <Radio.Group
+            value={data.blind.isType}
+            disabled={blindError.isTypeError}
+            onChange={handleChangeRadio('isType')}
+          >
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
+          {blindError.isTypeError && <div className="error">{intl.get(blindError.isTypeError)}</div>}
         </FindoraBoxView>
         <div className="btn-area">{AssetRulesComponent()}</div>
       </div>
