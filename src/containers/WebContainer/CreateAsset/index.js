@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { toJS } from 'mobx';
 import { MobXProviderContext, observer } from 'mobx-react';
-import { Input, InputNumber, Radio } from 'antd';
+import { Input, InputNumber, Radio, Drawer } from 'antd';
 import { useImmer } from 'use-immer';
 import intl from 'react-intl-universal';
 
@@ -11,13 +11,13 @@ import FindoraWebContainer from '_components/FindoraWebContainer';
 import SwitchAddress from '_containers/SwitchAddress';
 import CreateAssetName from '_containers/CreateAssetName';
 import FindoraTips from '_components/FindoraTips';
-
-import pageURL from '_constants/pageURL';
+import CreateAssetConfrim from '../CreateAssetConfrim';
 
 import './index.less';
 
 const CreateAsset = () => {
-  const walletStore = React.useContext(MobXProviderContext).walletStore;
+  const { walletStore, assetStore } = React.useContext(MobXProviderContext);
+  const { created: drawerInfo } = assetStore.drawerInfo;
   const [nextDisabled, setNextDisabled] = useState(false);
   const [error, setError] = useImmer({
     amountError: null,
@@ -42,33 +42,23 @@ const CreateAsset = () => {
    * 创建资产, 唤醒插件, 校验信息
    */
   function handleClickCreate() {
-    chrome.storage.sync.set({ tempCreateAssetConfrim: JSON.stringify(data) });
-
-    chrome.windows.create(
-      {
-        url: `${chrome.runtime.getURL('popup.html')}#${pageURL.assetConfrim.replace(
-          ':actionType',
-          'createAssetConfrim',
-        )}`,
-        type: 'popup',
-        width: 400,
-        height: 630,
-      },
-      () => {},
-    );
+    assetStore.toggleDrawer('created', true);
   }
+
   /** 切换钱包地址 */
   function handleChangeSwitchAddress(address) {
     setData((state) => {
       state.founder = address;
     });
   }
+
   /** 输入资产名称 */
   function handleChangeAssetName(value) {
     setData((state) => {
       state.asset = { ...state.asset, ...value };
     });
   }
+
   /** 最大值定义资产 */
   function handleChangeAssetMaxNumbers(value) {
     if (value) {
@@ -99,25 +89,41 @@ const CreateAsset = () => {
   function handleChangeRadio(key) {
     return (e) => {
       const value = e.target.value;
-      if (key === 'maxUnits' && value && !data.asset.maxNumbers) {
-        setNextDisabled(true);
-        setError((state) => {
-          state.amountError = 'token_create_max_amount_limit_tips';
-        });
-      } else {
-        setNextDisabled(false);
-        setError((state) => {
-          state.amountError = null;
-        });
+      if (key === 'maxUnits') {
+        if (value) {
+          if (!data.asset.maxNumbers) {
+            setNextDisabled(true);
+
+            setError((state) => {
+              state.amountError = 'token_create_max_amount_limit_tips';
+            });
+          } else {
+            setNextDisabled(false);
+            setError((state) => {
+              state.amountError = null;
+            });
+          }
+          setData((state) => {
+            state.asset.maxNumbers = state.asset.maxNumbers;
+          });
+        } else {
+          setData((state) => {
+            state.asset.maxNumbers = '';
+          });
+        }
       }
       setData((state) => {
         state[key] = value;
-        state.asset.maxNumbers = key === 'maxUnits' && value ? state.asset.maxNumbers : '';
       });
     };
   }
+  /** 格式化InputNumber 输入框显示 */
   function limitDecimals(value) {
     return Number(String(value).replace(/^(0+)|[^\d]+/g, '')) || '';
+  }
+  /** 关闭抽屉 */
+  function onClose() {
+    assetStore.toggleDrawer('created', false);
   }
   return (
     <FindoraWebContainer className="create-asset" title={intl.get('menu_asset_create1')}>
@@ -135,7 +141,7 @@ const CreateAsset = () => {
           isRow
           titleDirection="top"
         >
-          <CreateAssetName onResult={handleChangeAssetName} />
+          <CreateAssetName onResult={handleChangeAssetName} key={drawerInfo.componentKey} />
         </FindoraBoxView>
 
         <FindoraBoxView title={intl.get('memo')} isRow>
@@ -205,6 +211,18 @@ const CreateAsset = () => {
             {intl.get('token_create_create')}
           </FindoraButton>
         </div>
+
+        <Drawer
+          width="520px"
+          maskClosable={true}
+          destroyOnClose
+          placement="right"
+          closable={false}
+          onClose={onClose}
+          visible={drawerInfo.visible}
+        >
+          <CreateAssetConfrim data={data} />
+        </Drawer>
       </div>
     </FindoraWebContainer>
   );
