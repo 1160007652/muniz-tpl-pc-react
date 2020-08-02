@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { toJS } from 'mobx';
 import { MobXProviderContext, observer } from 'mobx-react';
-import { Tag, InputNumber, Radio } from 'antd';
+import { Tag, InputNumber, Radio, Drawer } from 'antd';
 import { useImmer } from 'use-immer';
 import intl from 'react-intl-universal';
 
@@ -10,13 +10,13 @@ import FindoraBoxView from '_components/FindoraBoxView';
 import FindoraWebContainer from '_components/FindoraWebContainer';
 import SwitchAddress from '_containers/SwitchAddress';
 import SwitchAssetName from '_containers/SwitchAssetName';
-
-import pageURL from '_constants/pageURL';
+import IssueAssetConfrim from '../IssueAssetConfrim';
 
 import './index.less';
 
 const IssueAsset = () => {
-  const walletStore = React.useContext(MobXProviderContext).walletStore;
+  const { walletStore, assetStore } = React.useContext(MobXProviderContext);
+  const { issued: drawerInfo } = assetStore.drawerInfo;
   const [nextDisabled, setNextDisabled] = useState(true);
   const [error, setError] = useImmer({
     amountError: null,
@@ -33,7 +33,6 @@ const IssueAsset = () => {
     inputNumbers: '',
     blind: {
       isAmount: true,
-      // isType: false,
     },
   });
 
@@ -41,13 +40,7 @@ const IssueAsset = () => {
    * 创建资产, 唤醒插件, 校验信息
    */
   function handleClickCreate() {
-    chrome.storage.sync.set({ tempIssueAssetConfrim: JSON.stringify(data) });
-    chrome.windows.create({
-      url: `${chrome.runtime.getURL('popup.html')}#${pageURL.assetConfrim.replace(':actionType', 'issueAssetConfrim')}`,
-      type: 'popup',
-      width: 400,
-      height: 630,
-    });
+    assetStore.toggleDrawer('issued', true);
   }
   /** 切换钱包地址 */
   function handleChangeSwitchAddress(address) {
@@ -57,13 +50,6 @@ const IssueAsset = () => {
   }
   /** 输入资产名称 */
   function handleChangeAssetName(value) {
-    // const asset_rules = {
-    //   max_units: null,
-    //   transfer_multisig_rules: null,
-    //   transferable: true,
-    //   updatable: false,
-    // };
-
     const asset_rules = {
       asset_rules: {
         max_units: null,
@@ -119,8 +105,6 @@ const IssueAsset = () => {
 
   /** 输入 Amount  */
   function handleChangeAmount(value) {
-    // e.persist();
-    // let value = e.target.value;
     if (Number(value)) {
       if (data.asset?.asset_rules?.max_units) {
         if (Number(value) > data.asset?.asset_rules?.max_units - Number(data.asset?.numbers)) {
@@ -166,9 +150,16 @@ const IssueAsset = () => {
     };
   }
 
+  /** 格式化 InputNumber 输入框显示 */
   function limitDecimals(value) {
     return Number(String(value).replace(/^(0+)|[^\d]+/g, '')) || '';
   }
+
+  /** 关闭drawer */
+  function onClose() {
+    assetStore.toggleDrawer('issued', false);
+  }
+
   return (
     <FindoraWebContainer className="issue-asset" title={intl.get('menu_asset_issue')}>
       <div className="issue-asset-box">
@@ -226,17 +217,24 @@ const IssueAsset = () => {
           </Radio.Group>
           <div className="error">{data.asset?.asset_rules?.max_units && intl.get('token_issue_error3')}</div>
         </FindoraBoxView>
-        {/* <FindoraBoxView title={intl.get('blind_type')} isRow>
-          <Radio.Group value={data.blind.isType} disabled onChange={handleChangeRadio('isType')}>
-            <Radio value={true}>Yes</Radio>
-            <Radio value={false}>No</Radio>
-          </Radio.Group>
-        </FindoraBoxView> */}
+
         <div className="btn-area">
           <FindoraButton className="btn" onClick={handleClickCreate} disabled={nextDisabled}>
             {intl.get('confirm')}
           </FindoraButton>
         </div>
+
+        <Drawer
+          width="520px"
+          maskClosable={true}
+          destroyOnClose
+          placement="right"
+          closable={false}
+          onClose={onClose}
+          visible={drawerInfo.visible}
+        >
+          <IssueAssetConfrim data={data} />
+        </Drawer>
       </div>
     </FindoraWebContainer>
   );

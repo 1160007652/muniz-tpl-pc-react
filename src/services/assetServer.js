@@ -15,25 +15,8 @@ import rootStore from '_src/stores';
  */
 class AssetServer {
   constructor() {
-    // this.zeiParams = '';
+    this.zeiParams = null;
   }
-  /**
-   * 获取PublicParams, 增发资产使用. 由于耗时严重,提取变量
-   *
-   * @memberof assetServer
-   */
-  /**
-   * Gets the public parameters used to issue assets.
-   *
-   * Generating this is expensive and should be done as infrequently as possible.
-   *
-   * @memberof assetServer
-   */
-  getPublicParams = async () => {
-    const findoraWasm = await import('wasm');
-    const zeiParams = findoraWasm.PublicParams.new();
-    return zeiParams;
-  };
   /**
    * @description 系统生成资产地址-长名称
    * @returns {string}
@@ -127,16 +110,13 @@ class AssetServer {
     console.groupCollapsed('=======>  开始增发资产');
     console.log('表单数据: ', param);
 
-    // const backGroundPage = chrome.extension.getBackgroundPage();
-    // const { findoraConfig } = backGroundPage;
-    // this.zeiParams = findoraConfig.zeiParams;
-
-    // 如果没有从backgroundPage 中取到 数据, 就执行兜底方案,重新获取一个数据
-
     const findoraWasm = await import('wasm');
 
-    const zeiParams = findoraWasm.PublicParams.new();
-    console.log('zeiParams: ', zeiParams);
+    if (!this.zeiParams) {
+      this.zeiParams = findoraWasm.PublicParams.new();
+    }
+
+    console.log('zeiParams: ', this.zeiParams);
 
     const { asset, blind, issuer, inputNumbers } = param;
     const walletInfo = rootStore.walletStore.walletImportList.filter((item) => item.publickey === issuer)[0];
@@ -173,7 +153,7 @@ class AssetServer {
         BigInt(stateCommitment[1]),
         BigInt(inputNumbers),
         blind.isAmount,
-        zeiParams,
+        this.zeiParams,
       )
       .transaction();
     console.log('提交前的表单数据: ', issueTxn);

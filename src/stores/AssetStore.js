@@ -40,6 +40,37 @@ class AssetStore {
   /** List of transferred assets */
   @observable sentAssetList = [];
 
+  /** 抽屉数据 */
+  @observable drawerInfo = {
+    created: {
+      visible: false,
+      componentKey: 0,
+    },
+    issued: {
+      visible: false,
+      componentKey: 0,
+    },
+  };
+
+  /**
+   * 关闭打开抽屉
+   *
+   * @memberof AssetStore
+   */
+  @action toggleDrawer = (key, value) => {
+    this.drawerInfo[key].visible = value;
+  };
+
+  /**
+   * 创建,增发资产成功后, 通过递增key, 使组件重新渲染,已更新数据
+   *
+   * @memberof AssetStore
+   */
+  @action changeComponentKey = (key) => {
+    const { componentKey } = this.drawerInfo[key];
+    this.drawerInfo[key].componentKey = componentKey + 1;
+  };
+
   /**
    * 获取创建的资产, 用于在issuedPage (增发页面展示)
    *

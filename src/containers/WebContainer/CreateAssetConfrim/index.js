@@ -1,36 +1,32 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { MobXProviderContext } from 'mobx-react';
 import intl from 'react-intl-universal';
 import { Spin, message } from 'antd';
 
+import FindoraHeader from '_components/FindoraHeader';
 import FindoraButton from '_components/FindoraButton';
 import FindoraBoxView from '_components/FindoraBoxView';
 import ResultAsset from '_components/ResultAsset';
 
 import services from '_src/services';
-import pageURL from '_constants/pageURL';
 
 import './index.less';
 
 const CreateAssetConfrim = ({ data }) => {
-  const walletStore = React.useContext(MobXProviderContext).walletStore;
+  const { walletStore, assetStore } = React.useContext(MobXProviderContext);
   const [resultData, setResultData] = useState({ type: false });
   const [isShowResult, setShowResult] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const hirstory = useHistory();
   const { founder, asset, memo, policy, traceable, transferable, updatable } = data;
 
   /** 取消窗口 */
   function handleClickCancel() {
-    chrome.storage.sync.remove(['tempCreateAssetConfrim']);
-    chrome.windows.getCurrent((curWindow) => {
-      chrome.windows.remove(curWindow.id);
-    });
+    assetStore.toggleDrawer('created', false);
   }
   /** 显示结果后, 按钮事件 */
   function handleClickView() {
-    hirstory.replace({ pathname: pageURL.walletInfo });
+    assetStore.toggleDrawer('created', false);
+    assetStore.changeComponentKey('created');
   }
   /** 提交数据 */
   async function handleClickSubmit() {
@@ -42,6 +38,7 @@ const CreateAssetConfrim = ({ data }) => {
       if (result.code === 0) {
         walletStore.setWalletInfo(data.walletInfo);
       }
+      assetStore.changeComponentKey('created');
       setLoading(false);
       setResultData({ type: result.code === 0, result });
       setShowResult(true);
@@ -54,6 +51,7 @@ const CreateAssetConfrim = ({ data }) => {
   function confrimComponent() {
     return (
       <div className="create-asset-confrim">
+        <FindoraHeader />
         <Spin spinning={isLoading}>
           <div className="create-asset-confrim-box">
             <FindoraBoxView title={intl.get('token_issue_issuer')}>
