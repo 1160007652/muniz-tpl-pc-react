@@ -16,9 +16,9 @@ window.addEventListener(
       return;
     }
     // 如果标识符一致,开始分发事件
-    if (data.from === 'findora-ext-wallet') {
+    if (data.action === 'findora-ext-wallet') {
       /** 使用 chrome.runtime.sendMessage , 向后台 background.js 发送消息*/
-      chrome.runtime.sendMessage({ type: 'content-script', path: 'openSend' }, (response) => {
+      chrome.runtime.sendMessage({ type: 'content-script', path: 'openSend', data }, (response) => {
         console.log(response);
         // chrome.extension.getURL("normal_popup.html")
       });
@@ -30,8 +30,14 @@ window.addEventListener(
 /*
 
 window.postMessage({
-    "from": "findora-ext-wallet",
-    "data": '1111'
+    action: 'findora-ext-wallet',
+    to: 'r4uk6Ha2i-EOJKsbNFraSSFtk0uuKa0uBKDvPv6-UqE=',
+    assetCode: 'SIcvzzTUDng_eC3JDlm7xhbfdgRNB1GNte3zOPn_1m0=',
+    numbers: '1',
+    blind: {
+      isAmount: true,
+      isType: true,
+    },
 }, "*");
 
 */

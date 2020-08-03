@@ -48,7 +48,7 @@ const Send = () => {
   /** 资产名称选中事件, 回调结果 */
   function handleChangeSelectAssetName(value) {
     setNextDisabled(true);
-
+    console.log('xxxxxxxxxxssssssxxxx=', value);
     const asset_rules = {
       asset_rules: {
         max_units: null,

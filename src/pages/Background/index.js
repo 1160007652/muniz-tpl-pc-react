@@ -36,32 +36,49 @@ setTimeout(exactWalletList, 300);
 // 浏览器启动后, 自动 同步远程数据, 并且每间隔 1小时同步一次
 setInterval(exactWalletList, 3600000);
 
-// 提前执行该方法是为了缓存PublicParams = zeiParams , 这个数据, 这个数据在
-// services.assetServer.getPublicParams();
-
-window.findoraConfig = {
-  zeiParams: '',
-};
-
-// 异步获取zeiParams数据
-// setTimeout(() => {
-//   services.assetServer.getPublicParams().then((result) => {
-//     window.findoraConfig.zeiParams = result;
-//   });
-// }, 300);
+// 用于保存钱包全局信息
+window.findoraConfig = {};
 
 /** 通过 chrome.runtime.onMessage.addListener 监听 content.js 使用 chrome.runtime.sendMessage 发送的消息 */
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   // type: 'content-script' ,path: 'openSend'
-  if (request.type === 'content-script') {
-    chrome.windows.create({
-      url: `${chrome.runtime.getURL('popup.html')}#${pageURL.send}`,
-      type: 'popup',
-      width: 400,
-      height: 600,
-    });
+  const { type, path, data } = request;
+  if (type === 'content-script') {
+    if (path === 'openSend') {
+      openSend(data);
+    }
   }
 
   sendResponse('yes, 我已经收到 content.js 发送过来的消息');
   return true;
 });
+
+/** 唤醒转账界面 */
+async function openSend(data) {
+  /*
+      // 最终数据
+      asset_rules: {transferable: true, updatable: false, transfer_multisig_rules: null, tracing_policies: Array(1), max_units: null}
+      code: "SIcvzzTUDng_eC3JDlm7xhbfdgRNB1GNte3zOPn_1m0="
+      issuer: {key: "iLE0JnvHho3REOwklDxAgXSynMS-NtKBZF2XQ5jglgQ="}
+      long: "SIcvzzTUDng_eC3JDlm7xhbfdgRNB1GNte3zOPn_1m0="
+      memo: "我是猪猪侠哦, 噗噗噗..."
+      numbers: 100
+      short: "我是猪猪侠哦, 噗噗噗..."
+
+      // 传入数据
+      action: 'findora-ext-wallet',
+      to: 'r4uk6Ha2i-EOJKsbNFraSSFtk0uuKa0uBKDvPv6-UqE=',
+      assetCode: 'SIcvzzTUDng_eC3JDlm7xhbfdgRNB1GNte3zOPn_1m0=',
+      numbers: '1',
+      blind: {
+        isAmount: true,
+        isType: true,
+      },
+    */
+  chrome.windows.create({
+    url: `${chrome.runtime.getURL('popup.html')}#${pageURL.send}`,
+    type: 'popup',
+    width: 400,
+    height: 600,
+  });
+}

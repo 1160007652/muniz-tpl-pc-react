@@ -46,7 +46,7 @@ const pageURL = {
   walletInfo: '/walletInfo',
   /** 转账页面 */
   /** Asset transfer page */
-  send: '/send',
+  send: '/send/',
   /** 转账详情页面 */
   /** Transfer details page */
   sendConfrim: '/sendConfrim',
