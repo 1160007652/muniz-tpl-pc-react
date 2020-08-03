@@ -169,9 +169,9 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
       } else {
         result.txn_type = 'input'; // 输出
       }
-      if (result.to === result.from) {
-        result.txn_type = 'input'; // 输入
-      }
+      // if (result.to === result.from) {
+      //   result.txn_type = 'input'; // 输入
+      // }
 
       result.asset.tokenCode = findoraWasm.asset_type_from_jsvalue(decryptInputAssetData.asset_type);
 
@@ -209,10 +209,10 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
         result.txn_type = 'output'; // 输出
       }
 
-      if (result.to === result.from) {
-        console.log('接受者 输入输出相同');
-        result.txn_type = 'output'; // 输入
-      }
+      // if (result.to === result.from) {
+      //   console.log('接受者 输入输出相同');
+      //   result.txn_type = 'output'; // 输入
+      // }
     }
     // }
   }
