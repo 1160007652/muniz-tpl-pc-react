@@ -118,6 +118,7 @@ const enUS = {
   send_error5: 'The transfer amount cannot be empty',
   send_error6: 'An asset must be selected',
   send_error7: 'The asset cannot be hidden',
+  send_nosubmit_owne_tips: "Transferring to yourself isn't allowed.",
 
   tips_wallet_create: 'Please create wallet address first',
   tips_asset_create_result_success: 'Asset creation succeeded',
@@ -150,7 +151,7 @@ const enUS = {
   token_issue_error4: 'The issuance amount cannot be empty',
 
   transaction_asset_type: 'Asset Type',
-  transaction_loade_more: 'loading more',
+  transaction_loade_more: 'More',
   transaction_loade_empty: 'No more data',
 
   system_cancel_async: 'Cancel asynchronous tasks to prevent memory leaks',

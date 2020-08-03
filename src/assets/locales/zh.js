@@ -112,6 +112,7 @@ const zhCN = {
   send_error5: '转账金额不能为空',
   send_error6: '转账资产不能为空',
   send_error7: '该资产不可以隐藏类型',
+  send_nosubmit_owne_tips: '不允许转让给自己.',
 
   tips_wallet_create: '请先创建钱包地址',
   tips_asset_create_result_success: '创建资产成功',

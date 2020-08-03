@@ -112,6 +112,18 @@ const Send = () => {
   }
   /** 切换钱包地址 */
   function handleChangeSwitchAddress(address) {
+    if (address === data.to) {
+      setError((state) => {
+        state.toError = 'send_nosubmit_owne_tips';
+      });
+    } else {
+      setError((state) => {
+        state.toError = null;
+        if (Object.values(state).every((item) => item === null)) {
+          setNextDisabled(false);
+        }
+      });
+    }
     setData((state) => {
       state.from = address;
     });
@@ -124,6 +136,10 @@ const Send = () => {
     if (!to) {
       setError((state) => {
         state.toError = 'send_error4';
+      });
+    } else if (to === data.from) {
+      setError((state) => {
+        state.toError = 'send_nosubmit_owne_tips';
       });
     } else {
       setError((state) => {
