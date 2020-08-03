@@ -102,6 +102,7 @@
     "@hot-loader/react-dom": "^16.13.0",
     "antd": "^4.3.3",
     "axios": "^0.19.2",
+    "axios-retry": "^3.1.8",
     "classnames": "^2.2.6",
     "core-js": "2.6.5",
     "dexie": "^3.0.1",

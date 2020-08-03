@@ -3,7 +3,11 @@
  */
 
 import axios from 'axios';
+import axiosRetry from 'axios-retry';
 // import { message } from 'antd';
+
+// 重链请求次数
+axiosRetry(axios, { retries: 3 });
 
 axios.defaults.headers.common.timeout = 10000;
 
