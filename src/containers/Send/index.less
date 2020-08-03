@@ -3,7 +3,9 @@
   height: 100%;
   .send-box {
     box-sizing: border-box;
+    height: calc(100% - 120px);
     padding: 15px;
+    overflow-y: auto;
     .address {
       font-size: 12px;
       font-family: @equal-font;
@@ -17,17 +19,12 @@
         font-weight: 500;
       }
     }
-    .btn-area {
-      position: fixed;
-      right: 0;
-      bottom: 18px;
-      left: 0;
-      display: flex;
-      justify-content: center;
-      .btn {
-        width: 166px;
-        min-width: auto;
-      }
+  }
+  .btn-area {
+    .btn {
+      width: 166px;
+      min-width: auto;
+      margin: 10px auto;
     }
   }
 }

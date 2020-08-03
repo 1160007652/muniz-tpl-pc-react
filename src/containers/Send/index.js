@@ -280,8 +280,8 @@ const Send = () => {
           </Radio.Group>
           {blindError.isTypeError && <div className="error">{intl.get(blindError.isTypeError)}</div>}
         </FindoraBoxView>
-        <div className="btn-area">{AssetRulesComponent()}</div>
       </div>
+      <div className="btn-area">{AssetRulesComponent()}</div>
     </div>
   );
 };

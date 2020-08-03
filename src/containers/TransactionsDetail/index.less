@@ -35,5 +35,24 @@
         background-color: #e53935;
       }
     }
+    .tags {
+      display: flex;
+      align-items: center;
+
+      .tag {
+        margin-right: 10px;
+        padding: 0 10px;
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+        background: #bf0e94;
+        &.tag-type {
+          background-color: #6dbb11;
+        }
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
   }
 }

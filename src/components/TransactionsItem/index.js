@@ -28,14 +28,16 @@ const TransactionsItem = ({ data, onClick, className, style }) => {
   return (
     <div className={classNames('transactions-item', className)} onClick={onClick} style={style}>
       {/* <div className="time">{time}</div> */}
-
-      <div className="utxo">
-        <FindoraBoxView title="From">
-          <span className="address">{`${String(from).substr(0, 20)}...`}</span>
-        </FindoraBoxView>
-        <FindoraBoxView title="To">
-          <span className="address">{`${String(to).substr(0, 20)}...`}</span>
-        </FindoraBoxView>
+      <div className="state">
+        <div>
+          <span className="tag success">{intl.get(`txn_${type}`)}</span>
+          {blind.isAmount && <span className="tag">{intl.get('blind_amount')}</span>}
+          {blind.isType && <span className="tag">{intl.get('blind_type')}</span>}
+        </div>
+        <div className="value">
+          {txn_type === 'input' ? '+' : '-'}
+          {asset?.numbers}
+        </div>
       </div>
 
       <FindoraBoxView title={intl.get('transaction_asset_type')}>
@@ -46,23 +48,25 @@ const TransactionsItem = ({ data, onClick, className, style }) => {
         <div>{asset.memo}</div>
       </FindoraBoxView>
 
-      <div className="state">
-        <div>
-          <span className="tag">{intl.get(`txn_${type}`)}</span>
-          {blind.isAmount && <span className="tag">{intl.get('blind_amount')}</span>}
-          {blind.isType && <span className="tag">{intl.get('blind_type')}</span>}
-        </div>
+      <div className="utxo">
+        <FindoraBoxView title="From">
+          <span className="address">{`${String(from).substr(0, 20)}...`}</span>
+        </FindoraBoxView>
+        <FindoraBoxView title="To">
+          <span className="address">{`${String(to).substr(0, 20)}...`}</span>
+        </FindoraBoxView>
       </div>
-      <div className="state">
+
+      {/* <div className="state">
         <div>
           <span className={state ? 'success tag' : 'fail tag'}>{state ? 'success' : 'fail'}</span>
         </div>
         <div className="value">
           {txn_type === 'input' ? '+' : '-'}
           {asset?.numbers}
-          {/* <span>{asset.short}</span> */}
+          span>{asset.short}</span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

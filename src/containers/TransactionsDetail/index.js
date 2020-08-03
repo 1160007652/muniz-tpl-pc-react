@@ -11,7 +11,7 @@ import './index.less';
 
 const TransactionsDetail = () => {
   const RouterLocation = useLocation();
-  const { from, to, state, txn, asset } = RouterLocation.state;
+  const { from, to, state, txn, asset, type, blind } = RouterLocation.state;
   return (
     <div className="transactions-detail">
       <FindoraHeader title={intl.get('page_transactions_detail_title')} isShowBack menu={<HeaderMenu />} />
@@ -38,9 +38,18 @@ const TransactionsDetail = () => {
         <FindoraBoxView title={intl.get('asset_name')}>
           <span className="address">{asset.tokenCode}</span>
         </FindoraBoxView>
+        <FindoraBoxView title={`${intl.get('asset_name')} ${intl.get('memo')}`}>
+          <div>{asset.memo}</div>
+        </FindoraBoxView>
         <FindoraBoxView title={intl.get('balance')}>
           <span className="address">{asset.numbers}</span>
         </FindoraBoxView>
+
+        <div className="tags">
+          <span className="tag tag-type">{intl.get(`txn_${type}`)}</span>
+          {blind.isAmount && <span className="tag">{intl.get('blind_amount')}</span>}
+          {blind.isType && <span className="tag">{intl.get('blind_type')}</span>}
+        </div>
       </div>
     </div>
   );
