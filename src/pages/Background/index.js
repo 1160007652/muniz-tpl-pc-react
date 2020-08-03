@@ -61,9 +61,9 @@ async function openSend(data) {
       code: "SIcvzzTUDng_eC3JDlm7xhbfdgRNB1GNte3zOPn_1m0="
       issuer: {key: "iLE0JnvHho3REOwklDxAgXSynMS-NtKBZF2XQ5jglgQ="}
       long: "SIcvzzTUDng_eC3JDlm7xhbfdgRNB1GNte3zOPn_1m0="
-      memo: "我是猪猪侠哦, 噗噗噗..."
+      memo: "this is memo"
       numbers: 100
-      short: "我是猪猪侠哦, 噗噗噗..."
+      short: "this is memo"
 
       // 传入数据
       action: 'findora-ext-wallet',
