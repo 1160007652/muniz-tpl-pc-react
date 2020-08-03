@@ -129,7 +129,6 @@ const zhCN = {
   token_empty_tips: '您尚未创建任何资产。请单击',
   token_empty_here_tips: '此处',
   token_empty_last_tips: '创建一个',
-  token_create_btn_tips: '创建它',
   token_create_error1: '创建资产失败',
   token_or_issue_empty_here: ' 这里 ',
   token_issue_issuer: '发行者',

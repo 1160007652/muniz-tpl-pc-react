@@ -75,7 +75,7 @@ const enUS = {
   wallet_remove_notice:
     'You are about to remove the wallet. Please make sure you have saved the keystore file to restore the wallet.',
   wallet_export_title: 'Export Wallet',
-  wallet_create_lafter_import_tips: 'Import your new wallet',
+  wallet_create_lafter_import_tips: 'Import Your New Wallet',
   wallet_import_has_been: 'The wallet has been imported, please do not repeat the operation',
   wallet_empty_tips: 'No wallets are currently imported',
 
@@ -101,7 +101,7 @@ const enUS = {
 
   wallet_restore_password_error: 'Password Error',
   wallet_restore_no_upload_file: 'No file added',
-  wallet_restore_upload_file: 'Add KeyStore file',
+  wallet_restore_upload_file: 'Upload Keystore File',
   wallet_restore_inputpassword: 'Please enter password',
   wallet_restore_submit: 'Import',
 
@@ -132,16 +132,16 @@ const enUS = {
   token_create_max_amount: 'Max Units Limit',
   token_create_max_amount_placeholder: 'Please set max units that can be issued',
   token_create_create: 'Create',
-  token_empty_tips: "You haven't created any asset yet. Click",
+  token_empty_tips: "You haven't created any assets. Click",
   token_empty_here_tips: ' here ',
-  token_empty_last_tips: 'to create one',
-  token_create_btn_tips: 'to create it',
+  token_empty_last_tips: 'to create an asset.',
   token_create_error1: 'Failed to create asset',
   token_or_issue_empty_here: ' here ',
   token_issue_issuer: 'Issuer',
   token_issue_amount: 'Issuance Amount',
   token_issue_amount_placeholder: 'Please enter amount',
-  token_issue_empty_tips: "You don't own any asset yet. If you've created an asset, click",
+  token_issue_empty_tips:
+    "You haven't issued and don't own an asset with a positive balance. If you've created an asset, click",
   token_issue_create_btn_tips: 'to issue it.',
   token_issue_amount_unlimited: 'Unlimited',
   token_issue_error1: 'Issue Asset failed',
