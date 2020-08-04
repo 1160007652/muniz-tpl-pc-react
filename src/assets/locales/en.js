@@ -63,12 +63,11 @@ const enUS = {
   wallet_create_username_no_empty: 'Username cannot be empty',
   wallet_create_password_no_match: 'Passwords do not match',
   wallet_create_keystore_info:
-    'The keystore file is an encrypted file used to store the private key. It must be used with the password to unlock the wallet. Please keep the keystore file properly and remember the password. If one of them is lost, the asset will not be recovered.',
+    'The Findora Wallet file contains a your secret key, encrypted by a password you specify below. If you lose your password or wallet file, you will lose access to any assets you have and will need to create a new wallet.',
   wallet_create_next: 'Next',
-  wallet_down_notice:
-    'The keystore file is an encrypted file used to store the private key. It must be used with the password to unlock the wallet. Please keep the keystore file properly and remember the password. If either the wallet or the password is lost, the wallet can not be recovered.',
+
   wallet_down_agree: 'I will save the keystore file and remember the password',
-  wallet_down_btn: 'Download Keystore File',
+  wallet_down_btn: 'Save Findora Wallet',
   wallet_down_success: 'Download Succeeded',
   wallet_down_fail: 'Download Failed',
   wallet_remove_title: 'Remove Wallet',

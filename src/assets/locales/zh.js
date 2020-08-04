@@ -59,12 +59,10 @@ const zhCN = {
   wallet_create_username_no_empty: '用户名不能为空',
   wallet_create_password_no_match: '两次密码输入不一致',
   wallet_create_keystore_info:
-    'Keystore文件是用于保存私钥的加密文件，与密码必须同时使用才能解锁钱包，请您务必妥善保管Keystore文件并且牢记密码，如若丢失其中一个，资产将无法找回。',
+    'Findora钱包文件包含您的秘密密钥，该密钥由您在下面指定的密码加密。如果您丢失了密码或钱包文件，则将无法访问拥有的任何资产，并且需要创建一个新的钱包。',
   wallet_create_next: '下一步',
-  wallet_down_notice:
-    '密钥库文件是用于存储私钥的加密文件。它必须与密码一起使用才能解锁钱包。请妥善保管密钥库文件并记住密码。如果钱包或密码丢失，则无法恢复钱包',
   wallet_down_agree: '我将保存密钥库文件并记住密码',
-  wallet_down_btn: '下载钱包',
+  wallet_down_btn: '保存Findora钱包',
   wallet_down_success: '下载成功',
   wallet_down_fail: '下载失败',
   wallet_remove_title: '删除钱包',

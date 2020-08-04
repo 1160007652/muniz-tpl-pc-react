@@ -92,15 +92,8 @@ const DownKeyStore = () => {
 
   return (
     <div className="findora-down-key-store">
-      <FindoraHeader title="Create Wallet" isShowBack menu={<HeaderMenu />} />
+      <FindoraHeader title={intl.get('wallet_down_btn')} isShowBack menu={<HeaderMenu />} />
       <div className="key-store-box">
-        <Alert
-          message={intl.get('notice')}
-          style={{ marginBottom: '12px' }}
-          description={intl.get('wallet_down_notice')}
-          type="info"
-          showIcon
-        />
         <Form name="downKeyStore" {...formItemLayout} onFinish={handleDownKeyStore}>
           <Form.Item
             name="remember"
