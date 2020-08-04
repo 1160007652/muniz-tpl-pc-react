@@ -126,7 +126,10 @@ async function calculateUtxo({ address }) {
       await ownedDB.openDB();
       await ownedDB.db.transaction('rw', [ownedDB.db.sids, ownedDB.db.txns], async () => {
         await ownedDB.db.sids.put({ address: publickey, sids: sidsServer });
-        await ownedDB.db.txns.bulkAdd(utxoDataList);
+
+        for (let i = 0; i < utxoDataList.length; i++) {
+          await ownedDB.db.txns.put(utxoDataList[i]);
+        }
       });
     } finally {
       await ownedDB.closeDB();

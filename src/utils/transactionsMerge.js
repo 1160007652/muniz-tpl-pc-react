@@ -271,6 +271,7 @@ async function transactionsMerge({ walletInfo, page }) {
       const { type, body } = operations[j];
 
       if (type === 'IssueAsset') {
+        console.log('operations[j]', operations[j]);
         const resultItem = await getIssuedAssetData({ body, keypair });
 
         const assetProperties = await webNetWork.getAssetProperties(resultItem.asset.tokenCode);

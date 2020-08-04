@@ -124,7 +124,9 @@ async function calculateTxn({ address }) {
       await relatedDB.openDB();
       await relatedDB.db.transaction('rw', [relatedDB.db.sids, relatedDB.db.txns], async () => {
         await relatedDB.db.sids.put({ address, sids: sidsServer });
-        await relatedDB.db.txns.bulkAdd(txnDataList);
+        for (let i = 0; i < txnDataList.length; i++) {
+          await relatedDB.db.txns.put(txnDataList[i]);
+        }
       });
     } finally {
       await relatedDB.closeDB();

@@ -9,7 +9,7 @@ class OwnedDB {
     // 定义数据库 String(process.env.VERSION_APP).split('.')[0]
     await this.db.version(1).stores({
       sids: '&address',
-      txns: '++id, address, sid',
+      txns: '[address+sid], address, sid',
     });
   }
   /**

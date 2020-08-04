@@ -96,7 +96,7 @@ const enUS = {
   page_wallet_setting_title: 'Setting',
   page_send_title: 'Send',
   page_transactions_title: 'Transactions',
-  page_transactions_detail_title: 'Transactions Detail',
+  page_transactions_detail_title: 'Transaction Detail',
   page_wallet_about_title: 'Help',
 
   wallet_restore_password_error: 'Password Error',
