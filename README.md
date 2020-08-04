@@ -1,4 +1,4 @@
-findora wallet browser extension project
+Findora Wallet Application - Instructions for Developers
 
 ## Framework configuration
 
