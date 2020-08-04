@@ -7,8 +7,6 @@
  */
 
 import { action, observable, when } from 'mobx';
-import intl from 'react-intl-universal';
-import { message } from 'antd';
 
 /**
  * 钱包管理Store
@@ -140,20 +138,16 @@ class WalletStore {
    */
   @action importWallet({ walletInfo, walletList }) {
     if (walletInfo) {
-      if (this.walletImportList.some((item) => item.publickey === walletInfo.publickey)) {
-        message.info(intl.get('wallet_import_has_been'));
-        return false;
-      } else {
-        this.walletImportList.push(walletInfo);
-        return true;
-      }
+      this.walletImportList.push(walletInfo);
     }
     if (walletList) {
       this.walletImportList = Object.values(walletList) || [];
     }
+
     when(
       () => this.walletImportList,
       () => {
+        console.log('监听数据', this.walletImportList);
         chrome.storage.sync.set({ walletImportList: JSON.stringify(this.walletImportList) });
       },
     );
