@@ -45,16 +45,22 @@ const CreateWallet = () => {
       password: e.password.toString(),
       name: e.username.toString(),
     };
-    if (!services.webKeyStore.hasKeypairWithName(param.name)) {
-      walletStore.setCreateWalletData(param);
-      history.push(pageURL.downKeyStore);
-    } else {
+    // 校验已导入的离线钱包名称
+    const importWalletHasName = walletStore.walletImportList.some((item) => {
+      return item.keyStore.name === param.name;
+    });
+    // 校验本次活动状态下,创建过的离线钱包名称
+    // services.webKeyStore.hasKeypairWithName(param.name) ||
+    if (importWalletHasName) {
       const args = {
-        message: intl.get('warning'),
-        description: intl.get('wallet_create_exists'),
-        duration: 2,
+        message: intl.get('error'),
+        description: intl.get('wallet_create_exists', { userName: param.name }),
+        duration: 3,
       };
       notification.open(args);
+    } else {
+      walletStore.setCreateWalletData(param);
+      history.push(pageURL.downKeyStore);
     }
   }
 

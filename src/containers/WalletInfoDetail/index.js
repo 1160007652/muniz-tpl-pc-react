@@ -165,18 +165,18 @@ const WalletInfo = () => {
       </div>
       <div className="button-area">
         <FindoraButton className="mb20" onClick={handleChangeRouter(pageURL.send)}>
-          Send
+          {intl.get('page_send_title')}
         </FindoraButton>
         <FindoraButton
           className="mb20"
           onClick={handleChangeRouter(pageURL.transactions.replace(':action', 'detail-loading'))}
         >
-          Transactions
+          {intl.get('page_transactions_title')}
         </FindoraButton>
         <FindoraButton className="mb20" onClick={handleClickExportWallet}>
-          Export Wallet
+          {intl.get('wallet_export_title')}
         </FindoraButton>
-        <FindoraButton onClick={handleClickRemoveWallet}>Remove Wallet</FindoraButton>
+        <FindoraButton onClick={handleClickRemoveWallet}>{intl.get('wallet_remove_title')}</FindoraButton>
       </div>
       <Modal
         title={intl.get('wallet_export_title')}

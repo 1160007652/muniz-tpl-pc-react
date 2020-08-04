@@ -15,6 +15,7 @@ const zhCN = {
   done: '完成',
   notice: '提示',
   warning: '警告',
+  error: '错误',
   cancel: '取消',
   asset_name: '资产',
   asset_name_tips: '由系统生成的资产',
@@ -50,7 +51,7 @@ const zhCN = {
   asset_name_type_default: '系统默认',
   asset_name_type_customize: '自定义',
 
-  wallet_create_exists: '钱包列表中已存在该钱包',
+  wallet_create_exists: '{userName}用户的Findora钱包已经打开, 请输入新名称。',
   wallet_create_inputname: '用户名',
   wallet_create_password_no_empty: '密码不能为空',
   wallet_create_inputpassword: '输入密码',
