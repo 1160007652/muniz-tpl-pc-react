@@ -59,7 +59,7 @@ class WebKeyStore extends KeyStore {
     });
 
     const blob = new Blob([JSON.stringify(jsonKeys[0])], { type: 'findorawallet/plain;charset=utf-8' });
-    const fileData = new File([blob], `${publickey}.findorawallet`, {
+    const fileData = new File([blob], `${name}.findorawallet`, {
       type: 'findorawallet/plain;charset=utf-8',
     });
     return fileData;

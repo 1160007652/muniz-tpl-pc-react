@@ -50,6 +50,7 @@ const DownKeyStore = () => {
 
         if (!fileData) {
           fileDataTemp = await services.webKeyStore.addNewKeypair(walletStore.createWalletData);
+          console.log(fileDataTemp);
           fileName = fileDataTemp.name;
         } else {
           fileName = fileData.name;

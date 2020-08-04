@@ -80,7 +80,13 @@ class AssetServer {
 
     console.log('生成资产返回: ', handle);
 
-    const status = await webNetWork.getTxnStatus(handle);
+    let status = null;
+
+    do {
+      status = await webNetWork.getTxnStatus(handle);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    } while (String(status).includes('Pending') || String(status).includes('Please retry with a new handle'));
+
     console.log('状态: ', status);
 
     console.groupEnd();
@@ -160,7 +166,13 @@ class AssetServer {
     const handle = await webNetWork.submitTransaction(issueTxn);
     console.log('发行资产返回: ', handle);
 
-    const status = await webNetWork.getTxnStatus(handle);
+    let status = null;
+
+    do {
+      status = await webNetWork.getTxnStatus(handle);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    } while (String(status).includes('Pending') || String(status).includes('Please retry with a new handle'));
+
     console.log('状态: ', status);
     console.groupEnd();
     if ('Committed' in status) {

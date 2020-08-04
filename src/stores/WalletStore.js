@@ -142,8 +142,10 @@ class WalletStore {
     if (walletInfo) {
       if (this.walletImportList.some((item) => item.publickey === walletInfo.publickey)) {
         message.info(intl.get('wallet_import_has_been'));
+        return false;
       } else {
         this.walletImportList.push(walletInfo);
+        return true;
       }
     }
     if (walletList) {

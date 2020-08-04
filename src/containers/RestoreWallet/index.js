@@ -69,9 +69,11 @@ const RestoreWallet = () => {
         if (walletStore.walletImportList.length === 0) {
           walletStore.setWalletInfo(walletInfoResult);
         }
+
         // 在钱包列表页面展示时使用解密数据, 在改名下载钱包时使用原始数据
-        walletStore.importWallet({ walletInfo: walletInfoResult });
-        history.push(pageURL.home);
+        if (walletStore.importWallet({ walletInfo: walletInfoResult })) {
+          history.push(pageURL.home);
+        }
       }
     };
   }

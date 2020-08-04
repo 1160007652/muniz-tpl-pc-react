@@ -38,6 +38,7 @@ const WalletInfo = () => {
 
   /** 下载钱包 */
   function handleClickExportWallet() {
+    setWalletPassword('');
     setVisibleExport(true);
   }
 
@@ -48,6 +49,7 @@ const WalletInfo = () => {
 
   function handleChangeWalletName(name) {
     const walletInfo = walletStore.walletInfo;
+    walletInfo.keyStore.name = name;
     const newWalletList = walletStore.walletImportList.map((item) => {
       let currentWallet = item;
       if (item.publickey === walletInfo.publickey) {
@@ -55,7 +57,7 @@ const WalletInfo = () => {
       }
       return currentWallet;
     });
-
+    walletStore.setWalletInfo(walletInfo);
     walletStore.importWallet({ walletList: newWalletList });
   }
   /** Model 弹出框 确认*/
@@ -67,17 +69,17 @@ const WalletInfo = () => {
     };
 
     const result = await services.webKeyStore.setKeypair(param);
-
+    const fileName = keyStore.name;
     if (result === 'passworderror') {
       message.error(intl.get('wallet_restore_password_error'));
     } else {
       const blob = new Blob([JSON.stringify(keyStore)], { type: 'findorawallet/plain;charset=utf-8' });
-      const fileData = new File([blob], `${publickey}.findorawallet`, {
+      const fileData = new File([blob], `${fileName}.findorawallet`, {
         type: 'findorawallet/plain;charset=utf-8',
       });
 
       chrome.downloads.download({
-        filename: `${publickey}.findorawallet`,
+        filename: `${fileName}.findorawallet`,
         saveAs: true,
         conflictAction: 'overwrite',
         url: URL.createObjectURL(fileData),
@@ -194,6 +196,7 @@ const WalletInfo = () => {
         visible={visibleRemove}
         onOk={handleModalRemoveOk}
         onCancel={handleModalRemoveCancel}
+        destroyOnClose
       >
         <Alert
           message={intl.get('notice')}

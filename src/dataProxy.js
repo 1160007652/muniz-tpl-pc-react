@@ -6,8 +6,16 @@ import axios from 'axios';
 import axiosRetry from 'axios-retry';
 // import { message } from 'antd';
 
-// 重链请求次数
-axiosRetry(axios, { retries: 3 });
+axiosRetry(axios, {
+  retries: 3, // 重链请求次数
+  retryDelay: (retryCount) => {
+    return retryCount * 1000; // 重复请求延迟
+  },
+  retryCondition: (error) => {
+    //true为打开自动发送请求，false为关闭自动发送请求
+    return true;
+  },
+});
 
 axios.defaults.headers.common.timeout = 10000;
 
@@ -22,7 +30,8 @@ axios.interceptors.response.use(
     return response; //Promise.reject(response.data); // .data;
   },
   (error) => {
-    alert(error);
+    // console.log(error);
+    // alert(error);
     // message.error(error);
     return Promise.reject(error);
   },

@@ -143,7 +143,13 @@ const sendServer = {
     const handle = await webNetWork.submitTransaction(transferTxn);
     console.log('转账返回数据: ', handle);
 
-    const status = await webNetWork.getTxnStatus(handle);
+    let status = null;
+
+    do {
+      status = await webNetWork.getTxnStatus(handle);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    } while (String(status).includes('Pending') || String(status).includes('Please retry with a new handle'));
+
     console.log('状态: ', status);
 
     console.groupEnd();

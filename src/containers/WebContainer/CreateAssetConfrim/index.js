@@ -33,7 +33,6 @@ const CreateAssetConfrim = ({ data }) => {
     setLoading(true);
     try {
       const result = await services.assetServer.createAsset(data);
-
       // 如果 创建成功, 切换选中钱包成当前的创建成功钱包
       if (result.code === 0) {
         walletStore.setWalletInfo(data.walletInfo);
@@ -42,7 +41,7 @@ const CreateAssetConfrim = ({ data }) => {
       setLoading(false);
       setResultData({ type: result.code === 0, result });
       setShowResult(true);
-    } catch {
+    } catch (e) {
       setLoading(false);
       message.error(intl.get('token_create_error1'));
     }
