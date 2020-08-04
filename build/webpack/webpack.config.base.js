@@ -139,7 +139,7 @@ module.exports = {
     new FriendlyErrorsWebpackPlugin(),
     new AntdDayjsWebpackPlugin(),
     new CopyWebpackPlugin({ patterns: [{ from: 'public/images/', to: 'images' }] }),
-    new CopyWebpackPlugin({ patterns: [{ from: './README_for_zip.txt', to: './' }] }),
+    new CopyWebpackPlugin({ patterns: [{ from: 'public/README_for_zip.txt', to: './' }] }),
     new HtmlWebpackPlugin({
       template: path.resolve(PROJECT_ROOT, './public/index.html'),
       filename: 'popup.html',
