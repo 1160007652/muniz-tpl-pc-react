@@ -63,6 +63,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   return true;
 });
 
+/*
+chrome.runtime.sendMessage({ type: 'extensions', action: 'uploadFile' }, (response) => {
+        console.log(response);
+      });
+*/
 /** 上传文件 */
 function uploadFile() {
   const fileChooser = document.createElement('input');
@@ -79,7 +84,9 @@ function uploadFile() {
 
   const form = document.createElement('form');
   form.appendChild(fileChooser);
-  fileChooser.click();
+
+  document.body.append(form);
+  document.getElementsByTagName('input')[0].click();
 }
 
 /** 唤醒转账界面 */

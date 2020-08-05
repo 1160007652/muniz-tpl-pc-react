@@ -69,10 +69,10 @@ const DownKeyStore = () => {
             console.log(downloadItem);
             if (downloadItem) {
               setFileData(fileDataTemp);
-              message.success(intl.get('wallet_down_success'));
+              // message.success(intl.get('wallet_down_success'));
             } else {
               setFileData(null);
-              message.error(intl.get('wallet_down_fail'));
+              // message.error(intl.get('wallet_down_fail'));
             }
           },
         );

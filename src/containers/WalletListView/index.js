@@ -15,7 +15,6 @@ import { useHistory } from 'react-router-dom';
 import pageURL from '_constants/pageURL';
 
 import './index.less';
-import { data } from 'autoprefixer';
 
 const WalletListView = ({ dataList }) => {
   const hirstory = useHistory();
@@ -27,6 +26,7 @@ const WalletListView = ({ dataList }) => {
       hirstory.push(pageURL.walletInfo);
     };
   }
+
   return (
     <div className="findora-wallet-list">
       {dataList &&
