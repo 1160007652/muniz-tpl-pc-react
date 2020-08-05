@@ -23,6 +23,7 @@
     "better-docs": {
       "name": "Findora extensions wallet docs",
       "css": "docs-src/styles/style.css",
+      "js": "docs-src/js/modifyNavigation.js",
       "navLinks": [
         {
           "label": "Project Github",

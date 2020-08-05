@@ -79,10 +79,16 @@ const RestoreWallet = () => {
       }
     };
   }
+  function handleUploadFile() {
+    chrome.runtime.sendMessage({ type: 'extensions', path: 'uploadFile' }, (response) => {
+      console.log(response);
+    });
+  }
   return (
     <div className="findora-wallet-empty">
       <FindoraHeader title={intl.get('page_wallet_import_title')} isShowBack menu={<HeaderMenu />} />
       <div className="wallet-box">
+        <Button onClick={handleUploadFile}>sssss</Button>
         <Form name="restorekeystore" onFinish={handleUnlockKeystore}>
           <Row align="middle" justify="center" style={{ margin: '30px auto 10px', textAlign: 'center' }}>
             <Col xs={20} sm={8}>

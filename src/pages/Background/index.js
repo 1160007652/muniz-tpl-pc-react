@@ -46,12 +46,38 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (type === 'content-script') {
     if (path === 'openSend') {
       openSend(data);
+      sendResponse('我已经收到 content.js 发送过来的消息');
     }
   }
 
-  sendResponse('yes, 我已经收到 content.js 发送过来的消息');
+  if (type === 'extensions') {
+    if (path === 'uploadFile') {
+      uploadFile();
+      sendResponse('我已经收到 extensions 发送过来的 uploadFile消息');
+    }
+  }
+
   return true;
 });
+
+/** 上传文件 */
+function uploadFile() {
+  const fileChooser = document.createElement('input');
+  fileChooser.type = 'file';
+  console.log('走进上传文件函数');
+
+  fileChooser.addEventListener('change', function () {
+    var file = fileChooser.files[0];
+    var formData = new FormData();
+    formData.append(file.name, file);
+    console.log('上传的文件: ', formData);
+    form.reset();
+  });
+
+  const form = document.createElement('form');
+  form.appendChild(fileChooser);
+  fileChooser.click();
+}
 
 /** 唤醒转账界面 */
 async function openSend(data) {
