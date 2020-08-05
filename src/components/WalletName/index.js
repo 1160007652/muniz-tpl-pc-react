@@ -28,12 +28,18 @@ const WalletName = ({ data, onChangeName, isShowEdit }) => {
   /**
    * Input onChange 事件
    */
+  /**
+   * Handles wallet name input.
+   */
   function handleClickName(e) {
     e.stopPropagation();
     setName(e.target.value);
   }
   /**
    * 确认修改的钱包名称
+   */
+  /**
+   * Confirms modified wallet name.
    */
   function handleClickEnter(e) {
     e.stopPropagation();
@@ -42,6 +48,9 @@ const WalletName = ({ data, onChangeName, isShowEdit }) => {
   }
   /**
    * 显示钱包名称编辑框
+   */
+  /**
+   * Supports changing wallet name.
    */
   function handleChangeWalletName(e) {
     e.stopPropagation();

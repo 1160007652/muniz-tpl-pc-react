@@ -1,8 +1,8 @@
 {
-  "tutorial1": {
-    "title": "Wasm 问题"
+  "wasm": {
+    "title": "WASM Tips"
   },
-  "tutorial2": {
-    "title": "扩展插件"
+  "extension": {
+    "title": "Extension Tips"
   }
 }
