@@ -18,7 +18,7 @@ window.addEventListener(
     // 如果标识符一致,开始分发事件
     if (data.action === 'findora-ext-wallet') {
       /** 使用 chrome.runtime.sendMessage , 向后台 background.js 发送消息*/
-      chrome.runtime.sendMessage({ type: 'content-script', path: 'openSend', data }, (response) => {
+      chrome.runtime.sendMessage({ type: 'content-script', action: 'openSend', data }, (response) => {
         console.log(response);
         // chrome.extension.getURL("normal_popup.html")
       });

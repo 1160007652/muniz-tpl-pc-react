@@ -20,10 +20,13 @@ function exactWalletList() {
       console.log('walletList: ', walletList);
 
       for (let i = 0; i < walletList.length; i++) {
-        const address = walletList[i].publickey;
-        // 异步执行
-        await calculateUtxo({ address });
-        await calculateTxn({ address });
+        const address = walletList[i]?.publickey;
+
+        if (address) {
+          // 异步执行
+          await calculateUtxo({ address });
+          await calculateTxn({ address });
+        }
       }
     }
   });
@@ -42,16 +45,16 @@ window.findoraConfig = {};
 /** 通过 chrome.runtime.onMessage.addListener 监听 content.js 使用 chrome.runtime.sendMessage 发送的消息 */
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   // type: 'content-script' ,path: 'openSend'
-  const { type, path, data } = request;
+  const { type, action, data } = request;
   if (type === 'content-script') {
-    if (path === 'openSend') {
+    if (action === 'openSend') {
       openSend(data);
       sendResponse('我已经收到 content.js 发送过来的消息');
     }
   }
 
   if (type === 'extensions') {
-    if (path === 'uploadFile') {
+    if (action === 'uploadFile') {
       uploadFile();
       sendResponse('我已经收到 extensions 发送过来的 uploadFile消息');
     }
