@@ -65,4 +65,4 @@ $ yarn build
 > ![Use wallet plugin](./docs-src/images/help-5.png)
 
 > Wallet plugin homepage
-> ![Wallet plugin homepage](./docs-src/images/help-6.jpeg)
+> ![Wallet plugin homepage](./docs-src/images/help-6.png)
