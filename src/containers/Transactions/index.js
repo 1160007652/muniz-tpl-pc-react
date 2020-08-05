@@ -4,6 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import intl from 'react-intl-universal';
 import { toJS } from 'mobx';
 import { List, Button, Spin } from 'antd';
+import { ReloadOutlined } from '@ant-design/icons';
 
 import FindoraHeader from '_components/FindoraHeader';
 import HeaderMenu from '_containers/HeaderMenu';
@@ -64,6 +65,16 @@ const Transactions = () => {
     }
   }
 
+  async function handleRefresh() {
+    setInitLoading(true);
+    document.getElementsByClassName('transactions-box')[0].scrollTop = 0;
+    const param = { page: 0, walletInfo };
+    const result = await services.txnServer.getTxnList(param);
+    await transactionStore.getTransactionData({ address: walletInfo.publickey, data: result, page: param });
+    setInitLoading(false);
+    setRefreshLoding(false);
+  }
+
   const loadMore = () => {
     if (initLoading) {
       return loading ? (
@@ -117,6 +128,11 @@ const Transactions = () => {
           )}
         />
       </Spin>
+      {!initLoading && (
+        <div className="refresh" onClick={handleRefresh}>
+          <ReloadOutlined />
+        </div>
+      )}
     </div>
   );
 };

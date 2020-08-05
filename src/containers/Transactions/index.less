@@ -7,6 +7,7 @@
     padding-bottom: 45px;
     overflow-x: hidden;
     overflow-y: auto;
+    transition: all 0.6s;
 
     li {
       box-sizing: border-box;
@@ -21,5 +22,20 @@
       margin-top: 12px;
       text-align: center;
     }
+  }
+  .refresh {
+    position: fixed;
+    right: 28px;
+    bottom: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    color: rgb(65, 65, 7);
+    font-size: 32px;
+    background-color: rgba(185, 132, 132, 0.8);
+    border-radius: 50%;
+    cursor: pointer;
   }
 }
