@@ -159,7 +159,6 @@ const IssueAsset = () => {
   function onClose() {
     assetStore.toggleDrawer('issued', false);
   }
-
   return (
     <FindoraWebContainer className="issue-asset" title={intl.get('menu_asset_issue')}>
       <div className="issue-asset-box">
@@ -172,6 +171,7 @@ const IssueAsset = () => {
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('asset_name')} isRow titleDirection="top">
           <SwitchAssetName
+            key={drawerInfo.componentKey}
             onResult={handleChangeAssetName}
             actionTYpe={SwitchAssetName.ACTION_TYPE.ISSUE}
             address={data.issuer}

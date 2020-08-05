@@ -26,8 +26,13 @@ const IssueAssetConfrim = ({ data }) => {
   /** 显示结果后, 按钮事件 */
   function handleClickView() {
     assetStore.toggleDrawer('issued', false);
+    console.log(asset);
+    if (asset?.asset_rules?.max_units) {
+      assetStore.changeComponentKey('issued');
+    }
   }
   /** 提交数据 */
+
   async function handleClickSubmit() {
     setLoading(true);
     setTimeout(async () => {
@@ -36,6 +41,9 @@ const IssueAssetConfrim = ({ data }) => {
         // 如果 创建成功, 切换选中钱包成当前的创建成功钱包
         if (result.code === 0) {
           walletStore.setWalletInfo(data.walletInfo);
+        }
+        if (asset?.asset_rules?.max_units) {
+          assetStore.changeComponentKey('issued');
         }
         setLoading(false);
         setResultData({ type: result.code === 0, result });
