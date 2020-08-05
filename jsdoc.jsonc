@@ -1,7 +1,13 @@
 {
   "source": {
-    "include": ["src/"], // 表示 JSDOC 需要扫描哪些文件
-    "exclude": ["src/less", "src/assets", "src/lib"] // 表示 JSDOC 需要排除哪些文件
+    "include": [
+      "src/"
+    ], // 表示 JSDOC 需要扫描哪些文件
+    "exclude": [
+      "src/less",
+      "src/assets",
+      "src/lib"
+    ] // 表示 JSDOC 需要排除哪些文件
   },
   "opts": {
     "template": "node_modules/better-docs", // docdash 生成文档的模板，默认是 templates/default
@@ -12,22 +18,33 @@
     "verbose": false, // 运行时是否输出详细信息，默认是 false
     "tutorials": "./tutorials/" // 教程
   },
-  "plugins": ["better-docs/component", "better-docs/category", "plugins/markdown", "plugins/summarize"],
+  "plugins": [
+    "better-docs/component",
+    "better-docs/category",
+    "plugins/markdown",
+    "plugins/summarize"
+  ],
   "default": {
     "staticFiles": {
-      "include": ["./docs-src"]
+      "include": [
+        "./docs-src"
+      ]
     }
   },
   "templates": {
     "search": true,
     "better-docs": {
-      "name": "Findora extensions wallet docs",
+      "name": "Findora Wallet Application Documentation",
       "css": "docs-src/styles/style.css",
       "js": "docs-src/js/modifyNavigation.js",
       "navLinks": [
         {
-          "label": "Project Github",
-          "href": "https://github.com/findoraorg/chrome-extensions-wallet"
+          "label": "Source Code",
+          "href": "https://developer.findora.org/downloads/extension.zip"
+        },
+        {
+          "label": "Findora Home",
+          "href": "https://developer.findora.org"
         }
       ]
     }
