@@ -13,6 +13,10 @@ Important note for Linux users:
 The Findora Wallet Extension only works when a Chrome Inspector window is open
 for the wallet pop-up window. Open the Inspector by selecting "Inspect" from the wallet pop-up window context menu (right button).
 
+Note:
+Do not delete the extension folder after installation. If you move
+the folder, you'll need to remove and reinstall the extension.
+
 For feedback and defect reports, please use our Redmine project management
 application.
 
