@@ -54,6 +54,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 /** 唤醒转账界面 */
+/** Opens the asset transfer page. */
 async function openSend(data) {
   /*
       // 最终数据

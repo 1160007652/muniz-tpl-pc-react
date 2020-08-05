@@ -32,11 +32,11 @@ import './index.less';
  * @example <caption>Enabled Status</caption>
  * const handleOnclick = ()=>{alert('findora-button')}
  * return (
- *   <FindoraButton onClick={handleOnclick}>点击按钮</FindoraButton>
+ *   <FindoraButton onClick={handleOnclick}>Button</FindoraButton>
  * )
  * @example <caption>Disabled Status</caption>
  * return (
- *   <FindoraButton disabled>点击按钮</FindoraButton>
+ *   <FindoraButton disabled>Button</FindoraButton>
  * )
  *
  */
