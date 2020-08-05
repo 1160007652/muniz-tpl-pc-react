@@ -14,21 +14,9 @@
 
 > 解决方案
 
-```json
+```js
 先使用JSON.stringify() , 将Object 对象转成字符串 , 在调用 Chrome.storage.sync.set 进行存储
 { data: [1,2,3,4] } 
 // 这样转化 结果就一样
 { data: [1,2,3,4] }
-```
-
-> 配置options选项页面
-
-```json
-  {
-    "options_page": "options.html",
-    "options_ui": {
-      "page": "options.html",
-      "chrome_style": true
-    },
-  }
 ```

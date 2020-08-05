@@ -41,6 +41,7 @@ class AssetStore {
   @observable sentAssetList = [];
 
   /** 抽屉数据 */
+  /** Drawer information */
   @observable drawerInfo = {
     created: {
       visible: false,
@@ -57,12 +58,22 @@ class AssetStore {
    *
    * @memberof AssetStore
    */
+  /**
+   * Opens of closes the drawer.
+   *
+   * @memberof AssetStore
+   */
   @action toggleDrawer = (key, value) => {
     this.drawerInfo[key].visible = value;
   };
 
   /**
    * 创建,增发资产成功后, 通过递增key, 使组件重新渲染,已更新数据
+   *
+   * @memberof AssetStore
+   */
+  /**
+   * After succeeded asset creation or issuance, updates data by incrementing the component key.
    *
    * @memberof AssetStore
    */
