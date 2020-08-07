@@ -39,6 +39,10 @@
       "js": "docs-src/js/modifyNavigation.js",
       "navLinks": [
         {
+          "label": "Source Code",
+          "href": "https://github.com/findoraorg/chrome-extensions-wallet/archive/master.zip"
+        },
+        {
           "label": "Extension",
           "href": "https://developer.findora.org/downloads/extension.zip"
         },
