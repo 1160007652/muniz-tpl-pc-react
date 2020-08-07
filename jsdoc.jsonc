@@ -39,11 +39,11 @@
       "js": "docs-src/js/modifyNavigation.js",
       "navLinks": [
         {
-          "label": "Source Code",
+          "label": "Extension",
           "href": "https://developer.findora.org/downloads/extension.zip"
         },
         {
-          "label": "Findora Home",
+          "label": "Developer Portal",
           "href": "https://developer.findora.org"
         }
       ]
