@@ -40,10 +40,14 @@
       "navLinks": [
         {
           "label": "Source Code",
+          "href": "https://developer.findora.org/downloads/source_code.zip"
+        },
+        {
+          "label": "Extension",
           "href": "https://developer.findora.org/downloads/extension.zip"
         },
         {
-          "label": "Findora Home",
+          "label": "Developer Portal",
           "href": "https://developer.findora.org"
         }
       ]
