@@ -10,8 +10,11 @@ import { setConfig } from 'react-hot-loader';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
+import { HashRouter } from 'react-router-dom';
 import Routes from '_src/routes';
 import rootStore from '_src/stores';
+
+import { WebLayout } from '_src/pages/Layout';
 
 import '_src/less/index.less';
 
@@ -23,7 +26,11 @@ setConfig({
 
 ReactDOM.render(
   <Provider {...rootStore}>
-    <Routes />
+    <HashRouter>
+      <WebLayout>
+        <Routes />
+      </WebLayout>
+    </HashRouter>
   </Provider>,
   document.getElementById('root'),
 );

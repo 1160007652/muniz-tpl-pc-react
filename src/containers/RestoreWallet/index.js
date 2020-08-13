@@ -13,6 +13,7 @@ import intl from 'react-intl-universal';
 import { MobXProviderContext, observer } from 'mobx-react';
 import { Link, useHistory } from 'react-router-dom';
 
+import FindoraWebContainer from '_components/FindoraWebContainer';
 import FindoraHeader from '_components/FindoraHeader';
 import HeaderMenu from '_containers/HeaderMenu';
 import services from '_src/services';
@@ -81,8 +82,8 @@ const RestoreWallet = () => {
   }
 
   return (
-    <div className="findora-wallet-empty">
-      <FindoraHeader title={intl.get('page_wallet_import_title')} isShowBack menu={<HeaderMenu />} />
+    <FindoraWebContainer className="findora-wallet-empty" title={intl.get('page_wallet_import_title')}>
+      {/* <FindoraHeader title={intl.get('page_wallet_import_title')} isShowBack menu={<HeaderMenu />} /> */}
       <div className="wallet-box">
         <Form name="restorekeystore" onFinish={handleUnlockKeystore}>
           <Row align="middle" justify="center" style={{ margin: '30px auto 10px', textAlign: 'center' }}>
@@ -147,7 +148,7 @@ const RestoreWallet = () => {
           </Row>
         </Form>
       </div>
-    </div>
+    </FindoraWebContainer>
   );
 };
 

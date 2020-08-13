@@ -12,8 +12,9 @@ import { Link, useHistory } from 'react-router-dom';
 import intl from 'react-intl-universal';
 import { MobXProviderContext, observer } from 'mobx-react';
 
-import FindoraHeader from '_components/FindoraHeader';
-import HeaderMenu from '_containers/HeaderMenu';
+import FindoraWebContainer from '_components/FindoraWebContainer';
+// import FindoraHeader from '_components/FindoraHeader';
+// import HeaderMenu from '_containers/HeaderMenu';
 import pageURL from '_constants/pageURL';
 import services from '_src/services';
 
@@ -91,8 +92,9 @@ const DownKeyStore = () => {
   }
 
   return (
-    <div className="findora-down-key-store">
-      <FindoraHeader title={intl.get('wallet_down_btn')} isShowBack menu={<HeaderMenu />} />
+    // <div className="findora-down-key-store">
+    <FindoraWebContainer className="findora-down-key-store" title={intl.get('wallet_down_btn')}>
+      {/* <FindoraHeader title={intl.get('wallet_down_btn')} isShowBack menu={<HeaderMenu />} /> */}
       <div className="key-store-box">
         <Form name="downKeyStore" {...formItemLayout} onFinish={handleDownKeyStore}>
           <Form.Item
@@ -120,7 +122,7 @@ const DownKeyStore = () => {
           </Button>
         )}
       </div>
-    </div>
+    </FindoraWebContainer>
   );
 };
 

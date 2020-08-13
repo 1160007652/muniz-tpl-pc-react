@@ -35,9 +35,6 @@ const pageURL = {
   /** 设置页面 */
   /** Setting page */
   setting: '/setting',
-  /** 创建资产、增发资产承载容器页面 */
-  /** Web container page, for creating and issuing assets */
-  webContainer: '/webContainer',
   /** 下载KeyStore页面 */
   /** Keystore download page */
   downKeyStore: '/downKeyStore',
@@ -61,10 +58,10 @@ const pageURL = {
   assetConfrim: '/assetConfrim/:actionType',
   /** 生成资产页面 */
   /** Asset creation page */
-  createAsset: '/webContainer/createAsset',
+  createAsset: '/createAsset',
   /** 增发资产页面 */
   /** Asset issuance page */
-  issueAsset: '/webContainer/issueAsset',
+  issueAsset: '/issueAsset',
   /** 生成Token页面 */
   /** Token generation page */
   createToken: '/createToken',

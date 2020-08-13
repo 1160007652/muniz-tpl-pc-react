@@ -73,7 +73,11 @@ const zhCN = {
   wallet_import_has_been: '该钱包已导入, 请无重复操作',
   wallet_empty_tips: '当前没有导入钱包',
 
+  menu_application: '应用',
+  menu_wallet: '钱包',
+  menu_asset: '资产',
   menu_home: '钱包列表',
+  menu_send: '转转',
   menu_wallet_create: '创建钱包',
   menu_wallet_import: '导入钱包',
   menu_setting: '设置',

@@ -11,10 +11,11 @@ import { Input, Form, Button, notification } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
 import { MobXProviderContext, observer } from 'mobx-react';
 import intl from 'react-intl-universal';
-import FindoraHeader from '_components/FindoraHeader';
+// import FindoraHeader from '_components/FindoraHeader';
 import pageURL from '_constants/pageURL';
 import services from '_src/services';
-import HeaderMenu from '_containers/HeaderMenu';
+// import HeaderMenu from '_containers/HeaderMenu';
+import FindoraWebContainer from '_components/FindoraWebContainer';
 
 import './index.less';
 
@@ -65,8 +66,8 @@ const CreateWallet = () => {
   }
 
   return (
-    <div className="findora-wallet-create">
-      <FindoraHeader title={intl.get('page_wallet_create_title')} isShowBack menu={<HeaderMenu />} />
+    <FindoraWebContainer className="findora-wallet-create" title={intl.get('menu_asset_create1')}>
+      {/* <FindoraHeader title={intl.get('page_wallet_create_title')} isShowBack menu={<HeaderMenu />} /> */}
       <div className="create-wallet-box">
         <p>{intl.get('wallet_create_keystore_info')}</p>
         <Form name="createkeystorewallet" {...formItemLayout} onFinish={handleCreateKeystoreWallet}>
@@ -135,7 +136,7 @@ const CreateWallet = () => {
           </Form.Item>
         </Form>
       </div>
-    </div>
+    </FindoraWebContainer>
   );
 };
 

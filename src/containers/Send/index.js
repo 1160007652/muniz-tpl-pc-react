@@ -6,8 +6,9 @@ import { Input, Radio, InputNumber, Tag } from 'antd';
 import intl from 'react-intl-universal';
 import { useImmer } from 'use-immer';
 
-import FindoraHeader from '_components/FindoraHeader';
-import HeaderMenu from '_containers/HeaderMenu';
+// import FindoraHeader from '_components/FindoraHeader';
+// import HeaderMenu from '_containers/HeaderMenu';
+import FindoraWebContainer from '_components/FindoraWebContainer';
 import FindoraButton from '_components/FindoraButton';
 import FindoraBoxView from '_components/FindoraBoxView';
 import SwitchAddress from '_containers/SwitchAddress';
@@ -220,8 +221,8 @@ const Send = () => {
   }
 
   return (
-    <div className="send">
-      <FindoraHeader title={intl.get('page_send_title')} isShowBack menu={<HeaderMenu />} />
+    <FindoraWebContainer className="send" title={intl.get('page_send_title')}>
+      {/* <FindoraHeader title={intl.get('page_send_title')} isShowBack menu={<HeaderMenu />} /> */}
       <div className="send-box">
         <FindoraBoxView title={intl.get('from')}>
           <SwitchAddress
@@ -282,7 +283,7 @@ const Send = () => {
         </FindoraBoxView>
       </div>
       <div className="btn-area">{AssetRulesComponent()}</div>
-    </div>
+    </FindoraWebContainer>
   );
 };
 

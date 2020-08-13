@@ -10,7 +10,7 @@ import FindoraBoxView from '_components/FindoraBoxView';
 import FindoraWebContainer from '_components/FindoraWebContainer';
 import SwitchAddress from '_containers/SwitchAddress';
 import SwitchAssetName from '_containers/SwitchAssetName';
-import IssueAssetConfrim from '../IssueAssetConfrim';
+import IssueAssetConfrim from '_containers/IssueAssetConfrim';
 
 import './index.less';
 

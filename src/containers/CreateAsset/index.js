@@ -11,7 +11,7 @@ import FindoraWebContainer from '_components/FindoraWebContainer';
 import SwitchAddress from '_containers/SwitchAddress';
 import CreateAssetName from '_containers/CreateAssetName';
 import FindoraTips from '_components/FindoraTips';
-import CreateAssetConfrim from '../CreateAssetConfrim';
+import CreateAssetConfrim from '_containers/CreateAssetConfrim';
 
 import './index.less';
 

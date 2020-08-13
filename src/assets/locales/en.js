@@ -79,7 +79,11 @@ const enUS = {
   wallet_import_has_been: 'The wallet has been imported, please do not repeat the operation',
   wallet_empty_tips: 'No wallets are currently imported',
 
+  menu_application: 'Application',
+  menu_wallet: 'Wallet',
+  menu_asset: 'Asset',
   menu_home: 'Wallets',
+  menu_send: 'Send',
   menu_wallet_create: 'Create Wallet',
   menu_wallet_import: 'Import Wallet',
   menu_setting: 'Setting',

@@ -9,8 +9,10 @@
 import React from 'react';
 import intl from 'react-intl-universal';
 
-import FindoraHeader from '_components/FindoraHeader';
-import HeaderMenu from '_containers/HeaderMenu';
+// import FindoraHeader from '_components/FindoraHeader';
+// import HeaderMenu from '_containers/HeaderMenu';
+import FindoraWebContainer from '_components/FindoraWebContainer';
+
 import './index.less';
 
 const About = () => {
@@ -18,8 +20,8 @@ const About = () => {
     window.open('https://bugtracker.findora.org/projects/testnet/issues/new');
   }
   return (
-    <div className="findora-wallet-about">
-      <FindoraHeader title={intl.get('page_wallet_about_title')} isShowBack menu={<HeaderMenu />} />
+    <FindoraWebContainer className="findora-wallet-about" title={intl.get('menu_asset_create1')}>
+      {/* <FindoraHeader title={intl.get('page_wallet_about_title')} isShowBack menu={<HeaderMenu />} /> */}
       <div className="about-box">
         <h3>{intl.get('about_title')}</h3>
         <div className="version">
@@ -30,7 +32,7 @@ const About = () => {
           https://bugtracker.findora.org/projects/testnet/issues/new
         </div>
       </div>
-    </div>
+    </FindoraWebContainer>
   );
 };
 

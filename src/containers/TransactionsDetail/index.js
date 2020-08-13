@@ -3,9 +3,10 @@ import { useLocation } from 'react-router-dom';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import intl from 'react-intl-universal';
 
-import FindoraHeader from '_components/FindoraHeader';
-import HeaderMenu from '_containers/HeaderMenu';
+// import FindoraHeader from '_components/FindoraHeader';
+// import HeaderMenu from '_containers/HeaderMenu';
 import FindoraBoxView from '_components/FindoraBoxView';
+import FindoraWebContainer from '_components/FindoraWebContainer';
 
 import './index.less';
 
@@ -13,8 +14,8 @@ const TransactionsDetail = () => {
   const RouterLocation = useLocation();
   const { from, to, state, txn, asset, type, blind } = RouterLocation.state;
   return (
-    <div className="transactions-detail">
-      <FindoraHeader title={intl.get('page_transactions_detail_title')} isShowBack menu={<HeaderMenu />} />
+    <FindoraWebContainer className="transactions-detail" title={intl.get('menu_asset_create1')}>
+      {/* <FindoraHeader title={intl.get('page_transactions_detail_title')} isShowBack menu={<HeaderMenu />} /> */}
       <div className="transactions-detail-box">
         {state ? (
           <div className="success">
@@ -51,7 +52,7 @@ const TransactionsDetail = () => {
           {blind.isType && <span className="tag">{intl.get('blind_type')}</span>}
         </div>
       </div>
-    </div>
+    </FindoraWebContainer>
   );
 };
 

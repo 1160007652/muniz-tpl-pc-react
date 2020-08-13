@@ -9,17 +9,18 @@
 import React from 'react';
 import intl from 'react-intl-universal';
 
-import FindoraHeader from '_components/FindoraHeader';
-import HeaderMenu from '_containers/HeaderMenu';
+// import FindoraHeader from '_components/FindoraHeader';
+// import HeaderMenu from '_containers/HeaderMenu';
 import WalletInfoDetail from '_containers/WalletInfoDetail';
+import FindoraWebContainer from '_components/FindoraWebContainer';
 import './index.less';
 
 const WalletInfo = () => {
   return (
-    <div className="findora-wallet-Info">
-      <FindoraHeader title={intl.get('page_wallet_detail')} isShowBack menu={<HeaderMenu />} />
+    <FindoraWebContainer className="findora-wallet-Info" title={intl.get('page_wallet_detail')}>
+      {/* <FindoraHeader title={intl.get('page_wallet_detail')} isShowBack menu={<HeaderMenu />} /> */}
       <WalletInfoDetail />
-    </div>
+    </FindoraWebContainer>
   );
 };
 

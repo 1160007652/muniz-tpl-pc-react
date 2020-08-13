@@ -2,11 +2,12 @@ import React from 'react';
 import { MobXProviderContext, observer } from 'mobx-react';
 import intl from 'react-intl-universal';
 
-import FindoraHeader from '_components/FindoraHeader';
+// import FindoraHeader from '_components/FindoraHeader';
 import WalletEmpty from '_containers/WalletEmpty';
-import HeaderMenu from '_containers/HeaderMenu';
+// import HeaderMenu from '_containers/HeaderMenu';
 import WalletListView from '_containers/WalletListView';
 import WalletInfoDetail from '_containers/WalletInfoDetail';
+import FindoraWebContainer from '_components/FindoraWebContainer';
 
 import './index.less';
 
@@ -24,10 +25,9 @@ const Home = () => {
   }
 
   return (
-    <div className="home">
-      <FindoraHeader title={intl.get(walletTitle)} menu={<HeaderMenu />} />
+    <FindoraWebContainer className="home" title={intl.get('menu_asset_create1')}>
       {wallet}
-    </div>
+    </FindoraWebContainer>
   );
 };
 

@@ -30,6 +30,18 @@ const routeMap = [
     dynamic: true,
   },
   {
+    path: pageURL.createAsset,
+    component: './containers/CreateAsset',
+    exact: false,
+    dynamic: true,
+  },
+  {
+    path: pageURL.issueAsset,
+    component: './containers/IssueAsset',
+    exact: false,
+    dynamic: true,
+  },
+  {
     path: pageURL.walletList,
     component: './containers/WalletListView',
     exact: true,
@@ -90,12 +102,6 @@ const routeMap = [
     dynamic: true,
   },
   {
-    path: pageURL.webContainer,
-    component: './containers/WebContainer/',
-    exact: false,
-    dynamic: true,
-  },
-  {
     path: pageURL.assetConfrim,
     component: './containers/AssetConfrim',
     exact: false,
@@ -107,29 +113,27 @@ const Routes = () => {
   const localeStore = React.useContext(MobXProviderContext).localeStore;
   const currentLocale = localeStore.locale === 'en' ? enUS : zhCN;
   return (
-    <HashRouter>
-      <ConfigProvider locale={currentLocale}>
-        <Switch>
-          {routeMap.map((item, index) => (
-            <Route
-              key={index}
-              path={item.path}
-              exact={item.exact}
-              component={
-                item.dynamic
-                  ? Loadable({
-                      loader: () => import(`${item.component}`),
-                      loading: Loading,
-                      delay,
-                      timeout,
-                    })
-                  : item.component
-              }
-            />
-          ))}
-        </Switch>
-      </ConfigProvider>
-    </HashRouter>
+    <ConfigProvider locale={currentLocale}>
+      <Switch>
+        {routeMap.map((item, index) => (
+          <Route
+            key={index}
+            path={item.path}
+            exact={item.exact}
+            component={
+              item.dynamic
+                ? Loadable({
+                    loader: () => import(`${item.component}`),
+                    loading: Loading,
+                    delay,
+                    timeout,
+                  })
+                : item.component
+            }
+          />
+        ))}
+      </Switch>
+    </ConfigProvider>
   );
 };
 

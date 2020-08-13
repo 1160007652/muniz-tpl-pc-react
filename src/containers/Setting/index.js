@@ -9,13 +9,14 @@
 import React from 'react';
 import intl from 'react-intl-universal';
 
-import FindoraHeader from '_components/FindoraHeader';
-import HeaderMenu from '_containers/HeaderMenu';
+// import FindoraHeader from '_components/FindoraHeader';
+// import HeaderMenu from '_containers/HeaderMenu';
 
 import SwitchLanguage from '_containers/SwitchLanguage';
 import SwitchNetWork from '_containers/SwitchNetWork';
 
 import FindoraBoxView from '_components/FindoraBoxView';
+import FindoraWebContainer from '_components/FindoraWebContainer';
 
 import pageURL from '_constants/pageURL';
 
@@ -23,8 +24,8 @@ import './index.less';
 
 const Setting = () => {
   return (
-    <div className="findora-wallet-setting">
-      <FindoraHeader title={intl.get('page_wallet_setting_title')} isShowBack menu={<HeaderMenu />} />
+    <FindoraWebContainer className="findora-wallet-setting" title={intl.get('page_wallet_setting_title')}>
+      {/* <FindoraHeader title={intl.get('page_wallet_setting_title')} isShowBack menu={<HeaderMenu />} /> */}
       <div className="setting-box">
         <FindoraBoxView title="Network">
           <SwitchNetWork />
@@ -33,7 +34,7 @@ const Setting = () => {
           <SwitchLanguage />
         </FindoraBoxView>
       </div>
-    </div>
+    </FindoraWebContainer>
   );
 };
 
