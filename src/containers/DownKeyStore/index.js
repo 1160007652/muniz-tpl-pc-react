@@ -7,14 +7,12 @@
  */
 
 import React, { useState } from 'react';
-import { Alert, Form, Button, Checkbox, message } from 'antd';
-import { Link, useHistory } from 'react-router-dom';
+import { Form, Button, Checkbox, message } from 'antd';
+import { useHistory } from 'react-router-dom';
 import intl from 'react-intl-universal';
 import { MobXProviderContext, observer } from 'mobx-react';
 
 import FindoraWebContainer from '_components/FindoraWebContainer';
-// import FindoraHeader from '_components/FindoraHeader';
-// import HeaderMenu from '_containers/HeaderMenu';
 import pageURL from '_constants/pageURL';
 import services from '_src/services';
 
@@ -25,22 +23,6 @@ const DownKeyStore = () => {
   const history = useHistory();
   const [isSuccess, setIsSuccess] = useState(false);
   const [fileData, setFileData] = useState(null);
-  const formItemLayout = {
-    labelCol: {
-      xs: { span: 4 },
-      sm: { span: 24 },
-    },
-    wrapperCol: {
-      xs: { span: 4 },
-      sm: { span: 24 },
-    },
-  };
-
-  const renderCancelComponent = (
-    <Link to={pageURL.home} className="menu-cancel">
-      {intl.get('cancel')}
-    </Link>
-  );
 
   async function handleDownKeyStore(e) {
     if (e.remember) {
@@ -70,10 +52,8 @@ const DownKeyStore = () => {
             console.log(downloadItem);
             if (downloadItem) {
               setFileData(fileDataTemp);
-              // message.success(intl.get('wallet_down_success'));
             } else {
               setFileData(null);
-              // message.error(intl.get('wallet_down_fail'));
             }
           },
         );
@@ -92,9 +72,7 @@ const DownKeyStore = () => {
   }
 
   return (
-    // <div className="findora-down-key-store">
     <FindoraWebContainer className="findora-down-key-store" title={intl.get('wallet_down_btn')}>
-      {/* <FindoraHeader title={intl.get('wallet_down_btn')} isShowBack menu={<HeaderMenu />} /> */}
       <div className="key-store-box">
         <Form name="downKeyStore" onFinish={handleDownKeyStore}>
           <Form.Item
@@ -111,7 +89,7 @@ const DownKeyStore = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" style={{ margin: '0 auto', display: 'block' }}>
+            <Button type="primary" htmlType="submit">
               {intl.get('wallet_down_btn')}
             </Button>
           </Form.Item>
