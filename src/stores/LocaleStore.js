@@ -39,6 +39,7 @@ class LocaleStore {
       },
     });
     this.locale = value;
+
     when(
       () => this.locale,
       () => {

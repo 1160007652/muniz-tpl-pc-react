@@ -21,8 +21,8 @@ const pageURL = {
   /** Home page*/
   home: '/',
   /** 关于页面 */
-  /** About page */
-  about: '/about',
+  /** Help page */
+  help: '/help',
   /** 导入的钱包列表 */
   /** Imported wallets page */
   walletList: '/walletList',

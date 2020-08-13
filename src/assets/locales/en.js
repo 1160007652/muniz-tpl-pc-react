@@ -7,6 +7,7 @@
  */
 
 const enUS = {
+  Language: 'Language',
   locale_zh: 'Chinese',
   locale_en: 'English',
 
@@ -83,13 +84,14 @@ const enUS = {
   menu_wallet: 'Wallet',
   menu_asset: 'Asset',
   menu_home: 'Wallets',
-  menu_send: 'Send',
+  menu_asset_send: 'Send',
   menu_wallet_create: 'Create Wallet',
   menu_wallet_import: 'Import Wallet',
   menu_setting: 'Setting',
   menu_asset_create: 'Create or Issue Asset',
   menu_asset_create1: 'Create Asset',
   menu_asset_issue: 'Issue Asset',
+  menu_asset_transactions: 'Transactions',
   menu_about: 'Help',
 
   page_wallet_title: 'Wallet',
@@ -128,6 +130,7 @@ const enUS = {
   tips_asset_create_result_success: 'Asset creation succeeded',
   tips_asset_issue_result_success: 'Asset issuance succeeded',
   tips_asset_send_result_success: 'Asset transfer succeeded',
+  network: 'Network',
   network_online: 'Online',
   network_testnet: 'Testnet',
 

@@ -2,9 +2,7 @@ import React from 'react';
 import { MobXProviderContext, observer } from 'mobx-react';
 import intl from 'react-intl-universal';
 
-// import FindoraHeader from '_components/FindoraHeader';
 import WalletEmpty from '_containers/WalletEmpty';
-// import HeaderMenu from '_containers/HeaderMenu';
 import WalletListView from '_containers/WalletListView';
 import WalletInfoDetail from '_containers/WalletInfoDetail';
 import FindoraWebContainer from '_components/FindoraWebContainer';

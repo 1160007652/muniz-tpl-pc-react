@@ -7,6 +7,7 @@
  */
 
 const zhCN = {
+  Language: '语言环境',
   locale_zh: '中文',
   locale_en: '英文',
   navigation_back: '返回',
@@ -77,13 +78,14 @@ const zhCN = {
   menu_wallet: '钱包',
   menu_asset: '资产',
   menu_home: '钱包列表',
-  menu_send: '转转',
+  menu_asset_send: '转转',
   menu_wallet_create: '创建钱包',
   menu_wallet_import: '导入钱包',
   menu_setting: '设置',
   menu_asset_create: '创建或增发资产',
   menu_asset_create1: '创建资产',
   menu_asset_issue: '发行资产',
+  menu_asset_transactions: '交易记录',
   menu_about: '帮助',
 
   page_wallet_title: '钱包',
@@ -121,6 +123,7 @@ const zhCN = {
   tips_asset_create_result_success: '创建资产成功',
   tips_asset_issue_result_success: '发行资产成功',
   tips_asset_send_result_success: '转账成功',
+  network: '网络环境',
   network_online: '主网',
   network_testnet: '测试网',
 

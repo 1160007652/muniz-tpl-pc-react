@@ -25,8 +25,8 @@ const CreateWallet = () => {
 
   const formItemLayout = {
     labelCol: {
-      xs: { span: 24 },
-      sm: { span: 8 },
+      xs: { span: 8 },
+      sm: { span: 4 },
     },
     wrapperCol: {
       xs: { span: 24 },
@@ -96,7 +96,6 @@ const CreateWallet = () => {
               },
               { min: 9, message: intl.get('wallet_create_password_less9') },
             ]}
-            // initialValue="123456789"
           >
             <Input type="password" className="inputwidth" />
           </Form.Item>
@@ -120,14 +119,17 @@ const CreateWallet = () => {
                 },
               }),
             ]}
-            // initialValue="123456789"
           >
             <Input type="password" />
           </Form.Item>
           <Form.Item
             wrapperCol={{
               xs: { offset: 0 },
-              sm: { offset: 11 },
+              sm: { offset: 4 },
+            }}
+            labelCol={{
+              xs: { span: 8 },
+              sm: { span: 4 },
             }}
           >
             <Button type="primary" htmlType="submit">

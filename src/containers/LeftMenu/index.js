@@ -29,13 +29,13 @@ import './index.less';
 
 const routers = [
   {
-    page: pageURL.about,
+    page: pageURL.help,
     icon: <InfoCircleOutlined />,
     title: 'menu_application',
     isShow: true,
     children: [
       {
-        page: pageURL.about,
+        page: pageURL.help,
         icon: <InfoCircleOutlined />,
         title: 'menu_about',
         isShow: true,
@@ -95,7 +95,13 @@ const routers = [
       {
         page: pageURL.send,
         icon: <SendIcon />,
-        title: 'menu_send',
+        title: 'menu_asset_send',
+        isShow: true,
+      },
+      {
+        page: pageURL.transactions.replace(':action', 'detail-loading'),
+        icon: <TransactionsIcon />,
+        title: 'menu_asset_transactions',
         isShow: true,
       },
     ],

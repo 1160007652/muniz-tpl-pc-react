@@ -60,7 +60,7 @@ const routers = [
     isShow: true,
   },
   {
-    page: pageURL.about,
+    page: pageURL.help,
     icon: <InfoCircleOutlined />,
     title: 'menu_about',
     isShow: true,

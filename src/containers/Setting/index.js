@@ -18,7 +18,7 @@ import SwitchNetWork from '_containers/SwitchNetWork';
 import FindoraBoxView from '_components/FindoraBoxView';
 import FindoraWebContainer from '_components/FindoraWebContainer';
 
-import pageURL from '_constants/pageURL';
+// import pageURL from '_constants/pageURL';
 
 import './index.less';
 
@@ -27,10 +27,10 @@ const Setting = () => {
     <FindoraWebContainer className="findora-wallet-setting" title={intl.get('page_wallet_setting_title')}>
       {/* <FindoraHeader title={intl.get('page_wallet_setting_title')} isShowBack menu={<HeaderMenu />} /> */}
       <div className="setting-box">
-        <FindoraBoxView title="Network">
+        <FindoraBoxView title={intl.get('network')}>
           <SwitchNetWork />
         </FindoraBoxView>
-        <FindoraBoxView title="Language">
+        <FindoraBoxView title={intl.get('Language')}>
           <SwitchLanguage />
         </FindoraBoxView>
       </div>

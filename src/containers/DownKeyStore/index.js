@@ -27,12 +27,12 @@ const DownKeyStore = () => {
   const [fileData, setFileData] = useState(null);
   const formItemLayout = {
     labelCol: {
-      xs: { span: 24 },
-      sm: { span: 8 },
+      xs: { span: 4 },
+      sm: { span: 24 },
     },
     wrapperCol: {
-      xs: { span: 24 },
-      sm: { span: 8 },
+      xs: { span: 4 },
+      sm: { span: 24 },
     },
   };
 
@@ -96,7 +96,7 @@ const DownKeyStore = () => {
     <FindoraWebContainer className="findora-down-key-store" title={intl.get('wallet_down_btn')}>
       {/* <FindoraHeader title={intl.get('wallet_down_btn')} isShowBack menu={<HeaderMenu />} /> */}
       <div className="key-store-box">
-        <Form name="downKeyStore" {...formItemLayout} onFinish={handleDownKeyStore}>
+        <Form name="downKeyStore" onFinish={handleDownKeyStore}>
           <Form.Item
             name="remember"
             valuePropName="checked"
@@ -115,12 +115,14 @@ const DownKeyStore = () => {
               {intl.get('wallet_down_btn')}
             </Button>
           </Form.Item>
+          <Form.Item>
+            {isSuccess && (
+              <Button type="primary" onClick={handleOnClickToPath}>
+                {intl.get('wallet_create_lafter_import_tips')}
+              </Button>
+            )}
+          </Form.Item>
         </Form>
-        {isSuccess && (
-          <Button type="primary" className="import-wallet" onClick={handleOnClickToPath}>
-            {intl.get('wallet_create_lafter_import_tips')}
-          </Button>
-        )}
       </div>
     </FindoraWebContainer>
   );

@@ -1,17 +1,11 @@
 import React from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
-import { MobXProviderContext, observer } from 'mobx-react';
-import { ConfigProvider } from 'antd';
+import { Route, Switch } from 'react-router-dom';
+
 import { hot } from 'react-hot-loader';
 import Loadable from 'react-loadable';
 
 import Loading from '_components/Loading';
 import pageURL from '_constants/pageURL';
-import Home from './containers/Home';
-
-// antd 组件库 多语言
-import enUS from 'antd/lib/locale/en_US';
-import zhCN from 'antd/lib/locale/zh_CN';
 
 const delay = 250;
 const timeout = 10000;
@@ -19,26 +13,26 @@ const timeout = 10000;
 const routeMap = [
   {
     path: pageURL.home,
-    component: Home,
+    component: './containers/Home',
     exact: true,
-    dynamic: false,
+    dynamic: true,
   },
   {
-    path: pageURL.about,
-    component: './containers/About',
+    path: pageURL.help,
+    component: './containers/Help',
     exact: true,
     dynamic: true,
   },
   {
     path: pageURL.createAsset,
     component: './containers/CreateAsset',
-    exact: false,
+    exact: true,
     dynamic: true,
   },
   {
     path: pageURL.issueAsset,
     component: './containers/IssueAsset',
-    exact: false,
+    exact: true,
     dynamic: true,
   },
   {
@@ -110,31 +104,27 @@ const routeMap = [
 ];
 
 const Routes = () => {
-  const localeStore = React.useContext(MobXProviderContext).localeStore;
-  const currentLocale = localeStore.locale === 'en' ? enUS : zhCN;
   return (
-    <ConfigProvider locale={currentLocale}>
-      <Switch>
-        {routeMap.map((item, index) => (
-          <Route
-            key={index}
-            path={item.path}
-            exact={item.exact}
-            component={
-              item.dynamic
-                ? Loadable({
-                    loader: () => import(`${item.component}`),
-                    loading: Loading,
-                    delay,
-                    timeout,
-                  })
-                : item.component
-            }
-          />
-        ))}
-      </Switch>
-    </ConfigProvider>
+    <Switch>
+      {routeMap.map((item, index) => (
+        <Route
+          key={index}
+          path={item.path}
+          exact={item.exact}
+          component={
+            item.dynamic
+              ? Loadable({
+                  loader: () => import(`${item.component}`),
+                  loading: Loading,
+                  delay,
+                  timeout,
+                })
+              : item.component
+          }
+        />
+      ))}
+    </Switch>
   );
 };
 
-export default hot(module)(observer(Routes));
+export default hot(module)(Routes);
