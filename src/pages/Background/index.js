@@ -13,6 +13,11 @@ import calculateUtxo from '_src/utils/calculateUtxo';
 
 import pageURL from '_constants/pageURL';
 
+chrome.browserAction.onClicked.addListener(function (activeTab) {
+  var newURL = `${chrome.runtime.getURL('popup.html')}#${pageURL.createAsset}`;
+  chrome.tabs.create({ url: newURL });
+});
+
 function exactWalletList() {
   chrome.storage.sync.get(['walletImportList'], async ({ walletImportList }) => {
     if (walletImportList) {

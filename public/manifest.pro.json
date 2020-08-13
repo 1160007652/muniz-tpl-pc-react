@@ -11,8 +11,7 @@
     "persistent": true
   },
   "browser_action": {
-    "default_title": "findora",
-    "default_popup": "popup.html"
+    "default_title": "findora"
   },
 
   "content_scripts": [
