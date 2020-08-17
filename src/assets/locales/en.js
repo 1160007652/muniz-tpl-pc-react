@@ -39,7 +39,10 @@ const enUS = {
   updatable: 'Updatable',
   updatable_tips: 'Whether the asset memo can be updated.',
   blind_type: 'Blind Type',
+  blind_type_tips: 'Whether to display the asset type on the Ledger.',
   blind_amount: 'Blind Amount',
+  blind_amount_tips: 'Whether to display the asset amount on the Ledger.',
+
   confirm: 'Confirm',
 
   txn_IssueAsset: 'Issuance',

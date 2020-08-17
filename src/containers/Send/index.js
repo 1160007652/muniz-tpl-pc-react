@@ -14,6 +14,7 @@ import FindoraBoxView from '_components/FindoraBoxView';
 import SwitchAddress from '_containers/SwitchAddress';
 import SwitchAssetName from '_containers/SwitchAssetName';
 import Balance from '_containers/Balance';
+import FindoraTips from '_components/FindoraTips';
 
 import pageURL from '_constants/pageURL';
 
@@ -264,13 +265,20 @@ const Send = () => {
 
           {error.amountError && <div className="error">{intl.get(error.amountError)}</div>}
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('blind_amount')} isRow titleDirection="top">
+        <FindoraBoxView
+          title={<FindoraTips desc={intl.get('blind_amount_tips')}>{intl.get('blind_amount')}</FindoraTips>}
+          isRow
+          titleDirection="top"
+        >
           <Radio.Group value={data.blind.isAmount} onChange={handleChangeRadio('isAmount')}>
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('blind_type')} isRow>
+        <FindoraBoxView
+          title={<FindoraTips desc={intl.get('blind_type_tips')}>{intl.get('blind_type')}</FindoraTips>}
+          isRow
+        >
           <Radio.Group
             value={data.blind.isType}
             disabled={blindError.isTypeError}
@@ -281,8 +289,9 @@ const Send = () => {
           </Radio.Group>
           {blindError.isTypeError && <div className="error">{intl.get(blindError.isTypeError)}</div>}
         </FindoraBoxView>
+
+        <div className="btn-area">{AssetRulesComponent()}</div>
       </div>
-      <div className="btn-area">{AssetRulesComponent()}</div>
     </FindoraWebContainer>
   );
 };

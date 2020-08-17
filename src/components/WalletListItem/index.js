@@ -8,7 +8,7 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { CopyOutlined, CheckOutlined, FormOutlined } from '@ant-design/icons';
+import { CopyOutlined, CheckOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { NetworkLarge } from 'react-identicon-variety-pack';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -40,11 +40,6 @@ const WalletListItem = ({ data, isShowEdit, style, className, onClick, onChangeN
       <div className="wallet-list-text">
         <WalletName data={{ name: data.keyStore.name }} isShowEdit={isShowEdit} onChangeName={onChangeName} />
         <div className="wallet-address equal-font">
-          {/* {isShowEdit ? (
-            <Tooltip title={data.publickey}>{`${String(data.publickey).substr(0, 34)}...`}</Tooltip>
-          ) : (
-            <span>{data.publickey}</span>
-          )} */}
           <span>{data.publickey}</span>
           <CopyToClipboard text={data.publickey} onCopy={handleClickCopyAddress} style={{ marginLeft: '10px' }}>
             {isCopy ? (

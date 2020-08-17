@@ -11,6 +11,7 @@ import FindoraWebContainer from '_components/FindoraWebContainer';
 import SwitchAddress from '_containers/SwitchAddress';
 import SwitchAssetName from '_containers/SwitchAssetName';
 import IssueAssetConfrim from '_containers/IssueAssetConfrim';
+import FindoraTips from '_components/FindoraTips';
 
 import './index.less';
 
@@ -206,7 +207,11 @@ const IssueAsset = () => {
           </div>
           {error.amountError && <div className="error">{intl.get(error.amountError)}</div>}
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('blind_amount')} isRow titleDirection="top">
+        <FindoraBoxView
+          title={<FindoraTips desc={intl.get('blind_amount_tips')}>{intl.get('blind_amount')}</FindoraTips>}
+          isRow
+          titleDirection="top"
+        >
           <Radio.Group
             value={data.blind.isAmount}
             disabled={data.asset?.asset_rules?.max_units}

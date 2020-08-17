@@ -37,7 +37,9 @@ const zhCN = {
   updatable: '可更新',
   updatable_tips: '资产备忘是否可以更新',
   blind_type: '隐藏类型',
+  blind_type_tips: '是否在分类帐上显示资产类型',
   blind_amount: '隐藏数量',
+  blind_amount_tips: '是否在分类帐上显示已发行金额',
   confrim: '确认',
 
   txn_IssueAsset: '发行',
