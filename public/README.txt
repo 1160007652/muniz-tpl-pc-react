@@ -4,7 +4,7 @@ Aug 4, 2020
 1. Extract the extension folder
 2. Open Google Chrome (chrome-browser)
 3. Enter chrome://extensions into the Chrome address bar
-4. Drag the extension folder to the Chrome Extensions page
+4. On Mac OS, Click the "Load Unpacked" button and select the extension folder. On Linux, drag the extension folder to the Chrome Extensions page
 5. Pin the Findora Wallet. Click the Extensions icon
    (puzzle piece above the blue bar) and click the push pin icon
 6. Click the Findora icon to get started (purple f)
