@@ -1,12 +1,4 @@
 pipeline {
-
-  triggers {
-    upstream(
-      upstreamProjects: 'FindoraOrg/platform/master',
-      threshold: hudson.model.Result.SUCCESS
-    )
-  }
-
   environment {
     dockerRepo = 'https://nexus.findora.org'
     dockerCreds = 'nexus'
