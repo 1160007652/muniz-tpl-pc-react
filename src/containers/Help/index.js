@@ -29,7 +29,7 @@ const About = () => {
         </div>
         <p>{intl.get('about_info')}</p>
         <div onClick={handleOnClickGoIssue} className="go_issue">
-          https://bugtracker.findora.org/projects/testnet/issues/new
+          mailto:testnet@findora.org
         </div>
       </div>
     </FindoraWebContainer>
