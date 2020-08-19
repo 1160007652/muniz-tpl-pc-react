@@ -127,9 +127,7 @@ const RestoreWallet = () => {
                   <p className="ant-upload-drag-icon">
                     <InboxOutlined />
                   </p>
-                  <p className="ant-upload-text">
-                    {intl.get('wallet_restore_upload_file')}Click or drag findora wallet file to this area to upload
-                  </p>
+                  <p className="ant-upload-text">{intl.get('wallet_restore_upload_file')}</p>
                   <p className="ant-upload-hint"> {filename ? `File: ${filename}` : null}</p>
                 </Upload.Dragger>
               </Form.Item>

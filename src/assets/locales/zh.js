@@ -103,7 +103,7 @@ const zhCN = {
 
   wallet_restore_password_error: '密码错误',
   wallet_restore_no_upload_file: '未填加KeyStore文件',
-  wallet_restore_upload_file: '选择KeyStore文件',
+  wallet_restore_upload_file: '单击或拖动密钥库文件到此区域进行上载',
   wallet_restore_inputpassword: '请输入密码',
   wallet_restore_submit: '完成',
 

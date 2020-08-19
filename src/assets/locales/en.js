@@ -110,7 +110,7 @@ const enUS = {
 
   wallet_restore_password_error: 'Password Error',
   wallet_restore_no_upload_file: 'No file added',
-  wallet_restore_upload_file: 'Upload Keystore File',
+  wallet_restore_upload_file: 'Click or drag Keystore file to this area to upload',
   wallet_restore_inputpassword: 'Please enter password',
   wallet_restore_submit: 'Open',
 
