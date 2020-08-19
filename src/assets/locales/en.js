@@ -75,7 +75,7 @@ const enUS = {
   wallet_down_btn: 'Save Findora Wallet',
   wallet_down_success: 'Save Succeeded',
   wallet_down_fail: 'Save Failed',
-  wallet_remove_title: 'Remove Wallet',
+  wallet_remove_title: 'Close wallet',
   wallet_remove_notice:
     'You are about to remove the wallet. Please make sure you have saved the keystore file to restore the wallet.',
   wallet_export_title: 'Save Wallet',

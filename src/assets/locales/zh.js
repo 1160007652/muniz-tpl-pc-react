@@ -69,7 +69,7 @@ const zhCN = {
   wallet_down_btn: '保存Findora钱包',
   wallet_down_success: '下载成功',
   wallet_down_fail: '下载失败',
-  wallet_remove_title: '删除钱包',
+  wallet_remove_title: '关闭钱包',
   wallet_remove_notice: '您将要取出钱包。请确保您已保存密钥库文件以恢复钱包。',
   wallet_export_title: '导出钱包',
   wallet_create_lafter_import_tips: '导入您的新钱包',

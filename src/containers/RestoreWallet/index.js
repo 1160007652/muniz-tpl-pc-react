@@ -8,7 +8,7 @@
 
 import React, { useState } from 'react';
 import { Input, Form, Button, Upload, Row, Col, message } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import intl from 'react-intl-universal';
 import { MobXProviderContext, observer } from 'mobx-react';
 import { Link, useHistory } from 'react-router-dom';
@@ -106,7 +106,7 @@ const RestoreWallet = () => {
                   }),
                 ]}
               >
-                <Upload
+                {/* <Upload
                   showUploadList={false}
                   beforeUpload={handleBeforeUpload}
                   onChange={handleChangeUpload}
@@ -117,7 +117,21 @@ const RestoreWallet = () => {
                     {intl.get('wallet_restore_upload_file')}
                   </Button>
                   <div className="file-name">{filename}</div>
-                </Upload>
+                </Upload> */}
+                <Upload.Dragger
+                  onChange={handleChangeUpload}
+                  showUploadList={false}
+                  beforeUpload={handleBeforeUpload}
+                  accept=".findorawallet"
+                >
+                  <p className="ant-upload-drag-icon">
+                    <InboxOutlined />
+                  </p>
+                  <p className="ant-upload-text">
+                    {intl.get('wallet_restore_upload_file')}Click or drag findora wallet file to this area to upload
+                  </p>
+                  <p className="ant-upload-hint"> {filename ? `File: ${filename}` : null}</p>
+                </Upload.Dragger>
               </Form.Item>
             </Col>
           </Row>
