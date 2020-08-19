@@ -15,9 +15,10 @@ ReactDOM.render(
         {intl.get('about_version')}:{process.env.VERSION_APP}
       </div>
       <p>{intl.get('about_info')}</p>
-      <a href="https://bugtracker.findora.org/projects/web-wallet/issues/new">
-        https://bugtracker.findora.org/projects/web-wallet/issues/new
-      </a>
+      For help, email 
+      <a href="mailto:testnet@findora.org">
+        testnet@findora.org
+      </a>.
     </div>
   </Provider>,
   document.getElementById('root'),
