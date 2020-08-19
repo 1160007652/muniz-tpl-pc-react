@@ -17,7 +17,7 @@ import './index.less';
 
 const About = () => {
   function handleOnClickGoIssue() {
-    window.open('https://bugtracker.findora.org/projects/testnet/issues/new');
+    window.open('mailto:testnet@findora.org');
   }
   return (
     <FindoraWebContainer className="findora-wallet-about" title={intl.get('menu_asset_create1')}>
