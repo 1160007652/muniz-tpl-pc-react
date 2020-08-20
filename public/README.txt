@@ -1,5 +1,5 @@
 Installing the Findora Wallet Chrome Extension
-Aug 4, 2020
+Aug 19, 2020
 
 1. Extract the extension folder
 2. Open Google Chrome (chrome-browser)
@@ -17,15 +17,10 @@ Note:
 Do not delete the extension folder after installation. If you move
 the folder, you'll need to remove and reinstall the extension.
 
-For feedback and defect reports, please use our Redmine project management
-application.
-
-https://bugtracker.findora.org/projects/testnet/issues/new
+For feedback and defect reports, please email: testnet@findora.org
 
 Please include the version reported in the Help. The Help menu item is found
 in the menu at the upper right of the popup window (≡).
-
-You can also contact us by email: testnet@findora.org
 
 Try the following:
 1. Create two wallets
