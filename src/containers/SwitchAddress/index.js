@@ -14,7 +14,7 @@ import intl from 'react-intl-universal';
 
 import './index.less';
 
-const SwitchAddress = ({ dataList, curAddress, onChange, isEmpty }) => {
+const SwitchAddress = ({ dataList, curAddress, onChange }) => {
   const [address, setAddress] = useState(curAddress);
 
   /** 选择地址事件 */
@@ -42,7 +42,7 @@ const SwitchAddress = ({ dataList, curAddress, onChange, isEmpty }) => {
   return dataList.length > 0 ? (
     createSelectAddress()
   ) : (
-    <div className={classNames({ 'issuer-empty': isEmpty })}>{intl.get('tips_wallet_create')}</div>
+    <div className={'issuer-empty'}>{intl.get('tips_wallet_create')}</div>
   );
 };
 
@@ -53,13 +53,11 @@ SwitchAddress.propTypes = {
   curAddress: PropTypes.string,
   /** 钱包选中事件 */
   onChange: PropTypes.func,
-  /** 提交时触发是否为空 */
 };
 
 SwitchAddress.defaultProps = {
   dataList: [],
   curAddress: '',
-  isEmpty: false,
   onChange: () => {},
 };
 

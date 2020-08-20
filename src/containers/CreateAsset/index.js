@@ -158,7 +158,6 @@ const CreateAsset = () => {
             dataList={walletStore.walletImportList}
             curAddress={data.founder}
             onChange={handleChangeSwitchAddress}
-            isEmpty={!!error.founderError}
           />
         </FindoraBoxView>
 
