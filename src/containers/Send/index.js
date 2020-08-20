@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { toJS } from 'mobx';
 import { MobXProviderContext, observer } from 'mobx-react';
 import { useHistory } from 'react-router-dom';
-import { Input, Radio, InputNumber, Tag } from 'antd';
+import { Input, Radio, InputNumber, Tag, Menu, Dropdown } from 'antd';
 import intl from 'react-intl-universal';
 import { useImmer } from 'use-immer';
 
@@ -112,7 +112,7 @@ const Send = () => {
       state.numbers = '';
     });
   }
-  /** 切换钱包地址 */
+  /** 切换钱包 from 地址 */
   function handleChangeSwitchAddress(address) {
     if (address === data.to) {
       setError((state) => {
@@ -128,6 +128,7 @@ const Send = () => {
     }
     setData((state) => {
       state.from = address;
+      state.to = address === state.to ? '' : state.to;
     });
   }
   /** 输入 To 地址 */
@@ -155,6 +156,17 @@ const Send = () => {
     setData((state) => {
       state.to = to;
     });
+  }
+  /** 选择To 下拉菜单, 切换地址 */
+  function handleOnClickToAddress(item) {
+    return () => {
+      setData((state) => {
+        state.to = item.publickey;
+      });
+      setError((state) => {
+        state.toError = null;
+      });
+    };
   }
 
   /** 输入 Amount  */
@@ -220,7 +232,23 @@ const Send = () => {
   function limitDecimals(value) {
     return Number(String(value).replace(/^(0+)|[^\d]+/g, '')) || '';
   }
-
+  function ToMenu() {
+    return (
+      <Menu>
+        {walletStore.walletImportList.map((item) => {
+          if (item.publickey !== data.from) {
+            return (
+              <Menu.Item key={item.publickey} onClick={handleOnClickToAddress(item)}>
+                {item.keyStore.name}
+              </Menu.Item>
+            );
+          } else {
+            return null;
+          }
+        })}
+      </Menu>
+    );
+  }
   return (
     <FindoraWebContainer className="send" title={intl.get('page_send_title')}>
       {/* <FindoraHeader title={intl.get('page_send_title')} isShowBack menu={<HeaderMenu />} /> */}
@@ -234,9 +262,17 @@ const Send = () => {
           />
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('to')}>
+          <Dropdown overlay={ToMenu}>
+            <div>
+              <Input placeholder="Please to address" value={data.to} className="address" onChange={handleChangeTo} />
+              {error.toError && <div className="error">{intl.get(error.toError)}</div>}
+            </div>
+          </Dropdown>
+        </FindoraBoxView>
+        {/* <FindoraBoxView title={intl.get('to')}>
           <Input placeholder="Please to address" value={data.to} className="address" onChange={handleChangeTo} />
           {error.toError && <div className="error">{intl.get(error.toError)}</div>}
-        </FindoraBoxView>
+        </FindoraBoxView> */}
         <FindoraBoxView title={intl.get('asset_name')}>
           <SwitchAssetName
             onResult={handleChangeSelectAssetName}

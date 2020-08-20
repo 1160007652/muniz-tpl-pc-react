@@ -9,11 +9,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Select, Tag } from 'antd';
+import classNames from 'classnames';
 import intl from 'react-intl-universal';
 
 import './index.less';
 
-const SwitchAddress = ({ dataList, curAddress, onChange }) => {
+const SwitchAddress = ({ dataList, curAddress, onChange, isEmpty }) => {
   const [address, setAddress] = useState(curAddress);
 
   /** 选择地址事件 */
@@ -38,7 +39,11 @@ const SwitchAddress = ({ dataList, curAddress, onChange }) => {
       </div>
     );
   }
-  return dataList.length > 0 ? createSelectAddress() : <div>{intl.get('tips_wallet_create')}</div>;
+  return dataList.length > 0 ? (
+    createSelectAddress()
+  ) : (
+    <div className={classNames({ 'issuer-empty': isEmpty })}>{intl.get('tips_wallet_create')}</div>
+  );
 };
 
 SwitchAddress.propTypes = {
@@ -48,11 +53,13 @@ SwitchAddress.propTypes = {
   curAddress: PropTypes.string,
   /** 钱包选中事件 */
   onChange: PropTypes.func,
+  /** 提交时触发是否为空 */
 };
 
 SwitchAddress.defaultProps = {
   dataList: [],
   curAddress: '',
+  isEmpty: false,
   onChange: () => {},
 };
 

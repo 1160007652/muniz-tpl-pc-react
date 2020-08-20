@@ -20,7 +20,8 @@ const CreateAsset = () => {
   const { created: drawerInfo } = assetStore.drawerInfo;
   const [nextDisabled, setNextDisabled] = useState(false);
   const [error, setError] = useImmer({
-    amountError: null,
+    amountError: '',
+    founderError: '',
   });
   const [data, setData] = useImmer({
     founder: walletStore.walletInfo.publickey,
@@ -42,7 +43,12 @@ const CreateAsset = () => {
    * 创建资产, 唤醒插件, 校验信息
    */
   function handleClickCreate() {
-    assetStore.toggleDrawer('created', true);
+    setError((state) => {
+      state.founderError = '';
+    });
+    handleError(() => {
+      assetStore.toggleDrawer('created', true);
+    });
   }
 
   /** 切换钱包地址 */
@@ -61,22 +67,54 @@ const CreateAsset = () => {
 
   /** 最大值定义资产 */
   function handleChangeAssetMaxNumbers(value) {
-    if (value) {
-      setNextDisabled(false);
-      setError((state) => {
-        state.amountError = null;
-      });
-    } else {
-      setNextDisabled(true);
-      setError((state) => {
-        state.amountError = 'token_create_max_amount_limit_tips';
-      });
-    }
-
+    setError((state) => {
+      state.amountError = '';
+    });
     setData((state) => {
       state.asset = { ...state.asset, maxNumbers: value };
     });
   }
+  /** 最大值定义资产 失去焦点 */
+  function handleBlurAssetMaxNumbers() {
+    handleError();
+  }
+
+  function handleError(fn) {
+    const { asset, maxUnits, founder } = data;
+    let isError = false;
+
+    // 判断 max units limit
+    if (maxUnits) {
+      if (asset.maxNumbers) {
+        setError((state) => {
+          state.amountError = '';
+        });
+      } else {
+        setError((state) => {
+          state.amountError = 'token_create_max_amount_limit_tips';
+        });
+        isError = true;
+      }
+    }
+
+    // 判断 issuer
+    if (founder) {
+      setError((state) => {
+        state.founderError = '';
+      });
+    } else {
+      setError((state) => {
+        state.founderError = 'founder_create_no_empty';
+      });
+      isError = true;
+    }
+
+    // 提交
+    if (fn && !isError) {
+      fn();
+    }
+  }
+
   /** 输入记录 */
   function handleChangeMemo(e) {
     e.persist();
@@ -90,25 +128,12 @@ const CreateAsset = () => {
     return (e) => {
       const value = e.target.value;
       if (key === 'maxUnits') {
-        if (value) {
-          if (!data.asset.maxNumbers) {
-            setNextDisabled(true);
-
-            setError((state) => {
-              state.amountError = 'token_create_max_amount_limit_tips';
-            });
-          } else {
-            setNextDisabled(false);
-            setError((state) => {
-              state.amountError = null;
-            });
-          }
-          setData((state) => {
-            state.asset.maxNumbers = state.asset.maxNumbers;
-          });
-        } else {
+        if (!value) {
           setData((state) => {
             state.asset.maxNumbers = '';
+          });
+          setError((state) => {
+            state.amountError = '';
           });
         }
       }
@@ -133,6 +158,7 @@ const CreateAsset = () => {
             dataList={walletStore.walletImportList}
             curAddress={data.founder}
             onChange={handleChangeSwitchAddress}
+            isEmpty={!!error.founderError}
           />
         </FindoraBoxView>
 
@@ -166,6 +192,7 @@ const CreateAsset = () => {
                 step={1}
                 value={data.asset.maxNumbers}
                 onChange={handleChangeAssetMaxNumbers}
+                onBlur={handleBlurAssetMaxNumbers}
                 formatter={limitDecimals}
                 parser={limitDecimals}
               />
@@ -207,7 +234,7 @@ const CreateAsset = () => {
           </Radio.Group>
         </FindoraBoxView> */}
         <div className="btn-area">
-          <FindoraButton className="btn" onClick={handleClickCreate} disabled={nextDisabled}>
+          <FindoraButton className="btn" onClick={handleClickCreate}>
             {intl.get('token_create_create')}
           </FindoraButton>
         </div>
