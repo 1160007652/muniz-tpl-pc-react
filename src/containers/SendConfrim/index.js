@@ -1,47 +1,43 @@
 import React, { useState } from 'react';
 import { MobXProviderContext } from 'mobx-react';
-import { useLocation, useHistory } from 'react-router-dom';
 import intl from 'react-intl-universal';
 import { message, Spin } from 'antd';
 
 import FindoraHeader from '_components/FindoraHeader';
-import HeaderMenu from '_containers/HeaderMenu';
 import FindoraButton from '_components/FindoraButton';
 import FindoraBoxView from '_components/FindoraBoxView';
 import ResultAsset from '_components/ResultAsset';
 
 import services from '_src/services';
-import pageURL from '_constants/pageURL';
 
 import './index.less';
 
-const SendConfrim = () => {
-  const walletStore = React.useContext(MobXProviderContext).walletStore;
-  const RouterLocation = useLocation();
-  const hirstory = useHistory();
+const SendConfrim = ({ data }) => {
+  const { walletStore, assetStore } = React.useContext(MobXProviderContext);
   const [resultData, setResultData] = useState({ type: false });
   const [isShowResult, setShowResult] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const { from, to, asset, blind, numbers } = RouterLocation.state;
+  const { from, to, asset, blind, numbers } = data;
 
   /** 取消窗口 */
   function handleClickCancel() {
-    setShowResult(false);
+    assetStore.toggleDrawer('send', false);
   }
   /** 显示结果后, 按钮事件 */
   function handleClickView() {
-    hirstory.replace({ pathname: pageURL.transactions.replace(':action', 'refresh') });
+    assetStore.toggleDrawer('send', false);
+    assetStore.changeComponentKey('send');
   }
 
   /** 提交转账 */
   async function handleClickSubmit() {
     setLoading(true);
     try {
-      const result = await services.sendServer.setSendAsset(RouterLocation.state);
+      const result = await services.sendServer.setSendAsset(data);
 
       // 如果 转账成功, 需要做某件事情, 打开注释进行编写
       if (result.code === 0) {
-        walletStore.setWalletInfo(RouterLocation.state.walletInfo);
+        walletStore.setWalletInfo(data.walletInfo);
       }
 
       if (result.code === -2) {
@@ -61,7 +57,7 @@ const SendConfrim = () => {
   function confrimComponent() {
     return (
       <div className="send-confrim">
-        <FindoraHeader title="Send" isShowBack menu={<HeaderMenu />} />
+        <FindoraHeader />
         <Spin spinning={isLoading}>
           <div className="send-confrim-box">
             <FindoraBoxView title={intl.get('from')}>
@@ -95,10 +91,7 @@ const SendConfrim = () => {
   }
 
   return isShowResult ? (
-    <div className="send-confrim">
-      <FindoraHeader title="Send" />
-      <ResultAsset title="Send" data={resultData} onClose={handleClickCancel} onView={handleClickView} />
-    </div>
+    <ResultAsset title="Send" data={resultData} onClose={handleClickCancel} onView={handleClickView} />
   ) : (
     confrimComponent()
   );

@@ -18,7 +18,6 @@ import './index.less';
 const CreateAsset = () => {
   const { walletStore, assetStore } = React.useContext(MobXProviderContext);
   const { created: drawerInfo } = assetStore.drawerInfo;
-  const [nextDisabled, setNextDisabled] = useState(false);
   const [error, setError] = useImmer({
     amountError: '',
     founderError: '',

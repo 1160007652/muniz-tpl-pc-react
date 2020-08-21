@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { toJS } from 'mobx';
 import { MobXProviderContext, observer } from 'mobx-react';
-import { useHistory } from 'react-router-dom';
-import { Input, Radio, InputNumber, Tag, Menu, Dropdown } from 'antd';
+import { Input, Radio, InputNumber, Menu, Dropdown, Drawer } from 'antd';
 import intl from 'react-intl-universal';
 import { useImmer } from 'use-immer';
 
-// import FindoraHeader from '_components/FindoraHeader';
-// import HeaderMenu from '_containers/HeaderMenu';
+import SendConfrim from '_containers/SendConfrim';
 import FindoraWebContainer from '_components/FindoraWebContainer';
 import FindoraButton from '_components/FindoraButton';
 import FindoraBoxView from '_components/FindoraBoxView';
@@ -21,16 +19,15 @@ import pageURL from '_constants/pageURL';
 import './index.less';
 
 const Send = () => {
-  const history = useHistory();
-  const walletStore = React.useContext(MobXProviderContext).walletStore;
-  const [nextDisabled, setNextDisabled] = useState(true);
+  const { walletStore, assetStore } = React.useContext(MobXProviderContext);
+  const { send: drawerInfo } = assetStore.drawerInfo;
   const [blindError, setBlindError] = useImmer({
     isTypeError: null,
   });
   const [error, setError] = useImmer({
     assetNameError: null,
-    amountError: 'send_error5',
-    toError: 'send_error4',
+    amountError: '',
+    toError: '',
   });
   const [data, setData] = useImmer({
     walletInfo: toJS(walletStore.walletInfo),
@@ -45,12 +42,12 @@ const Send = () => {
   });
 
   function handleClickItemInfo() {
-    history.push({ pathname: pageURL.sendConfrim, state: data });
+    handleError(['numbers', 'to'], () => {
+      assetStore.toggleDrawer('send', true);
+    })();
   }
   /** 资产名称选中事件, 回调结果 */
   function handleChangeSelectAssetName(value) {
-    setNextDisabled(true);
-    console.log('xxxxxxxxxxssssssxxxx=', value);
     const asset_rules = {
       asset_rules: {
         max_units: null,
@@ -68,11 +65,12 @@ const Send = () => {
       });
     } else {
       setError((state) => {
-        state.assetNameError = 'send_error6';
+        state.assetNameError = { type: 'error', msg: 'send_error6' };
       });
       return;
     }
 
+    // 可跟踪资产 不可以隐藏 code - blind_type
     if (asset_rules.asset_rules.tracing_policies) {
       setBlindError((state) => {
         state.isTypeError = 'send_error7';
@@ -89,21 +87,14 @@ const Send = () => {
       });
     }
 
-    if (!asset_rules.asset_rules.transferable && data.from !== value?.issuer?.key) {
+    // && data.from !== value?.issuer?.key
+    if (!asset_rules.asset_rules.transferable) {
       setError((state) => {
-        state.assetNameError = 'send_error2';
-        state.amountError = 'send_error5';
-        if (Object.values(state).every((item) => item !== null)) {
-          setNextDisabled(false);
-        }
+        state.assetNameError = { type: 'info', msg: 'send_error2' };
       });
     } else {
       setError((state) => {
         state.assetNameError = null;
-        state.amountError = 'send_error5';
-        if (Object.values(state).every((item) => item !== null)) {
-          setNextDisabled(false);
-        }
       });
     }
 
@@ -114,18 +105,11 @@ const Send = () => {
   }
   /** 切换钱包 from 地址 */
   function handleChangeSwitchAddress(address) {
-    if (address === data.to) {
-      setError((state) => {
-        state.toError = 'send_nosubmit_owne_tips';
-      });
-    } else {
-      setError((state) => {
-        state.toError = null;
-        if (Object.values(state).every((item) => item === null)) {
-          setNextDisabled(false);
-        }
-      });
-    }
+    // if (address === data.to) {
+    //   setError((state) => {
+    //     state.toError = 'send_nosubmit_owne_tips';
+    //   });
+    // }
     setData((state) => {
       state.from = address;
       state.to = address === state.to ? '' : state.to;
@@ -135,24 +119,9 @@ const Send = () => {
   function handleChangeTo(e) {
     e.persist();
     const to = e.target.value;
-    setNextDisabled(true);
-    if (!to) {
-      setError((state) => {
-        state.toError = 'send_error4';
-      });
-    } else if (to === data.from) {
-      setError((state) => {
-        state.toError = 'send_nosubmit_owne_tips';
-      });
-    } else {
-      setError((state) => {
-        state.toError = null;
-        if (Object.values(state).every((item) => item === null)) {
-          setNextDisabled(false);
-        }
-      });
-    }
-
+    setError((state) => {
+      state.toError = null;
+    });
     setData((state) => {
       state.to = to;
     });
@@ -169,36 +138,67 @@ const Send = () => {
     };
   }
 
+  function handleError(fileds, fn) {
+    return () => {
+      const { asset, numbers, to } = data;
+      let isError = false;
+
+      // 判断 inputNumbers , 发行资产不能为空
+      if (fileds.includes('numbers')) {
+        const amount = asset?.numbers ?? 0;
+        if (numbers) {
+          if (numbers > amount) {
+            setError((state) => {
+              state.amountError = { type: 'info', msg: 'send_error3' };
+            });
+            isError = true;
+          } else {
+            setError((state) => {
+              state.amountError = null;
+            });
+          }
+        } else {
+          isError = true;
+          setError((state) => {
+            state.amountError = { type: 'error', msg: 'send_error5' };
+          });
+        }
+      }
+
+      // 判断 T哦地址
+      if (fileds.includes('to')) {
+        if (!to) {
+          setError((state) => {
+            state.toError = 'send_error4';
+          });
+          isError = true;
+        } else if (to === data.from) {
+          setError((state) => {
+            state.toError = 'send_nosubmit_owne_tips';
+          });
+          isError = true;
+        } else {
+          setError((state) => {
+            state.toError = null;
+          });
+        }
+      }
+
+      // 提交
+      if (fn && !isError) {
+        fn();
+      }
+    };
+  }
+
   /** 输入 Amount  */
   function handleChangeAmount(value) {
-    const newAmount = value; // 准备转移的金额
-    const amount = data.asset?.numbers ?? 0;
-
-    if (newAmount) {
-      if (newAmount > amount) {
-        setNextDisabled(true);
-        setError((state) => {
-          state.amountError = 'send_error3';
-        });
-      } else {
-        setError((state) => {
-          state.amountError = null;
-          if (Object.values(state).every((item) => item === null)) {
-            setNextDisabled(false);
-          }
-        });
-      }
-    } else {
-      setNextDisabled(true);
-      setError((state) => {
-        state.amountError = 'send_error5';
-      });
-    }
+    setError((state) => {
+      state.amountError = null;
+    });
 
     setData((state) => {
-      // 如果待转账的金额 <= 剩余资产, 则转移进行;
-      // 如果待转账的金额 > 剩余资产,  则转移剩余的全部资产
-      state.numbers = newAmount; // amount > newAmount ? newAmount : amount;
+      state.numbers = value;
     });
   }
   /** 更新 Radio 选择 */
@@ -208,25 +208,6 @@ const Send = () => {
         state.blind[key] = e.target.value;
       });
     };
-  }
-
-  /** 资产属性, 交互提示 */
-  function AssetRulesComponent() {
-    // 是否可以二次转账
-
-    if (data.asset?.issuer?.key === data.from) {
-      return (
-        <FindoraButton className="btn" onClick={handleClickItemInfo} disabled={nextDisabled}>
-          Next
-        </FindoraButton>
-      );
-    }
-
-    return (
-      <FindoraButton className="btn" onClick={handleClickItemInfo} disabled={nextDisabled}>
-        Next
-      </FindoraButton>
-    );
   }
 
   function limitDecimals(value) {
@@ -249,6 +230,10 @@ const Send = () => {
       </Menu>
     );
   }
+  /** 关闭drawer */
+  function onClose() {
+    assetStore.toggleDrawer('send', false);
+  }
   return (
     <FindoraWebContainer className="send" title={intl.get('page_send_title')}>
       {/* <FindoraHeader title={intl.get('page_send_title')} isShowBack menu={<HeaderMenu />} /> */}
@@ -263,23 +248,25 @@ const Send = () => {
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('to')}>
           <Dropdown overlay={ToMenu}>
-            <div>
-              <Input placeholder="Please to address" value={data.to} className="address" onChange={handleChangeTo} />
-              {error.toError && <div className="error">{intl.get(error.toError)}</div>}
-            </div>
+            <Input
+              placeholder="Please to address"
+              value={data.to}
+              className="address"
+              onChange={handleChangeTo}
+              onBlur={handleError(['to'])}
+            />
           </Dropdown>
-        </FindoraBoxView>
-        {/* <FindoraBoxView title={intl.get('to')}>
-          <Input placeholder="Please to address" value={data.to} className="address" onChange={handleChangeTo} />
           {error.toError && <div className="error">{intl.get(error.toError)}</div>}
-        </FindoraBoxView> */}
+        </FindoraBoxView>
+
         <FindoraBoxView title={intl.get('asset_name')}>
           <SwitchAssetName
+            key={drawerInfo.componentKey}
             onResult={handleChangeSelectAssetName}
             address={data.from}
             actionTYpe={SwitchAssetName.ACTION_TYPE.SEND}
           />
-          {error.assetNameError && <div className="error">{intl.get(error.assetNameError)}</div>}
+          {error.assetNameError?.type === 'info' && <div className="info">{intl.get(error.assetNameError.msg)}</div>}
         </FindoraBoxView>
 
         <FindoraBoxView title={intl.get('send_amount')}>
@@ -295,11 +282,12 @@ const Send = () => {
             step={1}
             style={{ width: '100%' }}
             onChange={handleChangeAmount}
+            onBlur={handleError(['numbers'])}
             formatter={limitDecimals}
             parser={limitDecimals}
           />
 
-          {error.amountError && <div className="error">{intl.get(error.amountError)}</div>}
+          {error.amountError && <div className={error.amountError.type}>{intl.get(error.amountError.msg)}</div>}
         </FindoraBoxView>
         <FindoraBoxView
           title={<FindoraTips desc={intl.get('blind_amount_tips')}>{intl.get('blind_amount')}</FindoraTips>}
@@ -326,7 +314,23 @@ const Send = () => {
           {blindError.isTypeError && <div className="error">{intl.get(blindError.isTypeError)}</div>}
         </FindoraBoxView>
 
-        <div className="btn-area">{AssetRulesComponent()}</div>
+        <div className="btn-area">
+          <FindoraButton className="btn" onClick={handleClickItemInfo}>
+            Next
+          </FindoraButton>
+        </div>
+
+        <Drawer
+          width="520px"
+          maskClosable={true}
+          destroyOnClose
+          placement="right"
+          closable={false}
+          onClose={onClose}
+          visible={drawerInfo.visible}
+        >
+          <SendConfrim data={data} />
+        </Drawer>
       </div>
     </FindoraWebContainer>
   );

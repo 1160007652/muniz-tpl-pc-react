@@ -51,6 +51,10 @@ class AssetStore {
       visible: false,
       componentKey: 0,
     },
+    send: {
+      visible: false,
+      componentKey: 0,
+    },
   };
 
   /**

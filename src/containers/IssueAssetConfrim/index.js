@@ -26,7 +26,6 @@ const IssueAssetConfrim = ({ data }) => {
   /** 显示结果后, 按钮事件 */
   function handleClickView() {
     assetStore.toggleDrawer('issued', false);
-    console.log(asset);
     if (asset?.asset_rules?.max_units) {
       assetStore.changeComponentKey('issued');
     }
