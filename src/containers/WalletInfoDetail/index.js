@@ -164,15 +164,15 @@ const WalletInfo = () => {
         <div className="line" />
       </div>
       <div className="button-area">
-        <FindoraButton className="mb20" onClick={handleChangeRouter(pageURL.send)}>
+        {/* <FindoraButton className="mb20" onClick={handleChangeRouter(pageURL.send)}>
           {intl.get('page_send_title')}
-        </FindoraButton>
-        <FindoraButton
+        </FindoraButton> */}
+        {/* <FindoraButton
           className="mb20"
           onClick={handleChangeRouter(pageURL.transactions.replace(':action', 'detail-loading'))}
         >
           {intl.get('page_transactions_title')}
-        </FindoraButton>
+        </FindoraButton> */}
         <FindoraButton className="mb20" onClick={handleClickExportWallet}>
           {intl.get('wallet_export_title')}
         </FindoraButton>

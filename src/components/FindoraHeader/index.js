@@ -61,7 +61,13 @@ const FindoraHeader = ({ title, menu, isShowBack }) => {
   return (
     <div className="findora-header">
       <div className="header-area">
-        {isShowBack ? <FindoraRouterBack /> : <div className="findora-logo">Findora</div>}
+        {isShowBack ? (
+          <FindoraRouterBack />
+        ) : (
+          <a className="findora-logo" href="https://findora.org" target="_black">
+            Findora
+          </a>
+        )}
 
         <div className="header-menu">{menu}</div>
       </div>

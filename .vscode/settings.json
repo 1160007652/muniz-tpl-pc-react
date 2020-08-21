@@ -14,6 +14,10 @@
   // eslint 保存自动格式化
   "eslint.format.enable": true,
   "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    // 格式化css
+    "source.fixAll.stylelint": true
+  },
   "eslint.codeAction.showDocumentation": {
     "enable": true
   },

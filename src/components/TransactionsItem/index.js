@@ -50,10 +50,10 @@ const TransactionsItem = ({ data, onClick, className, style }) => {
 
       <div className="utxo">
         <FindoraBoxView title="From">
-          <span className="address">{`${String(from).substr(0, 20)}...`}</span>
+          <span className="address">{from}</span>
         </FindoraBoxView>
         <FindoraBoxView title="To">
-          <span className="address">{`${String(to).substr(0, 20)}...`}</span>
+          <span className="address">{to}</span>
         </FindoraBoxView>
       </div>
 

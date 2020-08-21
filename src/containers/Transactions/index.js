@@ -6,8 +6,6 @@ import { toJS } from 'mobx';
 import { List, Button, Spin } from 'antd';
 import { ReloadOutlined } from '@ant-design/icons';
 
-// import FindoraHeader from '_components/FindoraHeader';
-// import HeaderMenu from '_containers/HeaderMenu';
 import TransactionsItem from '_components/TransactionsItem';
 import pageURL from '_constants/pageURL';
 import FindoraWebContainer from '_components/FindoraWebContainer';
@@ -110,11 +108,6 @@ const Transactions = () => {
 
   return (
     <FindoraWebContainer className="transactions" title={intl.get('page_transactions_title')}>
-      {/* <FindoraHeader
-        title={intl.get('page_transactions_title')}
-        isShowBack={!['issue-loding'].includes(historyParams.action)}
-        menu={<HeaderMenu />}
-      /> */}
       <Spin spinning={refreshLoding}>
         <List
           className="transactions-box"
