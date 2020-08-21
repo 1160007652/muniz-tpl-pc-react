@@ -7,97 +7,29 @@
  */
 
 import React from 'react';
-import { Menu, Dropdown, message } from 'antd';
-import { Link } from 'react-router-dom';
-import { MenuOutlined } from '@ant-design/icons';
-import intl from 'react-intl-universal';
-import { InfoCircleOutlined } from '@ant-design/icons';
+import { MobXProviderContext, observer } from 'mobx-react';
 
-import {
-  CreateWalletIcon,
-  RestoreWalletIcon,
-  WalletInfoIcon,
-  SendIcon,
-  TransactionsIcon,
-  CreateTokenIcon,
-  DeployContractIcon,
-  ContractTestIcon,
-  SettingIcon,
-} from '_src/assets/icons/wallet_icons';
-import pageURL from '../../constants/pageURL';
+import { Tag } from 'antd';
+import intl from 'react-intl-universal';
+
+import SwitchLanguage from '_containers/SwitchLanguage';
 
 import './index.less';
 
-const routers = [
-  {
-    page: pageURL.home,
-    icon: <WalletInfoIcon />,
-    title: 'menu_home',
-    isShow: true,
-  },
-  {
-    page: pageURL.createwallet,
-    icon: <CreateWalletIcon />,
-    title: 'menu_wallet_create',
-    isShow: true,
-  },
-  {
-    page: pageURL.restoreWallet,
-    icon: <RestoreWalletIcon />,
-    title: 'menu_wallet_import',
-    isShow: true,
-  },
-  {
-    page: pageURL.setting,
-    icon: <SettingIcon />,
-    title: 'menu_setting',
-    isShow: true,
-  },
-  {
-    page: pageURL.createAsset,
-    icon: <CreateTokenIcon />,
-    title: 'menu_asset_create',
-    isShow: true,
-  },
-  {
-    page: pageURL.help,
-    icon: <InfoCircleOutlined />,
-    title: 'menu_about',
-    isShow: true,
-  },
-];
+const HeaderMenu = () => {
+  const { walletStore } = React.useContext(MobXProviderContext);
+  const { walletInfo } = walletStore;
+  console.log(walletInfo);
+  return (
+    <div className="findora-header-menu">
+      {walletInfo && (
+        <Tag className="current-wallet">
+          {intl.get('menu_wallet')}: {walletInfo?.keyStore?.name}
+        </Tag>
+      )}
+      <SwitchLanguage />
+    </div>
+  );
+};
 
-class HeaderMenu extends React.Component {
-  render() {
-    const menu = (
-      <Menu className="menu-box">
-        {routers.map(
-          (item) =>
-            item.isShow && (
-              <Menu.Item key={item.page} className="menu-item">
-                {item.page === pageURL.createAsset ? (
-                  <a href={`${chrome.runtime.getURL('popup.html')}#${item.page}`} target="_blank">
-                    {item.icon}
-                    <span style={{ marginLeft: '8px' }}>{intl.get(item.title)}</span>
-                  </a>
-                ) : (
-                  <Link to={item.page}>
-                    {item.icon}
-                    <span style={{ marginLeft: '8px' }}>{intl.get(item.title)}</span>
-                  </Link>
-                )}
-              </Menu.Item>
-            ),
-        )}
-      </Menu>
-    );
-
-    return (
-      <Dropdown overlay={menu} placement="bottomRight" trigger="click" overlayClassName="header-menu-antd">
-        <MenuOutlined />
-      </Dropdown>
-    );
-  }
-}
-
-export default HeaderMenu;
+export default observer(HeaderMenu);

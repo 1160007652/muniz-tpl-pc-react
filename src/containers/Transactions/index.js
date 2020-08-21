@@ -15,8 +15,7 @@ import './index.less';
 
 const Transactions = () => {
   const history = useHistory();
-  const walletStore = React.useContext(MobXProviderContext).walletStore;
-  const transactionStore = React.useContext(MobXProviderContext).transactionStore;
+  const { walletStore, transactionStore } = React.useContext(MobXProviderContext);
   const historyParams = useParams();
   const walletInfo = toJS(walletStore.walletInfo);
   const [initLoading, setInitLoading] = useState(true);
