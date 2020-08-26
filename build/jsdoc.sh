@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Fail on error
+set -e 
+
 PROJECT_ROOT_PATH=$(pwd)
 
 echo "开始生成 Findora extensions wallet 文档"
