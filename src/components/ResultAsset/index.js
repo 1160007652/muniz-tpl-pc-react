@@ -7,15 +7,6 @@ import FindoraButton from '../FindoraButton';
 
 import './index.less';
 
-/**
- * ResultAsset 纯组件, 结果展示页面
- * @component
- *
- */
-/**
- * Pure component to display the result.
- * @component
- */
 const ResultAsset = ({ data, title, onClose, onView }) => {
   const isSuccess = data.type;
 

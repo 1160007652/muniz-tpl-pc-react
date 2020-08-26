@@ -15,14 +15,6 @@ import FindoraBoxView from '../FindoraBoxView';
 
 import './index.less';
 
-/**
- * TransactionsItem 纯组件, 交易列表使用
- * @component
- */
-/**
- * Pure component to display transaction list
- * @component
- */
 const TransactionsItem = ({ data, onClick, className, style }) => {
   const { type, blind, from, to, asset, state, txn_type } = data;
   return (
