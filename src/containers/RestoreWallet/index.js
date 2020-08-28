@@ -26,12 +26,6 @@ const RestoreWallet = () => {
   const history = useHistory();
   const walletStore = React.useContext(MobXProviderContext).walletStore;
 
-  const renderCancelComponent = (
-    <Link to={pageURL.home} className="menu-cancel">
-      {intl.get('cancel')}
-    </Link>
-  );
-
   function handleBeforeUpload() {
     return false;
   }
@@ -76,7 +70,7 @@ const RestoreWallet = () => {
         }
         // 在钱包列表页面展示时使用解密数据, 在改名下载钱包时使用原始数据
         walletStore.importWallet({ walletInfo: walletInfoResult });
-        history.push(pageURL.home);
+        history.push(pageURL.statement);
       }
     };
   }

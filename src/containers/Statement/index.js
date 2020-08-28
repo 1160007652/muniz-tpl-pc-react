@@ -9,7 +9,7 @@ import FindoraWebContainer from '_components/FindoraWebContainer';
 
 import './index.less';
 
-const Home = () => {
+const Statement = () => {
   const walletStore = React.useContext(MobXProviderContext).walletStore;
   let walletTitle = 'page_wallet_title';
   let wallet = <WalletEmpty />;
@@ -29,4 +29,4 @@ const Home = () => {
   );
 };
 
-export default observer(Home);
+export default observer(Statement);

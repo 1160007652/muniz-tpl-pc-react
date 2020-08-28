@@ -49,17 +49,11 @@ const routers = [
     ],
   },
   {
-    page: pageURL.home,
+    page: pageURL.closeWallet,
     icon: <WalletInfoIcon />,
     title: 'menu_wallet',
     isShow: true,
     children: [
-      {
-        page: pageURL.home,
-        icon: <WalletInfoIcon />,
-        title: 'menu_home',
-        isShow: true,
-      },
       {
         page: pageURL.createwallet,
         icon: <CreateWalletIcon />,
@@ -72,6 +66,12 @@ const routers = [
         title: 'menu_wallet_import',
         isShow: true,
       },
+      {
+        page: pageURL.closeWallet,
+        icon: <WalletInfoIcon />,
+        title: 'menu_close_wallet',
+        isShow: true,
+      },
     ],
   },
   {
@@ -80,6 +80,12 @@ const routers = [
     title: 'menu_asset',
     isShow: true,
     children: [
+      {
+        page: pageURL.statement,
+        icon: <WalletInfoIcon />,
+        title: 'menu_asset_statement',
+        isShow: true,
+      },
       {
         page: pageURL.createAsset,
         icon: <CreateTokenIcon />,

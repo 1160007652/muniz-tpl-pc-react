@@ -8,10 +8,8 @@
 
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { toJS } from 'mobx';
 import { Modal, message, Input, Alert } from 'antd';
 import { MobXProviderContext, observer } from 'mobx-react';
-import { saveAs } from 'file-saver';
 import intl from 'react-intl-universal';
 
 import FindoraButton from '_components/FindoraButton';
@@ -134,7 +132,7 @@ const WalletInfo = () => {
       walletStore.setWalletInfo({});
     }
 
-    history.push({ pathname: pageURL.home });
+    history.push({ pathname: pageURL.statement });
   }
 
   /** 取消 删除钱包事件 */
@@ -164,15 +162,6 @@ const WalletInfo = () => {
         <div className="line" />
       </div>
       <div className="button-area">
-        {/* <FindoraButton className="mb20" onClick={handleChangeRouter(pageURL.send)}>
-          {intl.get('page_send_title')}
-        </FindoraButton> */}
-        {/* <FindoraButton
-          className="mb20"
-          onClick={handleChangeRouter(pageURL.transactions.replace(':action', 'detail-loading'))}
-        >
-          {intl.get('page_transactions_title')}
-        </FindoraButton> */}
         <FindoraButton className="mb20" onClick={handleClickExportWallet}>
           {intl.get('wallet_export_title')}
         </FindoraButton>

@@ -89,6 +89,8 @@ const zhCN = {
   menu_asset_issue: '发行资产',
   menu_asset_transactions: '交易记录',
   menu_about: '帮助',
+  menu_asset_statement: '声明',
+  menu_close_wallet: '关闭钱包',
 
   page_wallet_title: '钱包',
   page_wallet_detail: '钱包信息',

@@ -17,9 +17,12 @@
  * @enum {string}
  */
 const pageURL = {
-  /** 首页 */
-  /** Home page*/
-  home: '/',
+  /** 关闭钱包 */
+  /** closeWallet page*/
+  closeWallet: '/closeWallet',
+  /** 声明 */
+  /** statement page*/
+  statement: '/',
   /** 关于页面 */
   /** Help page */
   help: '/help',

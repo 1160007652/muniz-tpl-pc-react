@@ -12,11 +12,18 @@ const timeout = 10000;
 
 const routeMap = [
   {
-    path: pageURL.home,
-    component: './containers/Home',
+    path: pageURL.closeWallet,
+    component: './containers/CloseWallet',
     exact: true,
     dynamic: true,
   },
+  {
+    path: pageURL.statement,
+    component: './containers/Statement',
+    exact: true,
+    dynamic: true,
+  },
+
   {
     path: pageURL.help,
     component: './containers/Help',

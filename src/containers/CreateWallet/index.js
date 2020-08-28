@@ -33,11 +33,7 @@ const CreateWallet = () => {
       sm: { span: 8 },
     },
   };
-  const renderCancelComponent = (
-    <Link to={pageURL.home} className="menu-cancel">
-      {intl.get('cancel')}
-    </Link>
-  );
+
   /**
    * @description 创建钱包, 下载 KeyStore 文件
    */

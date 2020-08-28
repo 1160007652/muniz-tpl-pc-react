@@ -96,6 +96,8 @@ const enUS = {
   menu_asset_issue: 'Issue Asset',
   menu_asset_transactions: 'Transactions',
   menu_about: 'Help',
+  menu_asset_statement: 'Statement',
+  menu_close_wallet: 'Close Wallet',
 
   page_wallet_title: 'Wallet',
   page_wallet_detail: 'Wallet Info',
