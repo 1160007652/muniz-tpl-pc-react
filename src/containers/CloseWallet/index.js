@@ -13,7 +13,7 @@ function CloseWallet() {
   let walletTitle = 'page_wallet_title';
   let wallet = <WalletEmpty />;
   if (walletStore.walletImportList.length > 0) {
-    wallet = <WalletListView dataList={walletStore.walletImportList} />;
+    wallet = <WalletListView dataList={walletStore.walletImportList} isFlipCard />;
     walletTitle = 'page_wallet_list';
   }
 

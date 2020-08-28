@@ -6,7 +6,7 @@
  * @ Description: 导入钱包后的列表组件
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { MobXProviderContext, observer } from 'mobx-react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -27,29 +27,49 @@ const WalletListView = ({ dataList, isFlipCard }) => {
   function handleClickItem(result) {
     return () => {
       walletStore.setWalletInfo(result);
-      hirstory.push(pageURL.walletInfo);
+      if (!isFlipCard) {
+        hirstory.push(pageURL.walletInfo);
+      }
     };
   }
-
+  /** 支持扩展的卡片 */
+  function WalletItemExt(item) {
+    return (
+      <div className="wallet-item-box">
+        <WalletListItem
+          className={classNames('wallet-item', {
+            'select-wallet-item': item.publickey === walletStore.walletInfo.publickey,
+          })}
+          data={item}
+          onClick={handleClickItem(item)}
+          style={{ marginBottom: '12px' }}
+        />
+        <div className="wallet-item-ext">
+          <Button className="mb20">{intl.get('wallet_export_title')}</Button>
+          <Button className="mb20">{intl.get('wallet_remove_title')}</Button>
+        </div>
+      </div>
+    );
+  }
+  /** 不支持扩展的卡片 */
+  function WalletItem(item) {
+    return (
+      <WalletListItem
+        className={classNames('wallet-item', {
+          'select-wallet-item': item.publickey === walletStore.walletInfo.publickey,
+        })}
+        data={item}
+        onClick={handleClickItem(item)}
+        style={{ marginBottom: '12px' }}
+      />
+    );
+  }
   return (
     <div className="findora-wallet-list">
       {dataList &&
         dataList.map((item, index) => {
           return (
-            <div className="wallet-item-box" key={`${item.publickey}${index}`}>
-              <WalletListItem
-                className={classNames('wallet-item', {
-                  'select-wallet-item': item.publickey === walletStore.walletInfo.publickey,
-                })}
-                data={item}
-                onClick={handleClickItem(item)}
-                style={{ marginBottom: '12px' }}
-              />
-              <div className="wallet-item-ext">
-                <Button className="mb20">{intl.get('wallet_export_title')}</Button>
-                <Button className="mb20">{intl.get('wallet_remove_title')}</Button>
-              </div>
-            </div>
+            <Fragment key={`${item.publickey}${index}`}>{isFlipCard ? WalletItemExt(item) : WalletItem(item)}</Fragment>
           );
         })}
     </div>
