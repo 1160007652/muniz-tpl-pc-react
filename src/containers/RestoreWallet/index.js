@@ -8,14 +8,12 @@
 
 import React, { useState } from 'react';
 import { Input, Form, Button, Upload, Row, Col, message } from 'antd';
-import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
+import { InboxOutlined } from '@ant-design/icons';
 import intl from 'react-intl-universal';
 import { MobXProviderContext, observer } from 'mobx-react';
 import { Link, useHistory } from 'react-router-dom';
 
 import FindoraWebContainer from '_components/FindoraWebContainer';
-import FindoraHeader from '_components/FindoraHeader';
-import HeaderMenu from '_containers/HeaderMenu';
 import services from '_src/services';
 import pageURL from '_constants/pageURL';
 
@@ -70,7 +68,7 @@ const RestoreWallet = () => {
         }
         // 在钱包列表页面展示时使用解密数据, 在改名下载钱包时使用原始数据
         walletStore.importWallet({ walletInfo: walletInfoResult });
-        history.push(pageURL.statement);
+        history.push(pageURL.closeWallet);
       }
     };
   }

@@ -151,6 +151,7 @@ const enUS = {
   token_create_error1: 'Failed to create asset',
   token_or_issue_empty_here: ' here ',
   token_issue_issuer: 'Issuer',
+  token_issue_issue: 'Issue',
   token_issue_amount: 'Issuance Amount',
   token_issue_amount_placeholder: 'Please enter amount',
   token_issue_empty_tips:

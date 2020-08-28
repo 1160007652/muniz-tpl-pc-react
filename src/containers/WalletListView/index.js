@@ -6,16 +6,14 @@
  * @ Description: 导入钱包后的列表组件
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { MobXProviderContext, observer } from 'mobx-react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import intl from 'react-intl-universal';
+import { useHistory } from 'react-router-dom';
 
 import WalletListItem from '_components/WalletListItem';
-// import FindoraButton from '_components/FindoraButton';
-import { Button } from 'antd';
-import { useHistory } from 'react-router-dom';
+import WalletListItemExt from '_containers/WalletListItemExt';
 import pageURL from '_constants/pageURL';
 
 import './index.less';
@@ -23,7 +21,6 @@ import './index.less';
 const WalletListView = ({ dataList, isFlipCard }) => {
   const hirstory = useHistory();
   const walletStore = React.useContext(MobXProviderContext).walletStore;
-
   function handleClickItem(result) {
     return () => {
       walletStore.setWalletInfo(result);
@@ -32,25 +29,7 @@ const WalletListView = ({ dataList, isFlipCard }) => {
       }
     };
   }
-  /** 支持扩展的卡片 */
-  function WalletItemExt(item) {
-    return (
-      <div className="wallet-item-box">
-        <WalletListItem
-          className={classNames('wallet-item', {
-            'select-wallet-item': item.publickey === walletStore.walletInfo.publickey,
-          })}
-          data={item}
-          onClick={handleClickItem(item)}
-          style={{ marginBottom: '12px' }}
-        />
-        <div className="wallet-item-ext">
-          <Button className="mb20">{intl.get('wallet_export_title')}</Button>
-          <Button className="mb20">{intl.get('wallet_remove_title')}</Button>
-        </div>
-      </div>
-    );
-  }
+
   /** 不支持扩展的卡片 */
   function WalletItem(item) {
     return (
@@ -69,7 +48,9 @@ const WalletListView = ({ dataList, isFlipCard }) => {
       {dataList &&
         dataList.map((item, index) => {
           return (
-            <Fragment key={`${item.publickey}${index}`}>{isFlipCard ? WalletItemExt(item) : WalletItem(item)}</Fragment>
+            <Fragment key={`${item.publickey}${index}`}>
+              {isFlipCard ? <WalletListItemExt data={item} /> : WalletItem(item)}
+            </Fragment>
           );
         })}
     </div>

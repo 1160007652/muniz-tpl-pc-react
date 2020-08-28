@@ -23,7 +23,7 @@ const Statement = () => {
   }
 
   return (
-    <FindoraWebContainer className="home" title={intl.get('menu_asset_create1')}>
+    <FindoraWebContainer className="home" title={intl.get('menu_asset_statement')}>
       {wallet}
     </FindoraWebContainer>
   );
