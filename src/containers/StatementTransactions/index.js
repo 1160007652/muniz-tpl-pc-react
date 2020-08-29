@@ -45,7 +45,7 @@ const Transactions = ({ data }) => {
           })}
       </ul>
       <Drawer
-        width="520px"
+        width="440px"
         maskClosable={true}
         destroyOnClose
         placement="right"
