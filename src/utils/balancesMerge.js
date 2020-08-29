@@ -18,11 +18,13 @@
  */
 async function balancesMerge({ dataList, asset }) {
   let numbers = 0;
+  let codeAssetList = [];
   console.log(dataList);
   dataList.forEach((item) => {
     // {txn_type === 'input' ? '+' : '-'}
+
     if (item.asset.tokenCode === asset.code) {
-      console.log('xxxxxxxxx: ', item, asset);
+      codeAssetList.push(item);
 
       if (item.txn_type === 'input') {
         numbers = numbers + item.asset.numbers;
@@ -37,7 +39,7 @@ async function balancesMerge({ dataList, asset }) {
     }
   });
   asset.numbers = numbers;
-  return asset;
+  return { asset, codeAssetList };
 }
 
 export default balancesMerge;

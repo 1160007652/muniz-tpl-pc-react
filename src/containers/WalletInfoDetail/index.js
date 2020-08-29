@@ -11,10 +11,11 @@ import { useHistory } from 'react-router-dom';
 import { MobXProviderContext, observer } from 'mobx-react';
 import intl from 'react-intl-universal';
 
-import FindoraButton from '_components/FindoraButton';
 import WalletListItem from '_components/WalletListItem';
 import FindoraBoxView from '_components/FindoraBoxView';
 import SwitchAssetName from '_containers/SwitchAssetName';
+import StatementTransactions from '_containers/StatementTransactions';
+
 import Balance from '_containers/Balance';
 
 import services from '_src/services';
@@ -26,8 +27,10 @@ const WalletInfo = () => {
   const history = useHistory();
   const walletStore = React.useContext(MobXProviderContext).walletStore;
   const [assetName, setAssetName] = useState({
-    short: '',
-    long: '',
+    asset: {
+      short: '',
+      long: '',
+    },
   });
 
   function handleChangeWalletName(name) {
@@ -47,6 +50,7 @@ const WalletInfo = () => {
   /** 资产名称选中事件, 回调结果 */
   function handleChangeSelectAssetName(value) {
     setAssetName(value);
+    console.log('回调结果： ', value);
   }
 
   /** 余额回调结果 */
@@ -79,16 +83,13 @@ const WalletInfo = () => {
           />
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('balance')} isRow style={{ justifyContent: 'space-between' }}>
-          <Balance asset={assetName} style={{ textAlign: 'right' }} key={assetName.long} />
+          <Balance asset={assetName.asset} style={{ textAlign: 'right' }} key={assetName.asset.long} />
         </FindoraBoxView>
         <div className="line" />
+        <FindoraBoxView title={intl.get('menu_asset_transactions')}>
+          <StatementTransactions data={assetName.codeAssetList} />
+        </FindoraBoxView>
       </div>
-      {/* <div className="button-area">
-        <FindoraButton className="mb20" onClick={handleClickExportWallet}>
-          {intl.get('wallet_export_title')}
-        </FindoraButton>
-        <FindoraButton onClick={handleClickRemoveWallet}>{intl.get('wallet_remove_title')}</FindoraButton>
-      </div> */}
     </div>
   );
 };

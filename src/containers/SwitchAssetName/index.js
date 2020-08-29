@@ -101,7 +101,7 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
     const assetList = {
       create: toJS(assetStore.createdAssetList).filter((item) => item.long === value),
       issue: toJS(assetStore.issuedAssetList).filter((item) => item.long === value),
-      send: toJS(assetStore.sentAssetList).filter((item) => item.long === value),
+      send: toJS(assetStore.sentAssetList).filter((item) => item.asset.long === value),
     };
     // 通知父组件结果
     onResult(assetList[actionTYpe].length > 0 ? assetList[actionTYpe][0] : {});
@@ -165,17 +165,17 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
     const sendAssetListComponent =
       assetStore.sentAssetList.length > 0 ? (
         <Fragment>
-          <Select value={assetCurrent?.long} style={{ width: '100%' }} onChange={handleSelectAssetName}>
+          <Select value={assetCurrent?.asset.long} style={{ width: '100%' }} onChange={handleSelectAssetName}>
             {assetStore.sentAssetList.map((item) => {
               return (
-                <Select.Option value={item.long} key={item.long} style={{ fontSize: '12px' }}>
+                <Select.Option value={item.asset.long} key={item.asset.long} style={{ fontSize: '12px' }}>
                   {/* {item.short} */}
-                  {item.long}
+                  {item.asset.long}
                 </Select.Option>
               );
             })}
           </Select>
-          <div className="tips">{assetCurrent?.short}</div>
+          <div className="tips">{assetCurrent?.asset.short}</div>
         </Fragment>
       ) : (
         <div className="error">

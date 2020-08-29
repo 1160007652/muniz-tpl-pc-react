@@ -4,15 +4,17 @@ import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import intl from 'react-intl-universal';
 
 import FindoraBoxView from '_components/FindoraBoxView';
+import FindoraHeader from '_components/FindoraHeader';
 import FindoraWebContainer from '_components/FindoraWebContainer';
 
 import './index.less';
 
-const TransactionsDetail = () => {
+const TransactionsDetail = ({ data }) => {
   const RouterLocation = useLocation();
-  const { from, to, state, txn, asset, type, blind } = RouterLocation.state;
-  return (
-    <FindoraWebContainer className="transactions-detail" title={intl.get('page_transactions_detail_title')}>
+  const { from, to, state, txn, asset, type, blind } = data || RouterLocation.state;
+
+  function detail() {
+    return (
       <div className="transactions-detail-box">
         {state ? (
           <div className="success">
@@ -49,8 +51,24 @@ const TransactionsDetail = () => {
           {blind.isType && <span className="tag">{intl.get('blind_type')}</span>}
         </div>
       </div>
-    </FindoraWebContainer>
-  );
+    );
+  }
+  function detailCommpoent() {
+    return (
+      <div className="transactions-detail">
+        <FindoraHeader />
+        {detail()}
+      </div>
+    );
+  }
+  function detailRouterCommpoent() {
+    return (
+      <FindoraWebContainer className="transactions-detail" title={intl.get('page_transactions_detail_title')}>
+        {detail()}
+      </FindoraWebContainer>
+    );
+  }
+  return data ? detailCommpoent() : detailRouterCommpoent();
 };
 
 export default TransactionsDetail;

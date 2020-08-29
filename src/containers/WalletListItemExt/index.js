@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { MobXProviderContext, observer } from 'mobx-react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';

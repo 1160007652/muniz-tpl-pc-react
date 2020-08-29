@@ -199,13 +199,14 @@ class AssetStore {
     const walletInfo = this.rootStore.walletStore.walletImportList.filter((item) => item.publickey === address)[0];
     const transactionData = await transactionsMerge({ walletInfo, page: -1 });
 
+    console.log('新的数据： ====》 ', transactionData);
     result = result.map(async (item) => {
       return await balancesMerge({ dataList: transactionData, asset: item });
     });
 
     result = await Promise.all(result);
 
-    this.sentAssetList = result.filter((item) => item.numbers > 0);
+    this.sentAssetList = result.filter((item) => item.asset.numbers > 0);
 
     console.log('钱包地址: ', address);
     console.log('拥有资产: ', result);
