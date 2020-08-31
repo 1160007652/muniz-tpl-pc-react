@@ -13,7 +13,7 @@ import services from '_src/services';
 import './index.less';
 
 const CreateAssetConfrim = ({ data }) => {
-  const { walletStore, assetStore } = React.useContext(MobXProviderContext);
+  const { walletStore, assetStore, nickNameStore } = React.useContext(MobXProviderContext);
   const [resultData, setResultData] = useState({ type: false });
   const [isShowResult, setShowResult] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -38,6 +38,9 @@ const CreateAssetConfrim = ({ data }) => {
         walletStore.setWalletInfo(data.walletInfo);
       }
       assetStore.changeComponentKey('created');
+
+      // 设置资产昵称
+      nickNameStore.importNickNameList({ nickNameItem: { assetCode: asset.long, nickname: asset.short } });
       setLoading(false);
       setResultData({ type: result.code === 0, result });
       setShowResult(true);

@@ -10,6 +10,7 @@ import LocaleStore from './LocaleStore';
 import WalletStore from './WalletStore';
 import AssetStore from './AssetStore';
 import TransactionStore from './TransactionStore';
+import NickNameStore from './NickNameStore';
 
 /**
  * 创建根Stroe, 统一管理状态
@@ -39,6 +40,9 @@ class RootStore {
     /** 交易记录管理 */
     /** Store to manage transactions */
     this.transactionStore = new TransactionStore(this);
+    /** 资产昵称映射管理 */
+    /** Store to manage NickName */
+    this.nickNameStore = new NickNameStore(this);
   }
 }
 

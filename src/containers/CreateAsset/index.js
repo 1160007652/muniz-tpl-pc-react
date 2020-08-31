@@ -62,6 +62,7 @@ const CreateAsset = () => {
     setData((state) => {
       state.asset = { ...state.asset, ...value };
     });
+    console.log('资产名称 ===》', value);
   }
 
   /** 最大值定义资产 */

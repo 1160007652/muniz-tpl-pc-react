@@ -59,7 +59,7 @@ const IssueAsset = () => {
         transferable: true,
         updatable: false,
       },
-      ...value,
+      ...value.asset,
     };
 
     // 是否支持隐藏数量, 隐藏类型, 并且修改状态
@@ -78,7 +78,7 @@ const IssueAsset = () => {
     });
 
     setData((state) => {
-      const isAsset = value?.code ? state.asset : {};
+      const isAsset = value?.asset.code ? state.asset : {};
       state.asset = { ...isAsset, ...asset_rules };
       state.inputNumbers = '';
     });
@@ -136,6 +136,7 @@ const IssueAsset = () => {
           state.assetNameError = '';
         });
       } else {
+        console.log('有错误');
         setError((state) => {
           state.assetNameError = 'issuer_asset_no_empty';
         });
@@ -145,6 +146,7 @@ const IssueAsset = () => {
       // 提交
       if (fn && !isError) {
         fn();
+        console.log('无错误');
       }
     };
   }

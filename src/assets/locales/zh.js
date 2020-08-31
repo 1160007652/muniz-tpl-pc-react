@@ -45,7 +45,7 @@ const zhCN = {
   txn_IssueAsset: '发行',
   txn_TransferAsset: '转让',
 
-  asset_name_create_default_notice: '长名称由系统生成，用户定义短名称。短名称可以重复定义。',
+  asset_name_create_default_notice: '长名称由系统生成，用户定义短名称。短名称不可以重复定义。',
   asset_name_long: '长名称',
   asset_name_short: '短名称',
   asset_name_short_placeholder: '请输入短名称',
@@ -53,6 +53,7 @@ const zhCN = {
   asset_name_generate: '生成长名称',
   asset_name_type_default: '系统默认',
   asset_name_type_customize: '自定义',
+  nickname_restore_upload_file: '点击或拖拽上传 .findoraNicknames 文件',
 
   wallet_create_exists: '{userName}用户的Findora钱包已经打开, 请输入新名称。',
   wallet_create_inputname: '用户名',

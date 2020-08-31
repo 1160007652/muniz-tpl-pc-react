@@ -182,7 +182,7 @@ class AssetStore {
         const item = await webNetWork.getAssetProperties(asset_type);
         console.log('item', item);
         item.code = asset_type;
-        item.short = item.memo;
+        item.short = this.rootStore.nickNameStore.nickNameObj[asset_type]?.nickname; // item.memo;
         item.long = item.code;
 
         // 防止交易中塞选出来的数据, 资产重复
@@ -238,7 +238,7 @@ class AssetStore {
       const item = await webNetWork.getAssetProperties(asset_type);
       console.log('已有资产', item);
       item.code = asset_type;
-      item.short = item.memo;
+      item.short = this.rootStore.nickNameStore.nickNameObj[asset_type]?.nickname;
       item.long = item.code;
       result.push(item);
     }
@@ -285,7 +285,7 @@ class AssetStore {
         if (haveAssetList.length === 0) {
           const item = await webNetWork.getAssetProperties(asset_type);
           item.code = asset_type;
-          item.short = item.memo;
+          item.short = this.rootStore.nickNameStore.nickNameObj[asset_type]?.nickname;
           item.long = item.code;
           // 防止交易中塞选出来的数据, 资产重复
           const isHaveItem = result.filter((obj) => obj.code === item.code).length > 0;

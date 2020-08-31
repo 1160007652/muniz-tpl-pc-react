@@ -19,10 +19,9 @@ import pageURL from '_constants/pageURL';
 import './index.less';
 
 const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
-  const assetStore = React.useContext(MobXProviderContext).assetStore;
+  const { assetStore } = React.useContext(MobXProviderContext);
   const [assetCurrent, setAssetCurrent] = useState();
   const [isShowComponent, setShowComponent] = useState(false);
-  const routeMatch = useRouteMatch();
 
   const getAssetListCallback = useCallback(
     (abortSignal) => {
@@ -100,7 +99,7 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
   function handleSelectAssetName(value) {
     const assetList = {
       create: toJS(assetStore.createdAssetList).filter((item) => item.long === value),
-      issue: toJS(assetStore.issuedAssetList).filter((item) => item.long === value),
+      issue: toJS(assetStore.issuedAssetList).filter((item) => item.asset.long === value),
       send: toJS(assetStore.sentAssetList).filter((item) => item.asset.long === value),
     };
     // 通知父组件结果
@@ -115,17 +114,16 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
     const issueAssetListComponent =
       assetStore.issuedAssetList.length > 0 ? (
         <Fragment>
-          <Select value={assetCurrent?.long} style={{ width: '100%' }} onChange={handleSelectAssetName}>
+          <Select value={assetCurrent?.asset.long} style={{ width: '100%' }} onChange={handleSelectAssetName}>
             {assetStore.issuedAssetList.map((item) => {
               return (
-                <Select.Option value={item.long} key={item.long} style={{ fontSize: '12px' }}>
-                  {/* {item.short} */}
-                  {item.long}
+                <Select.Option value={item.asset.long} key={item.asset.long}>
+                  {item.asset.short || item.asset.long}
                 </Select.Option>
               );
             })}
           </Select>
-          <div className="tips">{assetCurrent?.short}</div>
+          <div className="tips">{assetCurrent?.asset.long}</div>
         </Fragment>
       ) : (
         <div className="error">
@@ -142,14 +140,13 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
           <Select value={assetCurrent?.long} style={{ width: '100%' }} onChange={handleSelectAssetName}>
             {assetStore.createdAssetList.map((item) => {
               return (
-                <Select.Option value={item.long} key={item.long} style={{ fontSize: '12px' }}>
-                  {/* {item.short} */}
-                  {item.long}
+                <Select.Option value={item.long} key={item.long}>
+                  {item.short || item.long}
                 </Select.Option>
               );
             })}
           </Select>
-          <div className="tips">{assetCurrent?.short}</div>
+          <div className="tips"> {assetCurrent?.long}</div>
         </Fragment>
       ) : (
         <div className="error">
@@ -168,14 +165,13 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
           <Select value={assetCurrent?.asset.long} style={{ width: '100%' }} onChange={handleSelectAssetName}>
             {assetStore.sentAssetList.map((item) => {
               return (
-                <Select.Option value={item.asset.long} key={item.asset.long} style={{ fontSize: '12px' }}>
-                  {/* {item.short} */}
-                  {item.asset.long}
+                <Select.Option value={item.asset.long} key={item.asset.long}>
+                  {item.asset.short || item.asset.long}
                 </Select.Option>
               );
             })}
           </Select>
-          <div className="tips">{assetCurrent?.asset.short}</div>
+          <div className="tips">{assetCurrent?.asset.long}</div>
         </Fragment>
       ) : (
         <div className="error">

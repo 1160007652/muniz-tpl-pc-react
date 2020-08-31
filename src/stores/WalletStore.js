@@ -40,7 +40,7 @@ class WalletStore {
    * List of imported information.
    * @memberof WalletStore
    */
-  @observable walletImportList = []; //
+  @observable walletImportList = [];
 
   /**
    * 创建钱包的信息

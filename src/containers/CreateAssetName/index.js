@@ -35,11 +35,6 @@ const CreateAssetName = ({ onResult }) => {
 
   useEffect(() => {
     /** 初始化资产名称 */
-    // services.assetServer.getAssetNameLong().then((value) => {
-    //   setAssetNameData((state) => {
-    //     state.long = value;
-    //   });
-    // });
     handleClickReloadLongName();
   }, []);
 
@@ -50,7 +45,7 @@ const CreateAssetName = ({ onResult }) => {
 
   /** 监听自定义属性变化, 自动触发保存onResult事件 */
   useEffect(() => {
-    onResult(assetNameData);
+    onResult(assetNameDataCust);
   }, [assetNameDataCust]);
 
   /** 监听面板属性变化, 自动触发保存onResult事件 */
@@ -81,14 +76,7 @@ const CreateAssetName = ({ onResult }) => {
     setAssetNameDataCust((state) => {
       state.short = e.target.value;
     });
-  }
-
-  /** 自定义, 根据shortName 生成 longName */
-  function handleGenerateLongName(e) {
-    e.persist();
-    setAssetNameDataCust((state) => {
-      state.long = state.short;
-    });
+    console.log(e.target.value);
   }
 
   /** 系统默认生成长名称, 刷新新的名称事件 */
@@ -96,6 +84,9 @@ const CreateAssetName = ({ onResult }) => {
     /** 初始化资产名称 */
     services.assetServer.getAssetNameLong().then((value) => {
       setAssetNameData((state) => {
+        state.long = value;
+      });
+      setAssetNameDataCust((state) => {
         state.long = value;
       });
     });
@@ -144,9 +135,9 @@ const CreateAssetName = ({ onResult }) => {
               value={assetNameDataCust.short}
               onChange={handleChangeShortNameCust}
             />
-            <div className="generate-name-btn" onClick={handleGenerateLongName}>
+            {/* <div className="generate-name-btn" onClick={handleGenerateLongName}>
               {intl.get('asset_name_generate')}
-            </div>
+            </div> */}
           </div>
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('asset_name_long')} isRow className="long-name">
@@ -161,14 +152,13 @@ const CreateAssetName = ({ onResult }) => {
       <div className="findora-create-asset-name">
         <Radio.Group value={isSelect} buttonStyle="solid" onChange={handleSelectAssetTab}>
           <Radio value="default">{intl.get('asset_name_type_default')}</Radio>
-          <Radio value="customize" disabled>
-            {intl.get('asset_name_type_customize')}
-          </Radio>
+          <Radio value="customize">{intl.get('asset_name_type_customize')}</Radio>
         </Radio.Group>
         {isSelect === 'default' ? defaultAssetName() : customizeAssetName()}
       </div>
     );
   }
+
   /** 显示资产页面,切换资产事件 */
   function handleSelectAssetName(value) {
     setAssetNameLong(value);
@@ -177,7 +167,7 @@ const CreateAssetName = ({ onResult }) => {
     const result = assetList.filter((item) => item.long === value);
     onShowResult(result.length > 0 ? result[0] : {});
   }
-  return <div>{assetNameData.long}</div>;
+  return customizeAssetName(); // <div>{assetNameData.long}</div>;
 };
 
 CreateAssetName.propTypes = {

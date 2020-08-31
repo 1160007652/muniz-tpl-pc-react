@@ -42,7 +42,7 @@ const RestoreWallet = () => {
     const reader = new FileReader();
 
     reader.readAsText(e.upload.file);
-
+    console.log(e.upload.file);
     reader.onload = async () => {
       const param = {
         keyStoreJson: JSON.parse(reader.result),
@@ -79,7 +79,7 @@ const RestoreWallet = () => {
       <div className="wallet-box">
         <Form name="restorekeystore" onFinish={handleUnlockKeystore}>
           <Row align="middle" justify="center" style={{ margin: '30px auto 10px', textAlign: 'center' }}>
-            <Col xs={20} sm={8}>
+            <Col md={14} sm={24} xs={24}>
               <Form.Item
                 valuePropName="file,fileList"
                 name="upload"
@@ -98,18 +98,6 @@ const RestoreWallet = () => {
                   }),
                 ]}
               >
-                {/* <Upload
-                  showUploadList={false}
-                  beforeUpload={handleBeforeUpload}
-                  onChange={handleChangeUpload}
-                  accept=".findorawallet"
-                >
-                  <Button type="primary">
-                    <UploadOutlined />
-                    {intl.get('wallet_restore_upload_file')}
-                  </Button>
-                  <div className="file-name">{filename}</div>
-                </Upload> */}
                 <Upload.Dragger
                   onChange={handleChangeUpload}
                   showUploadList={false}
@@ -127,7 +115,7 @@ const RestoreWallet = () => {
           </Row>
 
           <Row align="middle" justify="center">
-            <Col xs={24} sm={8}>
+            <Col md={14} sm={24} xs={24}>
               <Form.Item
                 name="password"
                 rules={[
@@ -144,8 +132,8 @@ const RestoreWallet = () => {
           </Row>
 
           <Row align="middle" justify="center" style={{ textAlign: 'center', marginTop: '20px' }}>
-            <Col xs={24} sm={12}>
-              <Button type="primary" htmlType="submit" style={{ width: '30%' }}>
+            <Col md={8} sm={24} xs={24}>
+              <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
                 {intl.get('wallet_restore_submit')}
               </Button>
             </Col>
