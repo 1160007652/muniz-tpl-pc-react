@@ -11,6 +11,7 @@ import { Upload, Button, message } from 'antd';
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import intl from 'react-intl-universal';
 import { MobXProviderContext, observer } from 'mobx-react';
+import { toJS } from 'mobx';
 
 import services from '_src/services';
 
@@ -39,8 +40,29 @@ const RestoreNickName = ({ size }) => {
     reader.readAsText(file);
 
     reader.onload = async () => {
-      const newNickNameList = JSON.parse(reader.result).concat(nickNameStore.nickNameList);
-      nickNameStore.importNickNameList({ nickNameList: newNickNameList });
+      const jsonNickNameList = toJS(nickNameStore.nickNameList);
+      const newNickNameList = JSON.parse(reader.result);
+
+      if (jsonNickNameList.length === 0) {
+        nickNameStore.importNickNameList({ nickNameList: newNickNameList });
+      } else {
+        /**
+         * 多文件导入去重复
+         */
+        const result = newNickNameList.reduce((pre, cur) => {
+          const isPre = pre.some((item) => {
+            return item.assetCode === cur.assetCode;
+          });
+          console.log(isPre);
+          if (!isPre) {
+            pre.push(cur);
+          }
+
+          return pre;
+        }, jsonNickNameList);
+
+        nickNameStore.importNickNameList({ nickNameList: result });
+      }
 
       // 导入成功
       console.log('导入成功', reader.result);

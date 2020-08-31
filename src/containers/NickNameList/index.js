@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { MobXProviderContext, observer } from 'mobx-react';
-import { toJS } from 'mobx';
 
 import { Table, Button, Input, Popconfirm, Form } from 'antd';
 
@@ -36,8 +35,7 @@ const NickNameList = () => {
   const { nickNameStore } = React.useContext(MobXProviderContext);
 
   const [form] = Form.useForm();
-  const [data, setData] = useState(nickNameStore.nickNameList);
-
+  const data = nickNameStore.nickNameList;
   const [editingKey, setEditingKey] = useState('');
 
   const isEditing = (record) => record.assetCode === editingKey;
@@ -63,11 +61,11 @@ const NickNameList = () => {
       if (index > -1) {
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
-        setData(newData);
+        // setData(newData);
         setEditingKey('');
       } else {
         newData.push(row);
-        setData(newData);
+        // setData(newData);
         setEditingKey('');
       }
 
@@ -89,6 +87,9 @@ const NickNameList = () => {
       dataIndex: 'nickname',
       width: '25%',
       editable: true,
+      render: (nickname, record) => {
+        return <div style={{ backgroundColor: record?.options?.bgColor || 'transparent' }}>{nickname}</div>;
+      },
     },
     {
       title: 'operation',
@@ -176,7 +177,7 @@ const NickNameList = () => {
 
   function NickNameListComponent() {
     return (
-      <div>
+      <div key={nickNameStore.nickNameList.length}>
         <Form form={form} component={false}>
           <Table
             components={{

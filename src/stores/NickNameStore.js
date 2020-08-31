@@ -6,7 +6,7 @@
  * @ Description: 多语言状态Mobx 模块
  */
 
-import { action, observable, when, computed } from 'mobx';
+import { action, observable, when, computed, toJS } from 'mobx';
 /**
  * 钱包管理Store
  * @category MobxStore
@@ -61,7 +61,7 @@ class NickNameStore {
       this.nickNameList.push({ options: {}, ...nickNameItem });
     }
     if (nickNameList) {
-      this.nickNameList = Object.values(nickNameList) || [];
+      this.nickNameList = nickNameList || [];
     }
 
     when(
