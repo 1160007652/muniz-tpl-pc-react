@@ -30,6 +30,7 @@ class NickNameStore {
   /** 将列表转为对象 */
   @computed get nickNameObj() {
     const result = {};
+
     this.nickNameList.forEach((item) => {
       result[item.assetCode] = item;
     });

@@ -87,8 +87,18 @@ const NickNameList = () => {
       dataIndex: 'nickname',
       width: '25%',
       editable: true,
-      render: (nickname, record) => {
-        return <div style={{ backgroundColor: record?.options?.bgColor || 'transparent' }}>{nickname}</div>;
+      render: (nickname) => {
+        let index = 0;
+
+        data.forEach((item) => {
+          if (item.nickname === nickname) {
+            index = index + 1;
+          }
+        });
+
+        console.log('xxxxx', index);
+
+        return <div style={{ backgroundColor: index > 1 ? 'red' : 'transparent' }}>{nickname}</div>;
       },
     },
     {
