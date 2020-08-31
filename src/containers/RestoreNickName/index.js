@@ -93,7 +93,7 @@ const RestoreNickName = ({ size }) => {
         beforeUpload={handleBeforeUpload}
         accept=".findoranicknames"
       >
-        <Button icon={<UploadOutlined />}>Open awother file</Button>
+        <Button icon={<UploadOutlined />}>Open another file</Button>
       </Upload>
     );
   }

@@ -78,12 +78,12 @@ const NickNameList = () => {
 
   const columns = [
     {
-      title: 'assetCode',
+      title: 'Asset Code',
       dataIndex: 'assetCode',
       editable: false,
     },
     {
-      title: 'nickname',
+      title: 'Nickname',
       dataIndex: 'nickname',
       width: '25%',
       editable: true,
@@ -92,7 +92,7 @@ const NickNameList = () => {
       },
     },
     {
-      title: 'operation',
+      title: 'Operation',
       dataIndex: 'operation',
       width: '25%',
       render: (_, record) => {
