@@ -21,6 +21,7 @@ const CreateAsset = () => {
   const [error, setError] = useImmer({
     amountError: '',
     founderError: '',
+    shortError: '',
   });
   const [data, setData] = useImmer({
     founder: walletStore.walletInfo.publickey,
@@ -62,6 +63,11 @@ const CreateAsset = () => {
     setData((state) => {
       state.asset = { ...state.asset, ...value };
     });
+
+    setError((state) => {
+      state.shortError = value.shortErr;
+    });
+
     console.log('资产名称 ===》', value);
   }
 
@@ -106,6 +112,11 @@ const CreateAsset = () => {
       setError((state) => {
         state.founderError = 'founder_create_no_empty';
       });
+      isError = true;
+    }
+
+    console.log('xxxxx', asset);
+    if (asset.shortErr) {
       isError = true;
     }
 

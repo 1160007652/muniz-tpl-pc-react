@@ -14,6 +14,7 @@ const enUS = {
   navigation_back: 'Back',
   wallet_name_edit_placeholder: 'Place wallet name',
 
+  nicknameExists: 'Nickname already exists',
   isCancel: 'Sure to cancel?',
   edit: 'Edit',
   remove: 'Remove',

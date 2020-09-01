@@ -13,6 +13,7 @@ const zhCN = {
   navigation_back: '返回',
   wallet_name_edit_placeholder: '请输入钱包名称',
 
+  nicknameExists: '昵称已存在',
   isCancel: '确定要取消吗?',
   edit: '编辑',
   remove: '删除',

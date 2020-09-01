@@ -9,9 +9,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Radio, Alert } from 'antd';
-import { ReloadOutlined } from '@ant-design/icons';
 import intl from 'react-intl-universal';
 import { useImmer } from 'use-immer';
+import { MobXProviderContext, observer } from 'mobx-react';
 
 import FindoraBoxView from '_components/FindoraBoxView';
 import services from '_src/services';
@@ -19,18 +19,21 @@ import services from '_src/services';
 import './index.less';
 
 const CreateAssetName = ({ onResult }) => {
+  const { nickNameStore } = React.useContext(MobXProviderContext);
   const [isSelect, setSelect] = useState('default');
 
   // 系统生成 longName
   const [assetNameData, setAssetNameData] = useImmer({
     short: '',
     long: '',
+    shortErr: '',
   });
 
   // 自定义短名字 , 生成 longName
   const [assetNameDataCust, setAssetNameDataCust] = useImmer({
     short: '',
     long: '',
+    shortErr: '',
   });
 
   useEffect(() => {
@@ -77,6 +80,24 @@ const CreateAssetName = ({ onResult }) => {
       state.short = e.target.value;
     });
     console.log(e.target.value);
+  }
+
+  /** 自定义资产短名字, 修改事件 */
+  function handleOnBlurShortNameCust(e) {
+    e.persist();
+
+    const isCfNickname = nickNameStore.nickNameList.some((item) => {
+      return item.nickname === assetNameDataCust.short;
+    });
+    if (isCfNickname) {
+      setAssetNameDataCust((state) => {
+        state.shortErr = intl.get('nicknameExists');
+      });
+    } else {
+      setAssetNameDataCust((state) => {
+        state.shortErr = '';
+      });
+    }
   }
 
   /** 系统默认生成长名称, 刷新新的名称事件 */
@@ -128,17 +149,16 @@ const CreateAssetName = ({ onResult }) => {
           showIcon
           style={{ marginBottom: '25px', background: '#EEE2FF' }}
         />
-        <FindoraBoxView title={intl.get('asset_name_short')} isRow>
+        <FindoraBoxView title={intl.get('asset_name_short')} isRow titleDirection="top">
           <div className="generate-name">
             <Input
               placeholder={intl.get('asset_name_short_placeholder')}
               value={assetNameDataCust.short}
               onChange={handleChangeShortNameCust}
+              onBlur={handleOnBlurShortNameCust}
             />
-            {/* <div className="generate-name-btn" onClick={handleGenerateLongName}>
-              {intl.get('asset_name_generate')}
-            </div> */}
           </div>
+          <div className="error">{assetNameDataCust.shortErr}</div>
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('asset_name_long')} isRow className="long-name">
           {assetNameDataCust.long}
