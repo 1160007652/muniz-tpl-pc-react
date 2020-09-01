@@ -135,7 +135,7 @@ const NickNameList = () => {
                 <Select
                   value={nickname}
                   style={{ width: '100%', backgroundColor: index > 1 ? tableColors[nickname] : 'transparent' }}
-                  onChange={handleSelectNickname(record)}
+                  onSelect={handleSelectNickname(record)}
                 >
                   {record.nicknames.map((item) => {
                     return (
