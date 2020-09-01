@@ -14,6 +14,11 @@ const enUS = {
   navigation_back: 'Back',
   wallet_name_edit_placeholder: 'Place wallet name',
 
+  isCancel: 'Sure to cancel?',
+  edit: 'Edit',
+  remove: 'Remove',
+  save: 'Save',
+  operation: 'Operation',
   done: 'Done',
   notice: 'NOTICE',
   warning: 'WARNING',
@@ -59,6 +64,7 @@ const enUS = {
   asset_name_type_default: 'Default',
   asset_name_type_customize: 'Custom',
   nickname_restore_upload_file: 'Click or drag .findoraNicknames file to this area',
+  nickname_restore_upload_file1: 'Open another file',
 
   wallet_create_exists: 'A Findora Wallet for user {userName} is already open. Please enter a new name.',
   wallet_create_inputname: 'Username',

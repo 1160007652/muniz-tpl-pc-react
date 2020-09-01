@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { MobXProviderContext, observer } from 'mobx-react';
-
+import intl from 'react-intl-universal';
 import { Table, Button, Input, Popconfirm, Form } from 'antd';
 
 import RestoreNickName from '_containers/RestoreNickName';
 import './index.less';
-import { object } from 'prop-types';
 
 const EditableCell = ({ editing, dataIndex, title, inputType, record, index, children, ...restProps }) => {
   return (
@@ -79,12 +78,15 @@ const NickNameList = () => {
 
   const columns = [
     {
-      title: 'Asset Code',
+      title: intl.get('asset_name_long'),
       dataIndex: 'assetCode',
       editable: false,
+      render: (assetCode) => {
+        return <div className="equal-font">{assetCode}</div>;
+      },
     },
     {
-      title: 'Nickname',
+      title: intl.get('asset_name_short'),
       dataIndex: 'nickname',
       width: '25%',
       editable: true,
@@ -116,7 +118,7 @@ const NickNameList = () => {
       },
     },
     {
-      title: 'Operation',
+      title: intl.get('operation'),
       dataIndex: 'operation',
       width: '25%',
       render: (_, record) => {
@@ -133,15 +135,15 @@ const NickNameList = () => {
                 marginRight: 8,
               }}
             >
-              Save
+              {intl.get('save')}
             </a>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <a>Cancel</a>
+            <Popconfirm title={intl.get('isCancel')} onConfirm={cancel}>
+              <a>{intl.get('cancel')}</a>
             </Popconfirm>
           </span>
         ) : (
           <a disabled={editingKey !== ''} onClick={() => edit(record)}>
-            Edit
+            {intl.get('edit')}
           </a>
         );
       },
@@ -196,10 +198,10 @@ const NickNameList = () => {
     return (
       <div className="nickname-table-header">
         <Button style={{ marginRight: '12px' }} onClick={handleOnClickTableBtnSave}>
-          Save
+          {intl.get('save')}
         </Button>
         <Button style={{ marginRight: '12px' }} onClick={handleOnClickTableBtnRemove}>
-          Remove
+          {intl.get('remove')}
         </Button>
         <RestoreNickName size="small" />
       </div>

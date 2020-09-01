@@ -6,14 +6,12 @@
  * @ Description: 恢复钱包、导入钱包组件
  */
 
-import React, { useState } from 'react';
-import { Upload, Button, message } from 'antd';
+import React from 'react';
+import { Upload, Button } from 'antd';
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import intl from 'react-intl-universal';
 import { MobXProviderContext, observer } from 'mobx-react';
 import { toJS } from 'mobx';
-
-import services from '_src/services';
 
 import './index.less';
 
@@ -63,9 +61,6 @@ const RestoreNickName = ({ size }) => {
 
         nickNameStore.importNickNameList({ nickNameList: result });
       }
-
-      // 导入成功
-      console.log('导入成功', reader.result);
     };
   }
 
@@ -93,7 +88,7 @@ const RestoreNickName = ({ size }) => {
         beforeUpload={handleBeforeUpload}
         accept=".findoranicknames"
       >
-        <Button icon={<UploadOutlined />}>Open another file</Button>
+        <Button icon={<UploadOutlined />}>{intl.get('nickname_restore_upload_file1')}</Button>
       </Upload>
     );
   }
