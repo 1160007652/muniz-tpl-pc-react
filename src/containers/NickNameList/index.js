@@ -5,6 +5,7 @@ import { Table, Button, Input, Popconfirm, Form } from 'antd';
 
 import RestoreNickName from '_containers/RestoreNickName';
 import './index.less';
+import { object } from 'prop-types';
 
 const EditableCell = ({ editing, dataIndex, title, inputType, record, index, children, ...restProps }) => {
   return (
@@ -33,7 +34,7 @@ const EditableCell = ({ editing, dataIndex, title, inputType, record, index, chi
 
 const NickNameList = () => {
   const { nickNameStore } = React.useContext(MobXProviderContext);
-
+  const tableColors = {};
   const [form] = Form.useForm();
   const data = nickNameStore.nickNameList;
   const [editingKey, setEditingKey] = useState('');
@@ -98,7 +99,20 @@ const NickNameList = () => {
 
         console.log('xxxxx', index);
 
-        return <div style={{ backgroundColor: index > 1 ? 'red' : 'transparent' }}>{nickname}</div>;
+        if (index > 1) {
+          let tmpColor = randomColor();
+
+          // 防止出现重复的 色值
+          while (Object.values(tableColors).includes(tmpColor)) {
+            tmpColor = randomColor();
+          }
+
+          if (!Object.keys(tableColors).includes(nickname)) {
+            tableColors[nickname] = tmpColor;
+          }
+        }
+
+        return <div style={{ backgroundColor: index > 1 ? tableColors[nickname] : 'transparent' }}>{nickname}</div>;
       },
     },
     {
@@ -134,6 +148,13 @@ const NickNameList = () => {
     },
   ];
 
+  /** 随机取色值 rgba */
+  function randomColor() {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    return `rgba(${r},${g},${b},0.6)`;
+  }
   const mergedColumns = columns.map((col) => {
     if (!col.editable) {
       return col;
