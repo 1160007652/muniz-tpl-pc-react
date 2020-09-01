@@ -7,8 +7,8 @@
  */
 
 import React from 'react';
-import { Upload, Button } from 'antd';
-import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
+import { Upload, Button, message, Modal } from 'antd';
+import { InboxOutlined, UploadOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import intl from 'react-intl-universal';
 import { MobXProviderContext, observer } from 'mobx-react';
 import { toJS } from 'mobx';
@@ -34,6 +34,7 @@ const RestoreNickName = ({ size }) => {
 
   async function handleUnlockKeystore(file) {
     const reader = new FileReader();
+    let isRepeat = false;
 
     reader.readAsText(file);
 
@@ -49,17 +50,34 @@ const RestoreNickName = ({ size }) => {
          */
         const result = newNickNameList.reduce((pre, cur) => {
           const isPre = pre.some((item) => {
-            return item.assetCode === cur.assetCode;
+            const isEqualAssetCode = item.assetCode === cur.assetCode;
+            if (isEqualAssetCode) {
+              item.nicknames = [...new Set([...cur.nicknames, ...item.nicknames, cur.nickname, item.nickname])];
+            }
+            return isEqualAssetCode;
           });
-          console.log(isPre);
-          if (!isPre) {
+
+          if (isPre) {
+            isRepeat = true;
+          } else {
             pre.push(cur);
           }
 
           return pre;
         }, jsonNickNameList);
 
-        nickNameStore.importNickNameList({ nickNameList: result });
+        if (isRepeat) {
+          Modal.confirm({
+            title: intl.get('nickname_repeat_tips_title'),
+            icon: <ExclamationCircleOutlined />,
+            content: intl.get('nickname_repeat_tips_info'),
+            onOk() {
+              nickNameStore.importNickNameList({ nickNameList: result });
+            },
+          });
+        } else {
+          nickNameStore.importNickNameList({ nickNameList: result });
+        }
       }
     };
   }

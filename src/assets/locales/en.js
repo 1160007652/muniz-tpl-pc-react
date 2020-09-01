@@ -66,6 +66,8 @@ const enUS = {
   asset_name_type_customize: 'Custom',
   nickname_restore_upload_file: 'Click or drag .findoraNicknames file to this area',
   nickname_restore_upload_file1: 'Open another file',
+  nickname_repeat_tips_info: 'Duplicate nickname found. Please use the drop-down box to select the nickname.',
+  nickname_repeat_tips_title: 'Tips',
 
   wallet_create_exists: 'A Findora Wallet for user {userName} is already open. Please enter a new name.',
   wallet_create_inputname: 'Username',

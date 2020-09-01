@@ -40,7 +40,9 @@ const CreateAssetConfrim = ({ data }) => {
       assetStore.changeComponentKey('created');
 
       // 设置资产昵称
-      nickNameStore.importNickNameList({ nickNameItem: { assetCode: asset.long, nickname: asset.short } });
+      nickNameStore.importNickNameList({
+        nickNameItem: { assetCode: asset.long, nickname: asset.short, nicknames: [] },
+      });
       setLoading(false);
       setResultData({ type: result.code === 0, result });
       setShowResult(true);

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { MobXProviderContext, observer } from 'mobx-react';
 import intl from 'react-intl-universal';
-import { Table, Button, Input, Popconfirm, Form } from 'antd';
+import { Table, Button, Input, Popconfirm, Form, Badge, Select } from 'antd';
 
 import RestoreNickName from '_containers/RestoreNickName';
 import './index.less';
@@ -76,6 +76,21 @@ const NickNameList = () => {
     }
   };
 
+  /** 切换重复后的下拉 nickname */
+  function handleSelectNickname(record) {
+    return (value) => {
+      const result = nickNameStore.nickNameList.map((item) => {
+        if (item.assetCode === record.assetCode) {
+          item.nickname = value;
+          item.nicknames = [];
+        }
+        return item;
+      });
+
+      nickNameStore.importNickNameList({ nickNameList: result });
+    };
+  }
+
   const columns = [
     {
       title: intl.get('asset_name_long'),
@@ -90,7 +105,7 @@ const NickNameList = () => {
       dataIndex: 'nickname',
       width: '25%',
       editable: true,
-      render: (nickname) => {
+      render(nickname, record) {
         let index = 0;
 
         data.forEach((item) => {
@@ -98,8 +113,6 @@ const NickNameList = () => {
             index = index + 1;
           }
         });
-
-        console.log('xxxxx', index);
 
         if (index > 1) {
           let tmpColor = randomColor();
@@ -113,8 +126,29 @@ const NickNameList = () => {
             tableColors[nickname] = tmpColor;
           }
         }
-
-        return <div style={{ backgroundColor: index > 1 ? tableColors[nickname] : 'transparent' }}>{nickname}</div>;
+        return (
+          <div className="nickname-td">
+            {record.nicknames.length < 2 ? (
+              <div style={{ backgroundColor: index > 1 ? tableColors[nickname] : 'transparent' }}>{nickname}</div>
+            ) : (
+              <Badge count={record.nicknames.length} size="small" className="badge-nickname" overflowCount={10}>
+                <Select
+                  value={nickname}
+                  style={{ width: '100%', backgroundColor: index > 1 ? tableColors[nickname] : 'transparent' }}
+                  onChange={handleSelectNickname(record)}
+                >
+                  {record.nicknames.map((item) => {
+                    return (
+                      <Select.Option value={item} key={item}>
+                        {item}
+                      </Select.Option>
+                    );
+                  })}
+                </Select>
+              </Badge>
+            )}
+          </div>
+        );
       },
     },
     {
