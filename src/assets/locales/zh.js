@@ -59,7 +59,7 @@ const zhCN = {
   asset_name_generate: '生成长名称',
   asset_name_type_default: '系统默认',
   asset_name_type_customize: '自定义',
-  nickname_restore_upload_file: '点击或拖拽上传 .findoraNicknames 文件',
+  nickname_restore_upload_file: '点击或拖拽上传 .findoranicknames 文件',
   nickname_restore_upload_file1: '导入其它文件',
   nickname_repeat_tips_info: '发现重复的昵称，请使用下拉框选择昵称。',
   nickname_repeat_tips_title: '提示',
