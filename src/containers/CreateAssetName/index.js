@@ -13,6 +13,7 @@ import intl from 'react-intl-universal';
 import { useImmer } from 'use-immer';
 import { MobXProviderContext, observer } from 'mobx-react';
 
+import FindoraTips from '_components/FindoraTips';
 import FindoraBoxView from '_components/FindoraBoxView';
 import services from '_src/services';
 
@@ -142,14 +143,22 @@ const CreateAssetName = ({ onResult }) => {
   function customizeAssetName() {
     return (
       <div className="asset-name-box">
-        <Alert
+        {/* <Alert
           message={intl.get('notice')}
           description={intl.get('asset_name_create_customize_notice')}
           type="info"
           showIcon
           style={{ marginBottom: '25px', background: '#EEE2FF' }}
-        />
-        <FindoraBoxView title={intl.get('asset_name_short')} isRow titleDirection="top">
+        /> */}
+        <FindoraBoxView
+          title={
+            <FindoraTips desc={intl.get('asset_name_create_customize_notice')}>
+              {intl.get('asset_name_short')}
+            </FindoraTips>
+          }
+          isRow
+          titleDirection="top"
+        >
           <div className="generate-name">
             <Input
               placeholder={intl.get('asset_name_short_placeholder')}

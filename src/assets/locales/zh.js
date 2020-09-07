@@ -55,7 +55,7 @@ const zhCN = {
   asset_name_long: '资产',
   asset_name_short: '昵称',
   asset_name_short_placeholder: '请输入短名称',
-  asset_name_create_customize_notice: '用户可以自定义短名称，长名称由短名称生成，短名称必须唯一。',
+  asset_name_create_customize_notice: '昵称仅对您和与您共享昵称文件的任何人可见。',
   asset_name_generate: '生成长名称',
   asset_name_type_default: '系统默认',
   asset_name_type_customize: '自定义',

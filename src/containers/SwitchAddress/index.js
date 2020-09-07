@@ -6,15 +6,14 @@
  * @ Description: 多语言切换组件
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Select, Tag } from 'antd';
-import classNames from 'classnames';
+import { Select } from 'antd';
 import intl from 'react-intl-universal';
 
 import './index.less';
 
-const SwitchAddress = ({ dataList, curAddress, onChange }) => {
+const SwitchAddress = ({ size, dataList, curAddress, onChange }) => {
   const [address, setAddress] = useState(curAddress);
 
   /** 选择地址事件 */
@@ -35,7 +34,7 @@ const SwitchAddress = ({ dataList, curAddress, onChange }) => {
             );
           })}
         </Select>
-        <div className="tips"> {address} </div>
+        {size === 'large' && <div className="tips"> {address} </div>}
       </div>
     );
   }
@@ -53,9 +52,12 @@ SwitchAddress.propTypes = {
   curAddress: PropTypes.string,
   /** 钱包选中事件 */
   onChange: PropTypes.func,
+  /** 模式: simal:精简模式， large:全量模式 */
+  size: PropTypes.string,
 };
 
 SwitchAddress.defaultProps = {
+  size: 'large',
   dataList: [],
   curAddress: '',
   onChange: () => {},

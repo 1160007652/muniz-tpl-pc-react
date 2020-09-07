@@ -83,7 +83,7 @@ const WalletInfo = () => {
           />
         </FindoraBoxView>
         <FindoraBoxView title={intl.get('balance')} isRow style={{ justifyContent: 'space-between' }}>
-          <Balance asset={assetName.asset} style={{ textAlign: 'right' }} key={assetName.asset.long} />
+          <Balance asset={assetName.asset} style={{ textAlign: 'right' }} key={assetName?.asset?.long} />
         </FindoraBoxView>
         <div className="line" />
         <FindoraBoxView title={intl.get('menu_asset_transactions')}>

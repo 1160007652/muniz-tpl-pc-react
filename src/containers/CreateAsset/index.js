@@ -115,7 +115,6 @@ const CreateAsset = () => {
       isError = true;
     }
 
-    console.log('xxxxx', asset);
     if (asset.shortErr) {
       isError = true;
     }
