@@ -11,6 +11,6 @@ Now that we have created our first wallet, let's take a look at creating and iss
 9. Note that the values in the popup window match those in the create asset page and click on "Confirm"
 10. If everything went well, you'll be met with the "Asset creation succeeded" message.
 > ![success](./docs-src/images/asset-success.png)
-11. Click "Done"
+11. Click "Done". You have no created your very first Asset on the Findora ledger!
 12. You can check the ledger manually to confirm your asset was created using this [link](https://testnet.findora.org:8668/blocks_since/0).
 > ![find asset](./docs-src/images/find-asset.png)
