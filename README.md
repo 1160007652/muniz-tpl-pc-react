@@ -66,3 +66,5 @@ $ yarn build
 
 > Wallet plugin homepage
 > ![Wallet plugin homepage](./docs-src/images/help-6.png)
+
+# [Now let's learn how to create our first wallet](./tutorials/CreateWallet.md)

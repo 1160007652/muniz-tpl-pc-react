@@ -1,4 +1,19 @@
 {
+  "CreateWallet": {
+    "title": "Create a Wallet"
+  },
+  "CreateDefaultAsset": {
+    "title": "Create a Default Asset"
+  },
+  "IssueAsset": {
+    "title": "Issue the Asset"
+  },
+  "TransferAsset": {
+    "title": "Transfer the Asset"
+  },
+  "AssetVariations": {
+    "title": "Test Asset Options"
+  },
   "wasm": {
     "title": "WASM Tips"
   },
