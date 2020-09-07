@@ -22,4 +22,4 @@ After setting up your wallet extension in Chrome, follow these tutorials to try 
 9. Enter your password: 000000000
 
 10. Click "Open"
- ![open wallet](./dosc-src/images/open-wallet.png)
+ ![open wallet](./docs-src/images/open-wallet.png)
