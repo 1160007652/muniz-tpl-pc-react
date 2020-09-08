@@ -120,7 +120,7 @@ const enUS = {
   page_transactions_detail_title: 'Transaction Detail',
   page_wallet_about_title: 'Help',
 
-  wallet_restore_password_error: 'Password Error',
+  wallet_restore_password_error: 'Incorrect Password',
   wallet_restore_no_upload_file: 'No file added',
   wallet_restore_upload_file: 'Click or drag Keystore file to this area to upload',
   wallet_restore_inputpassword: 'Please enter password',
