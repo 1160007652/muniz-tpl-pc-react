@@ -10,5 +10,6 @@ Now that we have created our first asset, we can move on to asset issuance. This
 7. Check that the values in the popup window match those in the Issue Asset page. Then click "Confirm". You will be greeted with "Asset issuance succeeded" message.
 8. Click on "Done". You have now issued your first asset on the Findora ledger!
 > ![Issue Success](./docs-src/images/issuance-success.png)
-9. You can check the ledger manually to confirm your asset was issued with the correct amounts using this [link](https://testnet.findora.org:8668/blocks_since/0), compare the amount issued and the public key to your wallet application.
+8. Click on the "Transactions" tab in the side menu. Click on the transaction labeled "Issuance" to see further details of your issuance. Note the number underneath "Txn". This is the transaction id, or tx_id, of your asset issuance. 
+9. You can check the ledger manually for your tx_id to confirm your asset was issued correctly using this [link](https://testnet.findora.org:8668/blocks_since/0).
 > ![check issuance](./docs-src/images/check-issuance.png)

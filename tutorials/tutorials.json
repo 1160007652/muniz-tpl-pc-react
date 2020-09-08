@@ -11,8 +11,8 @@
   "TransferAsset": {
     "title": "Transfer the Asset"
   },
-  "AssetVariations": {
-    "title": "Test Asset Options"
+  "AssetPrivacy": {
+    "title": "Privacy Options"
   },
   "wasm": {
     "title": "WASM Tips"
