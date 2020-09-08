@@ -56,10 +56,9 @@ const Send = () => {
         transferable: true,
         updatable: false,
       },
-      ...value,
+      ...value.asset,
     };
-
-    if ('numbers' in value) {
+    if ('numbers' in value.asset) {
       setError((state) => {
         state.assetNameError = null;
       });
@@ -234,6 +233,7 @@ const Send = () => {
   function onClose() {
     assetStore.toggleDrawer('send', false);
   }
+
   return (
     <FindoraWebContainer className="send" title={intl.get('page_send_title')}>
       {/* <FindoraHeader title={intl.get('page_send_title')} isShowBack menu={<HeaderMenu />} /> */}

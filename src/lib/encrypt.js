@@ -38,7 +38,7 @@ const decrypt = function (encrypted, password) {
   try {
     decrypted += decipher.final('utf8');
   } catch (error) {
-    return 'password error';
+    return 'Incorrect Password';
   }
 
   return decrypted;

@@ -60,7 +60,7 @@ const CreateWallet = () => {
   }
 
   return (
-    <FindoraWebContainer className="findora-wallet-create" title={intl.get('menu_asset_create1')}>
+    <FindoraWebContainer className="findora-wallet-create" title={intl.get('menu_wallet_create')}>
       <div className="create-wallet-box">
         <p>{intl.get('wallet_create_keystore_info')}</p>
         <Form name="createkeystorewallet" {...formItemLayout} onFinish={handleCreateKeystoreWallet}>
