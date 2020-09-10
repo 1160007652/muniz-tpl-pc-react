@@ -71,6 +71,8 @@ $ yarn build
 
 Refer to the tutorials linked in the navigation bar for instructions on trying out the wallet.
 
+---
+
 ### Developer and Extension tips
 
 #### [Learning WebAssembly (WASM)](https://www.rust-lang.org/what/wasm)
