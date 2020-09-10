@@ -3,7 +3,7 @@ After setting up your wallet extension in Chrome, follow these tutorials to try 
 1. Click on "Create Wallet"
  >![Create Wallet](./docs-src/images/help-6.png)
 
-2. Enter username: Bob
+2. Enter username: Alice
 
 3. Enter password, nine characters minimum, for testing purposes enter: 000000000 
 
@@ -15,7 +15,7 @@ After setting up your wallet extension in Chrome, follow these tutorials to try 
 6. Click "Save Findora Wallet". This will create a keystore file on your local machine that stores your keys. It is encrypted by the password you set earlier.
  >![save wallet](./docs-src/images/save-wallet.png)
 
-7. Click "import Your New Wallet" 
+7. Click "Import Your New Wallet" 
 
 8. Click the button or drag your Keystore file directly onto the webpage.
 

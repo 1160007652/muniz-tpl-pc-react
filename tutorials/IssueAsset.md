@@ -5,7 +5,7 @@ Now that we have created our first asset, we can move on to asset issuance. This
 3. In the "Asset" field, choose the asset code that belongs to the asset you created in the previous tutorial. The asset name will appear below the field.
 4. Enter the amount you would like to issue, let's start with 50000. 
 5. Click on "Issue"
-6. Set "Blind Amount" to "No". This determines wether the amount issued is visible on the ledger or hidden from other observers.
+6. Set "Blind Amount" to "No". This determines whether the amount issued is visible on the ledger or hidden from other observers.
 > ![Issue Asset](./docs-src/images/issue-asset.png)
 7. Check that the values in the popup window match those in the Issue Asset page. Then click "Confirm". You will be greeted with "Asset issuance succeeded" message.
 8. Click on "Done". You have now issued your first asset on the Findora ledger!

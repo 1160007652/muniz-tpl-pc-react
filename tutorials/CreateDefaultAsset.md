@@ -1,4 +1,4 @@
-Now that we have created our first wallet, let's take a look at creating and issuing our first asset. Assets in Findora can be made fully confidential, both in type and amount.
+Now that we have created our first wallet, let's take a look at creating our first asset. Assets in Findora can be transfered without revealing their type and amount.
 
 1. Click on "Create Asset" in the side menu. 
 2. Choose the wallet you want as issuer. The public key associated with the wallet will be shown underneath the "Issuer" field.
