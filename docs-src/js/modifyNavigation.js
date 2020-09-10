@@ -9,4 +9,4 @@ window.onload = function(){
       item.innerText="Coding Tips"
     }
   });
-}
+};
