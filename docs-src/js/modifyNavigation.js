@@ -8,8 +8,5 @@ window.onload = function(){
     if (item === 'Tutorials') {
       item.innerText="Coding Tips"
     }
-    if (item === 'Tips') {
-      item.innerText="Dev Tips"
-    }
   });
 };
