@@ -35,7 +35,9 @@ pipeline {
 
     stage('Push') {
       when {
-        branch 'master'
+        not {
+          changeRequest()
+        }
       }
       steps {
         script {
