@@ -169,7 +169,11 @@ const CreateAssetName = ({ onResult }) => {
           </div>
           <div className="error">{assetNameDataCust.shortErr}</div>
         </FindoraBoxView>
-        <FindoraBoxView title={intl.get('asset_name_long')} isRow className="long-name">
+        <FindoraBoxView
+          title={<FindoraTips desc={intl.get('asset_name_tips')}>{intl.get('asset_name_long')}</FindoraTips>}
+          isRow
+          className="long-name"
+        >
           {assetNameDataCust.long}
         </FindoraBoxView>
       </div>

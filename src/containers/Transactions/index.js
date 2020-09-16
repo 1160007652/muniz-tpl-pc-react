@@ -15,7 +15,7 @@ import './index.less';
 
 const Transactions = () => {
   const history = useHistory();
-  const { walletStore, transactionStore } = React.useContext(MobXProviderContext);
+  const { walletStore, transactionStore, nickNameStore } = React.useContext(MobXProviderContext);
   const historyParams = useParams();
   const walletInfo = toJS(walletStore.walletInfo);
   const [initLoading, setInitLoading] = useState(true);
@@ -114,11 +114,14 @@ const Transactions = () => {
           itemLayout="horizontal"
           loadMore={loadMore()}
           dataSource={dataList}
-          renderItem={(item) => (
-            <li onClick={handleClickItemInfo(item)} key={item.txn}>
-              <TransactionsItem data={item} />
-            </li>
-          )}
+          renderItem={(item) => {
+            item.asset['nickname'] = nickNameStore.nickNameObj[item.asset.tokenCode]?.nickname;
+            return (
+              <li onClick={handleClickItemInfo(item)} key={item.txn}>
+                <TransactionsItem data={item} />
+              </li>
+            );
+          }}
         />
       </Spin>
       {!initLoading && (

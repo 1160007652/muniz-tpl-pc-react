@@ -8,15 +8,18 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Typography } from 'antd';
 import classNames from 'classnames';
 import intl from 'react-intl-universal';
 
+import FindoraTips from '_components/FindoraTips';
 import FindoraBoxView from '../FindoraBoxView';
 
 import './index.less';
 
 const TransactionsItem = ({ data, onClick, className, style }) => {
   const { type, blind, from, to, asset, state, txn_type } = data;
+  // console.log('历史 - item =>', data);
   return (
     <div className={classNames('transactions-item', className)} onClick={onClick} style={style}>
       {/* <div className="time">{time}</div> */}
@@ -33,7 +36,21 @@ const TransactionsItem = ({ data, onClick, className, style }) => {
       </div>
 
       <FindoraBoxView title={intl.get('transaction_asset_type')}>
-        <div className="address">{asset.tokenCode}</div>
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <Typography.Paragraph copyable={{ text: asset.tokenCode }} underline className="txn-item-asset-type">
+            {asset.nickname ? (
+              <FindoraTips desc={asset.tokenCode}>
+                <div>{asset.nickname}</div>
+              </FindoraTips>
+            ) : (
+              <div>{asset.tokenCode}</div>
+            )}
+          </Typography.Paragraph>
+        </div>
       </FindoraBoxView>
 
       <FindoraBoxView title={`${intl.get('asset_name')} ${intl.get('memo')}`}>

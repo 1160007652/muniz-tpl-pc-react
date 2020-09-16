@@ -245,7 +245,7 @@ const IssueAsset = () => {
 
         <div className="btn-area">
           <FindoraButton className="btn" onClick={handleClickCreate}>
-            {intl.get('token_issue_issuer')}
+            {intl.get('token_issue_issue')}
           </FindoraButton>
         </div>
 

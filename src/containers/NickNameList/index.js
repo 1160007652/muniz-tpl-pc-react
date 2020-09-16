@@ -213,7 +213,7 @@ const NickNameList = () => {
     const blob = new Blob([JSON.stringify(nickNameStore.nickNameList)], {
       type: 'findoranicknames/plain;charset=utf-8',
     });
-    const fileData = new File([blob], `findoraNickNames.findoranicknames`, {
+    const fileData = new File([blob], `findoraNicknames.findoranicknames`, {
       type: 'findoranicknames/plain;charset=utf-8',
     });
     chrome.downloads.download({
