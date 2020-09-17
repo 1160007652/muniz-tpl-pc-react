@@ -78,7 +78,7 @@ const IssueAsset = () => {
     });
 
     setData((state) => {
-      const isAsset = value?.asset.code ? state.asset : {};
+      const isAsset = value?.asset?.code ? state.asset : {};
       state.asset = { ...isAsset, ...asset_rules };
       state.inputNumbers = '';
     });

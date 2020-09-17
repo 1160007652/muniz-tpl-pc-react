@@ -19,6 +19,9 @@ import './index.less';
 
 const TransactionsItem = ({ data, onClick, className, style }) => {
   const { type, blind, from, to, asset, state, txn_type } = data;
+
+  // 是否是跟踪资产
+  const isTraceAsset = asset.asset_rules?.tracing_policies?.length > 0;
   // console.log('历史 - item =>', data);
   return (
     <div className={classNames('transactions-item', className)} onClick={onClick} style={style}>
@@ -28,6 +31,7 @@ const TransactionsItem = ({ data, onClick, className, style }) => {
           <span className="tag success">{intl.get(`txn_${type}`)}</span>
           {blind.isAmount && <span className="tag">{intl.get('blind_amount')}</span>}
           {blind.isType && <span className="tag">{intl.get('blind_type')}</span>}
+          {isTraceAsset && <span className="tag tag-transferable">{intl.get('transferable')}</span>}
         </div>
         <div className="value">
           {txn_type === 'input' ? '+' : '-'}

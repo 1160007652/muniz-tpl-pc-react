@@ -276,6 +276,7 @@ async function transactionsMerge({ walletInfo, page }) {
 
         const assetProperties = await webNetWork.getAssetProperties(resultItem.asset.tokenCode);
         resultItem.asset.memo = assetProperties.memo;
+        resultItem.asset.asset_rules = assetProperties.asset_rules;
 
         resultItem.type = 'IssueAsset';
         resultItem.txn = txnList[i].sid;
@@ -286,7 +287,9 @@ async function transactionsMerge({ walletInfo, page }) {
 
         const assetProperties = await webNetWork.getAssetProperties(resultItem.asset.tokenCode);
         resultItem.asset.memo = assetProperties.memo;
+        resultItem.asset.asset_rules = assetProperties.asset_rules;
 
+        console.log('属性===》 ==》', assetProperties);
         resultItem.type = 'TransferAsset';
         resultItem.txn = txnList[i].sid;
         result.push(resultItem);

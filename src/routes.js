@@ -85,6 +85,12 @@ const routeMap = [
     dynamic: true,
   },
   {
+    path: pageURL.traceAsset,
+    component: './containers/TraceAsset',
+    exact: true,
+    dynamic: true,
+  },
+  {
     path: pageURL.sendConfrim,
     component: './containers/SendConfrim',
     exact: true,

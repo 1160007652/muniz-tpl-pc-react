@@ -72,7 +72,7 @@ const Send = () => {
     // 可跟踪资产 不可以隐藏 code - blind_type
     if (asset_rules.asset_rules.tracing_policies) {
       setBlindError((state) => {
-        state.isTypeError = 'send_error7';
+        state.isTypeError = { type: 'info', msg: 'send_error7' };
       });
       setData((state) => {
         state.blind.isType = false;
@@ -196,7 +196,7 @@ const Send = () => {
 
       // 判断是否可以二次转账
 
-      if (error.assetNameError.type === 'error') {
+      if (error.assetNameError?.type === 'error') {
         isError = true;
       }
 
@@ -330,7 +330,9 @@ const Send = () => {
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
-          {blindError.isTypeError && <div className="error">{intl.get(blindError.isTypeError)}</div>}
+          {blindError.isTypeError && (
+            <div className={blindError.isTypeError.type}>{intl.get(blindError.isTypeError.msg)}</div>
+          )}
         </FindoraBoxView>
 
         <div className="btn-area">

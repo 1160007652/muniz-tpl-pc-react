@@ -162,7 +162,7 @@ class AssetStore {
    * @async
    * @param {object} address - address from which the assets are transferred.
    */
-  @action getSendAssetList = async (address) => {
+  @action getSendAssetList = async ({ address, assetType }) => {
     const findoraWasm = await import('wasm');
     console.groupCollapsed('=======>  开始获取可以转账的资产');
 
@@ -206,7 +206,13 @@ class AssetStore {
 
     result = await Promise.all(result);
 
-    this.sentAssetList = result.filter((item) => item.asset.numbers > 0);
+    this.sentAssetList = result.filter((item) => {
+      if (assetType === 'trace') {
+        return item?.asset?.asset_rules?.tracing_policies?.length > 0;
+      } else {
+        return item.asset.numbers > 0;
+      }
+    });
 
     console.log('钱包地址: ', address);
     console.log('拥有资产: ', result);

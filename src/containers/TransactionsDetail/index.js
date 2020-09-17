@@ -13,6 +13,9 @@ const TransactionsDetail = ({ data }) => {
   const RouterLocation = useLocation();
   const { from, to, state, txn, asset, type, blind } = data || RouterLocation.state;
 
+  // 是否是跟踪资产
+  const isTraceAsset = asset.asset_rules?.tracing_policies?.length > 0;
+
   function detail() {
     return (
       <div className="transactions-detail-box">
@@ -49,6 +52,7 @@ const TransactionsDetail = ({ data }) => {
           <span className="tag tag-type">{intl.get(`txn_${type}`)}</span>
           {blind.isAmount && <span className="tag">{intl.get('blind_amount')}</span>}
           {blind.isType && <span className="tag">{intl.get('blind_type')}</span>}
+          {isTraceAsset && <span className="tag tag-transferable">{intl.get('transferable')}</span>}
         </div>
       </div>
     );

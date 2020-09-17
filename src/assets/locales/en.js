@@ -40,8 +40,7 @@ const enUS = {
   traceable: 'Traceable',
   traceable_tips: 'Whether the asset can be traced.',
   transferable: 'Transferable',
-  transferable_tips:
-    'Whether the asset is transferable. Non-Transferable assets can only be transferred once from the issuer to another user.',
+  transferable_tips: 'If traceable, the issuer (you) can view all subsequent transactions of the asset.',
   updatable: 'Updatable',
   updatable_tips: 'Whether the asset memo can be updated.',
   blind_type: 'Blind Type',
@@ -98,6 +97,7 @@ const enUS = {
   menu_asset: 'Asset',
   menu_home: 'Wallets',
   menu_asset_send: 'Transfer Asset',
+  menu_asset_trace: 'Trace Asset',
   menu_wallet_create: 'Create Wallet',
   menu_wallet_import: 'Open Wallet',
   menu_setting: 'Settings',
@@ -138,7 +138,7 @@ const enUS = {
   send_error4: 'To address cannot be empty',
   send_error5: 'The transfer amount cannot be empty',
   send_error6: 'An asset must be selected',
-  send_error7: 'The asset cannot be hidden',
+  send_error7: 'Traceable asset cannot be blind',
   send_nosubmit_owne_tips: "Transferring to yourself isn't allowed.",
 
   tips_wallet_create: 'Please create wallet address first',

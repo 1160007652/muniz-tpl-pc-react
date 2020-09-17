@@ -47,6 +47,9 @@ const pageURL = {
   /** 转账页面 */
   /** Asset transfer page */
   send: '/send/',
+  /** 查看跟踪资产页面 */
+  /** Asset trace page */
+  traceAsset: '/traceAsset/',
   /** 转账详情页面 */
   /** Transfer details page */
   sendConfrim: '/sendConfrim',

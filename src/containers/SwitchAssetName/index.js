@@ -9,7 +9,7 @@
 import React, { useState, useEffect, Fragment, useCallback } from 'react';
 import { toJS } from 'mobx';
 import { MobXProviderContext, observer } from 'mobx-react';
-import { useRouteMatch, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Select, Skeleton } from 'antd';
 import intl from 'react-intl-universal';
@@ -18,7 +18,7 @@ import pageURL from '_constants/pageURL';
 
 import './index.less';
 
-const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
+const SwitchAssetName = ({ onResult, address, actionTYpe, assetType }) => {
   const { assetStore } = React.useContext(MobXProviderContext);
   const [assetCurrent, setAssetCurrent] = useState();
   const [isShowComponent, setShowComponent] = useState(false);
@@ -57,7 +57,7 @@ const SwitchAssetName = ({ onResult, address, actionTYpe }) => {
       }
 
       async function getSendAssetList() {
-        await assetStore.getSendAssetList(address);
+        await assetStore.getSendAssetList({ address, assetType });
 
         const assetList = toJS(assetStore.sentAssetList);
 
@@ -210,6 +210,8 @@ SwitchAssetName.propTypes = {
   onResult: PropTypes.func,
   /** 当前钱包地址 */
   address: PropTypes.string,
+  /** 资产类型 */
+  assetType: PropTypes.string,
   /** 是否待增发 */
   actionTYpe: PropTypes.string,
 };
@@ -217,6 +219,7 @@ SwitchAssetName.propTypes = {
 SwitchAssetName.defaultProps = {
   onResult: () => {},
   address: '',
+  assetType: 'all',
   actionTYpe: '',
 };
 

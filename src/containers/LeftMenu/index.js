@@ -105,6 +105,12 @@ const routers = [
         isShow: true,
       },
       {
+        page: pageURL.traceAsset,
+        icon: <SendIcon />,
+        title: 'menu_asset_trace',
+        isShow: true,
+      },
+      {
         page: pageURL.transactions.replace(':action', 'detail-loading'),
         icon: <TransactionsIcon />,
         title: 'menu_asset_transactions',

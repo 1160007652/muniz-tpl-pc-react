@@ -39,7 +39,7 @@ const zhCN = {
   traceable: '可追溯',
   traceable_tips: '资产是否可追溯',
   transferable: '可转让',
-  transferable_tips: '资产是否可转让,不可转让资产只能从发行人转让给另一个用户一次',
+  transferable_tips: '如果可以追溯，则发行人（您）可以查看资产的所有后续交易',
   updatable: '可更新',
   updatable_tips: '资产备忘是否可以更新',
   blind_type: '隐藏类型',
@@ -90,7 +90,9 @@ const zhCN = {
   menu_wallet: '钱包',
   menu_asset: '资产',
   menu_home: '钱包列表',
-  menu_asset_send: '转转',
+  menu_asset_send: '转账',
+  menu_asset_trace: '跟踪资产',
+
   menu_wallet_create: '创建钱包',
   menu_wallet_import: '导入钱包',
   menu_setting: '设置',
@@ -130,7 +132,7 @@ const zhCN = {
   send_error4: 'To地址不能为空',
   send_error5: '转账金额不能为空',
   send_error6: '转账资产不能为空',
-  send_error7: '该资产不可以隐藏类型',
+  send_error7: '可追踪的资产不能隐藏资产类型',
   send_nosubmit_owne_tips: '不允许转让给自己.',
 
   tips_wallet_create: '请先创建钱包地址',

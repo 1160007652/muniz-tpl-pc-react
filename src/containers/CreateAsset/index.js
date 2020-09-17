@@ -211,7 +211,7 @@ const CreateAsset = () => {
             <Radio value="fungible">Fungible</Radio>
           </Radio.Group>
         </FindoraBoxView> */}
-        {/* <FindoraBoxView
+        <FindoraBoxView
           title={<FindoraTips desc={intl.get('traceable_tips')}>{intl.get('traceable')}</FindoraTips>}
           isRow
         >
@@ -219,7 +219,7 @@ const CreateAsset = () => {
             <Radio value={true}>Yes</Radio>
             <Radio value={false}>No</Radio>
           </Radio.Group>
-        </FindoraBoxView> */}
+        </FindoraBoxView>
         <FindoraBoxView
           title={<FindoraTips desc={intl.get('transferable_tips')}>{intl.get('transferable')}</FindoraTips>}
           isRow
