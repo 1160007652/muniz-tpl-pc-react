@@ -88,9 +88,20 @@ const Send = () => {
 
     // && data.from !== value?.issuer?.key
     if (!asset_rules.asset_rules.transferable) {
-      setError((state) => {
-        state.assetNameError = { type: 'info', msg: 'send_error2' };
-      });
+      console.log('不可二次转账 资产 =》', data, asset_rules);
+
+      const issuer = asset_rules.issuer.key;
+
+      console.log(issuer, data.from);
+      if (issuer === data.from) {
+        setError((state) => {
+          state.assetNameError = { type: 'info', msg: 'send_error2' };
+        });
+      } else {
+        setError((state) => {
+          state.assetNameError = { type: 'error', msg: 'send_error2' };
+        });
+      }
     } else {
       setError((state) => {
         state.assetNameError = null;
@@ -183,6 +194,12 @@ const Send = () => {
         }
       }
 
+      // 判断是否可以二次转账
+
+      if (error.assetNameError.type === 'error') {
+        isError = true;
+      }
+
       // 提交
       if (fn && !isError) {
         fn();
@@ -266,7 +283,9 @@ const Send = () => {
             address={data.from}
             actionTYpe={SwitchAssetName.ACTION_TYPE.SEND}
           />
-          {error.assetNameError?.type === 'info' && <div className="info">{intl.get(error.assetNameError.msg)}</div>}
+          {error.assetNameError && (
+            <div className={error.assetNameError.type}>{intl.get(error.assetNameError.msg)}</div>
+          )}
         </FindoraBoxView>
 
         <FindoraBoxView title={intl.get('send_amount')}>
