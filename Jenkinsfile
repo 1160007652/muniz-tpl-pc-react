@@ -33,6 +33,17 @@ pipeline {
       }
     }
 
+    stage("Extract/Archive .zip's") {
+      steps {
+        script {
+          dockerImage.inside() {
+            sh 'cp /app/*.zip $WORKSPACE'
+          }
+          archiveArtifacts artifacts: '*.zip'
+        }
+      }
+    }
+
     stage('Push') {
       when {
         not {
