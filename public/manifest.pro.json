@@ -1,7 +1,7 @@
 {
   "author": "findora",
   "description": "findora web extsions wallet",
-  "homepage_url": "https://github.com/findoraorg/web-wallet/",
+  "homepage_url": "https://www.findora.org",
   "name": "Findora Wallet Application",
   "short_name": "findora",
   "manifest_version": 2,
