@@ -20,6 +20,8 @@ import { relatedDB } from '_src/IndexedDB';
  */
 async function getTransactionAssetData({ body, keypair, walletInfo }) {
   const findoraWasm = await import('wasm');
+
+  console.log('bodybodybody =>', body);
   const { transfer } = body;
 
   const result = {

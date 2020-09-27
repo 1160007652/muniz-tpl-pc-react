@@ -6,14 +6,16 @@
 */
 export function build_id(): string;
 /**
-* Generates random base64 encoded asset type string. Used in asset definitions.
-* @see {@link TransactionBuilder#add_operation_create_asset} for instructions on how to define an asset with a new
+* Generates random Base64 encoded asset type as a Base64 string. Used in asset definitions.
+* @see {@link
+* module:Findora-Wasm~TransactionBuilder#add_operation_create_asset|add_operation_create_asset}
+* for instructions on how to define an asset with a new
 * asset type
 * @returns {string}
 */
 export function random_asset_type(): string;
 /**
-* Generates a base64 encoded asset type string from a JSON-serialized JavaScript value.
+* Generates asset type as a Base64 string from a JSON-serialized JavaScript value.
 * @param {any} val
 * @returns {string}
 */
@@ -23,8 +25,9 @@ export function asset_type_from_jsvalue(val: any): string;
 * hashes up to the state commitment and false otherwise.
 * @param {string} state_commitment - String representing the state commitment.
 * @param {string} authenticated_txn - String representing the transaction.
-* @see {@link get_transaction} for instructions on fetching a transaction from the ledger.
-* @see {@link get_state_commitment} for instructions on fetching a ledger state commitment.
+* @see {@link module:Network~Network#getTxn|Network.getTxn} for instructions on fetching a transaction from the ledger.
+* @see {@link module:Network~Network#getStateCommitment|Network.getStateCommitment}
+* for instructions on fetching a ledger state commitment.
 * @throws Will throw an error if the state commitment or the transaction fails to deserialize.
 * @param {string} state_commitment
 * @param {string} authenticated_txn
@@ -79,7 +82,7 @@ export function create_default_policy_info(): string;
 *
 * * `ir_numerator` - interest rate numerator
 * * `ir_denominator`- interest rate denominator
-* * `fiat_code` - base64 string representing asset type used to pay off the loan
+* * `fiat_code` - Base64 string representing asset type used to pay off the loan
 * * `amount` - loan amount
 * @ignore
 * @param {BigInt} ir_numerator
@@ -112,7 +115,7 @@ export function create_debt_memo(ir_numerator: BigInt, ir_denominator: BigInt, f
 * @param {ClientAssetRecord} record - Owner record.
 * @param {OwnerMemo} owner_memo - Owner memo of the associated record.
 * @param {XfrKeyPair} keypair - Keypair of asset owner.
-* @see {@link ClientAssetRecord#from_json_record} for information about how to construct an asset record object
+* @see {@link module:Findora-Wasm~ClientAssetRecord#from_json_record|ClientAssetRecord.from_json_record} for information about how to construct an asset record object
 * from a JSON result returned from the ledger server.
 * @param {ClientAssetRecord} record
 * @param {OwnerMemo | undefined} owner_memo
@@ -198,6 +201,21 @@ export function wasm_credential_issuer_key_gen(attributes: any): CredentialIssue
 */
 export function wasm_credential_verify_commitment(issuer_pub_key: CredIssuerPublicKey, commitment: CredentialCommitment, pok: CredentialPoK, xfr_pk: XfrPublicKey): void;
 /**
+* Generates a new reveal proof from a credential commitment key.
+* @param {CredUserSecretKey} user_secret_key - Secret key of the credential user who owns
+* the credentials.
+* @param {Credential} credential - Credential whose attributes will be revealed.
+* @param {JsValue} reveal_fields - Array of strings representing attribute fields to reveal.
+* @throws Will throw an error if a reveal proof cannot be generated from the credential
+* or ```reveal_fields``` fails to deserialize.
+* @param {CredUserSecretKey} user_secret_key
+* @param {Credential} credential
+* @param {CredentialCommitmentKey} key
+* @param {any} reveal_fields
+* @returns {CredentialPoK}
+*/
+export function wasm_credential_open_commitment(user_secret_key: CredUserSecretKey, credential: Credential, key: CredentialCommitmentKey, reveal_fields: any): CredentialPoK;
+/**
 * Generates a new credential user key.
 * @param {CredIssuerPublicKey} issuer_pub_key - The credential issuer that can sign off on this
 * user's attributes.
@@ -239,9 +257,9 @@ export function create_credential(issuer_public_key: CredIssuerPublicKey, signat
 * @param {CredUserSecretKey} user_secret_key
 * @param {XfrPublicKey} user_public_key
 * @param {Credential} credential
-* @returns {CredentialCommitmentAndPoK}
+* @returns {CredentialCommitmentData}
 */
-export function wasm_credential_commit(user_secret_key: CredUserSecretKey, user_public_key: XfrPublicKey, credential: Credential): CredentialCommitmentAndPoK;
+export function wasm_credential_commit(user_secret_key: CredUserSecretKey, user_public_key: XfrPublicKey, credential: Credential): CredentialCommitmentData;
 /**
 * Selectively reveals attributes committed to in a credential commitment
 * @param {CredUserSecretKey} user_sk - Secret key of credential user.
@@ -259,12 +277,15 @@ export function wasm_credential_reveal(user_sk: CredUserSecretKey, credential: C
 * @param {CredIssuerPublicKey} issuer_pub_key - Public key of credential issuer.
 * @param {JsValue} attributes - Array of attribute assignments to check of the form `[{name: "credit_score",
 * val: "760"}]`.
-* @param {CredentialRevealSig} reveal_sig - Credential reveal signature.
+* @param {CredentialCommitment} commitment - Commitment to the credential.
+* @param {CredentialPoK} pok - Proof that the credential commitment is valid and commits
+* to the attribute values being revealed.
 * @param {CredIssuerPublicKey} issuer_pub_key
 * @param {any} attributes
-* @param {CredentialRevealSig} reveal_sig
+* @param {CredentialCommitment} commitment
+* @param {CredentialPoK} pok
 */
-export function wasm_credential_verify(issuer_pub_key: CredIssuerPublicKey, attributes: any, reveal_sig: CredentialRevealSig): void;
+export function wasm_credential_verify(issuer_pub_key: CredIssuerPublicKey, attributes: any, commitment: CredentialCommitment, pok: CredentialPoK): void;
 /**
 * Returns information about traceable assets for a given transfer.
 * @param {JsValue} xfr_body - JSON of a transfer note from a transfer operation.
@@ -287,11 +308,13 @@ export function trace_assets(xfr_body: any, tracer_keypair: AssetTracerKeyPair, 
 *    default, there are no special signature requirements.
 * 5. **Max units**: Optional limit on the total number of units of this asset that can be issued.
 *    By default, assets do not have issuance caps.
-* @see {@link TracingPolicies} for more information about tracing policies.
-* @see {@link TransactionBuilder#add_operation_update_memo|add_operation_update_memo} for more information about how to add
+* @see {@link module:Findora-Wasm~TracingPolicies|TracingPolicies} for more information about tracing policies.
+* @see {@link module:Findora-Wasm~TransactionBuilder#add_operation_update_memo|add_operation_update_memo} for more information about how to add
 * a memo update operation to a transaction.
-* @see {@link SignatureRules} for more information about co-signatures.
-* @see {@link TransactionBuilder#add_operation_create_asset|add_operation_create_asset} for information about how to add asset rules to an asset definition.
+* @see {@link module:Findora-Wasm~SignatureRules|SignatureRules} for more information about co-signatures.
+* @see {@link
+* module:Findora-Wasm~TransactionBuilder#add_operation_create_asset|add_operation_create_asset}
+* for information about how to add asset rules to an asset definition.
 */
 export class AssetRules {
   free(): void;
@@ -325,7 +348,7 @@ export class AssetRules {
 /**
 * The updatable flag determines whether the asset memo can be updated after issuance.
 * @param {boolean} updatable - Boolean indicating whether asset memo can be updated.
-* @see {@link TransactionBuilder#add_operation_update_memo} for more information about how to add
+* @see {@link module:Findora-Wasm~TransactionBuilder#add_operation_update_memo|add_operation_update_memo} for more information about how to add
 * a memo update operation to a transaction.
 * @param {boolean} updatable
 * @returns {AssetRules}
@@ -343,8 +366,8 @@ export class AssetRules {
 /**
 * Key pair used by asset tracers to decrypt asset amounts, types, and identity
 * commitments associated with traceable asset transfers.
-* @see {@link TracingPolicy} for information about tracing policies.
-* @see {@link AssetRules#add_tracing_policy} for information about how to add a tracing policy to
+* @see {@link module:Findora-Wasm.TracingPolicy|TracingPolicy} for information about tracing policies.
+* @see {@link module:Findora-Wasm~AssetRules#add_tracing_policy|add_tracing_policy} for information about how to add a tracing policy to
 * an asset definition.
 */
 export class AssetTracerKeyPair {
@@ -363,8 +386,25 @@ export class AssetType {
   free(): void;
 /**
 * Builds an asset type from a JSON-encoded JavaScript value.
-* @param {JsValue} val - JSON-encoded asset type fetched from ledger server.
-* @see {@link Network#getAssetProperties|Network.getAsset} for information about how to
+* @param {JsValue} val - JSON-encoded asset type fetched from ledger server with the `asset_token/{code}` route.
+* Note: The first field of an asset type is `properties`. See the example below.
+*
+* @example
+* "properties":{
+*   "code":{
+*     "val":[151,8,106,38,126,101,250,236,134,77,83,180,43,152,47,57,83,30,60,8,132,218,48,52,167,167,190,244,34,45,78,80]
+*   },
+*   "issuer":{"key":“iFW4jY_DQVSGED05kTseBBn0BllPB9Q9escOJUpf4DY=”},
+*   "memo":“test memo”,
+*   "asset_rules":{
+*     "transferable":true,
+*     "updatable":false,
+*     "transfer_multisig_rules":null,
+*     "max_units":5000
+*   }
+* }
+*
+* @see {@link module:Findora-Network~Network#getAssetProperties|Network.getAsset} for information about how to
 * fetch an asset type from the ledger server.
 * @param {any} json
 * @returns {AssetType}
@@ -384,7 +424,7 @@ export class AuthenticatedAIRResult {
   free(): void;
 /**
 * Construct an AIRResult from the JSON-encoded value returned by the ledger.
-* @see {@link Network#getAIRResult|Network.getAIRResult} for information about how to fetch a
+* @see {@link module:Findora-Network~Network#getAIRResult|Network.getAIRResult} for information about how to fetch a
 * value from the address identity registry.
 * @param {any} json
 * @returns {AuthenticatedAIRResult}
@@ -415,7 +455,7 @@ export class AuthenticatedAssetRecord {
 * authenticated UTXO proofs validate correctly and false otherwise. If the proofs validate, the
 * asset record contained in this structure exists on the ledger and is unspent.
 * @param {string} state_commitment - String representing the state commitment.
-* @see {@link Network#getStateCommitment|Network.getStateCommitment} for instructions on fetching a ledger state commitment.
+* @see {@link module:Findora-Network~Network#getStateCommitment|getStateCommitment} for instructions on fetching a ledger state commitment.
 * @throws Will throw an error if the state commitment fails to deserialize.
 * @param {string} state_commitment
 * @returns {boolean}
@@ -425,7 +465,7 @@ export class AuthenticatedAssetRecord {
 * Builds an AuthenticatedAssetRecord from a JSON-encoded asset record returned from the ledger
 * server.
 * @param {JsValue} val - JSON-encoded asset record fetched from ledger server.
-* @see {@link Network#getUtxo|Network.getUtxo} for information about how to
+* @see {@link module:Findora-Network~Network#getUtxo|Network.getUtxo} for information about how to
 * fetch an asset record from the ledger server.
 * @param {any} record
 * @returns {AuthenticatedAssetRecord}
@@ -434,15 +474,30 @@ export class AuthenticatedAssetRecord {
 }
 /**
 * This object represents an asset record owned by a ledger key pair.
-* @see {@link open_client_asset_record} for information about how to decrypt an encrypted asset
+* @see {@link module:Findora-Wasm.open_client_asset_record|open_client_asset_record} for information about how to decrypt an encrypted asset
 * record.
 */
 export class ClientAssetRecord {
   free(): void;
 /**
-* Builds a client record from a JSON-encodedJavaScript value.
-* @param {JsValue} val - JSON-encoded authenticated asset record fetched from ledger server.
-* @see {@link Network#getUtxo|Network.getUtxo} for information about how to
+* Builds a client record from a JSON-encoded JavaScript value.
+*
+* @param {JsValue} val - JSON-encoded autehtnicated asset record fetched from ledger server with the `utxo_sid/{sid}` route,
+* where `sid` can be fetched from the query server with the `get_owned_utxos/{address}` route.
+* Note: The first field of an asset record is `utxo`. See the example below.
+*
+* @example
+* "utxo":{
+*   "amount":{
+*     "NonConfidential":5
+*   },
+*  "asset_type":{
+*     "NonConfidential":[113,168,158,149,55,64,18,189,88,156,133,204,156,46,106,46,232,62,69,233,157,112,240,132,164,120,4,110,14,247,109,127]
+*   },
+*   "public_key":"Glf8dKF6jAPYHzR_PYYYfzaWqpYcMvnrIcazxsilmlA="
+* }
+*
+* @see {@link module:Findora-Network~Network#getUtxo|Network.getUtxo} for information about how to
 * fetch an asset record from the ledger server.
 * @param {any} val
 * @returns {ClientAssetRecord}
@@ -475,8 +530,8 @@ export class CredUserSecretKey {
 }
 /**
 * A user credential that can be used to selectively reveal credential attributes.
-* @see {@link wasm_credential_commit} for information about how to commit to a credential.
-* @see {@link wasm_credential_reveal} for information about how to selectively reveal credential
+* @see {@link module:Findora-Wasm.wasm_credential_commit|wasm_credential_commit} for information about how to commit to a credential.
+* @see {@link module:Findora-Wasm.wasm_credential_reveal|wasm_credential_reveal} for information about how to selectively reveal credential
 * attributes.
 */
 export class Credential {
@@ -484,32 +539,47 @@ export class Credential {
 }
 /**
 * Commitment to a credential record.
-* @see {@link wasm_credential_verify_commitment} for information about how to verify a
+* @see {@link module:Findora-Wasm.wasm_credential_verify_commitment|wasm_credential_verify_commitment} for information about how to verify a
 * credential commitment.
 */
 export class CredentialCommitment {
   free(): void;
 }
 /**
-* Commitment to a credential record and proof that the commitment is a valid re-randomization of a
-* commitment signed by a certain credential issuer.
+* Commitment to a credential record, proof that the commitment is valid, and credential key that can be used
+* to open a commitment.
 */
-export class CredentialCommitmentAndPoK {
+export class CredentialCommitmentData {
   free(): void;
 /**
 * Returns the underlying credential commitment.
-* @see {@link wasm_credential_verify_commitment} for information about how to verify a
+* @see {@link module:Findora-Wasm.wasm_credential_verify_commitment|wasm_credential_verify_commitment} for information about how to verify a
 * credential commitment.
 * @returns {CredentialCommitment}
 */
   get_commitment(): CredentialCommitment;
 /**
-* Returns the underlying proof of knowledge that the credential is a valid re-randomization.
-* @see {@link wasm_credential_verify_commitment} for information about how to verify a
+* Returns the underlying proof of knowledge that the credential is valid.
+* @see {@link module:Findora-Wasm.wasm_credential_verify_commitment|wasm_credential_verify_commitment} for information about how to verify a
 * credential commitment.
 * @returns {CredentialPoK}
 */
   get_pok(): CredentialPoK;
+/**
+* Returns the key used to generate the commitment.
+* @see {@link module:Findora-Wasm.wasm_credential_open_commitment|wasm_credential_open_commitment} for information about how to open a
+* credential commitment.
+* @returns {CredentialCommitmentKey}
+*/
+  get_commit_key(): CredentialCommitmentKey;
+}
+/**
+* Key used to generate a credential commitment.
+* @see {@link module:Findora-Wasm.wasm_credential_open_commitment|wasm_credential_open_commitment} for information about how to
+* open a credential commitment.
+*/
+export class CredentialCommitmentKey {
+  free(): void;
 }
 /**
 * Key pair of a credential issuer.
@@ -541,7 +611,7 @@ export class CredentialIssuerKeyPair {
 /**
 * Proof that a credential is a valid re-randomization of a credential signed by a certain asset
 * issuer.
-* @see {@link wasm_credential_verify_commitment} for information about how to verify a
+* @see {@link module:Findora-Wasm.wasm_credential_verify_commitment|wasm_credential_verify_commitment} for information about how to verify a
 * credential commitment.
 */
 export class CredentialPoK {
@@ -552,6 +622,20 @@ export class CredentialPoK {
 */
 export class CredentialRevealSig {
   free(): void;
+/**
+* Returns the underlying credential commitment.
+* @see {@link module:Findora-Wasm.wasm_credential_verify_commitment|wasm_credential_verify_commitment} for information about how to verify a
+* credential commitment.
+* @returns {CredentialCommitment}
+*/
+  get_commitment(): CredentialCommitment;
+/**
+* Returns the underlying proof of knowledge that the credential is valid.
+* @see {@link module:Findora-Wasm.wasm_credential_verify_commitment|wasm_credential_verify_commitment} for information about how to verify a
+* credential commitment.
+* @returns {CredentialPoK}
+*/
+  get_pok(): CredentialPoK;
 }
 /**
 * Signature of a credential record.
@@ -656,16 +740,20 @@ export class Key {
 }
 /**
 * Asset owner memo. Contains information needed to decrypt an asset record.
-* @see {@link ClientAssetRecord} for more details about asset records.
+* @see {@link module:Findora-Wasm.ClientAssetRecord|ClientAssetRecord} for more details about asset records.
 */
 export class OwnerMemo {
   free(): void;
 /**
 * Builds an owner memo from a JSON-serialized JavaScript value.
 * @param {JsValue} val - JSON owner memo fetched from query server with the `get_owner_memo/{sid}` route,
-* where `sid` can be fetched from the query server with the `get_owned_utxos/{address}` route.
-* * E.g.: `{"blind_share":[91,251,44,28,7,221,67,155,175,213,25,183,70,90,119,232,212,238,226,142,159,200,54,19,60,115,38,221,248,202,74,248],
-* "lock":{"ciphertext":[119,54,117,136,125,133,112,193],"encoded_rand":"8KDql2JphPB5WLd7-aYE1bxTQAcweFSmrqymLvPDntM="}}`.
+* where `sid` can be fetched from the query server with the `get_owned_utxos/{address}` route. See the example below.
+*
+* @example
+* {
+*   "blind_share":[91,251,44,28,7,221,67,155,175,213,25,183,70,90,119,232,212,238,226,142,159,200,54,19,60,115,38,221,248,202,74,248],
+*   "lock":{"ciphertext":[119,54,117,136,125,133,112,193],"encoded_rand":"8KDql2JphPB5WLd7-aYE1bxTQAcweFSmrqymLvPDntM="}
+* }
 * @param {any} val
 * @returns {OwnerMemo}
 */
@@ -679,7 +767,8 @@ export class OwnerMemo {
 /**
 * Public parameters necessary for generating asset records. Generating this is expensive and
 * should be done as infrequently as possible.
-* @see {@link TransactionBuilder#add_basic_issue_asset}
+* @see {@link module:Findora-Wasm~TransactionBuilder#add_basic_issue_asset|add_basic_issue_asset}
+* for information using public parameters to create issuance asset records.
 */
 export class PublicParams {
   free(): void;
@@ -695,6 +784,13 @@ export class PublicParams {
 export class SignatureRules {
   free(): void;
 /**
+* Creates a new set of co-signature rules.
+*
+* @param {BigInt} threshold - Minimum sum of signature weights that is required for an asset
+* transfer.
+* @param {JsValue} weights - Array of public key weights of the form `[["kAb...", BigInt(5)]]', where the
+* first element of each tuple is a base64 encoded public key and the second is the key's
+* associated weight.
 * @param {BigInt} threshold
 * @param {any} weights
 * @returns {SignatureRules}
@@ -735,6 +831,7 @@ export class TransactionBuilder {
   free(): void;
 /**
 * Create a new transaction builder.
+* @param {BigInt} seq_id - Unique sequence ID to prevent replay attacks.
 * @param {BigInt} seq_id
 * @returns {TransactionBuilder}
 */
@@ -785,7 +882,7 @@ export class TransactionBuilder {
 *
 * @param {XfrKeyPair} key_pair  - Issuer XfrKeyPair.
 * and types of traced assets.
-* @param {string} code - Base64 string representing the token code of the asset to be issued.
+* @param {string} code - base64 string representing the token code of the asset to be issued.
 * @param {BigInt} seq_num - Issuance sequence number. Every subsequent issuance of a given asset type must have a higher sequence number than before.
 * @param {BigInt} amount - Amount to be issued.
 * @param {boolean} conf_amount - `true` means the asset amount is confidential, and `false` means it's nonconfidential.
@@ -806,8 +903,8 @@ export class TransactionBuilder {
 * @param {CredUserPublicKey} user_public_key - Public key of the credential user.
 * @param {CredIssuerPublicKey} issuer_public_key - Public key of the credential issuer.
 * @param {CredentialCommitment} commitment - Credential commitment to add to the address identity registry.
-* @param {CredPoK} pok- Proof that a credential commitment is a valid re-randomization.
-* @see {@link wasm_credential_commit} for information about how to generate a credential
+* @param {CredPoK} pok- Proof that the credential commitment is valid.
+* @see {@link module:Findora-Wasm.wasm_credential_commit|wasm_credential_commit} for information about how to generate a credential
 * commitment.
 * @param {XfrKeyPair} key_pair
 * @param {CredUserPublicKey} user_public_key
@@ -851,10 +948,10 @@ export class TransactionBuilder {
 * Adds an operation to the transaction builder that adds a hash to the ledger's custom data
 * store.
 * @param {XfrKeyPair} auth_key_pair - Asset creator key pair.
-* @param {String} key - The base64-encoded token code of the asset whose memo will be updated.
+* @param {String} code - base64 string representing token code of the asset whose memo will be updated.
 * transaction validates.
 * @param {String} new_memo - The new asset memo.
-* @see {@link AssetRules#set_updatable|AssetRules.set_updatable} for more information about how
+* @see {@link module:Findora-Wasm~AssetRules#set_updatable|AssetRules.set_updatable} for more information about how
 * to define an updatable asset.
 * @param {XfrKeyPair} auth_key_pair
 * @param {string} code
@@ -865,7 +962,7 @@ export class TransactionBuilder {
 /**
 * Adds a serialized transfer asset operation to a transaction builder instance.
 * @param {string} op - a JSON-serialized transfer operation.
-* @see {@link TransferOperationBuilder} for details on constructing a transfer operation.
+* @see {@link module:Findora-Wasm~TransferOperationBuilder} for details on constructing a transfer operation.
 * @throws Will throw an error if `op` fails to deserialize.
 * @param {string} op
 * @returns {TransactionBuilder}
@@ -921,9 +1018,10 @@ export class TransferOperationBuilder {
 * assets.
 * @param {XfrKeyPair} key - Key pair associated with the input.
 * @param {BigInt} amount - Amount of input record to transfer.
-* @see {@link create_absolute_txo_ref} or {@link create_relative_txo_ref} for details on txo
+* @see {@link module:Findora-Wasm~TxoRef#create_absolute_txo_ref|TxoRef.create_absolute_txo_ref}
+* or {@link module:Findora-Wasm~TxoRef#create_relative_txo_ref|TxoRef.create_relative_txo_ref} for details on txo
 * references.
-* @see {@link get_txo} for details on fetching blind asset records.
+* @see {@link module:Findora-Network~Network#getUtxo|Network.getUtxo} for details on fetching blind asset records.
 * @throws Will throw an error if `oar` or `txo_ref` fail to deserialize.
 * @param {TxoRef} txo_ref
 * @param {ClientAssetRecord} asset_record
@@ -942,9 +1040,9 @@ export class TransferOperationBuilder {
 * @param {OwnerMemo} owner_memo - Opening parameters.
 * @param {XfrKeyPair} key - Key pair associated with the input.
 * @param {BigInt} amount - Amount of input record to transfer
-* @see {@link create_absolute_txo_ref} or {@link create_relative_txo_ref} for details on txo
+* or {@link module:Findora-Wasm~TxoRef#create_relative_txo_ref|TxoRef.create_relative_txo_ref} for details on txo
 * references.
-* @see {@link get_txo} for details on fetching blind asset records.
+* @see {@link module:Findora-Network~Network#getUtxo|Network.getUtxo} for details on fetching blind asset records.
 * @throws Will throw an error if `oar` or `txo_ref` fail to deserialize.
 * @param {TxoRef} txo_ref
 * @param {ClientAssetRecord} asset_record

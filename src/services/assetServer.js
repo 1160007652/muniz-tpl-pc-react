@@ -8,6 +8,7 @@
 
 import webNetWork from './webNetWork';
 import rootStore from '_src/stores';
+import pollTxnStatus from '_src/utils/pollTxnStatus';
 
 /**
  * @category Services
@@ -80,12 +81,7 @@ class AssetServer {
 
     console.log('生成资产返回: ', handle);
 
-    let status = null;
-
-    do {
-      status = await webNetWork.getTxnStatus(handle);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    } while (String(status).includes('Pending') || String(status).includes('Please retry with a new handle'));
+    const status = await pollTxnStatus(handle, webNetWork);
 
     console.log('状态: ', status);
 
@@ -166,12 +162,7 @@ class AssetServer {
     const handle = await webNetWork.submitTransaction(issueTxn);
     console.log('发行资产返回: ', handle);
 
-    let status = null;
-
-    do {
-      status = await webNetWork.getTxnStatus(handle);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    } while (String(status).includes('Pending') || String(status).includes('Please retry with a new handle'));
+    const status = await pollTxnStatus(handle, webNetWork);
 
     console.log('状态: ', status);
     console.groupEnd();

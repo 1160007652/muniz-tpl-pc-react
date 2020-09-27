@@ -38,13 +38,13 @@ async function getIssuedAssetData({ body, keypair }) {
 
   for (const recordsItem of records) {
     for (let k = 0; k < recordsItem.length; k++) {
-      if ('NonConfidential' in recordsItem[0].amount) {
+      if (recordsItem[0].amount?.NonConfidential) {
         result.blind.isAmount = false;
       } else {
         result.blind.isAmount = true;
       }
 
-      if ('NonConfidential' in recordsItem[0].asset_type) {
+      if (recordsItem[0].asset_type?.NonConfidential) {
         result.blind.isType = false;
       } else {
         result.blind.isType = true;
@@ -104,13 +104,13 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
   const { inputs, outputs, owners_memos } = transfer;
 
   if (new Set([outputs.length, owners_memos.length]).size === 1) {
-    if ('NonConfidential' in outputs[0].amount) {
+    if (outputs[0].amount?.NonConfidential) {
       result.blind.isAmount = false;
     } else {
       result.blind.isAmount = true;
     }
 
-    if ('NonConfidential' in outputs[0].asset_type) {
+    if (outputs[0].asset_type?.NonConfidential) {
       result.blind.isType = false;
     } else {
       result.blind.isType = true;

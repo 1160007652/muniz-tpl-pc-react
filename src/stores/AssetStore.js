@@ -173,6 +173,8 @@ class AssetStore {
 
     const assetList = await relatedDB.getIssuedAssetList({ address });
 
+    console.log('可以转账的额资产 =====》 ===》', assetList);
+
     let result = [];
 
     for (let i = 0; i < assetList.length; i++) {
