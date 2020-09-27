@@ -129,7 +129,7 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
       // inputs 数据 我的 ownedData
       const ownerMemo = owners_memos[1] ? findoraWasm.OwnerMemo.from_json(owners_memos[1]) : null;
       console.log('ownerMemo: ', ownerMemo);
-
+      console.log('转账 =====》 转账====》', inputs[0]);
       const inputsAssetRecord = await findoraWasm.ClientAssetRecord.from_json({ record: inputs[0] });
       console.log('inputsAssetRecord: ', inputsAssetRecord);
 

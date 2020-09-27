@@ -70,7 +70,7 @@ async function getUtxoDiff({ address, sidsDiff, keyPairStr }) {
     const utxoData = await webNetWork.getUtxo(sid);
     const memoData = await webNetWork.getOwnerMemo(sid);
 
-    const assetRecord = findoraWasm.ClientAssetRecord.from_json({ record: utxoData });
+    const assetRecord = findoraWasm.ClientAssetRecord.from_json(utxoData);
     const ownerMemo = memoData ? findoraWasm.OwnerMemo.from_json(memoData) : null;
 
     const decryptAssetData = findoraWasm.open_client_asset_record(
