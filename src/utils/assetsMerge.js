@@ -39,7 +39,7 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
     console.log('ownerMemo: ', ownerMemo);
 
     // inputs 数据
-    const outputsAssetRecord = await findoraWasm.ClientAssetRecord.from_json(outputs[k]);
+    const outputsAssetRecord = await findoraWasm.ClientAssetRecord.from_json({ record: outputs[k] });
     console.log('inputsAssetRecord: ', outputsAssetRecord);
 
     const decryptoutputAssetData = await findoraWasm.open_client_asset_record(

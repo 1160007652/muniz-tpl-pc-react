@@ -78,7 +78,8 @@ const sendServer = {
     console.log('memoData', memoData);
 
     // 提取 record , 获取资产的数量
-    const assetRecord = findoraWasm.ClientAssetRecord.from_json(utxoData);
+
+    const assetRecord = findoraWasm.ClientAssetRecord.from_json({ record: utxoData });
 
     const ownerMemo = memoData ? findoraWasm.OwnerMemo.from_json(memoData) : null;
 

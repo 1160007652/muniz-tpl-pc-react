@@ -25,7 +25,6 @@ import webNetWork from '_src/services/webNetWork';
 async function getIssuedAssetData({ body, keypair }) {
   const findoraWasm = await import('wasm');
   const { records } = body;
-
   const result = {
     time: '9/19/2019 18:31',
     state: true,
@@ -38,13 +37,15 @@ async function getIssuedAssetData({ body, keypair }) {
 
   for (const recordsItem of records) {
     for (let k = 0; k < recordsItem.length; k++) {
-      if (recordsItem[0].amount?.NonConfidential) {
+      console.log('rrrrrrrrrrrrrrrr', recordsItem[0]);
+
+      if (recordsItem[0].record.amount?.NonConfidential) {
         result.blind.isAmount = false;
       } else {
         result.blind.isAmount = true;
       }
 
-      if (recordsItem[0].asset_type?.NonConfidential) {
+      if (recordsItem[0].record.asset_type?.NonConfidential) {
         result.blind.isType = false;
       } else {
         result.blind.isType = true;
@@ -129,7 +130,7 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
       const ownerMemo = owners_memos[1] ? findoraWasm.OwnerMemo.from_json(owners_memos[1]) : null;
       console.log('ownerMemo: ', ownerMemo);
 
-      const inputsAssetRecord = await findoraWasm.ClientAssetRecord.from_json(inputs[0]);
+      const inputsAssetRecord = await findoraWasm.ClientAssetRecord.from_json({ record: inputs[0] });
       console.log('inputsAssetRecord: ', inputsAssetRecord);
 
       const decryptInputAssetData = await findoraWasm.open_client_asset_record(
@@ -143,7 +144,7 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
       // outputs 数据 我的 ownedData
 
       if (outputs.length > 1) {
-        const outputsAssetRecord = await findoraWasm.ClientAssetRecord.from_json(outputs[1]);
+        const outputsAssetRecord = await findoraWasm.ClientAssetRecord.from_json({ record: outputs[1] });
         console.log('outputsAssetRecord: ', outputsAssetRecord);
 
         const decryptOutputAssetData = findoraWasm.open_client_asset_record(
@@ -186,7 +187,7 @@ async function getTransactionAssetData({ body, keypair, walletInfo }) {
       result.from = inputs[0].public_key;
 
       // outputs 数据
-      const outputsAssetRecord = await findoraWasm.ClientAssetRecord.from_json(outputs[0]);
+      const outputsAssetRecord = await findoraWasm.ClientAssetRecord.from_json({ record: outputs[0] });
       console.log('outputsAssetRecord: ', outputsAssetRecord);
 
       const decryptOutputAssetData = findoraWasm.open_client_asset_record(
@@ -273,11 +274,11 @@ async function transactionsMerge({ walletInfo, page }) {
       if (type === 'IssueAsset') {
         console.log('operations[j]', operations[j]);
         const resultItem = await getIssuedAssetData({ body, keypair });
-
+        console.log('...................');
         const assetProperties = await webNetWork.getAssetProperties(resultItem.asset.tokenCode);
         resultItem.asset.memo = assetProperties.memo;
         resultItem.asset.asset_rules = assetProperties.asset_rules;
-
+        console.log('...................11111');
         resultItem.type = 'IssueAsset';
         resultItem.txn = txnList[i].sid;
         result.push(resultItem);
