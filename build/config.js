@@ -18,6 +18,7 @@ module.exports = {
     publicPath: '/',
   },
   theme: {
+    '@primary-color': '#661aff',
     // ...aliyunTheme,
     // ...getThemeVariables({
     //   dark: true, // 开启暗黑模式
