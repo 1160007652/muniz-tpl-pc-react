@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import FindoraRouterBack from '../FindoraRouterBack';
-import { LogoIcon } from '_src/assets/icons/wallet_icons';
+import { LogoIcon } from '../../assets/icons/wallet_icons';
 
 import './index.less';
 
