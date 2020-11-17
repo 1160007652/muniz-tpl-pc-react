@@ -7,42 +7,17 @@
  */
 
 import LocaleStore from './LocaleStore';
-import WalletStore from './WalletStore';
-import AssetStore from './AssetStore';
-import TransactionStore from './TransactionStore';
-import NickNameStore from './NickNameStore';
 
 /**
  * 创建根Stroe, 统一管理状态
- * @category MobxStore
- */
-/**
- * Root store to manage all other stores.
- * @category MobxStore
  */
 class RootStore {
   /**
    * 构造方法, 集合子Store
    */
-  /**
-   * Constructs all stores.
-   */
   constructor() {
     /** 多语言状态管理 */
-    /** Store to manage languages */
     this.localeStore = new LocaleStore(this);
-    /** 钱包状态管理 */
-    /** Store to manage the wallet */
-    this.walletStore = new WalletStore(this);
-    /** 资产状态管理 */
-    /** Store to manage assets */
-    this.assetStore = new AssetStore(this);
-    /** 交易记录管理 */
-    /** Store to manage transactions */
-    this.transactionStore = new TransactionStore(this);
-    /** 资产昵称映射管理 */
-    /** Store to manage NickName */
-    this.nickNameStore = new NickNameStore(this);
   }
 }
 

@@ -172,7 +172,7 @@ const zhCN = {
   system_cancel_async: '取消异步任务, 防止内存泄露',
   download_tips_checkbox: '请勾选复选框,再继续操作',
 
-  about_title: 'Findora钱包应用',
+  about_title: 'Muniz 浏览器插件 模版',
   about_version: '版本',
   about_info: '如果遇到任何问题，请通过点击下方的网址向我们反馈指定版本号的问题,以帮助我们更好地解决此问题.',
 };

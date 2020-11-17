@@ -1,9 +1,9 @@
 {
-  "author": "findora",
-  "description": "findora web extsions wallet",
-  "homepage_url": "https://www.findora.org",
-  "name": "Findora Wallet Application",
-  "short_name": "findora",
+  "author": "Muniz",
+  "description": "Muniz 浏览器插件 模版",
+  "homepage_url": "https://github.com/1160007652",
+  "name": "Muniz 浏览器插件 模版",
+  "short_name": "muniz-ext-tpl",
   "manifest_version": 2,
   "permissions": ["storage", "downloads", "tabs"],
   "background": {

@@ -16,7 +16,7 @@ import rootStore from '_src/stores';
 
 import { WebLayout } from '_src/pages/Layout';
 
-import '_src/less/index.less';
+import '_src/assets/less/index.less';
 
 import './index.less';
 

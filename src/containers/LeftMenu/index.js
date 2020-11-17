@@ -7,146 +7,19 @@
  */
 
 import React from 'react';
-import { Menu } from 'antd';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import intl from 'react-intl-universal';
-import { InfoCircleOutlined } from '@ant-design/icons';
 
-import {
-  CreateWalletIcon,
-  RestoreWalletIcon,
-  WalletInfoIcon,
-  SendIcon,
-  TransactionsIcon,
-  CreateTokenIcon,
-  DeployContractIcon,
-  ContractTestIcon,
-  SettingIcon,
-} from '_src/assets/icons/wallet_icons';
 import pageURL from '_constants/pageURL';
 
 import './index.less';
 
-const routers = [
-  {
-    page: pageURL.help,
-    icon: <InfoCircleOutlined />,
-    title: 'menu_application',
-    isShow: true,
-    children: [
-      {
-        page: pageURL.help,
-        icon: <InfoCircleOutlined />,
-        title: 'menu_about',
-        isShow: true,
-      },
-      {
-        page: pageURL.setting,
-        icon: <SettingIcon />,
-        title: 'menu_setting',
-        isShow: true,
-      },
-    ],
-  },
-  {
-    page: pageURL.closeWallet,
-    icon: <WalletInfoIcon />,
-    title: 'menu_wallet',
-    isShow: true,
-    children: [
-      {
-        page: pageURL.createwallet,
-        icon: <CreateWalletIcon />,
-        title: 'menu_wallet_create',
-        isShow: true,
-      },
-      {
-        page: pageURL.restoreWallet,
-        icon: <RestoreWalletIcon />,
-        title: 'menu_wallet_import',
-        isShow: true,
-      },
-      {
-        page: pageURL.closeWallet,
-        icon: <WalletInfoIcon />,
-        title: 'menu_close_wallet',
-        isShow: true,
-      },
-    ],
-  },
-  {
-    page: pageURL.createAsset,
-    icon: <CreateTokenIcon />,
-    title: 'menu_asset',
-    isShow: true,
-    children: [
-      {
-        page: pageURL.statement,
-        icon: <WalletInfoIcon />,
-        title: 'menu_asset_statement',
-        isShow: true,
-      },
-      {
-        page: pageURL.createAsset,
-        icon: <CreateTokenIcon />,
-        title: 'menu_asset_create1',
-        isShow: true,
-      },
-      {
-        page: pageURL.issueAsset,
-        icon: <SendIcon />,
-        title: 'menu_asset_issue',
-        isShow: true,
-      },
-      {
-        page: pageURL.send,
-        icon: <SendIcon />,
-        title: 'menu_asset_send',
-        isShow: true,
-      },
-      {
-        page: pageURL.traceAsset,
-        icon: <SendIcon />,
-        title: 'menu_asset_trace',
-        isShow: true,
-      },
-      {
-        page: pageURL.transactions.replace(':action', 'detail-loading'),
-        icon: <TransactionsIcon />,
-        title: 'menu_asset_transactions',
-        isShow: true,
-      },
-    ],
-  },
-];
-
 const LeftMenu = () => {
-  const RouterLocation = useLocation();
   return (
-    <Menu
-      className="left-menu-box"
-      // defaultOpenKeys={[/(^\/.*?(?=[\/$]))/.exec(RouterLocation.pathname)[0]]}
-      selectedKeys={[RouterLocation.pathname]}
-      mode="inline"
-    >
-      {routers.map(
-        (item) =>
-          item.isShow && (
-            <Menu.SubMenu key={item.page} icon={item.icon} title={intl.get(item.title)}>
-              {item?.children?.map((subItem) => {
-                return (
-                  <Menu.Item key={subItem.page} className="menu-item">
-                    <Link to={subItem.page}>
-                      {subItem.icon}
-                      <span style={{ marginLeft: '8px' }}>{intl.get(subItem.title)}</span>
-                    </Link>
-                  </Menu.Item>
-                );
-              })}
-            </Menu.SubMenu>
-          ),
-      )}
-    </Menu>
+    <div className="left-menu-list">
+      <Link to={pageURL.home}>首页</Link>
+      <Link to={pageURL.other}>其它</Link>
+    </div>
   );
 };
 

@@ -181,7 +181,7 @@ const enUS = {
 
   download_tips_checkbox: 'Please check the box to continue',
 
-  about_title: 'Findora Wallet Application',
+  about_title: 'Muniz browser ext template',
   about_version: 'Version',
   about_info:
     'If you encounter any problems, please report the issue of the specified version number to us by clicking on the URL below to help us better solve this problem.',

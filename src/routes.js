@@ -12,106 +12,15 @@ const timeout = 10000;
 
 const routeMap = [
   {
-    path: pageURL.closeWallet,
-    component: './containers/CloseWallet',
+    path: pageURL.home,
+    component: './containers/Home',
     exact: true,
     dynamic: true,
   },
   {
-    path: pageURL.statement,
-    component: './containers/Statement',
+    path: pageURL.other,
+    component: './containers/Other',
     exact: true,
-    dynamic: true,
-  },
-
-  {
-    path: pageURL.help,
-    component: './containers/Help',
-    exact: true,
-    dynamic: true,
-  },
-  {
-    path: pageURL.createAsset,
-    component: './containers/CreateAsset',
-    exact: true,
-    dynamic: true,
-  },
-  {
-    path: pageURL.issueAsset,
-    component: './containers/IssueAsset',
-    exact: true,
-    dynamic: true,
-  },
-  {
-    path: pageURL.walletList,
-    component: './containers/WalletListView',
-    exact: true,
-    dynamic: true,
-  },
-  {
-    path: pageURL.createwallet,
-    component: './containers/CreateWallet',
-    exact: true,
-    dynamic: true,
-  },
-  {
-    path: pageURL.restoreWallet,
-    component: './containers/RestoreWallet',
-    exact: true,
-    dynamic: true,
-  },
-  {
-    path: pageURL.setting,
-    component: './containers/Setting',
-    exact: true,
-    dynamic: true,
-  },
-  {
-    path: pageURL.downKeyStore,
-    component: './containers/DownKeyStore',
-    exact: true,
-    dynamic: true,
-  },
-  {
-    path: pageURL.walletInfo,
-    component: './containers/WalletInfo',
-    exact: true,
-    dynamic: true,
-  },
-  {
-    path: pageURL.send,
-    component: './containers/Send',
-    exact: true,
-    dynamic: true,
-  },
-  {
-    path: pageURL.traceAsset,
-    component: './containers/TraceAsset',
-    exact: true,
-    dynamic: true,
-  },
-  {
-    path: pageURL.sendConfrim,
-    component: './containers/SendConfrim',
-    exact: true,
-    dynamic: true,
-  },
-  {
-    path: pageURL.transactions,
-    component: './containers/Transactions',
-    exact: true,
-    dynamic: true,
-  },
-  {
-    path: pageURL.transactionsDetail,
-    component: './containers/TransactionsDetail',
-    exact: true,
-    dynamic: true,
-  },
-  {
-    path: pageURL.assetConfrim,
-    component: './containers/AssetConfrim',
-    exact: false,
     dynamic: true,
   },
 ];

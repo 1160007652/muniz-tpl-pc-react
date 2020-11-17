@@ -5,8 +5,5 @@
 .history
 .history/
 .idea
-dist/
-docs/
 extensions/
-libs
 node_modules

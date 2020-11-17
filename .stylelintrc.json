@@ -8,13 +8,5 @@
     "no-descending-specificity": null,
     "no-invalid-double-slash-comments": null
   },
-  "ignoreFiles": [
-    "node_modules/**/*",
-    "src/assets/**/*",
-    "extensions/**/*",
-    "**/typings/**/*",
-    ".cacha/*",
-    "docs/**",
-    "docs-src/**"
-  ]
+  "ignoreFiles": ["node_modules/**/*", "extensions/**/*", "**/typings/**/*", ".cacha/*"]
 }

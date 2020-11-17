@@ -13,7 +13,7 @@ const PROJECT_ROOT = path.resolve(__dirname, '../../');
 // 项目下的 SRC 开发目录
 const SRC_ROOT = path.resolve(PROJECT_ROOT, './src');
 // 项目下的 SRC / less , 全局注入 LESS 变量样式
-const LESS_PATH_ROOT = path.resolve(SRC_ROOT, './less');
+const LESS_PATH_ROOT = path.resolve(SRC_ROOT, './assets/less');
 
 // 热更新路径
 const HMRSSE_Path = encodeURIComponent(`http://${config.dev.ip}:${config.dev.port}/__webpack_HMR__`);
