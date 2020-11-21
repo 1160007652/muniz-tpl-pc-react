@@ -20,7 +20,12 @@
   },
   "content_scripts": [
     {
-      "js": ["js/content.js"],
+      "js": ["js/baidu.js"],
+      "matches": ["https://www.baidu.com/*", "http://www.baidu.com/*"],
+      "run_at": "document_start"
+    },
+    {
+      "js": ["js/google.js"],
       "matches": ["http://*/*", "https://*/*"],
       "run_at": "document_start"
     }

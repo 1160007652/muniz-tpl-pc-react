@@ -3,7 +3,7 @@
   "description": "Muniz 浏览器插件 模版",
   "homepage_url": "https://github.com/1160007652",
   "name": "Muniz 浏览器插件 模版",
-  "short_name": "muniz-ext-tpl",
+  "short_name": "mz-ext-tpl",
   "manifest_version": 2,
   "permissions": ["storage", "downloads", "tabs"],
   "background": {
@@ -21,7 +21,12 @@
   },
   "content_scripts": [
     {
-      "js": ["js/content.js"],
+      "js": ["js/baidu.js"],
+      "matches": ["https://www.baidu.com/*", "http://www.baidu.com/*"],
+      "run_at": "document_start"
+    },
+    {
+      "js": ["js/google.js"],
       "matches": ["http://*/*", "https://*/*"],
       "run_at": "document_start"
     }
