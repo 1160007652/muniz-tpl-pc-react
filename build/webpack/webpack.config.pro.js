@@ -4,7 +4,6 @@ const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const base = require('./webpack.config.base');
-const config = require('../config');
 
 base.output.publicPath = '/';
 

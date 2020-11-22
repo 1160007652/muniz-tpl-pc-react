@@ -10,6 +10,6 @@ console.log('可以注入到任何网站， 注入到“其它网站”资源中
 
 let content_google = 1;
 
-content_google = content_google + 98;
+content_google = content_google + 9;
 
 console.log(content_google);

@@ -5,7 +5,7 @@ const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const WebpackBar = require('webpackbar');
 const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ManifestPlugin = require('webpack-extension-manifest-plugin');
+const ManifestPlugin = require('../plugin/webpack-extension-manifest-plugin.js');
 const { DefinePlugin } = require('webpack');
 
 const { webpackEntry } = require('../utils/getEntry');
@@ -13,8 +13,10 @@ const { PROJECT_ROOT, SRC_ROOT, LESS_PATH_ROOT } = require('../utils/getPath');
 
 const pkgJson = require('../../package.json');
 
-const manifestDev = require('../../public/manifest.dev.json');
-const manifestPro = require('../../public/manifest.pro.json');
+const manifestBase = require('../manifest/manifest.base.json');
+const manifestDev = require('../manifest/manifest.dev.json');
+const manifestPro = require('../manifest/manifest.pro.json');
+
 const manifest = process.env.NODE_ENV === 'development' ? manifestDev : manifestPro;
 
 const config = require('../config');
@@ -27,17 +29,18 @@ module.exports = {
     chunkFilename: 'async/js/[name].js',
     filename: 'js/[name].js',
     // 将热更新临时生成的补丁放到 hot 文件夹中
-    hotUpdateChunkFilename: 'hot/[id].[hash].hot-update.js',
-    hotUpdateMainFilename: 'hot/[hash].hot-update.json',
+    // chunkFilename: (pathData) => {
+    //   console.log(pathData.chunk.name);
+    //   return pathData.chunk.name === 'main' ? 'hot/[id].hot-update.js' : 'hot/[name].hot-update.json';
+    // },
+    // hotUpdateChunkFilename: ,
+    // hotUpdateMainFilename: ,
   },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        use: [
-          // 'eslint-loader',
-          'babel-loader',
-        ],
+        use: ['babel-loader'],
         exclude: [/node_modules/],
       },
       {
@@ -109,7 +112,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000, //
-          name: 'img/[name].[hash:7].[ext]',
+          name: 'img/[name].[chunkhash].[ext]',
         },
       },
       {
@@ -117,7 +120,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: 'fonts/[name].[hash:7].[ext]',
+          name: 'fonts/[name].[chunkhash].[ext]',
         },
       },
     ],
@@ -143,14 +146,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(PROJECT_ROOT, './public/index.html'),
       filename: 'popup.html',
-      title: 'Findora Wallet',
+      title: 'Popup Page',
       inject: true,
       chunks: ['popup'],
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(PROJECT_ROOT, './public/index.html'),
       filename: 'options.html',
-      title: 'Findora options',
+      title: 'Options Page',
       inject: true,
       chunks: ['options'],
     }),
@@ -161,8 +164,9 @@ module.exports = {
     }),
     new ManifestPlugin({
       config: {
-        base: manifest,
+        base: manifestBase,
         extend: {
+          ...manifest,
           version: pkgJson.version,
         },
       },
