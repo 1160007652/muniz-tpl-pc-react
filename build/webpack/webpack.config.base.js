@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
@@ -28,6 +29,7 @@ module.exports = {
     globalObject: 'this',
     chunkFilename: 'async/js/[name].js',
     filename: 'js/[name].js',
+    // assetModuleFilename: 'images/[hash][ext][query]',
     // 将热更新临时生成的补丁放到 hot 文件夹中
     // chunkFilename: (pathData) => {
     //   console.log(pathData.chunk.name);
@@ -108,19 +110,17 @@ module.exports = {
         ],
       },
       {
-        test: /\.(ico|png|jpe?g|gif|svg)(\?.*)?$/,
-        loader: 'url-loader',
-        options: {
-          limit: 10000, //
-          name: 'img/[name].[chunkhash].[ext]',
+        test: [/\.(woff(2)?|eot|ttf|otf|svg)$/],
+        type: 'asset/inline',
+        generator: {
+          filename: 'fonts/[name]-[hash:7][ext][query]',
         },
       },
       {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'url-loader',
-        options: {
-          limit: 10000,
-          name: 'fonts/[name].[chunkhash].[ext]',
+        test: [/\.(ico|png|jpe?g|gif)$/],
+        type: 'asset/resource',
+        generator: {
+          filename: 'images/[name]-[hash:7][ext][query]',
         },
       },
     ],
@@ -139,6 +139,7 @@ module.exports = {
   },
   plugins: [
     new WebpackBar(),
+    // new webpack.ProgressPlugin(),
     new FriendlyErrorsWebpackPlugin(),
     new AntdDayjsWebpackPlugin(),
     new CopyWebpackPlugin({ patterns: [{ from: 'public/images/', to: 'images' }] }),
