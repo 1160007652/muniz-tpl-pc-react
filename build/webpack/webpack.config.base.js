@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
@@ -29,11 +28,10 @@ module.exports = {
     globalObject: 'this',
     chunkFilename: 'async/js/[name].js',
     filename: 'js/[name].js',
-    // assetModuleFilename: 'images/[hash][ext][query]',
     // 将热更新临时生成的补丁放到 hot 文件夹中
     // chunkFilename: (pathData) => {
-    //   console.log(pathData.chunk.name);
-    //   return pathData.chunk.name === 'main' ? 'hot/[id].hot-update.js' : 'hot/[name].hot-update.json';
+    // return 'hot/[name].hot-update.json';
+    // return pathData.chunk.name === 'main' ? 'hot/[id].hot-update.js' : 'hot/[name].hot-update.json';
     // },
     // hotUpdateChunkFilename: ,
     // hotUpdateMainFilename: ,
@@ -112,9 +110,6 @@ module.exports = {
       {
         test: [/\.(woff(2)?|eot|ttf|otf|svg)$/],
         type: 'asset/inline',
-        generator: {
-          filename: 'fonts/[name]-[hash:7][ext][query]',
-        },
       },
       {
         test: [/\.(ico|png|jpe?g|gif)$/],

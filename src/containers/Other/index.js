@@ -5,6 +5,6 @@ import intl from 'react-intl-universal';
 import './index.less';
 
 function Other() {
-  return <div className="other">其它页面</div>;
+  return <div className="other">其它页s面</div>;
 }
 export default observer(Other);
