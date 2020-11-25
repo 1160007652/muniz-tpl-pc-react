@@ -129,6 +129,7 @@ module.exports = {
       _containers: path.resolve(SRC_ROOT, './containers/'),
       _constants: path.resolve(SRC_ROOT, './constants/'),
       _utils: path.resolve(SRC_ROOT, './utils'),
+      _assets: path.resolve(SRC_ROOT, './assets'),
       'react-dom': '@hot-loader/react-dom',
     },
   },

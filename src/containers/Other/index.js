@@ -1,10 +1,19 @@
 import React from 'react';
+import { Button } from 'antd';
 import { MobXProviderContext, observer } from 'mobx-react';
-import intl from 'react-intl-universal';
 
 import './index.less';
 
 function Other() {
-  return <div className="other">其它页s面</div>;
+  const { testStore } = React.useContext(MobXProviderContext);
+  const handleAddCount = () => {
+    testStore.increment();
+  };
+  return (
+    <div className="other">
+      <div> Mobx testStore count value: {testStore.count}</div>
+      <Button onClick={handleAddCount}>add Count</Button>
+    </div>
+  );
 }
 export default observer(Other);

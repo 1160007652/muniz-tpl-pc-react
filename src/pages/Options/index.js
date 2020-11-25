@@ -4,7 +4,7 @@ import intl from 'react-intl-universal';
 import { Provider } from 'mobx-react';
 import rootStore from '_src/stores';
 
-import '_src/assets/less/index.less';
+import '_assets/less/index.less';
 import './index.less';
 
 ReactDOM.render(

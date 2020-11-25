@@ -5,8 +5,7 @@
  * @ Modified time: 2020-07-22 13:53:20
  * @ Description: 根状态管理, 最佳使用方式
  */
-
-import LocaleStore from './LocaleStore';
+import TestStore from './TestStore';
 
 /**
  * 创建根Stroe, 统一管理状态
@@ -17,7 +16,7 @@ class RootStore {
    */
   constructor() {
     /** 多语言状态管理 */
-    this.localeStore = new LocaleStore(this);
+    this.testStore = new TestStore(this);
   }
 }
 
