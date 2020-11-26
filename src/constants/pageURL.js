@@ -11,8 +11,6 @@ const pageURL = {
   other: '/outher',
   /** 首页 */
   home: '/',
-  /** 404页面 */
-  empty: '*',
 };
 
 export default pageURL;

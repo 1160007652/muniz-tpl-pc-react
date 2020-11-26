@@ -12,7 +12,7 @@ function Home() {
   return (
     <div className="home">
       <img src={Logo}></img>
-      首页
+      首页121s
       <img src={FavoriteSvg} style={{ color: 'red', fontSize: '48px' }} />
       <SwitchLanguage />
     </div>

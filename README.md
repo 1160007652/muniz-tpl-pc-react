@@ -1,8 +1,8 @@
-Chrome Extensions Plugin-TPL
+Muniz - React - TPL
 
 ## 技术
 
-react、react-router、mobx、webpack、less
+react、react-router、mobx、webpack5、less
 
 ## 项目构建:
 
@@ -23,13 +23,11 @@ $ yarn install
 
 ### 开发环境 · 运行:
 
-在项目更新目录中执行以下命令，以自动打开浏览器并显示开发环境。
+在项目更新目录中执行以下命令。
 
 ```bash
 $ yarn dev
 ```
-
-> 首先打开谷歌浏览器，执行命令，效果会更好！
 
 ### 建立生产环境：
 
@@ -39,4 +37,4 @@ $ yarn dev
 $ yarn build
 ```
 
-> 构造的资源位于 **"项目根目录/extensions"**
+> 构造的资源位于 **"项目根目录/dist"**

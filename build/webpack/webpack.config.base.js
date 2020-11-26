@@ -5,7 +5,6 @@ const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const WebpackBar = require('webpackbar');
 const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ManifestPlugin = require('../plugin/webpack-extension-manifest-plugin.js');
 const { DefinePlugin } = require('webpack');
 
 const { webpackEntry } = require('../utils/getEntry');
@@ -13,28 +12,15 @@ const { PROJECT_ROOT, SRC_ROOT, LESS_PATH_ROOT } = require('../utils/getPath');
 
 const pkgJson = require('../../package.json');
 
-const manifestBase = require('../manifest/manifest.base.json');
-const manifestDev = require('../manifest/manifest.dev.json');
-const manifestPro = require('../manifest/manifest.pro.json');
-
-const manifest = process.env.NODE_ENV === 'development' ? manifestDev : manifestPro;
-
 const config = require('../config');
 
 module.exports = {
   entry: webpackEntry,
   output: {
-    path: path.resolve(PROJECT_ROOT, 'extensions'),
+    path: path.resolve(PROJECT_ROOT, 'dist'),
     globalObject: 'this',
     chunkFilename: 'async/js/[name].js',
     filename: 'js/[name].js',
-    // 将热更新临时生成的补丁放到 hot 文件夹中
-    // chunkFilename: (pathData) => {
-    // return 'hot/[name].hot-update.json';
-    // return pathData.chunk.name === 'main' ? 'hot/[id].hot-update.js' : 'hot/[name].hot-update.json';
-    // },
-    // hotUpdateChunkFilename: ,
-    // hotUpdateMainFilename: ,
   },
   module: {
     rules: [
@@ -130,43 +116,24 @@ module.exports = {
       _constants: path.resolve(SRC_ROOT, './constants/'),
       _utils: path.resolve(SRC_ROOT, './utils'),
       _assets: path.resolve(SRC_ROOT, './assets'),
-      'react-dom': '@hot-loader/react-dom',
+      // 'react-dom': '@hot-loader/react-dom',
     },
   },
   plugins: [
     new WebpackBar(),
-    // new webpack.ProgressPlugin(),
     new FriendlyErrorsWebpackPlugin(),
     new AntdDayjsWebpackPlugin(),
     new CopyWebpackPlugin({ patterns: [{ from: 'public/images/', to: 'images' }] }),
-    new CopyWebpackPlugin({ patterns: [{ from: 'public/README.txt', to: './' }] }),
     new HtmlWebpackPlugin({
       template: path.resolve(PROJECT_ROOT, './public/index.html'),
-      filename: 'popup.html',
-      title: 'Popup Page',
+      filename: 'index.html',
+      title: 'Muniz-Tpl-React',
       inject: true,
-      chunks: ['popup'],
-    }),
-    new HtmlWebpackPlugin({
-      template: path.resolve(PROJECT_ROOT, './public/index.html'),
-      filename: 'options.html',
-      title: 'Options Page',
-      inject: true,
-      chunks: ['options'],
     }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].css',
       chunkFilename: 'async/css/[name].css',
       ignoreOrder: false,
-    }),
-    new ManifestPlugin({
-      config: {
-        base: manifestBase,
-        extend: {
-          ...manifest,
-          version: pkgJson.version,
-        },
-      },
     }),
     new DefinePlugin({
       'process.env.VERSION_APP': JSON.stringify(pkgJson.version),

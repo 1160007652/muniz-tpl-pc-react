@@ -1,11 +1,12 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import { hot } from 'react-hot-loader';
 import Loadable from 'react-loadable';
 
 import Loading from '_components/Loading';
 import pageURL from '_constants/pageURL';
+
+import Home from '_containers/Home';
 
 const delay = 250;
 const timeout = 10000;
@@ -13,9 +14,9 @@ const timeout = 10000;
 const routeMap = [
   {
     path: pageURL.home,
-    component: './containers/Home',
+    component: Home,
     exact: true,
-    dynamic: true,
+    dynamic: false,
   },
   {
     path: pageURL.other,
@@ -49,4 +50,4 @@ const Routes = () => {
   );
 };
 
-export default hot(module)(Routes);
+export default Routes;

@@ -30,7 +30,7 @@ module.exports = function (api) {
       // 开发环境配置
       development: {
         presets: [['@babel/preset-react', { development: true }]],
-        plugins: ['react-hot-loader/babel'],
+        plugins: ['react-refresh/babel'],
       },
       // 生产环境配置
       production: {
