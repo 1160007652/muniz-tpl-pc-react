@@ -22,6 +22,12 @@ module.exports = {
     chunkFilename: 'async/js/[name].js',
     filename: 'js/[name].js',
   },
+  experiments: {
+    // outputModule: true,
+    // syncWebAssembly: true, 兼容 旧版 webpack-4
+    topLevelAwait: true, // 支持 顶级 await
+    asyncWebAssembly: true,
+  },
   module: {
     rules: [
       {
@@ -116,7 +122,6 @@ module.exports = {
       _constants: path.resolve(SRC_ROOT, './constants/'),
       _utils: path.resolve(SRC_ROOT, './utils'),
       _assets: path.resolve(SRC_ROOT, './assets'),
-      // 'react-dom': '@hot-loader/react-dom',
     },
   },
   plugins: [

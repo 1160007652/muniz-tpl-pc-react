@@ -5,8 +5,12 @@ import SwitchLanguage from '_components/SwitchLanguage';
 
 import Logo from '_assets/images/logo.png';
 import FavoriteSvg from '_assets/fonts/favorite.svg';
-
+// import asyncTest from '_utils/asyncTest';
+const asyncTest = await import('_utils/asyncTest');
 import './index.less';
+
+// console.log(asyncTest.default);
+asyncTest.default();
 
 function Home() {
   return (

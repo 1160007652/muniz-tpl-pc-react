@@ -24,6 +24,12 @@ const routeMap = [
     exact: true,
     dynamic: true,
   },
+  {
+    path: '*',
+    component: () => <div>404</div>,
+    exact: true,
+    dynamic: false,
+  },
 ];
 
 const Routes = () => {

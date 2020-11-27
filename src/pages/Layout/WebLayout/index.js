@@ -18,6 +18,7 @@ import antdZhCN from 'antd/lib/locale/zh_CN';
 import './index.less';
 
 const WebLayout = ({ children }) => {
+  const [languageDone, setLanguageDone] = useState(false);
   const [language, setLanguage] = useState(localStorage.getItem('lang') ?? 'zhCN');
 
   useEffect(() => {
@@ -41,20 +42,23 @@ const WebLayout = ({ children }) => {
       })
       .then(() => {
         setLanguage(lang);
+        setLanguageDone(true);
       });
   };
 
   return (
-    <div className="web-container" key={language}>
-      <ConfigProvider locale={language === 'zhCN' ? antdZhCN : antdEnUS}>
-        <div className="layout">
-          <div className="left">
-            <LeftMenu />
+    languageDone && (
+      <div className="web-container" key={language}>
+        <ConfigProvider locale={language === 'zhCN' ? antdZhCN : antdEnUS}>
+          <div className="layout">
+            <div className="left">
+              <LeftMenu />
+            </div>
+            <div className="right">{children}</div>
           </div>
-          <div className="right">{children}</div>
-        </div>
-      </ConfigProvider>
-    </div>
+        </ConfigProvider>
+      </div>
+    )
   );
 };
 
