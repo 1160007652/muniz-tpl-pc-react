@@ -42,15 +42,15 @@
     // "noUncheckedIndexedAccess": true,      /* Include 'undefined' in index signature results */
 
     /* Module Resolution Options */
-    // "moduleResolution": "node" /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */,
+    "moduleResolution": "node" /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */,
     "baseUrl": "./" /* Base directory to resolve non-absolute module names. */,
     "paths": {
-      "_containers": ["./src/containers"],
-      "_components": ["./src/components"],
-      "_constants": ["./src/constants"],
-      "_src": ["./src"],
-      "_utils": ["./src/utils"],
-      "_assets": ["./src/assets"]
+      "_containers": ["./src/containers/*"],
+      "_components": ["./src/components/*"],
+      "_constants": ["./src/constants/*"],
+      "_src": ["./src/*"],
+      "_utils": ["./src/utils/*"],
+      "_assets": ["./src/assets/*"]
     } /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */,
     // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
     // "typeRoots": [],                       /* List of folders to include type definitions from. */
@@ -74,6 +74,6 @@
     "skipLibCheck": true /* 跳过声明文件的类型检查. */,
     "forceConsistentCasingInFileNames": true /* 禁止对同一文件使用大小写不一致的引用. */
   },
-  "include": ["./src/*"],
+  "include": ["./src/**/*"],
   "exclude": ["./node_modules", "build", "public"]
 }
