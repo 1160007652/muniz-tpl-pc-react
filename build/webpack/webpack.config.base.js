@@ -40,12 +40,17 @@ module.exports = {
       //   ],
       // },
       {
-        test: /\.(js|jsx|ts|tsx)$/,
+        test: /\.(ts|js)x?$/,
         use: ['babel-loader'],
         exclude: [/node_modules/],
       },
       {
-        test: /\.worker\.js$/,
+        test: /\.js$/,
+        use: ['source-map-loader'],
+        enforce: 'pre',
+      },
+      {
+        test: /\.worker\.ts$/,
         use: [
           {
             loader: 'worker-loader',

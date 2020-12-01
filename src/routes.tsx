@@ -20,7 +20,7 @@ const routeMap = [
   },
   {
     path: pageURL.other,
-    component: './containers/Other',
+    component: 'containers/Other',
     exact: true,
     dynamic: true,
   },
@@ -43,7 +43,7 @@ const Routes = () => {
           component={
             item.dynamic
               ? Loadable({
-                  loader: () => import(`/* webpackChunkName: "${item.path}" */ ${item.component}`),
+                  loader: () => import(`./${item.component}`),
                   loading: Loading,
                   delay,
                   timeout,
