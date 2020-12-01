@@ -20,10 +20,10 @@ import '_assets/less/index.less';
 const Root: React.ReactNode = () => (
   <Provider {...rootStore}>
     <HashRouter>
-      <div>asas</div>
-
       <WebLayout>
-        <Routes />
+        <div>asas</div>
+
+        {/* <Routes /> */}
       </WebLayout>
     </HashRouter>
   </Provider>
