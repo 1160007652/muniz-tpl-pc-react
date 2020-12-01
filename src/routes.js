@@ -43,7 +43,7 @@ const Routes = () => {
           component={
             item.dynamic
               ? Loadable({
-                  loader: () => import(`${item.component}`),
+                  loader: () => import(`/* webpackChunkName: "${item.path}" */ ${item.component}`),
                   loading: Loading,
                   delay,
                   timeout,
