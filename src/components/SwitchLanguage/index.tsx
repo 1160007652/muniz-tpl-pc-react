@@ -8,7 +8,7 @@ import './index.less';
 /**
  * 其它组件
  */
-const SwitchLanguage = (props) => {
+const SwitchLanguage: React.FC = () => {
   const handleToggleLanguage = (lang) => {
     return () => {
       languageEvent.emit(EVENT_LIST.CHANGE_LANGUAGE, lang);

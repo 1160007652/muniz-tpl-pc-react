@@ -12,5 +12,5 @@
       "_assets/*": ["src/assets/*"]
     }
   },
-  "exclude": ["node_modules", "extensions", "tutorials", "docs", "tutorials-src"]
+  "exclude": ["node_modules", "dist"]
 }

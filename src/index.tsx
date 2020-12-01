@@ -17,13 +17,16 @@ import { WebLayout } from '_src/pages/Layout';
 
 import '_assets/less/index.less';
 
-ReactDOM.render(
+const Root: React.ReactNode = () => (
   <Provider {...rootStore}>
     <HashRouter>
+      <div>asas</div>
+
       <WebLayout>
         <Routes />
       </WebLayout>
     </HashRouter>
-  </Provider>,
-  document.getElementById('root'),
+  </Provider>
 );
+
+ReactDOM.render(<Root />, document.getElementById('root'));

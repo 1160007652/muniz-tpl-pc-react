@@ -10,7 +10,7 @@ import './index.less';
 
 asyncTest.default();
 
-function Home() {
+const Home: React.FC = () => {
   return (
     <div className="home">
       <img src={Logo}></img>
@@ -19,5 +19,5 @@ function Home() {
       <SwitchLanguage />
     </div>
   );
-}
+};
 export default Home;

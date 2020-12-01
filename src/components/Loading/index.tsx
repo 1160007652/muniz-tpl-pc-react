@@ -1,7 +1,15 @@
 /**
  * Loading 异步加载路由的过渡组件
  */
-function Loading(props) {
+
+export interface LoadingProps {
+  error: 'any';
+  timedOut: 'any';
+  pastDelay: 'any';
+  retry: (event: React.MouseEvent) => void;
+}
+
+const Loading: React.FC<LoadingProps> = (props) => {
   if (props.error) {
     return (
       <div>
@@ -19,6 +27,6 @@ function Loading(props) {
   } else {
     return null;
   }
-}
+};
 
 export default Loading;

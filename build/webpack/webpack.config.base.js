@@ -30,8 +30,17 @@ module.exports = {
   },
   module: {
     rules: [
+      // {
+      //   test: /\.ts(x?)$/,
+      //   exclude: /node_modules/,
+      //   use: [
+      //     {
+      //       loader: 'ts-loader',
+      //     },
+      //   ],
+      // },
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         use: ['babel-loader'],
         exclude: [/node_modules/],
       },
@@ -113,7 +122,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.js', '.less', '.jsx', '.ts', '.wasm'],
+    extensions: ['.js', '.less', '.jsx', '.ts', '.tsx', '.wasm'],
     modules: [SRC_ROOT, path.resolve(PROJECT_ROOT, './node_modules')],
     alias: {
       _src: SRC_ROOT,

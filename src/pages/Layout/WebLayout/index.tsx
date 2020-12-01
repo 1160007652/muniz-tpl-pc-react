@@ -17,7 +17,9 @@ import antdZhCN from 'antd/lib/locale/zh_CN';
 
 import './index.less';
 
-const WebLayout = ({ children }) => {
+export interface WebLayoutProps {}
+
+const WebLayout: React.FC<WebLayoutProps> = ({ children }) => {
   const [languageDone, setLanguageDone] = useState(false);
   const [language, setLanguage] = useState(localStorage.getItem('lang') ?? 'zhCN');
 
