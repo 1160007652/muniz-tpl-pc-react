@@ -5,15 +5,16 @@ import { MobXProviderContext, observer } from 'mobx-react';
 import './index.less';
 
 const Other: React.FC = () => {
-  const { testStore } = React.useContext(MobXProviderContext);
-  const handleAddCount = () => {
-    testStore.increment();
-  };
+  // const { testStore } = React.useContext(MobXProviderContext);
+  // const handleAddCount = () => {
+  //   testStore.increment();
+  // };
   return (
     <div className="other">
-      <div> Mobx testStore count value: {testStore.count}</div>
+      sadas
+      {/* <div> Mobx testStore count value: {testStore.count}</div>
       <div style={{ color: 'red' }}>asa2222aah</div>
-      <Button onClick={handleAddCount}>add Count</Button>
+      <Button onClick={handleAddCount}>add Count</Button> */}
     </div>
   );
 };

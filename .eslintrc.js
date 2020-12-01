@@ -26,6 +26,9 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {
+    'no-var': 'error',
+    // 优先使用 interface 而不是 type
+    '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
     'react/button-has-type': 'never',
     'react/prop-types': 'never',
     'react/sort-comp': 'never',

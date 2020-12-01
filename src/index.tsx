@@ -21,9 +21,7 @@ const Root: React.ReactNode = () => (
   <Provider {...rootStore}>
     <HashRouter>
       <WebLayout>
-        <div>asas</div>
-
-        {/* <Routes /> */}
+        <Routes />
       </WebLayout>
     </HashRouter>
   </Provider>

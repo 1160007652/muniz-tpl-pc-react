@@ -2,6 +2,8 @@
  * Loading 异步加载路由的过渡组件
  */
 
+import React from 'react';
+
 export interface LoadingProps {
   error: 'any';
   timedOut: 'any';
