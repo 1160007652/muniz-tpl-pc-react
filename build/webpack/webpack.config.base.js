@@ -122,7 +122,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.js', '.less', '.jsx', '.ts', '.tsx', '.wasm'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.wasm'],
     modules: [SRC_ROOT, path.resolve(PROJECT_ROOT, './node_modules')],
     alias: {
       _src: SRC_ROOT,
