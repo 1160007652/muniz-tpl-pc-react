@@ -7,7 +7,7 @@ import { timeout } from 'promise-timeout';
 
 import pageURL from '_constants/pageURL';
 
-import Home from '_containers/Home';
+import Home from '_src/pages/Home';
 
 const LOADABLE_DELAY = 250;
 const LOADABLE_TIMEOUT = 10000;
@@ -21,7 +21,7 @@ const routeMap = [
   },
   {
     path: pageURL.other,
-    component: 'containers/Other',
+    component: 'pages/Other',
     exact: true,
     dynamic: true,
   },

@@ -1,7 +1,5 @@
 import React from 'react';
-import intl from 'react-intl-universal';
-import { languageEvent, EVENT_LIST } from '_src/utils/events';
-import { observer } from 'mobx-react';
+import { useTranslation } from 'react-i18next';
 
 import './index.less';
 
@@ -9,16 +7,15 @@ import './index.less';
  * 其它组件
  */
 const SwitchLanguage = (props) => {
+  const { t, i18n } = useTranslation();
   const handleToggleLanguage = (lang) => {
-    return () => {
-      languageEvent.emit(EVENT_LIST.CHANGE_LANGUAGE, lang);
-    };
+    i18n.changeLanguage(lang);
   };
   return (
     <div className="components_outher">
       切换多语言
-      <div onClick={handleToggleLanguage('zhCN')}>{intl.get('locale_zh')}</div>
-      <div onClick={handleToggleLanguage('enUS')}>{intl.get('locale_en')}</div>
+      <div onClick={handleToggleLanguage('zhCN')}>{t('locale_zh')}</div>
+      <div onClick={handleToggleLanguage('enUS')}>{t('locale_en')}</div>
     </div>
   );
 };

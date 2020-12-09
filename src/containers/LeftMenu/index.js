@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import intl from 'react-intl-universal';
 
 import pageURL from '_constants/pageURL';
 

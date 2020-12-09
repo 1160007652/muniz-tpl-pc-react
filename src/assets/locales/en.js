@@ -7,8 +7,14 @@
  */
 
 const enUS = {
-  Language: 'Language',
-  locale_zh: 'Chinese',
-  locale_en: 'English',
+  translation: {
+    Language: 'Language',
+    locale_zh: 'Chinese',
+    locale_en: 'English',
+  },
+  home: {
+    title: 'Muniz 脚手架介绍',
+    technology: '技术栈：',
+  },
 };
 export default enUS;

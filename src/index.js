@@ -9,9 +9,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import Routes from '_src/routes';
 import rootStore from '_src/stores';
+import i18n from '_utils/i18n';
 
 import { WebLayout } from '_src/pages/Layout';
 
@@ -19,11 +20,11 @@ import '_assets/less/index.less';
 
 ReactDOM.render(
   <Provider {...rootStore}>
-    <HashRouter>
+    <BrowserRouter>
       <WebLayout>
         <Routes />
       </WebLayout>
-    </HashRouter>
+    </BrowserRouter>
   </Provider>,
   document.getElementById('root'),
 );
