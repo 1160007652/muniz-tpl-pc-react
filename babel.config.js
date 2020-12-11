@@ -1,16 +1,3 @@
-/*
- 由于antd 不支持 core-js@3 版本, 所以改为 core-js@2.6.5 版本, 等支持后再使用
-const presets = [
-  '@babel/preset-env',
-  {
-    useBuiltIns: 'usage',
-    corejs: 3,
-    modules: false,
-  },
-];
-
-*/
-
 const plugins = [
   '@babel/plugin-syntax-dynamic-import',
   ['@babel/plugin-proposal-decorators', { legacy: true }],
@@ -24,7 +11,17 @@ const plugins = [
 module.exports = function (api) {
   api.cache(true);
   return {
-    presets: ['@babel/preset-env', '@babel/preset-react'],
+    presets: [
+      [
+        '@babel/preset-env',
+        {
+          useBuiltIns: 'usage',
+          corejs: 3,
+          modules: false,
+        },
+      ],
+      '@babel/preset-react',
+    ],
     plugins,
     env: {
       // 开发环境配置

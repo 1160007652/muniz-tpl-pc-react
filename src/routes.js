@@ -1,16 +1,8 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import loadable from '@loadable/component';
-import pMinDelay from 'p-min-delay';
-import { timeout } from 'promise-timeout';
-
 import pageURL from '_constants/pageURL';
-
 import Home from '_src/pages/Home';
-
-const LOADABLE_DELAY = 250;
-const LOADABLE_TIMEOUT = 10000;
 
 const routeMap = [
   {
@@ -21,7 +13,7 @@ const routeMap = [
   },
   {
     path: pageURL.other,
-    component: 'pages/Other',
+    component: lazy(() => import(/* webpackChunkName: 'mobxstore' */ './pages/MobxStore')),
     exact: true,
     dynamic: true,
   },
@@ -35,25 +27,13 @@ const routeMap = [
 
 const Routes = () => {
   return (
-    <Switch>
-      {routeMap.map((item, index) => (
-        <Route
-          key={index}
-          path={item.path}
-          exact={item.exact}
-          component={
-            item.dynamic
-              ? loadable(() =>
-                  pMinDelay(
-                    timeout(import(/* webpackPrefetch: true */ `./${item.component}`), LOADABLE_TIMEOUT),
-                    LOADABLE_DELAY,
-                  ),
-                )
-              : item.component
-          }
-        />
-      ))}
-    </Switch>
+    <Suspense fallback={null}>
+      <Switch>
+        {routeMap.map((item, index) => (
+          <Route key={index} path={item.path} exact={item.exact} component={item.component} />
+        ))}
+      </Switch>
+    </Suspense>
   );
 };
 

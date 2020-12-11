@@ -8,12 +8,12 @@
 
 const zhCN = {
   translation: {
-    Language: '语言环境',
-    locale_zh: '中文',
-    locale_en: '英文',
+    language: '语言',
+    zhCN: '中文',
+    enUS: '英文',
   },
   home: {
-    title: 'Muniz 脚手架介绍',
+    title: 'React PC 开发模版',
     technology: '技术栈：',
   },
 };

@@ -9,7 +9,7 @@ const LeftMenu = () => {
   return (
     <div className="left-menu-list">
       <Link to={pageURL.home}>首页</Link>
-      <Link to={pageURL.other}>其它</Link>
+      <Link to={pageURL.other}>MobxStore</Link>
     </div>
   );
 };
