@@ -12,7 +12,6 @@ const Other: React.FC = () => {
   return (
     <div className="other">
       <div> Mobx testStore count value: {testStore.count}</div>
-      <div style={{ color: 'red' }}>asa2222aah</div>
       <Button onClick={handleAddCount}>add Count</Button>
     </div>
   );

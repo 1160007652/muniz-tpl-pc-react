@@ -9,7 +9,8 @@ const config = require('../config');
 
 const { SRC_ROOT } = require('../utils/getPath');
 
-base.output.publicPath = `http://${config.dev.ip}:${config.dev.port}/`;
+// base.output.publicPath = `http://${config.dev.ip}:${config.dev.port}/`;
+base.output.publicPath = '/';
 
 module.exports = merge(base, {
   target: 'web',

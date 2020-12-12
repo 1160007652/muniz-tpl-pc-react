@@ -8,7 +8,7 @@
 
 const pageURL = {
   /** 其它页面 */
-  other: '/outher',
+  other: '/mobxstore',
   /** 首页 */
   home: '/',
 };

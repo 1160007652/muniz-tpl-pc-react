@@ -5,7 +5,8 @@
     "esbenp.prettier-vscode",
     "stylelint.vscode-stylelint",
     "dsznajder.es7-react-js-snippets",
-    "mrmlnc.vscode-scss"
+    "mrmlnc.vscode-scss",
+    "pkief.material-icon-theme"
   ],
   "unwantedRecommendations": ["hookyqr.beautify", "dbaeumer.jshint"]
 }

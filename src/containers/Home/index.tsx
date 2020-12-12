@@ -1,14 +1,8 @@
 import React from 'react';
-import intl from 'react-intl-universal';
-
 import SwitchLanguage from '_components/SwitchLanguage';
 
 import Logo from '_assets/images/logo.png';
-import FavoriteSvg from '_assets/fonts/favorite.svg';
-const asyncTest = await import('_utils/asyncTest');
 import './index.less';
-
-asyncTest.default();
 
 const Home: React.FC = () => {
   return (
