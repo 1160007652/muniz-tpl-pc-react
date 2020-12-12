@@ -1,15 +1,15 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Loadable from 'react-loadable';
-
-import Loading from '_components/Loading';
+import loadable from '@loadable/component';
+import pMinDelay from 'p-min-delay';
+import { timeout } from 'promise-timeout';
 import pageURL from '_constants/pageURL';
 
 import Home from '_containers/Home';
 
-const delay = 250;
-const timeout = 10000;
+const LOADABLE_DELAY = 250;
+const LOADABLE_TIMEOUT = 10000;
 
 const routeMap = [
   {
@@ -42,12 +42,12 @@ const Routes = () => {
           exact={item.exact}
           component={
             item.dynamic
-              ? Loadable({
-                  loader: () => import(`./${item.component}`),
-                  loading: Loading,
-                  delay,
-                  timeout,
-                })
+              ? loadable(() =>
+                  pMinDelay(
+                    timeout(import(/* webpackPrefetch: true */ `./${item.component}`), LOADABLE_TIMEOUT),
+                    LOADABLE_DELAY,
+                  ),
+                )
               : item.component
           }
         />

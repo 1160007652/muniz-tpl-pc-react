@@ -43,7 +43,7 @@
 
     /* Module Resolution Options */
     "moduleResolution": "node" /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */,
-    "baseUrl": "." /* Base directory to resolve non-absolute module names. */,
+    "baseUrl": "./" /* Base directory to resolve non-absolute module names. */,
     "paths": {
       "_containers/*": ["src/containers/*"],
       "_components/*": ["src/components/*"],
@@ -74,6 +74,6 @@
     "skipLibCheck": true /* 跳过声明文件的类型检查. */,
     "forceConsistentCasingInFileNames": true /* 禁止对同一文件使用大小写不一致的引用. */
   },
-  "include": ["./src/*"],
+  "include": ["./src/**/*"],
   "exclude": ["./node_modules", "build", "public"]
 }
