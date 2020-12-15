@@ -12,7 +12,24 @@ module.exports = merge(base, {
   externals: {},
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin({ extractComments: false }), new OptimizeCSSAssetsPlugin()],
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          ecma: 6,
+          warnings: false,
+          extractComments: false, // 去除 js 中的注释
+          output: {
+            comments: false,
+          },
+          compress: {
+            drop_console: true, // 去除 console 打印
+          },
+          ie8: false,
+        },
+      }),
+      ,
+      new OptimizeCSSAssetsPlugin(),
+    ],
   },
   plugins: [new CleanWebpackPlugin()],
 });

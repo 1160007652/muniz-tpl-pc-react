@@ -3,7 +3,7 @@
  */
 
 module.exports = {
-  name: 'findora-wallet-ext',
+  name: 'muniz-tpl-react-pc',
   copyrightDesc: '版权描述-声明-预留-塞入打包的文件头部',
   dev: {
     port: 9090,
