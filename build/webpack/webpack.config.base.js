@@ -30,15 +30,6 @@ module.exports = {
   },
   module: {
     rules: [
-      // {
-      //   test: /\.ts(x?)$/,
-      //   exclude: /node_modules/,
-      //   use: [
-      //     {
-      //       loader: 'ts-loader',
-      //     },
-      //   ],
-      // },
       {
         test: /\.(ts|js)x?$/,
         use: ['babel-loader'],
@@ -48,18 +39,6 @@ module.exports = {
         test: /\.js$/,
         use: ['source-map-loader'],
         enforce: 'pre',
-      },
-      {
-        test: /\.worker\.ts$/,
-        use: [
-          {
-            loader: 'worker-loader',
-            options: { inline: true },
-          },
-          {
-            loader: 'babel-loader',
-          },
-        ],
       },
       {
         test: /\.css$/,
