@@ -7,3 +7,4 @@
 .idea
 extensions/
 node_modules
+dist/
