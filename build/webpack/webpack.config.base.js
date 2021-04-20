@@ -3,7 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const WebpackBar = require('webpackbar');
-const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { DefinePlugin } = require('webpack');
 
@@ -120,7 +119,6 @@ module.exports = {
   plugins: [
     new WebpackBar(),
     new FriendlyErrorsWebpackPlugin(),
-    new AntdDayjsWebpackPlugin(),
     new CopyWebpackPlugin({ patterns: [{ from: 'public/images/', to: 'images' }] }),
     new HtmlWebpackPlugin({
       template: path.resolve(PROJECT_ROOT, './public/index.html'),

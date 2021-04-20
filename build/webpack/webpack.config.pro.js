@@ -1,5 +1,5 @@
 const { merge } = require('webpack-merge');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
@@ -14,11 +14,11 @@ module.exports = merge(base, {
     minimize: true,
     minimizer: [
       new TerserPlugin({
+        extractComments: false, // 去除 js 中的注释
         terserOptions: {
           ecma: 6,
           warnings: false,
-          extractComments: false, // 去除 js 中的注释
-          output: {
+          format: {
             comments: false,
           },
           compress: {
@@ -27,8 +27,7 @@ module.exports = merge(base, {
           ie8: false,
         },
       }),
-      ,
-      new OptimizeCSSAssetsPlugin(),
+      new CssMinimizerPlugin(),
     ],
   },
   plugins: [new CleanWebpackPlugin()],
